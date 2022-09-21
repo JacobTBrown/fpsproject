@@ -15,9 +15,11 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
     
     [Header("Movement Variables")]
+    private float moveSpeed;
     // All values are set in the inspector
     public float groundDrag;
-    public float groundSpeed;
+    public float groundWalkSpeed;
+    public float groundSprintSpeed;
     public float airDrag;
     public float airSpeed;
     public float jumpForce;
@@ -60,6 +62,13 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButton("Jump") && canJump && isOnGround) {
             Jump();
         }
+
+        if (Input.GetButton("Sprint") && isOnGround)
+            moveSpeed = groundSprintSpeed;
+        else if (isOnGround)
+            moveSpeed = groundWalkSpeed;
+        else
+            moveSpeed = airSpeed;  
     }
     
     private void Jump() {
@@ -85,16 +94,8 @@ public class PlayerMovement : MonoBehaviour
         // Set up our movement vector
         movement = playerTransform.right * horizontalXInput + playerTransform.forward * horizontalZInput;
         
-        // Moves our player based on the x-y-z of the movement vector
-        if (isOnGround) {
-            // If we are on the ground we want to use our groundSpeed
-            playerRigidbody.AddForce(movement.normalized * groundSpeed, ForceMode.Force);  
-        } else {
-            /* If we are in the air we want to be able to move just a little bit but not 
-            // like we are still grounded. So, airSpeed should typically be less than half
-            // of groundSpeed. */
-            playerRigidbody.AddForce(movement.normalized * airSpeed, ForceMode.Force);
-        }   
+        // Moves our player based on the x-y-z of the normalized movement vector multiplied by moveSpeed
+        playerRigidbody.AddForce(movement.normalized * moveSpeed, ForceMode.Force);  
 
         LimitMovementSpeed();
     }
@@ -105,8 +106,8 @@ public class PlayerMovement : MonoBehaviour
 
         /* This will ensure our player cannot accelerate infinitely and is capped to our
         // groundSpeed variable. */
-        if (velocity.magnitude > groundSpeed) {
-            limitedVelocity = velocity.normalized * groundSpeed;
+        if (velocity.magnitude > moveSpeed) {
+            limitedVelocity = velocity.normalized * moveSpeed;
             playerRigidbody.velocity = new Vector3(limitedVelocity.x, playerRigidbody.velocity.y, limitedVelocity.z);
         }
     }
