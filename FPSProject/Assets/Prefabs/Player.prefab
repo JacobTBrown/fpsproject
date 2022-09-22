@@ -74,9 +74,8 @@ MonoBehaviour:
   airDrag: 0.75
   airSpeed: 8
   jumpForce: 7
-  jumpTimer: 0.3
+  doubleJumpTimer: 0.6
   isOnGround: 1
-  canJump: 1
   canDoubleJump: 1
 --- !u!1 &3173107399004572111
 GameObject:

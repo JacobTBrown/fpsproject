@@ -23,9 +23,8 @@ public class PlayerMovement : MonoBehaviour
     public float airDrag;
     public float airSpeed;
     public float jumpForce;
-    public float jumpTimer;
+    public float doubleJumpTimer;
     public bool isOnGround;
-    public bool canJump;
     public bool canDoubleJump;
     
     private float horizontalXInput;
@@ -63,12 +62,13 @@ public class PlayerMovement : MonoBehaviour
         /* This function ranges from 1 to -1. */
         horizontalXInput = Input.GetAxis("Horizontal");
         horizontalZInput = Input.GetAxis("Vertical");
-
+        
         if (Input.GetButton("Sprint") && isOnGround)
             moveSpeed = groundSprintSpeed;
-        else if (isOnGround)
+        else if (isOnGround) {
+            canDoubleJump = true;
             moveSpeed = groundWalkSpeed;
-        else
+        } else
             moveSpeed = airSpeed;  
     }
 
@@ -81,10 +81,15 @@ public class PlayerMovement : MonoBehaviour
         playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
         // Add an upwards impulse to the player rigidbody multiplied by the jumpForce
         playerRigidbody.AddForce(playerTransform.up * jumpForce, ForceMode.Impulse);
+
+        Invoke(nameof(DoubleJump), doubleJumpTimer);
     }
 
-    private void SetCanJumpTrue() {
-        canJump = true;
+    private void DoubleJump() {
+        if (Input.GetButton("Jump") && canDoubleJump) {
+            canDoubleJump = false;
+            Jump();
+        }
     }
 
     private void Move() {
