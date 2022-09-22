@@ -276,6 +276,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3173107398918425437, guid: f8c19e1edf3e6e345a59ba30054f8530,
+        type: 3}
+      propertyPath: stopTimer
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3173107398918425437, guid: f8c19e1edf3e6e345a59ba30054f8530,
+        type: 3}
+      propertyPath: groundDrag
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3173107398918425439, guid: f8c19e1edf3e6e345a59ba30054f8530,
         type: 3}
       propertyPath: m_Name

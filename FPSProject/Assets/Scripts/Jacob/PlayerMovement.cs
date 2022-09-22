@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpTimer;
     public bool isOnGround;
     public bool canJump;
+    public bool canDoubleJump;
     
     private float horizontalXInput;
     private float horizontalZInput;
@@ -70,6 +71,10 @@ public class PlayerMovement : MonoBehaviour
         else
             moveSpeed = airSpeed;  
     }
+
+    private void StopPlayer() {
+        playerRigidbody.velocity = Vector3.zero;
+    }
     
     private void Jump() {
         // Then set canJump = false, perform the jump, and use Invoke to call SetCanJumpTrue
@@ -93,25 +98,11 @@ public class PlayerMovement : MonoBehaviour
     private void Move() {
         // Set up our movement vector
         movement = playerTransform.right * horizontalXInput + playerTransform.forward * horizontalZInput;
-        
+            
         // Moves our player based on the x-y-z of the normalized movement vector multiplied by moveSpeed
-        playerRigidbody.AddForce(movement.normalized * moveSpeed, ForceMode.Force);  
-
-        LimitMovementSpeed();
+        playerRigidbody.AddForce(movement.normalized * moveSpeed, ForceMode.Force); 
     }
-
-    private void LimitMovementSpeed() {
-        /* A temporary velocity variable, we are only concerned with x-z movement. */
-        velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
-
-        /* This will ensure our player cannot accelerate infinitely and is capped to our
-        // groundSpeed variable. */
-        if (velocity.magnitude > moveSpeed) {
-            limitedVelocity = velocity.normalized * moveSpeed;
-            playerRigidbody.velocity = new Vector3(limitedVelocity.x, playerRigidbody.velocity.y, limitedVelocity.z);
-        }
-    }
-
+    
     private void ApplyDrag() {
         /* If the player is on the ground, then we want to prevent the player from moving forever
         // without any input.
