@@ -46,6 +46,11 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate() {
         Move();
+
+        /* If the player presses the jump button, the player is grounded, and can jump are all true.*/
+        if (Input.GetButton("Jump") && isOnGround) {
+            Jump();
+        }
     }
 
     private void CheckForGround() {
@@ -58,11 +63,6 @@ public class PlayerMovement : MonoBehaviour
         /* This function ranges from 1 to -1. */
         horizontalXInput = Input.GetAxis("Horizontal");
         horizontalZInput = Input.GetAxis("Vertical");
-        
-        /* If the player presses the jump button, the player is grounded, and can jump are all true.*/
-        if (Input.GetButton("Jump") && canJump && isOnGround) {
-            Jump();
-        }
 
         if (Input.GetButton("Sprint") && isOnGround)
             moveSpeed = groundSprintSpeed;
@@ -77,18 +77,10 @@ public class PlayerMovement : MonoBehaviour
     }
     
     private void Jump() {
-        // Then set canJump = false, perform the jump, and use Invoke to call SetCanJumpTrue
-        // after a set amount of time i.e. jumpTimer. */
-        canJump = false;
-        
         // Reset the rigidbody y velocity to start all jumps at the same baseline
         playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
         // Add an upwards impulse to the player rigidbody multiplied by the jumpForce
         playerRigidbody.AddForce(playerTransform.up * jumpForce, ForceMode.Impulse);
-
-        /* Without resetting on a timer, the jumps can be inconsistent. Most times
-        // a jump is executed as expected, but sometimes you will get an extra large jump. */
-        Invoke(nameof(SetCanJumpTrue), jumpTimer);
     }
 
     private void SetCanJumpTrue() {
