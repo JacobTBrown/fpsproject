@@ -35,7 +35,7 @@ public class Gun : MonoBehaviour
 
     public void ReloadInit()
     {
-        if(!gunData.isReloading)
+        if(!gunData.isReloading && gunData.magSize != gunData.currentAmmo)
         {
             StartCoroutine(Reload());
             animator.SetTrigger("Reload");
