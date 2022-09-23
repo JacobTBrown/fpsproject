@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Zach/init.unity
+    guid: 50545cd6a805970418bc18fad22398ae
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9ea411099dc52a444a619f5fb17a88ec,
       type: 2}
