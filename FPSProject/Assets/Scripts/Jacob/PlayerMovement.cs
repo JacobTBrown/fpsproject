@@ -6,6 +6,8 @@ using UnityEngine;
     Author: Jacob Brown
     Creation: 9/19/22
     Last Edit: 9/21/22
+
+    This class handles movement in 3d space for a player character.
 */
 public class PlayerMovement : MonoBehaviour
 {
@@ -27,11 +29,22 @@ public class PlayerMovement : MonoBehaviour
     public bool isOnGround;
     public bool canDoubleJump;
     
+    private PlayerSettings keybinds;
+    private PlayerCameraMovement playerCam;
     private float horizontalXInput;
     private float horizontalZInput;
     private Vector3 movement, velocity, limitedVelocity;
 
+    public MovementState playerState;
+    public enum MovementState {
+        walking,
+        sprinting,
+        inAir,
+    }
+
     void Start() {
+        keybinds = GetComponent<PlayerSettings>();
+        playerCam = GetComponentInChildren<PlayerCameraMovement>();
         // If we don't do this the player will fall over because it is a capsule
         playerRigidbody.freezeRotation = true;
     }
@@ -40,14 +53,15 @@ public class PlayerMovement : MonoBehaviour
     {
         CheckForGround();
         GetInputs();
+        UpdateState();
         ApplyDrag();
     }
 
     void FixedUpdate() {
         Move();
 
-        /* If the player presses the jump button, the player is grounded, and can jump are all true.*/
-        if (Input.GetButton("Jump") && isOnGround) {
+        /* If the player presses the jump button and the player is grounded.*/
+        if (Input.GetKey(keybinds.jump) && isOnGround) {
             Jump();
         }
     }
@@ -59,34 +73,53 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void GetInputs() {
-        /* This function ranges from 1 to -1. */
-        horizontalXInput = Input.GetAxis("Horizontal");
-        horizontalZInput = Input.GetAxis("Vertical");
-        
-        if (Input.GetButton("Sprint") && isOnGround)
-            moveSpeed = groundSprintSpeed;
-        else if (isOnGround) {
-            canDoubleJump = true;
-            moveSpeed = groundWalkSpeed;
-        } else
-            moveSpeed = airSpeed;  
+        if ((Input.GetKey(keybinds.moveLeft) && Input.GetKey(keybinds.moveRight)) || (!Input.GetKey(keybinds.moveLeft) && !Input.GetKey(keybinds.moveRight)))
+            horizontalXInput = 0;
+        else if (Input.GetKey(keybinds.moveRight))
+            horizontalXInput = 1;
+        else if (Input.GetKey(keybinds.moveLeft))
+            horizontalXInput = -1;
+
+        if ((Input.GetKey(keybinds.moveUp) && Input.GetKey(keybinds.moveDown)) || (!Input.GetKey(keybinds.moveUp) && !Input.GetKey(keybinds.moveDown)))
+            horizontalZInput = 0;
+        else if (Input.GetKey(keybinds.moveDown))
+            horizontalZInput = -1;
+        else if (Input.GetKey(keybinds.moveUp))
+            horizontalZInput = 1;
     }
 
-    private void StopPlayer() {
-        playerRigidbody.velocity = Vector3.zero;
+    public void UpdateState() {
+        if (Input.GetKey(keybinds.sprint) && isOnGround) {
+            //IEnumerator coroutine = playerCam.AdjustFov(90);
+            //StartCoroutine(coroutine);
+            playerState = MovementState.sprinting;
+            moveSpeed = groundSprintSpeed;
+            canDoubleJump = true;
+        } else if (isOnGround) {
+            //IEnumerator coroutine = playerCam.AdjustFov(80);
+            //StartCoroutine(coroutine);
+            playerState = MovementState.walking;
+            moveSpeed = groundWalkSpeed;
+            canDoubleJump = true;
+        } else {
+            playerState = MovementState.inAir;
+            moveSpeed = airSpeed;
+        }
     }
     
     private void Jump() {
-        // Reset the rigidbody y velocity to start all jumps at the same baseline
+        // Reset the rigidbody y velocity to start all jumps at the same baseline velocity
         playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
         // Add an upwards impulse to the player rigidbody multiplied by the jumpForce
         playerRigidbody.AddForce(playerTransform.up * jumpForce, ForceMode.Impulse);
 
+        // Let the player do a double jump after the specified amount of time.
         Invoke(nameof(DoubleJump), doubleJumpTimer);
     }
 
     private void DoubleJump() {
-        if (Input.GetButton("Jump") && canDoubleJump) {
+        /* If the player presses the jump button again and the player can double jump.*/
+        if (Input.GetKey(keybinds.jump) && canDoubleJump) {
             canDoubleJump = false;
             Jump();
         }
