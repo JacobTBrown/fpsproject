@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MenuScript : MonoBehaviour
+public class Menu : MonoBehaviour
 {
     public string menuName;
     public bool open;

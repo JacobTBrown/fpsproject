@@ -6,7 +6,7 @@ public class MenuManger : MonoBehaviour
 {
     public static MenuManger Instance;
 
-    [SerializeField] MenuScript[] menus;
+    [SerializeField] Menu[] menus;
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class MenuManger : MonoBehaviour
         }
     }
 
-    public void OpenMenu(MenuScript menu)
+    public void OpenMenu(Menu menu)
     {
         for (int i = 0; i < menus.Length; i++)
         {
@@ -41,7 +41,7 @@ public class MenuManger : MonoBehaviour
         menu.Open();
     }
 
-    public void CloseMenu(MenuScript menu)
+    public void CloseMenu(Menu menu)
     {
         menu.Close();
     }
