@@ -8,6 +8,7 @@ public class Menu : MonoBehaviour
     public bool open;
     public void Open()
     {
+        Debug.Log("Menu script called Open()");
         open = true;
         gameObject.SetActive(true);
     }
