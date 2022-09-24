@@ -93,7 +93,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
-  groundDrag: 6
+  groundDrag: 18.04
   groundWalkSpeed: 50
   groundSprintSpeed: 80
   airDrag: 0.75
@@ -101,7 +101,7 @@ MonoBehaviour:
   jumpForce: 10
   doubleJumpTimer: 0.5
   isOnGround: 1
-  canDoubleJump: 1
+  canDoubleJump: 0
   playerState: 0
 --- !u!1 &3173107399004572111
 GameObject:
