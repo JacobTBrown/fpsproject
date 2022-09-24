@@ -40,8 +40,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        MenuManger.Instance.OpenMenu("title");
-        //MenuManager.Instance.OpenMenu("title");
+        MenuManager.Instance.OpenMenu("title");
         Debug.Log("OnJoined Lobby Fucntion Call");
         PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("Placeholder");
     }
@@ -53,14 +52,12 @@ public class Launcher : MonoBehaviourPunCallbacks
             return;
         }
         PhotonNetwork.CreateRoom(roomNameInputField.text);
-        MenuManger.Instance.OpenMenu("loading");
-        //MenuManager.Instance.OpenMenu("loading");
+        MenuManager.Instance.OpenMenu("loading");
 
     }
     public override void OnJoinedRoom()
     {
-        MenuManger.Instance.OpenMenu("room");
-        //MenuManager.Instance.OpenMenu("room");
+        MenuManager.Instance.OpenMenu("room");
         base.OnJoinedRoom();
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
@@ -89,8 +86,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         errorText.text = "Room Creation Failed: " + message;
         //base.OnCreateRoomFailed(returnCode, message);
-        MenuManger.Instance.OpenMenu("error");
-        //MenuManager.Instance.OpenMenu("error");
+        MenuManager.Instance.OpenMenu("error");
 
 
     }
@@ -98,8 +94,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
 
         PhotonNetwork.JoinRoom(info.Name);
-        MenuManger.Instance.OpenMenu("loading");
-        //MenuManager.Instance.OpenMenu("loading");
+        MenuManager.Instance.OpenMenu("loading");
 
     }
     public void JoinOnClick(RoomInfo info)
@@ -110,8 +105,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void LeaveRoom()
     {
         PhotonNetwork.LeaveRoom();
-        MenuManger.Instance.OpenMenu("title");
-        //MenuManager.Instance.OpenMenu("title");
+        MenuManager.Instance.OpenMenu("title");
 
     }
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
