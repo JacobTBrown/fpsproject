@@ -45,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
     void Start() {
         keybinds = GetComponent<PlayerSettings>();
         playerCam = GetComponentInChildren<PlayerCameraMovement>();
+        
         // If we don't do this the player will fall over because it is a capsule
         playerRigidbody.freezeRotation = true;
     }
@@ -64,6 +65,8 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(keybinds.jump) && isOnGround) {
             Jump();
         }
+
+        
     }
 
     private void CheckForGround() {
