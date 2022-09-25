@@ -10,12 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 3173107398918425432}
   - component: {fileID: 3173107398918425438}
+  - component: {fileID: 9082979214505576125}
   - component: {fileID: -5714349919393026257}
   - component: {fileID: 3173107398918425437}
-  - component: {fileID: -9202749834819986593}
-  - component: {fileID: 4766917528882672541}
+  - component: {fileID: -5931245863507772595}
+  - component: {fileID: 3170057334166658625}
   m_Layer: 0
-  m_Name: PlayerController
+  m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,6 +55,102 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!82 &9082979214505576125
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3173107398918425439}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!114 &-5714349919393026257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -63,21 +160,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 3173107398918425439}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0d0c9efde4b9b044a17ac9ba839e0cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 252e31a1f3893a447873f0b398969e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseXSensitivity: 250
-  mouseYSensitivity: 250
+  settingPanel: {fileID: 4589801214357729024, guid: 85631c19424344343990067c73c2dc64,
+    type: 3}
+  mouseXSensitivity: 500
+  mouseYSensitivity: 500
+  mouseYSlider: {fileID: 4971374802412171786, guid: 0f30d4f1a15df2f4e98b8ae075ea8da9,
+    type: 3}
+  mouseXSlider: {fileID: 3988047683241207803, guid: cde0d6158a4fa864e92712fad28df2f6,
+    type: 3}
   invertMouse: 0
-  moveUp: 119
-  moveDown: 115
-  moveLeft: 97
-  moveRight: 100
-  sprint: 304
-  jump: 32
-  reload: 114
-  scoreboard: 9
-  menu: 27
 --- !u!114 &3173107398918425437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,7 +189,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
-  groundDrag: 6
+  groundDrag: 5
   groundWalkSpeed: 50
   groundSprintSpeed: 80
   airDrag: 0.75
@@ -105,7 +199,7 @@ MonoBehaviour:
   isOnGround: 1
   canDoubleJump: 0
   playerState: 0
---- !u!114 &-9202749834819986593
+--- !u!114 &-5931245863507772595
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,17 +212,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   footsteps:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
---- !u!114 &4766917528882672541
+  - {fileID: 8300000, guid: c0d0e210aac8b4d4b9e55f8757b0095e, type: 3}
+  - {fileID: 8300000, guid: 6f20c348e8a499642b564f9c1fb63bbc, type: 3}
+  - {fileID: 8300000, guid: 12b91c1ecf84d914ebe0c6cc319e9448, type: 3}
+  - {fileID: 8300000, guid: 5f3aa56267d8b30458ec99c7e7e69d73, type: 3}
+  - {fileID: 8300000, guid: c1d7e28c38950a845b35ac5657bfa9b3, type: 3}
+  - {fileID: 8300000, guid: c5a1c773fe8989644a31913de19ac999, type: 3}
+  - {fileID: 8300000, guid: 99f0da2e71458da449bb01d12ea60b12, type: 3}
+  - {fileID: 8300000, guid: b4d1fa0b1362e034db2488e82cfdebc7, type: 3}
+  - {fileID: 8300000, guid: 4b20e47e97a49b24595efb5c3f653a6e, type: 3}
+  - {fileID: 8300000, guid: ae9dd47a2692cb5499fbdb51f9b8943a, type: 3}
+--- !u!114 &3170057334166658625
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

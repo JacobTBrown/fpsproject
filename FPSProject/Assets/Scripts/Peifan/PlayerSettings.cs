@@ -14,6 +14,10 @@ using UnityEngine.UI;
 */
 public class PlayerSettings : MonoBehaviour
 {
+    //PlayerSettings Instance;
+    //I think we need to create an instance of PlayerSettings for each player,
+    //this way, each player prefab that we create will have their own settings
+
     public GameObject settingPanel;
     [Header("User Mouse Settings")]
     // Horizontal mouse sensitivity
@@ -48,15 +52,19 @@ public class PlayerSettings : MonoBehaviour
         mouseXSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseXSlider.value + "";
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            Debug.Log("pressed esc");
             if (settingPanel.activeInHierarchy)
             {
                 // Lock the cursor to the center of the screen 
                 Cursor.lockState = CursorLockMode.Locked;
                 //// Make the cursor invisible
                 Cursor.visible = false;
+                Debug.Log("panel was active");
             }
             else
             {
+                Debug.Log("panel was inactive");
+                settingPanel.SetActive(settingPanel.activeInHierarchy);
                 // Lock the cursor to the center of the screen 
                 Cursor.lockState = CursorLockMode.None;
                 //// Make the cursor invisible

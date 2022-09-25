@@ -45,7 +45,7 @@ public class DownAnyKey : MonoBehaviour
                 {
                     if (keyCode == KeyCode.Escape) break;
                     curKetCode = keyCode;
-                    bool isExist = GameObject.Find("Player").GetComponent<PlayerSettings>().SetKeycodeValue(keycodeFunction, curKetCode);
+                    bool isExist = GameObject.Find("Player(Clone)").GetComponent<PlayerSettings>().SetKeycodeValue(keycodeFunction, curKetCode);
                     if (isExist) return;
                     ButtonUnSelect();
                     inputtext.text = keyCode.ToString();
