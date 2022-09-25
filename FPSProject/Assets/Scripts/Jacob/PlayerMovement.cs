@@ -63,14 +63,15 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
-        if (PV.IsMine)
-        {
-            return;
-        }
+        
         CheckForGround();
         GetInputs();
         UpdateState();
         ApplyDrag();
+        if (PV.IsMine)
+        {
+            return;
+        }
     }
 
     void FixedUpdate() {

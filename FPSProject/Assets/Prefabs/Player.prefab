@@ -191,7 +191,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
-  groundDrag: 18.04
+  groundDrag: 5
   groundWalkSpeed: 50
   groundSprintSpeed: 80
   airDrag: 0.75

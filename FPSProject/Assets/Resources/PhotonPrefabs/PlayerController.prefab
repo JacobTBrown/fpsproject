@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3173107398918425438}
   - component: {fileID: -5714349919393026257}
   - component: {fileID: 3173107398918425437}
+  - component: {fileID: -9202749834819986593}
   - component: {fileID: 4766917528882672541}
   m_Layer: 0
   m_Name: PlayerController
@@ -94,7 +95,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
-  groundDrag: 18.04
+  groundDrag: 6
   groundWalkSpeed: 50
   groundSprintSpeed: 80
   airDrag: 0.75
@@ -104,6 +105,29 @@ MonoBehaviour:
   isOnGround: 1
   canDoubleJump: 0
   playerState: 0
+--- !u!114 &-9202749834819986593
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3173107398918425439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 685eefb03eb05d043bed1787e782b6b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footsteps:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &4766917528882672541
 MonoBehaviour:
   m_ObjectHideFlags: 0
