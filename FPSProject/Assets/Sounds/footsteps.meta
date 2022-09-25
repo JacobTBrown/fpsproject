@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:FPSProject/Assets/Sounds/footsteps.meta
 guid: a16b666eca112d54c977052b502f20e1
+=======
+guid: 25169a49b82a8b746908a9ab335eb52a
+>>>>>>> fpsproject/Zach:FPSProject/Assets/Scripts/Zach.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
