@@ -70,7 +70,7 @@ public class PlayerSettings : MonoBehaviour
     {
         if (inputSystemDic.Values.Contains(keyCode))
         {
-            Debug.Log(keyCode + "：按钮逻辑已存在");
+            Debug.Log(keyCode + "：Button logic already exists");
             return true;
         }
         else
