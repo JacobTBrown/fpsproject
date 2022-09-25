@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /*
     Author: Jacob Brown
@@ -27,12 +28,14 @@ public class PlayerCameraMovement : MonoBehaviour
         playerSettings = transform.parent.gameObject.GetComponent<PlayerSettings>();
         // Lock the cursor to the center of the screen 
         Cursor.lockState = CursorLockMode.Locked;
-        // Make the cursor invisible
+        //// Make the cursor invisible
         Cursor.visible = false;
     }
 
     void Update()
     {
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+      
         GetInputs();
         InvertMouse(); 
         PerformRotation();
