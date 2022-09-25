@@ -8,13 +8,14 @@ public class Menu : MonoBehaviour
     public bool open;
     public void Open()
     {
-        Debug.Log("Menu script called Open()");
+        //Debug.Log("Menu script called Open()");
         open = true;
         gameObject.SetActive(true);
     }
 
     public void Close()
     {
+        Debug.Log("Menu script called Close()");
         open = false;
         gameObject.SetActive(false);
     }

@@ -13,7 +13,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         if (Instance)
-        {
+        { //if another Instance of the RoomManager exists, delete and return
             Destroy(gameObject);
             return;
         }
@@ -25,27 +25,23 @@ public class RoomManager : MonoBehaviourPunCallbacks
         base.OnEnable();
         //subscribes to unity's scene management class
         //when we change scenes, it will call OnSceneLoaded
-        //todo:fix below
-        //UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+        Debug.Log("got to OnEnable()");
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-    void OnSceneLoaded(UnityEngine.SceneManagement.SceneManager scene, LoadSceneMode loadSceneMode)
+    void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
+        Debug.Log("got here");
+        if (scene.buildIndex == 1)
+        {//instantiate the player prefab into scene 1
+            Debug.Log("player prefab instantiate");
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
+        }
+    }
 
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

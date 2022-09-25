@@ -17,7 +17,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] GameObject roomListItemPrefab;
     [SerializeField] GameObject PlayerListItemPrefab;
     [SerializeField] Transform playerListContent;
-    [SerializeField] GameObject serverSettingsButton;
+    [SerializeField] GameObject startGameButton;
 
 
 
@@ -63,7 +63,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
-        serverSettingsButton.SetActive(PhotonNetwork.IsMasterClient);
+        //serverSettingsButton.SetActive(PhotonNetwork.IsMasterClient);
         foreach (Transform child in playerListContent)
         {
             Destroy(child.gameObject);
@@ -76,12 +76,13 @@ public class Launcher : MonoBehaviourPunCallbacks
             Debug.Log("iteration: " + i);
             Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
         }
+        startGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 
     //if the host leaves, another player is automatically given host privilages.
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        serverSettingsButton.SetActive(PhotonNetwork.IsMasterClient);
+        startGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 
     public override void OnCreateRoomFailed(short returnCode, string message)
