@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,6 +37,12 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 movement, velocity, limitedVelocity;
 
     public MovementState playerState;
+    //Adding some stuff below for PUN
+    PhotonView PV;
+    private void Awake()
+    {
+        PV = GetComponent<PhotonView>();
+    }
     public enum MovementState {
         walking,
         sprinting,
@@ -51,6 +58,10 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
+        if (PV.IsMine)
+        {
+            return;
+        }
         CheckForGround();
         GetInputs();
         UpdateState();

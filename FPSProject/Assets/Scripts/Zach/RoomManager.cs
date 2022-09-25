@@ -25,7 +25,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
         base.OnEnable();
         //subscribes to unity's scene management class
         //when we change scenes, it will call OnSceneLoaded
-        Debug.Log("got to OnEnable()");
+        //Debug.Log("got to OnEnable()");
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -36,7 +36,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        Debug.Log("got here");
+        //Debug.Log("got here");
         if (scene.buildIndex == 1)
         {//instantiate the player prefab into scene 1
             Debug.Log("player prefab instantiate");
