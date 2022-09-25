@@ -50,10 +50,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Start() {
-        if (!PV.IsMine) //we create a bunch of cameras for everyone on creation.
+        /*if (!PV.IsMine) //we create a bunch of cameras for everyone on creation.
         {//probably a better way to do this? /zach
             Destroy(GetComponentInChildren<Camera>().gameObject);
-        }
+        }*/
         keybinds = GetComponent<PlayerSettings>();
         playerCam = GetComponentInChildren<PlayerCameraMovement>();
         
@@ -68,21 +68,19 @@ public class PlayerMovement : MonoBehaviour
         GetInputs();
         UpdateState();
         ApplyDrag();
-        if (PV.IsMine)
+        /*if (PV.IsMine)
         {
             return;
-        }
+        }*/
     }
 
     void FixedUpdate() {
         Move();
 
-        /* If the player presses the jump button and the player is grounded.*/
-        if (Input.GetKey(keybinds.jump) && isOnGround) {
+        // If the player presses the jump button and the player is grounded.
+        if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.jump]) && isOnGround) {
             Jump();
         }
-
-        
     }
 
     private void CheckForGround() {
@@ -92,23 +90,29 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void GetInputs() {
-        if ((Input.GetKey(keybinds.moveLeft) && Input.GetKey(keybinds.moveRight)) || (!Input.GetKey(keybinds.moveLeft) && !Input.GetKey(keybinds.moveRight)))
+        if ((Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.leftMove]) 
+            && Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.rightMove])) 
+            || (!Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.leftMove]) 
+            && !Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.rightMove])))
             horizontalXInput = 0;
-        else if (Input.GetKey(keybinds.moveRight))
+        else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.rightMove]))
             horizontalXInput = 1;
-        else if (Input.GetKey(keybinds.moveLeft))
+        else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.leftMove]))
             horizontalXInput = -1;
 
-        if ((Input.GetKey(keybinds.moveUp) && Input.GetKey(keybinds.moveDown)) || (!Input.GetKey(keybinds.moveUp) && !Input.GetKey(keybinds.moveDown)))
+        if ((Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.upMove])
+            && Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.downMove]))
+            || (!Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.upMove])
+            && !Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.downMove])))
             horizontalZInput = 0;
-        else if (Input.GetKey(keybinds.moveDown))
+        else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.downMove]))
             horizontalZInput = -1;
-        else if (Input.GetKey(keybinds.moveUp))
+        else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.upMove]))
             horizontalZInput = 1;
     }
 
     public void UpdateState() {
-        if (Input.GetKey(keybinds.sprint) && isOnGround) {
+        if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.sprint]) && isOnGround) {
             //IEnumerator coroutine = playerCam.AdjustFov(90);
             //StartCoroutine(coroutine);
             playerState = MovementState.sprinting;
@@ -138,7 +142,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void DoubleJump() {
         /* If the player presses the jump button again and the player can double jump.*/
-        if (Input.GetKey(keybinds.jump) && canDoubleJump) {
+        if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.jump]) && canDoubleJump) {
             canDoubleJump = false;
             Jump();
         }

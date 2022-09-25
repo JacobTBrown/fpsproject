@@ -16,7 +16,7 @@ public class SoundManager : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
         playerMovement = GetComponent<PlayerMovement>();
 
-        audioSource.volume = 0.75f;
+        audioSource.volume = 0.25f;
 
         StartCoroutine(ChooseAFootstep());
     }
