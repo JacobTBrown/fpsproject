@@ -50,6 +50,10 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Start() {
+        if (!PV.IsMine) //we create a bunch of cameras for everyone on creation.
+        {//probably a better way to do this? /zach
+            Destroy(GetComponentInChildren<Camera>().gameObject);
+        }
         keybinds = GetComponent<PlayerSettings>();
         playerCam = GetComponentInChildren<PlayerCameraMovement>();
         // If we don't do this the player will fall over because it is a capsule
