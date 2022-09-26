@@ -18,8 +18,9 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] GameObject PlayerListItemPrefab;
     [SerializeField] Transform playerListContent;
     [SerializeField] GameObject startGameButton;
-
-
+    public int MaxPlayersPerLobby = 8;
+    public int ping;
+    //public GameObject Loadingpanel; //vs LoadingMenu 
 
     private void Awake()
     {
@@ -27,7 +28,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-        Debug.Log("Attemting to connect");
+        //Debug.Log("Attemting to connect");
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -36,7 +37,10 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log("Connected");
         PhotonNetwork.JoinLobby();
         PhotonNetwork.AutomaticallySyncScene = true;
-        Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
+        //Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
+        //bool customProperties = Player.SetCustomProperties(Hashtable t);
+        Debug.Log("Currnet ping is " + PhotonNetwork.GetPing());
+        
     }
 
     public override void OnJoinedLobby()
@@ -64,7 +68,6 @@ public class Launcher : MonoBehaviourPunCallbacks
         MenuManager.Instance.OpenMenu("room");
         base.OnJoinedRoom();
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
-
         //serverSettingsButton.SetActive(PhotonNetwork.IsMasterClient);
         foreach (Transform child in playerListContent)
         {
@@ -134,4 +137,9 @@ public class Launcher : MonoBehaviourPunCallbacks
         Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
 
     }
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        base.OnDisconnected(cause);
+    }
+
 }

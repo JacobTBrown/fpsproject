@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Photon.Realtime;
+using Photon.Pun;
 
 public class RoomListItem : MonoBehaviour
 {
@@ -11,8 +12,16 @@ public class RoomListItem : MonoBehaviour
     public RoomInfo info;
     public void Setup(RoomInfo _info)
     {
-        info = _info;
-        text.text = info.Name;
+       /* it didnt work sadge
+       if (PhotonNetwork.CurrentRoom != null)
+        {
+            if (PhotonNetwork.CurrentRoom.PlayerCount == 8)
+            { return; }
+        }*/
+      
+            info = _info;
+            text.text = info.Name;
+        
     }
     public void OnClick()
     {
