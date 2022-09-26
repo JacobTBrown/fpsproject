@@ -21,6 +21,8 @@ public class PlayerManager : MonoBehaviour
     {
         if (PV.IsMine)
         {
+            Debug.Log("Creating controller for player:" + PV.ViewID);
+            
             createController();
         }
     }
@@ -30,8 +32,8 @@ public class PlayerManager : MonoBehaviour
         //this should create a settings panel for each prefab
         //zach/jacob
         playerSettings = GameObject.Find("Player(Clone)").GetComponent<PlayerSettings>();
-        Instantiate(playerSettings.settingPanel, GameObject.Find("Canvas").GetComponent<Transform>());
-        GameObject.Find("SettingPanel(Clone)").SetActive(false);
+        //Instantiate(playerSettings.settingPanel, GameObject.Find("Canvas").GetComponent<Transform>());
+        //GameObject.Find("SettingPanel(Clone)").SetActive(false);
     }//get the playersettings script form the object
     //retrieve the settings panel, save that object,
     //instantiate that object

@@ -36,6 +36,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log("Connected");
         PhotonNetwork.JoinLobby();
         PhotonNetwork.AutomaticallySyncScene = true;
+        Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
     }
 
     public override void OnJoinedLobby()
@@ -44,6 +45,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         MenuManager.Instance.OpenMenu("title");
         Debug.Log("OnJoined Lobby Fucntion Call");
         PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("Placeholder");
+        Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
     }
     public void CreateRoom()
     {
@@ -72,8 +74,8 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < players.Count(); i++)
         {
-            Debug.Log("length of players array: " + players.Count());
-            Debug.Log("iteration: " + i);
+            //Debug.Log("length of players array: " + players.Count());
+            //Debug.Log("iteration: " + i);
             Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
         }
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);

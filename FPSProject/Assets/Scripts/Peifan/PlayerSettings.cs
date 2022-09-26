@@ -52,6 +52,7 @@ public class PlayerSettings : MonoBehaviour
         mouseXSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseXSlider.value + "";
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            
             Debug.Log("pressed esc");
             if (settingPanel.activeInHierarchy)
             {

@@ -37,10 +37,12 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 movement, velocity, limitedVelocity;
 
     public MovementState playerState;
-    //Adding some stuff below for PUN
+    //Adding just a few lines below for PUN
     PhotonView PV;
+    //PlayerMovement Instance;
     private void Awake()
     {
+        //Instance = this;
         PV = GetComponent<PhotonView>();
     }
     public enum MovementState {
@@ -53,6 +55,8 @@ public class PlayerMovement : MonoBehaviour
         if (!PV.IsMine) //we create a bunch of cameras for everyone on creation.
         {//probably a better way to do this? /zach
             Destroy(GetComponentInChildren<Camera>().gameObject);
+            //Destroy(GetComponent<Player>);
+            return;
         }
         keybinds = GetComponent<PlayerSettings>();
         playerCam = GetComponentInChildren<PlayerCameraMovement>();
@@ -63,15 +67,15 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
-        
+        if (!PV.IsMine)
+        {
+            return;
+        }
         CheckForGround();
         GetInputs();
         UpdateState();
         ApplyDrag();
-        /*if (PV.IsMine)
-        {
-            return;
-        }*/
+        
     }
 
     void FixedUpdate() {
@@ -168,3 +172,8 @@ public class PlayerMovement : MonoBehaviour
             playerRigidbody.drag = airDrag;
     }
 }
+
+/* -- note from Zach 9/26 -- 
+  For Multiplayer, I need an Instance of the player prefab --
+  Possibly, I could create a PlayerManager Instance instead, which would hold a reference to the player's movement & controls
+*/
