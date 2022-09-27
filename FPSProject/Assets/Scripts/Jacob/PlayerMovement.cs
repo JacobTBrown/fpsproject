@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Realtime;
 /*
     Author: Jacob Brown
     Creation: 9/19/22
@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         //Instance = this;
-        PV = GetComponent<PhotonView>();
+        PhotonView PV = GetComponent<PhotonView>();
     }
     public enum MovementState {
         walking,
@@ -52,12 +52,13 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Start() {
-        if (!PV.IsMine) //we create a bunch of cameras for everyone on creation.
-        {//probably a better way to do this? /zach
-            Destroy(GetComponentInChildren<Camera>().gameObject);
+        //if (PlayerManager.photonView) //The camera is client side.
+                    //no need to destroy it, we can just set it to disabled
+                    //probably moving this into the PlayerManager script -Z
+            //Destroy(GetComponentInChildren<Camera>().gameObject);
             //Destroy(GetComponent<Player>);
-            return;
-        }
+            //return;
+         
         keybinds = GetComponent<PlayerSettings>();
         playerCam = GetComponentInChildren<PlayerCameraMovement>();
         
@@ -68,7 +69,8 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         if (!PV.IsMine)
-        {
+        {   //every player is running this script on their client. 
+            //this is the only line that tells photon not to move the character.. ?
             return;
         }
         CheckForGround();

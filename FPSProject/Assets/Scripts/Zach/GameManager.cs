@@ -11,13 +11,18 @@ using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-
+    public GameObject playerPrefab;
     #region Photon Callbacks
 
 
     /// <summary>
     /// Called when the local player left the room. We need to load the launcher scene.
     /// </summary>
+
+    private void Start()
+    {
+        PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0, 5, 0), Quaternion.identity);
+    }
     public override void OnLeftRoom()
     {
         //Photon.Pun.SceneManager.LoadScene(0);

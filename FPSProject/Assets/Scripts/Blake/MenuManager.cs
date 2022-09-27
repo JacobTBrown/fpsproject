@@ -10,8 +10,8 @@ public class MenuManager : MonoBehaviour
     public GameObject settingMenu;
     public bool isPreseed;
     [SerializeField] Menu[] menus;
-    
 
+    PlayerSettings playerSettings;
     private void Awake()
     {
         Instance = this;

@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
+
+
+//[RequireComponent(typeof(CharacterController))] refactor this
+
 public class PlayerManager : MonoBehaviour
 {
     PhotonView PV;
@@ -16,25 +20,30 @@ public class PlayerManager : MonoBehaviour
         //SettingsPanel = 
 
     }
-
+    CharacterController cc;
     private void Start()
     {
-        if (PV.IsMine)
+        if (!PV.IsMine)
         {
-            Debug.Log("Creating controller for player:" + PV.ViewID);
-            
-            createController();
+            GetComponentInChildren<Camera>().enabled = false;
+            GetComponentInChildren<AudioListener>().enabled = false;
         }
+
+/*        if (PV.IsMine)
+        {
+            Debug.Log("Creating controller for player:" + PV.ViewID);  
+            createController(); //not currently being used
+        }*/
     }
     void createController()
     {
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), Vector3.zero, Quaternion.identity);
+        //I moved this part to the Game Manager
+
+        //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), Vector3.zero, Quaternion.identity);
         //this should create a settings panel for each prefab
         //zach/jacob
-        playerSettings = GameObject.Find("Player(Clone)").GetComponent<PlayerSettings>();
+        //playerSettings = GameObject.Find("Player(Clone)").GetComponent<PlayerSettings>();
         //Instantiate(playerSettings.settingPanel, GameObject.Find("Canvas").GetComponent<Transform>());
         //GameObject.Find("SettingPanel(Clone)").SetActive(false);
-    }//get the playersettings script form the object
-    //retrieve the settings panel, save that object,
-    //instantiate that object
+    }
 }

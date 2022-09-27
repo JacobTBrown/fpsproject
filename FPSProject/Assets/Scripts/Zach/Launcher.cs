@@ -5,6 +5,7 @@ using Photon.Pun;
 using TMPro;
 using Photon.Realtime;
 using System.Linq;
+using UnityEngine.UI;
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -19,12 +20,22 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] Transform playerListContent;
     [SerializeField] GameObject startGameButton;
     public int MaxPlayersPerLobby = 8;
-    public int ping;
+    public int pingAsInt;
+    public TMP_Text ping;
     //public GameObject Loadingpanel; //vs LoadingMenu 
 
     private void Awake()
     {
         Instance = this;
+    }
+    public void Update()
+    {
+        pingAsInt = PhotonNetwork.GetPing();
+        if (pingAsInt == 0)
+        {
+            ping.text = "Bad Connection/Disconnected";
+        }
+        ping.text = PhotonNetwork.GetPing().ToString();
     }
     void Start()
     {
@@ -39,7 +50,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
         //Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
         //bool customProperties = Player.SetCustomProperties(Hashtable t);
-        Debug.Log("Currnet ping is " + PhotonNetwork.GetPing());
+        Debug.Log("Current ping is " + PhotonNetwork.GetPing());
         
     }
 
