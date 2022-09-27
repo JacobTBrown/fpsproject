@@ -40,10 +40,10 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnJoinedLobby()
     {
-        //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room
+        //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room.
         MenuManager.Instance.OpenMenu("title");
         Debug.Log("OnJoined Lobby Fucntion Call");
-        PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("Placeholder");
+        PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("Placeholder");//doesn't work
     }
     public void CreateRoom()
     {
@@ -63,7 +63,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         base.OnJoinedRoom();
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
 
-        //serverSettingsButton.SetActive(PhotonNetwork.IsMasterClient);
+        
         foreach (Transform child in playerListContent)
         {
             Destroy(child.gameObject);
@@ -71,12 +71,12 @@ public class Launcher : MonoBehaviourPunCallbacks
         Player[] players = PhotonNetwork.PlayerList;
 
         for (int i = 0; i < players.Count(); i++)
-        {
-            Debug.Log("length of players array: " + players.Count());
-            Debug.Log("iteration: " + i);
+        {   
             Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
-        }
+        } //re-instantiates players in the RoomMenu when someone leaves/joins
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+        //serverSettingsButton.SetActive(PhotonNetwork.IsMasterClient);
+        //if we want more options for the host
     }
 
     //if the host leaves, another player is automatically given host privilages.
@@ -109,7 +109,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LeaveRoom();
         MenuManager.Instance.OpenMenu("title");
-
+        //it says that it destroys objects for us when we leave
     }
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
@@ -121,15 +121,21 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             if (roomList[i].RemovedFromList) { continue; }
             Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().Setup(roomList[i]);
+            //populates the list of rooms in the FindRoomMenu
         }
     }
     public void startGame()
     {
+        //REMOVED UNTIL 3D MULTIPLAYER WORKS - ZACH 
+        //Loading Scene from MenuManager Instead
+        //Clicking 'enter 3d lobby' from my Init scene will load the scene you have set to index 1
         PhotonNetwork.LoadLevel(1);
+        //MenuManager.Instance.ChangeScene(1);
+       
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
-
+        //updates player list in the RoomMenu
     }
 }
