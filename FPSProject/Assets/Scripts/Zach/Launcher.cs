@@ -135,6 +135,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
         for (int i = 0; i < roomList.Count; i++)
         {
+            if (roomList[i].PlayerCount >7) { roomList[i].RemovedFromList = true;  }
             if (roomList[i].RemovedFromList) { continue; }
             Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().Setup(roomList[i]);
         }
