@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,11 +6,9 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance;
-    public GameObject settingMenu;
-    public bool isPreseed;
+
     [SerializeField] Menu[] menus;
 
-    PlayerSettings playerSettings;
     private void Awake()
     {
         Instance = this;
@@ -50,43 +47,14 @@ public class MenuManager : MonoBehaviour
     {
         menu.Close();
     }
-
-    //Adding a function below for Scene Transition logic - Zach
-    public void ChangeScene(int secneID)
+    //*good enough* scene transition logic
+    public void ChangeScene(int sceneId)
     {
-        SceneManager.LoadScene(secneID);
+        SceneManager.LoadScene(sceneId);
     }
 
-    private void Start()
+    public void quitApplication()
     {
-        settingMenu.SetActive(false);
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (isPreseed)
-            {
-                resume();
-            }
-            else
-            {
-                pause();
-            }
-        }
-    }
-
-    public void resume()
-    {
-        settingMenu.SetActive(true);
-        isPreseed = false;
-        Cursor.lockState = CursorLockMode.None;
-        
-    }
-    public void pause() {
-        settingMenu.SetActive(false);
-        isPreseed = true;
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        Application.Quit();
     }
 }

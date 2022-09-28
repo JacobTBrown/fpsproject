@@ -57,7 +57,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room
-        MenuManager.Instance.OpenMenu("title");
+        MenuManager.Instance.OpenMenu("welcome");
         Debug.Log("OnJoined Lobby Fucntion Call");
         PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("Placeholder");
         Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
