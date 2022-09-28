@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private GunData gunData;
     [SerializeField] private Transform muzzle;
     [SerializeField] private ParticleSystem flash;
+    public Text ammoCounter;
     Animator animator;
     AudioSource[] sounds;
     AudioSource gunshot;
@@ -57,7 +59,7 @@ public class Gun : MonoBehaviour
     {
         if (gunData.currentAmmo > 0)
         {
-            if(canShoot())
+            if (canShoot())
             {
                 if (Physics.Raycast(muzzle.position, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
                 {
@@ -75,6 +77,7 @@ public class Gun : MonoBehaviour
     {
         timeSinceLastShot += Time.deltaTime;
         Debug.DrawRay(muzzle.position, muzzle.forward);
+        ammoCounter.text = gunData.currentAmmo.ToString() + "/" + gunData.reserveAmmo.ToString();
     }
 
     private void OnGunShot()
