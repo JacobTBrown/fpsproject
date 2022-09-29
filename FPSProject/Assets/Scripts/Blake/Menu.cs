@@ -15,7 +15,7 @@ public class Menu : MonoBehaviour
 
     public void Close()
     {
-        Debug.Log("Menu script called Close()");
+        //Debug.Log("Menu script called Close()");
         open = false;
         gameObject.SetActive(false);
     }

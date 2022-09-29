@@ -6,6 +6,8 @@ using TMPro;
 using Photon.Realtime;
 using System.Linq;
 using UnityEngine.UI;
+using ExitGames;
+
 
 public class Launcher : MonoBehaviourPunCallbacks
 {
@@ -34,6 +36,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (pingAsInt == 0)
         {
             ping.text = "Bad Connection/Disconnected";
+            Debug.Log("bad ping");
         }
         ping.text = PhotonNetwork.GetPing().ToString();
     }
@@ -50,7 +53,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         PhotonNetwork.AutomaticallySyncScene = true;
         //Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
         //bool customProperties = Player.SetCustomProperties(Hashtable t);
-        Debug.Log("Current ping is " + PhotonNetwork.GetPing());
+        //Debug.Log("Current ping is " + PhotonNetwork.GetPing());
         
     }
 
@@ -59,8 +62,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room
         MenuManager.Instance.OpenMenu("welcome");
         Debug.Log("OnJoined Lobby Fucntion Call");
-        PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("Placeholder");
-        Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
+        //PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("Placeholder");
+        // Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
     }
     public void CreateRoom()
     {
@@ -88,8 +91,6 @@ public class Launcher : MonoBehaviourPunCallbacks
 
         for (int i = 0; i < players.Count(); i++)
         {
-            //Debug.Log("length of players array: " + players.Count());
-            //Debug.Log("iteration: " + i);
             Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
         }
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
@@ -108,6 +109,24 @@ public class Launcher : MonoBehaviourPunCallbacks
         MenuManager.Instance.OpenMenu("error");
 
 
+    }
+   // public void OnFailedToConnect(NetworkConnectionError error)
+    //{
+        
+
+//    }
+    public void ConnectionFailed()
+    {
+        //MenuManager.Instance.OpenMenu("title");
+        Debug.Log("Connection Dropped, please try again or continue without connecting");
+        errorText.text = "Connection Dropped, please try again or continue without connecting";
+        MenuManager.Instance.OpenMenu("error");
+
+    }
+    public void ConnectManually()
+    {
+        Debug.Log("attempting to reconnect...");
+        PhotonNetwork.ConnectUsingSettings();
     }
     public void JoinRoom(RoomInfo info)
     {

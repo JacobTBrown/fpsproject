@@ -20,7 +20,7 @@ public class MenuManager : MonoBehaviour
         {
             if(menus[i].menuName == menuName)
             {
-                Debug.Log("Menu script called Open()");
+                //Debug.Log("Menu script called Open()");
                 menus[i].Open();
             }
             else if(menus[i].open)
@@ -48,6 +48,7 @@ public class MenuManager : MonoBehaviour
         menu.Close();
     }
     //*good enough* scene transition logic
+    //if we don't need to use the multiplayer api--Zach
     public void ChangeScene(int sceneId)
     {
         SceneManager.LoadScene(sceneId);
