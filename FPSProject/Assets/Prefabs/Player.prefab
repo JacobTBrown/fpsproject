@@ -159,21 +159,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 3173107398918425439}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e0d0c9efde4b9b044a17ac9ba839e0cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 252e31a1f3893a447873f0b398969e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseXSensitivity: 250
-  mouseYSensitivity: 250
+  settingPanel: {fileID: 660522639518249574, guid: db82285a1d7d93b41b03bf7e69aae1d8,
+    type: 3}
+  mouseXSensitivity: 500
+  mouseYSensitivity: 500
+  mouseYSlider: {fileID: 3199684557778051181, guid: 2a1b8dbe08805d74eb316834702a063a,
+    type: 3}
+  mouseXSlider: {fileID: 1716945861348967665, guid: 4263ed6f3d79fa34288f0670dcff2121,
+    type: 3}
   invertMouse: 0
-  moveUp: 119
-  moveDown: 115
-  moveLeft: 97
-  moveRight: 100
-  sprint: 304
-  jump: 32
-  reload: 114
-  scoreboard: 9
-  menu: 27
 --- !u!114 &3173107398918425437
 MonoBehaviour:
   m_ObjectHideFlags: 0

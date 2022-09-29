@@ -6,6 +6,11 @@ using System.IO;
 
 public class PlayerManager : MonoBehaviour
 {
+    private void Awake()
+    {
+        Debug.Log("Player Manager called");
+    }
+    /*
     PhotonView PV;
     private void Awake()
     {
@@ -23,4 +28,5 @@ public class PlayerManager : MonoBehaviour
     {
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerController"), Vector3.zero, Quaternion.identity);
     }
+    */
 }
