@@ -21,24 +21,25 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] GameObject PlayerListItemPrefab;
     [SerializeField] Transform playerListContent;
     [SerializeField] GameObject startGameButton;
+    [SerializeField] TMP_Text pingText;
+    [SerializeField] Button[] multiplayerButtons;
+
     public int MaxPlayersPerLobby = 8;
     public int pingAsInt;
+    //public bool isConnected;
     public TMP_Text ping;
     //public GameObject Loadingpanel; //vs LoadingMenu 
 
     private void Awake()
     {
         Instance = this;
+        Invoke("CheckConnection", 30);
     }
     public void Update()
     {
         pingAsInt = PhotonNetwork.GetPing();
-        if (pingAsInt == 0)
-        {
-            ping.text = "Bad Connection/Disconnected";
-            Debug.Log("bad ping");
-        }
         ping.text = PhotonNetwork.GetPing().ToString();
+        
     }
     void Start()
     {
@@ -50,18 +51,19 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Debug.Log("Connected");
         PhotonNetwork.JoinLobby();
-        PhotonNetwork.AutomaticallySyncScene = true;
-        //Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
-        //bool customProperties = Player.SetCustomProperties(Hashtable t);
-        //Debug.Log("Current ping is " + PhotonNetwork.GetPing());
-        
+        PhotonNetwork.AutomaticallySyncScene = true;     
     }
-
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    { //I think its deprecated but I can't find a replacement ?
+        //throws error: Referenced Script is missing (from like 10 different callbacks)
+   //     base.OnJoinRoomFailed(returnCode, message);
+       Debug.Log("log error here");
+    }
     public override void OnJoinedLobby()
     {
         //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room
         MenuManager.Instance.OpenMenu("welcome");
-        Debug.Log("OnJoined Lobby Fucntion Call");
+        //Debug.Log("OnJoined Lobby Fucntion Call");
         //PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("Placeholder");
         // Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
     }
@@ -74,7 +76,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         }
         PhotonNetwork.CreateRoom(roomNameInputField.text);
         MenuManager.Instance.OpenMenu("loading");
-
+        //loading menu will automatically close after the async call above finishes executing
     }
    
     public override void OnJoinedRoom()
@@ -112,15 +114,27 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
    // public void OnFailedToConnect(NetworkConnectionError error)
     //{
-        
-
+        //photon tells me to use this function but it doesn't work *shrugs* 
 //    }
+    public void CheckConnection()
+    {
+        if (pingAsInt == 0 || pingAsInt > 199) //When we're not connected, ping is 200
+        {
+            pingText.text = "Bad Connection/Disconnected";
+            Debug.Log("bad connection");
+            ConnectionFailed();
+        }
+    }
     public void ConnectionFailed()
     {
         //MenuManager.Instance.OpenMenu("title");
         Debug.Log("Connection Dropped, please try again or continue without connecting");
         errorText.text = "Connection Dropped, please try again or continue without connecting";
-        MenuManager.Instance.OpenMenu("error");
+        MenuManager.Instance.OpenMenu("reconnect");
+        for (int i = 0; i <multiplayerButtons.Length; i++)
+        {
+            multiplayerButtons[i].gameObject.SetActive(false);
+        }
 
     }
     public void ConnectManually()

@@ -36,10 +36,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
     }
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        Debug.Log("got here");
         if (scene.buildIndex == 1)
         {//instantiate the player prefab into scene 1
-            Debug.Log("player prefab instantiate");
+            //Debug.Log("player prefab instantiate");
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
         }
     }
