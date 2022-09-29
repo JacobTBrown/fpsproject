@@ -17,21 +17,26 @@ public class Powerup : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            StartCoroutine(Pickup());
+            StartCoroutine(Pickup(other));
         }
     }
 
-    IEnumerator Pickup()
+    IEnumerator Pickup(Collider player)
     {
-        pickupEffect.Play();
-        powerupSound.Play();
-        foreach (Transform child in parent.gameObject.transform)
+        PlayerDamageable stats = player.GetComponent<PlayerDamageable>();
+        if (stats.currentHealth < stats.maxHealth)
         {
-            child.GetComponent<MeshRenderer>().enabled = false;
+            pickupEffect.Play();
+            powerupSound.Play();
+            foreach (Transform child in parent.gameObject.transform)
+            {
+                child.GetComponent<MeshRenderer>().enabled = false;
+            }
+            GetComponent<Collider>().enabled = false;
+            if (stats.currentHealth < (stats.maxHealth / 2)) stats.currentHealth += 50f;
+            else stats.currentHealth += stats.maxHealth - stats.currentHealth;
+            yield return new WaitForSeconds(3);
+            Destroy(transform.parent.gameObject);
         }
-        GetComponent<Collider>().enabled = false;
-
-        yield return new WaitForSeconds(3);
-        Destroy(transform.parent.gameObject);
     }
 }
