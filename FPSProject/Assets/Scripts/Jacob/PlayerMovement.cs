@@ -38,12 +38,12 @@ public class PlayerMovement : MonoBehaviour
 
     public MovementState playerState;
     //Adding just a few lines below for PUN
-    PhotonView PV;
+    public PhotonView PV;
     //PlayerMovement Instance;
     private void Awake()
     {
         //Instance = this;
-        PhotonView PV = GetComponent<PhotonView>();
+        PV = GetComponent<PhotonView>();
     }
     public enum MovementState {
         walking,
@@ -52,13 +52,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Start() {
-        //if (PlayerManager.photonView) //The camera is client side.
-                    //no need to destroy it, we can just set it to disabled
-                    //probably moving this into the PlayerManager script -Z
-            //Destroy(GetComponentInChildren<Camera>().gameObject);
-            //Destroy(GetComponent<Player>);
+        if (!PV.IsMine)
+        {
+            Destroy(GetComponentInChildren<Camera>().gameObject);
+            //Destroy(GetComponent<Player>().gameObject);
             //return;
-         
+        }
         keybinds = GetComponent<PlayerSettings>();
         playerCam = GetComponentInChildren<PlayerCameraMovement>();
         
@@ -68,25 +67,29 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
-        if (!PV.IsMine)
+        if (PV.IsMine)
         {   //every player is running this script on their client. 
             //this is the only line that tells photon not to move the character.. ?
-            return;
+            CheckForGround();
+            GetInputs();
+            UpdateState();
+            ApplyDrag();
         }
-        CheckForGround();
-        GetInputs();
-        UpdateState();
-        ApplyDrag();
+      
         
     }
 
     void FixedUpdate() {
-        Move();
-
-        // If the player presses the jump button and the player is grounded.
-        if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.jump]) && isOnGround) {
-            Jump();
+        if (PV.IsMine)
+        {
+            Move();
+            // If the player presses the jump button and the player is grounded.
+            if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.jump]) && isOnGround)
+            {
+                Jump();
+            }
         }
+
     }
 
     private void CheckForGround() {
@@ -175,7 +178,7 @@ public class PlayerMovement : MonoBehaviour
     }
 }
 
-/* -- note from Zach 9/26 -- 
+/* -- note from Zach 9/29 -- 
   For Multiplayer, I need an Instance of the player prefab --
-  Possibly, I could create a PlayerManager Instance instead, which would hold a reference to the player's movement & controls
+  Currently, this is being created in the PlayerManager.cs file.
 */

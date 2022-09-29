@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,7 +22,9 @@ public class PlayerCameraMovement : MonoBehaviour
     private Vector3 mouseMovement = new Vector3(0, 0, 0);
     private PlayerMovement playerMove;
     private PlayerSettings playerSettings;
-    
+
+
+
     void Start()
     {
         playerMove = transform.parent.gameObject.GetComponent<PlayerMovement>();
@@ -34,11 +37,16 @@ public class PlayerCameraMovement : MonoBehaviour
 
     void Update()
     {
-        if (EventSystem.current.IsPointerOverGameObject()) return;
-      
-        GetInputs();
-        InvertMouse(); 
-        PerformRotation();
+   
+        if (playerMove.PV.IsMine)
+        {
+
+            if (EventSystem.current.IsPointerOverGameObject()) return;
+
+            GetInputs();
+            InvertMouse();
+            PerformRotation();
+        }
     }
 
     private void GetInputs() {

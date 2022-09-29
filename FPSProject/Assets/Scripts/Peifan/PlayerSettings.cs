@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
@@ -31,6 +32,8 @@ public class PlayerSettings : MonoBehaviour
     public Slider mouseXSlider;
     // For the user to invert the Y mouse look
     public bool invertMouse = false;
+    //Zach's multiplayer lines below
+    PhotonView PV;
     [Header("User Keybinds")]
     public Dictionary<KeycodeFunction, KeyCode> inputSystemDic = new Dictionary<KeycodeFunction, KeyCode>() {
         { KeycodeFunction.leftMove, KeyCode.A},
@@ -45,16 +48,31 @@ public class PlayerSettings : MonoBehaviour
         };
 
     void Start() {
-        settingPanel = GameObject.Find("SettingPanel");
-        mouseYSlider = GameObject.FindGameObjectWithTag("SliderV").GetComponent<Slider>();
-        mouseXSlider = GameObject.FindGameObjectWithTag("SliderH").GetComponent<Slider>();
+        PV = GetComponent<PhotonView>();
+        if (PV.IsMine)
+        {
+            settingPanel = GameObject.Find("SettingPanel");
+            mouseYSlider = GameObject.FindGameObjectWithTag("SliderV").GetComponent<Slider>();
+            mouseXSlider = GameObject.FindGameObjectWithTag("SliderH").GetComponent<Slider>();
+            settingPanel.SetActive(false);
 
-        settingPanel.SetActive(false);
+        }
+
+        if (!PV.IsMine)
+        {
+            Destroy(GameObject.Find("SettingPanel"));
+            //Destroy(GameObject.FindGameObjectWithTag("SliderV").GetComponent<Slider>());
+            //Destroy(GameObject.FindGameObjectWithTag("SliderH").GetComponent<Slider>());
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!PV.IsMine)
+        {
+            return;
+        }
         mouseXSensitivity = mouseXSlider.value * 5;
         mouseYSensitivity = mouseYSlider.value * 5;
         mouseYSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseYSlider.value + "";
@@ -78,7 +96,7 @@ public class PlayerSettings : MonoBehaviour
                 // Lock the cursor to the center of the screen 
                 Cursor.lockState = CursorLockMode.None;
                 //// Make the cursor invisible
-                //Cursor.visible = false;
+                Cursor.visible = true;
             }
             settingPanel.SetActive(!settingPanel.activeInHierarchy);
         }
