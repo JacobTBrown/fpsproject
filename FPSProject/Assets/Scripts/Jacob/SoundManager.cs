@@ -16,8 +16,6 @@ public class SoundManager : MonoBehaviour
         playerRigidbody = GetComponent<Rigidbody>();
         playerMovement = GetComponent<PlayerMovement>();
 
-        audioSource.volume = 0.25f;
-
         StartCoroutine(ChooseAFootstep());
     }
 
@@ -30,11 +28,13 @@ public class SoundManager : MonoBehaviour
             {
                 audioSource.clip = footsteps[i];
                 if (playerMovement.playerState == PlayerMovement.MovementState.walking) {
+                    audioSource.volume = 0.10f;
                     audioSource.PlayOneShot(audioSource.clip);
                     float interval = audioSource.clip.length;
                     i++;
                     yield return new WaitForSeconds(interval + 0.20f);
                 } else if (playerMovement.playerState == PlayerMovement.MovementState.sprinting) {
+                    audioSource.volume = 0.28f;
                     audioSource.PlayOneShot(audioSource.clip);
                     float interval = audioSource.clip.length;
                     i++;

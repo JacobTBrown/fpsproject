@@ -38,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
 
     public MovementState playerState;
     //Adding just a few lines below for PUN
-    PhotonView PV;
+    public PhotonView PV;
     //PlayerMovement Instance;
     private void Awake()
     {
@@ -68,25 +68,29 @@ public class PlayerMovement : MonoBehaviour
     
     void Update()
     {
-        if (!PV.IsMine)
+        if (PV.IsMine)
         {   //every player is running this script on their client. 
             //this is the only line that tells photon not to move the character.. ?
-            return;
+            CheckForGround();
+            GetInputs();
+            UpdateState();
+            ApplyDrag();
         }
-        CheckForGround();
-        GetInputs();
-        UpdateState();
-        ApplyDrag();
+      
         
     }
 
     void FixedUpdate() {
-        Move();
-
-        // If the player presses the jump button and the player is grounded.
-        if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.jump]) && isOnGround) {
-            Jump();
+        if (PV.IsMine)
+        {
+            Move();
+            // If the player presses the jump button and the player is grounded.
+            if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.jump]) && isOnGround)
+            {
+                Jump();
+            }
         }
+
     }
 
     private void CheckForGround() {

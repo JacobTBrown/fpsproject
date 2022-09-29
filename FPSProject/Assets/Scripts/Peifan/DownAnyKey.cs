@@ -45,11 +45,11 @@ public class DownAnyKey : MonoBehaviour
                 {
                     if (keyCode == KeyCode.Escape) break;
                     curKetCode = keyCode;
-                    bool isExist = GameObject.Find("Player(Clone)").GetComponent<PlayerSettings>().SetKeycodeValue(keycodeFunction, curKetCode);
+                    bool isExist = GameObject.Find("Player").GetComponent<PlayerSettings>().SetKeycodeValue(keycodeFunction, curKetCode); // to convert this to multiplayer, we should instantiate the player prefab with it's PhotonId, and use Find("Player" + Photon.Network.playerID).
                     if (isExist) return;
                     ButtonUnSelect();
                     inputtext.text = keyCode.ToString();
-                }
+                }  
             }
             IsChangeKey = false;
             ButtonUnSelect();

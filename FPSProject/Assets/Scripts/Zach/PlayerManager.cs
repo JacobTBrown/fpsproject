@@ -17,16 +17,18 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
+       
         //SettingsPanel = 
 
     }
     CharacterController cc;
     private void Start()
     {
+        createController();
         if (!PV.IsMine)
         {
-            GetComponentInChildren<Camera>().enabled = false;
-            GetComponentInChildren<AudioListener>().enabled = false;
+           GetComponentInChildren<Camera>().enabled = false;
+           GetComponentInChildren<AudioListener>().enabled = false;
         }
 
 /*        if (PV.IsMine)
@@ -39,7 +41,7 @@ public class PlayerManager : MonoBehaviour
     {
         //I moved this part to the Game Manager
 
-        //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), Vector3.zero, Quaternion.identity);
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), Vector3.zero, Quaternion.identity);
         //this should create a settings panel for each prefab
         //zach/jacob
         //playerSettings = GameObject.Find("Player(Clone)").GetComponent<PlayerSettings>();

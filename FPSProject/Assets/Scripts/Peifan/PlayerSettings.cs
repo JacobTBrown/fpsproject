@@ -44,6 +44,13 @@ public class PlayerSettings : MonoBehaviour
         { KeycodeFunction.menu, KeyCode.Escape},
         };
 
+    void Start() {
+        settingPanel = GameObject.Find("SettingPanel");
+        mouseYSlider = GameObject.FindGameObjectWithTag("SliderV").GetComponent<Slider>();
+        mouseXSlider = GameObject.FindGameObjectWithTag("SliderH").GetComponent<Slider>();
+
+        settingPanel.SetActive(false);
+    }
 
     // Update is called once per frame
     void Update()
@@ -71,7 +78,7 @@ public class PlayerSettings : MonoBehaviour
                 // Lock the cursor to the center of the screen 
                 Cursor.lockState = CursorLockMode.None;
                 //// Make the cursor invisible
-                //Cursor.visible = false;
+                Cursor.visible = true;
             }
             settingPanel.SetActive(!settingPanel.activeInHierarchy);
         }
