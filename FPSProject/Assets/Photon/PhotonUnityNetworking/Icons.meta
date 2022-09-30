@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:FPSProject/Assets/Photon/PhotonUnityNetworking/Icons.meta
 guid: ebc245e9a162d7749b96acd14e6d473e
+========
+guid: 1952cc146553b8f479be1f76e38fd005
+>>>>>>>> Jonathan:FPSProject/Assets/Resources/PhotonPrefabs/player controller.meta
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}

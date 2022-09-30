@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:FPSProject/Assets/Prefabs/Peifan/SettingPanel.prefab.meta
 guid: 85631c19424344343990067c73c2dc64
+========
+guid: 63b424065c9ed4c47be7542419dd23ed
+>>>>>>>> Jonathan:FPSProject/Assets/Prefabs/Peifan/EventSystem.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 
