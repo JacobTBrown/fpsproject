@@ -55,6 +55,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     void Start()
     {
         //Debug.Log("Attemting to connect");
+        if (!PhotonNetwork.IsConnected)
         PhotonNetwork.ConnectUsingSettings();
     }
 
@@ -72,7 +73,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedLobby()
     {
-        //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room
+        //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room 
+        if (!MenuManager.Instance.menus[1].open)
         MenuManager.Instance.OpenMenu("welcome");
         //Debug.Log("OnJoined Lobby Fucntion Call");
         //PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("Placeholder");
@@ -170,7 +172,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void LeaveRoom()
     {
         //needs better logic
-        
+        Debug.Log("called my LeaveRoom() handler");
         PhotonNetwork.LeaveRoom(); //sends player to WelcomeScreen as a callback (The default state of Scene 0).
         //Finishes execution AFTER opening the title menu
         MenuManager.Instance.OpenMenu("title");

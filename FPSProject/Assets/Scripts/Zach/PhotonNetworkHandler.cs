@@ -19,10 +19,13 @@ public class PhotonNetworkHandler : MonoBehaviourPunCallbacks
 
     public void LeaveRoom()
     {
+       
+        //this gets called every time the user leaves a room or lobby (in 2D gui as well)
         PhotonNetwork.LeaveRoom();
         MenuManager.Instance.OpenMenu("title");
-        GameObject.FindGameObjectWithTag("LoadingMenu").SetActive(false);       
-
+        //GameObject.FindGameObjectWithTag("LoadingMenu").SetActive(false);
+        //GameObject.FindGameObjectWithTag("TitleMenu").SetActive(true);
+       // GameObject.FindGameObjectWithTag("WelcomeMenu").SetActive(false);
     }
    
 

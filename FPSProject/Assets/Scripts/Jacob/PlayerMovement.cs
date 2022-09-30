@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour
         if (!PV.IsMine)
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
-            //I'm not instantiating the gun at the moment. Logic for that will go here -zach
+            //wheres the other people's guns ?
             
         }
         keybinds = GetComponent<PlayerSettings>();
