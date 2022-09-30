@@ -8,7 +8,18 @@ using System.Linq;
 using UnityEngine.UI;
 using ExitGames;
 
+/*
+    Author: Zach Emerson
+    Creation: 9/2/22
+    Last Edit: 9/29/22 -Zach
 
+    Launcher.cs currently:
+    -Auto connect to Photon on launch (its hard coded to only connect upon launching the game)
+    -Displays ping
+    -Allows for creation of Rooms
+    -instantiates Prefabs for Players and Rooms in the 2D menu GUI
+    -startGame() for the host of a Room
+*/
 public class Launcher : MonoBehaviourPunCallbacks
 {
     public static Launcher Instance;
@@ -139,6 +150,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public void ConnectManually()
     {
+        //needs better logic
+        //its buggy 
         Debug.Log("attempting to reconnect...");
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -156,7 +169,10 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void LeaveRoom()
     {
-        PhotonNetwork.LeaveRoom();
+        //needs better logic
+        
+        PhotonNetwork.LeaveRoom(); //sends player to WelcomeScreen as a callback (The default state of Scene 0).
+        //Finishes execution AFTER opening the title menu
         MenuManager.Instance.OpenMenu("title");
 
     }

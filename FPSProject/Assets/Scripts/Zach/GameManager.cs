@@ -12,6 +12,11 @@ using Photon.Realtime;
 public class GameManager : MonoBehaviourPunCallbacks
 {
     public GameObject playerPrefab;
+    //right now, I'm using PlayerManager instead.
+    //Later, We'll want to instantiate other objects as prefabs that are not unique to a single player.
+    //That's what this file is for.
+    //I might do it elsewhere, not sure yet.
+
     #region Photon Callbacks
 
 

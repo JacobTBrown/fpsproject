@@ -6,8 +6,6 @@ using System.IO;
 
 
 
-//[RequireComponent(typeof(CharacterController))] refactor this
-
 public class PlayerManager : MonoBehaviour
 {
     PhotonView PV;
@@ -18,9 +16,6 @@ public class PlayerManager : MonoBehaviour
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
-       
-        //SettingsPanel = 
-
     }
     CharacterController cc;
     private void Start()
@@ -29,22 +24,12 @@ public class PlayerManager : MonoBehaviour
         {
             createController();
         }
-        if (!PV.IsMine)
-        {
-           //GetComponentInChildren<Camera>().enabled = false;
-          // GetComponentInChildren<AudioListener>().enabled = false;
-        }//  Calling Destroy in PlayerMovement instead - Zach 9-28
+
     }
     void createController()
     {
-        
-        //I moved this part to the Game Manager
+
         Debug.Log("PlayerManager.cs called createController()!");
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);
-        //this should create a settings panel for each prefab
-        //zach/jacob
-        //playerSettings = GameObject.Find("Player(Clone)").GetComponent<PlayerSettings>();
-        //Instantiate(playerSettings.settingPanel, GameObject.Find("Canvas").GetComponent<Transform>());
-        //GameObject.Find("SettingPanel(Clone)").SetActive(false);
-    }
+    }   
 }

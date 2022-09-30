@@ -9,17 +9,16 @@ using UnityEngine.UI;
 /*
     Author: Jacob Brown
     Creation: 9/19/22
-    Last Edit: 9/21/22
+    Last Edit: 9/29/22 -Zach
 
     A class representing all of the actions that a player can take along 
     with the default key-mappings associated with said actions.
 */
 public class PlayerSettings : MonoBehaviour
 {
-    //PlayerSettings Instance;
-    //I think we need to create an instance of PlayerSettings for each player,
-    //this way, each player prefab that we create will have their own settings
+    PhotonView PV; //needed for the reference to the player prefab 
     MenuManager menuManager;
+    GameObject errorTextPopup;
     [SerializeField] TMP_Text errorText;
     public GameObject settingPanel;
     [Header("User Mouse Settings")]
@@ -32,8 +31,7 @@ public class PlayerSettings : MonoBehaviour
     public Slider mouseXSlider;
     // For the user to invert the Y mouse look
     public bool invertMouse = false;
-    //Zach's multiplayer lines below
-    PhotonView PV;
+ 
     [Header("User Keybinds")]
     public Dictionary<KeycodeFunction, KeyCode> inputSystemDic = new Dictionary<KeycodeFunction, KeyCode>() {
         { KeycodeFunction.leftMove, KeyCode.A},
@@ -55,18 +53,12 @@ public class PlayerSettings : MonoBehaviour
             mouseYSlider = GameObject.FindGameObjectWithTag("SliderV").GetComponent<Slider>();
             mouseXSlider = GameObject.FindGameObjectWithTag("SliderH").GetComponent<Slider>();
             settingPanel.SetActive(false);
+            errorTextPopup = GameObject.Find("ErrorTextPopup");
+            errorText = errorTextPopup.GetComponent<TMP_Text>();
+            errorTextPopup.SetActive(false);
 
-        }
-
-        if (!PV.IsMine)
-        {
-            Destroy(GameObject.Find("SettingPanel"));
-            //Destroy(GameObject.FindGameObjectWithTag("SliderV").GetComponent<Slider>());
-            //Destroy(GameObject.FindGameObjectWithTag("SliderH").GetComponent<Slider>());
         }
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (!PV.IsMine)
@@ -87,11 +79,9 @@ public class PlayerSettings : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 //// Make the cursor invisible
                 Cursor.visible = false;
-                //Debug.Log("panel was active");
             }
             else
             {
-                //Debug.Log("panel was inactive");
                 settingPanel.SetActive(settingPanel.activeInHierarchy);
                 // Lock the cursor to the center of the screen 
                 Cursor.lockState = CursorLockMode.None;
@@ -107,7 +97,7 @@ public class PlayerSettings : MonoBehaviour
         if (inputSystemDic.Values.Contains(keyCode))
         {
             Debug.Log(keyCode + "：Button logic already exists");
-            menuManager.OpenMenu("error");
+            MenuManager.Instance.OpenMenu("error");
             errorText.text = "That key is already in use";
             return true;
         }

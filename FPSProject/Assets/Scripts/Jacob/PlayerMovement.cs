@@ -39,10 +39,8 @@ public class PlayerMovement : MonoBehaviour
     public MovementState playerState;
     //Adding just a few lines below for PUN
     public PhotonView PV;
-    //PlayerMovement Instance;
     private void Awake()
     {
-        //Instance = this;
         PV = GetComponent<PhotonView>();
     }
     public enum MovementState {
@@ -55,8 +53,8 @@ public class PlayerMovement : MonoBehaviour
         if (!PV.IsMine)
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
-            //Destroy(GetComponent<Player>().gameObject);
-            //return;
+            //I'm not instantiating the gun at the moment. Logic for that will go here -zach
+            
         }
         keybinds = GetComponent<PlayerSettings>();
         playerCam = GetComponentInChildren<PlayerCameraMovement>();
@@ -68,8 +66,7 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         if (PV.IsMine)
-        {   //every player is running this script on their client. 
-            //this is the only line that tells photon not to move the character.. ?
+        {  
             CheckForGround();
             GetInputs();
             UpdateState();

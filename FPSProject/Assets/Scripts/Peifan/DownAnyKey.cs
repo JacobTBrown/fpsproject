@@ -19,7 +19,6 @@ public class DownAnyKey : MonoBehaviour
         inputtext.text = curKetCode.ToString();
         buttonColor = button.image.color;
     }
-    // Update is called once per frame
     void Update()
     {
         if (IsChangeKey)
