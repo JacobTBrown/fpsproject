@@ -19,7 +19,7 @@ namespace Unity.Scripts.Jonathan
 
 			player.GetComponent<Rigidbody>().velocity = new Vector3(0,0,0);
 	        player.transform.position = transform.position + new Vector3(0,2,0);
-			player.GetComponentInChildren <PlayerDamageable>().currentHealth = 100f;
+			//player.GetComponentInChildren<PlayerDamageable>().currentHealth = 100f; //moved to PlayerDamagable.cs
 		}
 	
 	}

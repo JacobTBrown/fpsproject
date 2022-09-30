@@ -17,7 +17,9 @@ namespace Unity.Scripts.Jonathan
 	    {
 			Instance = this;
 	        SpawnPoints = new List<SpawnController>();
+
 	        EventManager.AddListener<PlayerDeathEvent>(OnPlayerDeath);
+
 	        strategy = new RandomSpawnStrategy();
 	    }
 	

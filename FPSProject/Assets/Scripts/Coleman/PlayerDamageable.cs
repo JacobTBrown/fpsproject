@@ -12,16 +12,27 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
     public GameObject player;
     public PhotonView PV;
 
+    void Awake()
+    {
+        player = transform.parent.gameObject;
+        PV = player.GetComponent<PhotonView>();
+        
+
+    }
     void Start()
     {
-        
-        player = transform.parent.gameObject;
-        currentHealth = maxHealth;
-        healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
 
+        //Debug.Log(PV.name.ToString());
+        // if (PV.IsMine)
+        // {
+      
+        healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
         healthBar.SetMaxHealth(maxHealth);
-        PhotonView PV = player.GetComponent<PhotonView>();
-        Debug.Log(PV.name.ToString());
+        currentHealth = maxHealth;
+
+            //healthBar.SetMaxHealth(100);
+            Debug.Log(currentHealth);
+        //}
     }
 
     void Update()
@@ -45,9 +56,12 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
             if (PV.IsMine)
             {
                 evt.player = player;
-            
+                currentHealth = 100;
+                healthBar.SetHealth(currentHealth);
                 EventManager.Broadcast(evt);
+                
             }
+            
             Debug.Log("A player has died!");
             
             //Destroy(transform.gameObject);
