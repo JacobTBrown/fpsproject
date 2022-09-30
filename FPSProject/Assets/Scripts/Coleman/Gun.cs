@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Gun : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private GunData gunData;
+    [SerializeField] public GunData gunData;
     [SerializeField] private Transform muzzle;
     [SerializeField] private ParticleSystem flash;
+    public Text ammoCounter;
     Animator animator;
     AudioSource[] sounds;
     AudioSource gunshot;
@@ -29,13 +31,16 @@ public class Gun : MonoBehaviour
         gunData.isReloading = true;
         reload.Play();
         yield return new WaitForSeconds(gunData.reloadTime);
+        if (gunData.reserveAmmo != -1) gunData.reserveAmmo -= gunData.magSize - gunData.currentAmmo;
         gunData.currentAmmo = gunData.magSize;
         gunData.isReloading = false;
     }
 
+    private void OnDisable() => gunData.isReloading = false;
+
     public void ReloadInit()
     {
-        if(!gunData.isReloading && gunData.magSize != gunData.currentAmmo)
+        if(!gunData.isReloading && gunData.magSize != gunData.currentAmmo && this.gameObject.activeSelf)
         {
             StartCoroutine(Reload());
             animator.SetTrigger("Reload");
@@ -57,7 +62,7 @@ public class Gun : MonoBehaviour
     {
         if (gunData.currentAmmo > 0)
         {
-            if(canShoot())
+            if (canShoot())
             {
                 if (Physics.Raycast(muzzle.position, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
                 {
@@ -75,12 +80,16 @@ public class Gun : MonoBehaviour
     {
         timeSinceLastShot += Time.deltaTime;
         Debug.DrawRay(muzzle.position, muzzle.forward);
+        if(gunData.reserveAmmo == -1) ammoCounter.text = gunData.currentAmmo.ToString() + "/\u221e";
+        else ammoCounter.text = gunData.currentAmmo.ToString() + "/" + gunData.reserveAmmo.ToString();
     }
 
     private void OnGunShot()
     {
-        flash.Play();
-        gunshot.Play();
-        animator.SetTrigger("Shoot");
+        if (this.gameObject.activeSelf) {
+            flash.Play();
+            gunshot.Play();
+            animator.SetTrigger("Shoot");
+        }
     }
 }

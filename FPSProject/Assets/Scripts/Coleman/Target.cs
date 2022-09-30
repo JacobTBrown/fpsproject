@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Target : MonoBehaviour, IDamageable
 {
-    private float health = 100f;
+    [SerializeField] float health = 100f;
     public void Damage(float damage)
     {
         health -= damage;
@@ -12,7 +12,7 @@ public class Target : MonoBehaviour, IDamageable
         if (health <= 0)
         {
             Debug.Log("Target Destroyed!");
-            Destroy(transform.parent.gameObject);
+            Destroy(transform.gameObject);
         }
     }
 }
