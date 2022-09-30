@@ -2468,12 +2468,12 @@ PrefabInstance:
     - target: {fileID: 5233198684285747256, guid: b35dc2e80b4aef44b96e489c1d5d4a5e,
         type: 3}
       propertyPath: m_Name
-      value: TitleScreenButton
+      value: TitleScreenButton-too-buggy-reconnects-to-photon
       objectReference: {fileID: 0}
     - target: {fileID: 5233198684285747256, guid: b35dc2e80b4aef44b96e489c1d5d4a5e,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5233198684285747613, guid: b35dc2e80b4aef44b96e489c1d5d4a5e,
         type: 3}

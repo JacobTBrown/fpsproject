@@ -17,6 +17,8 @@ using UnityEngine.UI;
 public class PlayerSettings : MonoBehaviour
 {
     PhotonView PV; //needed for the reference to the player prefab 
+    PlayerManager playermanager; //to send data to the playerManager, which will instantate our playerPrefab.
+
     MenuManager menuManager;
     GameObject errorTextPopup;
     [SerializeField] TMP_Text errorText;
@@ -47,6 +49,8 @@ public class PlayerSettings : MonoBehaviour
 
     void Start() {
         PV = GetComponent<PhotonView>();
+        playermanager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
+
         if (PV.IsMine)
         {
             settingPanel = GameObject.Find("SettingPanel");
@@ -109,6 +113,12 @@ public class PlayerSettings : MonoBehaviour
             inputSystemDic[keycodeFunction] = keyCode;
             return false;
         }
+    }
+
+    //Testing lines below for multiplayer - zach - 9-30
+    void Die()
+    {
+        playermanager.KillPlayer();
     }
 }
 public enum KeycodeFunction

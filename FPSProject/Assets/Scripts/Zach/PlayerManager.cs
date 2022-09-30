@@ -26,7 +26,7 @@ public class PlayerManager : MonoBehaviour
     }
     
     CharacterController cc;
-
+    GameObject controllerAsGameObject;
     //GameObject controllerRefrence
     //CharacterController cc;
     private void Start()
@@ -45,17 +45,19 @@ public class PlayerManager : MonoBehaviour
 
 
         
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);
+        //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);
         //https://forum.photonengine.com/discussion/1577/how-to-use-photonnetwork-instantiate-with-object-data
         //TODO: WRITE MULTIPLAYER LOGIC FOR JONATHAN'S CODE
         //List<SpawnController>spawnPoint = SpawnManager.Instance.SpawnPoints;
         //with spawn points we need a reference to the player before we kill it. Because we literally destroy the GameObject
-        //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint.spawn[0], Quaternion.identity, 0, new object[] {//idk}) ;
-
+        controllerAsGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity, 0, new object[] { PV.ViewID });  
+        //Instantiates the player prefab with a PhotonViewID
+        //With that, the playerController will have a reference to send data back to the PlayerManager
 
     }
     public void KillPlayer()
     {
+        PhotonNetwork.Destroy(controllerAsGameObject);
         Debug.Log("PlayerManager.cs called KillPlayer()");
         //PhotonNetwork.Destroy(controllerReference);
         createController();
