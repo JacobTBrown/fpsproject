@@ -3,8 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-
-
+using Unity.Scripts.Jonathan;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -17,7 +16,11 @@ public class PlayerManager : MonoBehaviour
     {
         PV = GetComponent<PhotonView>();
     }
+    
     CharacterController cc;
+
+    //GameObject controllerRefrence
+    //CharacterController cc;
     private void Start()
     {
         if (PV.IsMine)
@@ -29,7 +32,21 @@ public class PlayerManager : MonoBehaviour
     void createController()
     {
 
-        Debug.Log("PlayerManager.cs called createController()!");
+        //Debug.Log("PlayerManager.cs called createController()!");
+        List<SpawnController>spawnPoint = SpawnManager.Instance.SpawnPoints;
+
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);
-    }   
+
+
+        //with spawn points we need a reference to the player before we kill it. Because we literally destroy the GameObject
+        //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint.spawn[0], Quaternion.identity, 0, new object[] {}) ;
+
+
+    }
+    public void KillPlayer()
+    {
+        Debug.Log("PlayerManager.cs called KillPlayer()");
+        //PhotonNetwork.Destroy(controllerReference);
+        createController();
+    }
 }

@@ -61,9 +61,12 @@ public class PlayerSettings : MonoBehaviour
     }
     void Update()
     {
-        if (!PV.IsMine)
+        if (PV)
         {
-            return;
+            if (!PV.IsMine)
+            {
+                return;
+            }
         }
         mouseXSensitivity = mouseXSlider.value * 5;
         mouseYSensitivity = mouseYSlider.value * 5;

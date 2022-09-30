@@ -6,13 +6,16 @@ namespace Unity.Scripts.Jonathan
 {
 	public class SpawnManager : MonoBehaviour
 	{
-	    private List<SpawnController> SpawnPoints;
+		//we'll need to access this elsewhere for the multiplayer
+	    public List<SpawnController> SpawnPoints;
 	    
 	    public int NumberofSpawnPoints = 0;
 	    public SpawnStrategy strategy;
-	   
+		public static SpawnManager Instance;
+
 	    void Awake()
 	    {
+			Instance = this;
 	        SpawnPoints = new List<SpawnController>();
 	        EventManager.AddListener<PlayerDeathEvent>(OnPlayerDeath);
 	        strategy = new RandomSpawnStrategy();

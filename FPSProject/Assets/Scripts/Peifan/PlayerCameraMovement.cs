@@ -37,7 +37,7 @@ public class PlayerCameraMovement : MonoBehaviour
 
     void Update()
     {
-   
+            if (playerMove.PV)
         if (playerMove.PV.IsMine)
         {
 

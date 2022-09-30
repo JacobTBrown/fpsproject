@@ -173,6 +173,23 @@ public class PlayerMovement : MonoBehaviour
         else
             playerRigidbody.drag = airDrag;
     }
+
+    public void TakeDamage(float damage)
+    {
+        Debug.Log("took damage : " + damage);
+        PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
+    }
+    [PunRPC]
+    void RPC_TakeDamage(float damage)
+    {
+        if (!PV.IsMine)
+        {
+            Debug.Log("not your player!");
+            return;
+        }
+        Debug.Log("RPC took damage! damage: " + damage);
+        
+    }
 }
 
 /* -- note from Zach 9/29 -- 
