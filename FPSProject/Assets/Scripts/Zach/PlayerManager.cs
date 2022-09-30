@@ -33,11 +33,13 @@ public class PlayerManager : MonoBehaviour
     {
 
         //Debug.Log("PlayerManager.cs called createController()!");
-        List<SpawnController>spawnPoint = SpawnManager.Instance.SpawnPoints;
+        
 
+       
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);
 
-
+        //TODO: WRITE LOGIC FOR JONATHAN'S CODE
+        //List<SpawnController>spawnPoint = SpawnManager.Instance.SpawnPoints;
         //with spawn points we need a reference to the player before we kill it. Because we literally destroy the GameObject
         //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnPoint.spawn[0], Quaternion.identity, 0, new object[] {}) ;
 
