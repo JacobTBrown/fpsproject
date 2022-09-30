@@ -115,6 +115,32 @@ public class PlayerMovement : MonoBehaviour
             horizontalZInput = -1;
         else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.upMove]))
             horizontalZInput = 1;
+
+        if ((Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.upMove])
+            && Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.leftMove])))
+        {
+            horizontalZInput = 0.5f;
+            horizontalXInput = -0.5f;
+        }
+        else if ((Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.upMove])
+            && Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.rightMove])))
+        {
+            horizontalZInput = 0.5f;
+            horizontalXInput = 0.5f;
+        }
+
+        if ((Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.downMove])
+            && Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.leftMove])))
+        {
+            horizontalZInput = -0.5f;
+            horizontalXInput = -0.5f;
+        }
+        else if ((Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.downMove])
+            && Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.rightMove])))
+        {
+            horizontalZInput = -0.5f;
+            horizontalXInput = 0.5f;
+        }
     }
 
     public void UpdateState() {

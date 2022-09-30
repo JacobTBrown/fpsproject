@@ -2470,6 +2470,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: 3DPlayerDemo
       objectReference: {fileID: 0}
+    - target: {fileID: 9152074027521290316, guid: e8acf9210cbeea644a5938dbf5b4f9d5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9152074027521290318, guid: e8acf9210cbeea644a5938dbf5b4f9d5,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode

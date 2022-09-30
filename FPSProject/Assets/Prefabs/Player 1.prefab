@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2002808868783662938}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.496, y: 0.319, z: -0.2}
+  m_LocalPosition: {x: -0.599, y: 0.25, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2006935314978236399}
@@ -51,7 +51,6 @@ MonoBehaviour:
   gunData: {fileID: 11400000, guid: 227dee7a740b23f478691f2746945596, type: 2}
   muzzle: {fileID: 2002808868805825866}
   flash: {fileID: 2002808868805825864}
-  ammoCounter: {fileID: 0}
 --- !u!95 &2002808868783662937
 Animator:
   serializedVersion: 3
@@ -5163,7 +5162,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 6.9e-44, z: 7.372e-42, w: 6e-44}
+  m_BoundingSphereOverride: {x: 7.48e-43, y: 7.1e-44, z: 0, w: -4.15839}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -5307,10 +5306,8 @@ GameObject:
   - component: {fileID: 3173107398918425437}
   - component: {fileID: 2177449969952911222}
   - component: {fileID: -5931245863507772595}
-  - component: {fileID: -5744510429079796653}
-  - component: {fileID: -8896846525926025363}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Player 1
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5457,7 +5454,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 252e31a1f3893a447873f0b398969e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  errorText: {fileID: 0}
   settingPanel: {fileID: 0}
   mouseXSensitivity: 500
   mouseYSensitivity: 500
@@ -5491,7 +5487,6 @@ MonoBehaviour:
   isOnGround: 1
   canDoubleJump: 0
   playerState: 0
-  PV: {fileID: 0}
 --- !u!114 &2177449969952911222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5528,45 +5523,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b4d1fa0b1362e034db2488e82cfdebc7, type: 3}
   - {fileID: 8300000, guid: 4b20e47e97a49b24595efb5c3f653a6e, type: 3}
   - {fileID: 8300000, guid: ae9dd47a2692cb5499fbdb51f9b8943a, type: 3}
---- !u!114 &-5744510429079796653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3173107398918425439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  observableSearch: 2
-  ObservedComponents:
-  - {fileID: -8896846525926025363}
-  sceneViewId: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &-8896846525926025363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3173107398918425439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!1 &3173107399746349718
 GameObject:
   m_ObjectHideFlags: 0
@@ -5609,10 +5565,9 @@ GameObject:
   - component: {fileID: 3173107400187305607}
   - component: {fileID: 3173107400187305608}
   - component: {fileID: 3173107400187305609}
-  - component: {fileID: 2860633775319273357}
   m_Layer: 0
   m_Name: Player Body
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5692,23 +5647,6 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2860633775319273357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3173107400187305612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f52bc7a4affef5c489e83f59bfed3838, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentHealth: 0
-  maxHealth: 100
-  healthBar: {fileID: 0}
-  player: {fileID: 0}
-  PV: {fileID: 0}
 --- !u!1 &4017857724056262080
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,6 +18,8 @@ public class Gun : MonoBehaviour
     float timeSinceLastShot;
     private void Start()
     {
+        ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
+        
         PlayerShoot.shootInput += Shoot;
         PlayerShoot.reloadInput += ReloadInit;
         animator = GetComponent<Animator>();
@@ -80,6 +82,7 @@ public class Gun : MonoBehaviour
     {
         timeSinceLastShot += Time.deltaTime;
         Debug.DrawRay(muzzle.position, muzzle.forward);
+     
         if(gunData.reserveAmmo == -1) ammoCounter.text = gunData.currentAmmo.ToString() + "/\u221e";
         else ammoCounter.text = gunData.currentAmmo.ToString() + "/" + gunData.reserveAmmo.ToString();
     }

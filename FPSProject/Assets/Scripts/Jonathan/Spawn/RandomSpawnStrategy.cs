@@ -12,10 +12,19 @@ namespace Unity.Scripts.Jonathan
 	    Function: Selects random SpawnPoint From List and transforms player above the position
 	
 	*/
-	    public void HandlePlayerSpawn(GameObject player, List<SpawnController> SpawnPoints){
+	  /*  public void HandlePlayerSpawn(GameObject player, List<SpawnController> SpawnPoints){
 	        SpawnController selectedSpawnPoint = SpawnPoints[Random.Range(0,SpawnPoints.Count)];
 	
 	        selectedSpawnPoint.SpawnPlayer(player);
-	    }
+	    }*/
+		
+		public Vector3 HandlePlayerSpawn(GameObject player, List<SpawnController> SpawnPoints)
+		{
+			SpawnController selectedSpawnPoint = SpawnPoints[Random.Range(0, SpawnPoints.Count)];
+
+			selectedSpawnPoint.SpawnPlayer(player);
+			
+			return selectedSpawnPoint.transform.position;
+		}
 	}
 }

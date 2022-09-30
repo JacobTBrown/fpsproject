@@ -6,6 +6,6 @@ namespace Unity.Scripts.Jonathan
 {
     public interface SpawnStrategy
     {
-        void HandlePlayerSpawn(GameObject player, List<SpawnController> SpawnPoints);
+        Vector3 HandlePlayerSpawn(GameObject player, List<SpawnController> SpawnPoints);
     }
 }

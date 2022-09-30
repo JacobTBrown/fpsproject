@@ -58,8 +58,8 @@ public class PlayerSettings : MonoBehaviour
             mouseXSlider = GameObject.FindGameObjectWithTag("SliderH").GetComponent<Slider>();
             settingPanel.SetActive(false);
             errorTextPopup = GameObject.Find("ErrorTextPopup");
-            errorText = errorTextPopup.GetComponent<TMP_Text>();
-            errorTextPopup.SetActive(false);
+            //errorText = errorTextPopup.GetComponent<TMP_Text>();
+            //errorTextPopup.SetActive(false);
 
         }
     }

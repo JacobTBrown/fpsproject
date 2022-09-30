@@ -15,6 +15,7 @@ using Unity.Scripts.Jonathan;
  */
 public class PlayerManager : MonoBehaviour
 {
+    SpawnManager spawnReference;
     PhotonView PV;
     [SerializeField] GameObject SettingsPanel;
     PlayerSettings playerSettings;
@@ -31,6 +32,7 @@ public class PlayerManager : MonoBehaviour
     //CharacterController cc;
     private void Start()
     {
+        spawnReference = GameObject.Find("GameManager").GetComponent<SpawnManager>();
         if (PV.IsMine)
         {
             createController();
@@ -39,12 +41,10 @@ public class PlayerManager : MonoBehaviour
     }
     void createController()
     {
-        
+       // int seed = Random.Range(0, spawnReference.SpawnPoints.length);
 
-        //Debug.Log("PlayerManager.cs called createController()!");
+        Debug.Log("PlayerManager.cs called createController()!");
 
-
-        
         //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);
         //https://forum.photonengine.com/discussion/1577/how-to-use-photonnetwork-instantiate-with-object-data
         //TODO: WRITE MULTIPLAYER LOGIC FOR JONATHAN'S CODE
