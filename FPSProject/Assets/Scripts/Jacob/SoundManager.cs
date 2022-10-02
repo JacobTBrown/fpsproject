@@ -24,7 +24,7 @@ public class SoundManager : MonoBehaviour
         while(true) {
             if (i > 9) i = 0;
             float vel = playerRigidbody.velocity.magnitude;
-            if (playerMovement.isOnGround && vel > 2f)
+            if (playerMovement.playerState != PlayerMovement.MovementState.slowwalking && playerMovement.isOnGround && vel > 2f)
             {
                 audioSource.clip = footsteps[i];
                 if (playerMovement.playerState == PlayerMovement.MovementState.walking) {

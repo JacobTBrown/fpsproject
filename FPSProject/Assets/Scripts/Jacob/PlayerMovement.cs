@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     private float moveSpeed;
     // All values are set in the inspector
     public float groundDrag;
+    public float groundSlowWalkSpeed;
     public float groundWalkSpeed;
     public float groundSprintSpeed;
     public float airDrag;
@@ -44,6 +45,7 @@ public class PlayerMovement : MonoBehaviour
         PV = GetComponent<PhotonView>();
     }
     public enum MovementState {
+        slowwalking,
         walking,
         sprinting,
         inAir,
@@ -72,8 +74,6 @@ public class PlayerMovement : MonoBehaviour
             UpdateState();
             ApplyDrag();
         }
-      
-        
     }
 
     void FixedUpdate() {
@@ -86,7 +86,6 @@ public class PlayerMovement : MonoBehaviour
                 Jump();
             }
         }
-
     }
 
     private void CheckForGround() {
@@ -144,7 +143,11 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void UpdateState() {
-        if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.sprint]) && isOnGround) {
+        if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.slowwalk]) && isOnGround) {
+            playerState = MovementState.slowwalking;
+            moveSpeed = groundSlowWalkSpeed;
+            canDoubleJump = true;
+        } else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.sprint]) && isOnGround) {
             //IEnumerator coroutine = playerCam.AdjustFov(90);
             //StartCoroutine(coroutine);
             playerState = MovementState.sprinting;

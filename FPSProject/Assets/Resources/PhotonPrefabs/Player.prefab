@@ -5482,6 +5482,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   groundDrag: 5
+  groundSlowWalkSpeed: 25
   groundWalkSpeed: 50
   groundSprintSpeed: 80
   airDrag: 0.75
@@ -5490,7 +5491,7 @@ MonoBehaviour:
   doubleJumpTimer: 0.5
   isOnGround: 1
   canDoubleJump: 0
-  playerState: 0
+  playerState: 1
   PV: {fileID: 0}
 --- !u!114 &2177449969952911222
 MonoBehaviour:
