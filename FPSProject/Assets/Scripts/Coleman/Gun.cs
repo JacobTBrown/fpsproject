@@ -10,6 +10,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private Transform muzzle;
     [SerializeField] private ParticleSystem flash;
     public Text ammoCounter;
+    public bool settingsOpen = false;
     Animator animator;
     AudioSource[] sounds;
     AudioSource gunshot;
@@ -19,7 +20,6 @@ public class Gun : MonoBehaviour
     private void Start()
     {
         ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
-        
         PlayerShoot.shootInput += Shoot;
         PlayerShoot.reloadInput += ReloadInit;
         animator = GetComponent<Animator>();
@@ -51,7 +51,7 @@ public class Gun : MonoBehaviour
 
     private bool canShoot()
     {
-        if (!gunData.isReloading && timeSinceLastShot > 1f / (gunData.fireRate / 60f))
+        if (!gunData.isReloading && timeSinceLastShot > 1f / (gunData.fireRate / 60f) && !settingsOpen)
         {
             return true;
         }

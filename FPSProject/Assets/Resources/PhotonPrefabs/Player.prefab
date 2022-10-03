@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2002808868783662938}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.496, y: 0.319, z: -0.2}
+  m_LocalPosition: {x: -0.599, y: 0.25, z: -0.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2006935314978236399}
@@ -52,6 +52,7 @@ MonoBehaviour:
   muzzle: {fileID: 2002808868805825866}
   flash: {fileID: 2002808868805825864}
   ammoCounter: {fileID: 0}
+  settingsOpen: 0
 --- !u!95 &2002808868783662937
 Animator:
   serializedVersion: 3
@@ -5459,6 +5460,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   errorText: {fileID: 0}
   settingPanel: {fileID: 0}
+  canvas: {fileID: 0}
+  weaponHolder: {fileID: 0}
   mouseXSensitivity: 500
   mouseYSensitivity: 500
   mouseYSlider: {fileID: 0}

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - SliderH
   - SliderV
+  - Settings
   layers:
   - Default
   - TransparentFX
