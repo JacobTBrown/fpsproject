@@ -103,7 +103,7 @@ public class Launcher : MonoBehaviourPunCallbacks
             Destroy(child.gameObject);
         }
         Player[] players = PhotonNetwork.PlayerList;
-
+    
         for (int i = 0; i < players.Count(); i++)
         {
             Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
@@ -180,11 +180,15 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        foreach (Transform trans in roomListContent)
-        {
-            Destroy(trans.gameObject);
-        }
+        foreach (Transform trans in roomListContent )
         for (int i = 0; i < roomList.Count; i++)
+            if (roomList[i].Name == trans.name)
+              
+             {
+
+                 Destroy(trans.gameObject);
+             }
+            for (int i = 0; i < roomList.Count; i++)
         {
             if (roomList[i].PlayerCount >7) { roomList[i].RemovedFromList = true;  }
             if (roomList[i].RemovedFromList) { continue; }
