@@ -16,8 +16,6 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
     {
         player = transform.parent.gameObject;
         PV = player.GetComponent<PhotonView>();
-        
-
     }
     void Start()
     {
@@ -44,11 +42,15 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         }
         healthBar.SetHealth(currentHealth);
     }
+
     public void Damage(float damage)
     {
-        currentHealth -= damage;
-        healthBar.SetHealth(currentHealth);
-        Debug.Log("Hit Player for " + damage + " damage. Player is now at " + currentHealth + " HP.");
+        if(PV.IsMine)
+        {
+            currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
+            Debug.Log("Hit Player for " + damage + " damage. Player is now at " + currentHealth + " HP.");
+        }
         if (currentHealth <= 0)
         {
 

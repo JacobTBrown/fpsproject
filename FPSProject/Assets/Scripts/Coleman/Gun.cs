@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,6 +10,8 @@ public class Gun : MonoBehaviour
     [SerializeField] public GunData gunData;
     [SerializeField] private Transform muzzle;
     [SerializeField] private ParticleSystem flash;
+    public GameObject player;
+    public PhotonView PV;
     public Text ammoCounter;
     public bool settingsOpen = false;
     Animator animator;
@@ -17,6 +20,7 @@ public class Gun : MonoBehaviour
     AudioSource reload;
 
     float timeSinceLastShot;
+
     private void Start()
     {
         ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
@@ -26,6 +30,11 @@ public class Gun : MonoBehaviour
         sounds = GetComponents<AudioSource>();
         gunshot = sounds[0];
         reload = sounds[1];
+    }
+    void Awake()
+    {
+        player = transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject;
+        PV = player.GetComponent<PhotonView>();
     }
 
     private IEnumerator Reload()
@@ -60,21 +69,31 @@ public class Gun : MonoBehaviour
             return false;
         }
     }
+
     public void Shoot()
     {
-        if (gunData.currentAmmo > 0)
+        if(PV.IsMine)
         {
-            if (canShoot())
+            if (gunData.currentAmmo > 0)
             {
-                if (Physics.Raycast(muzzle.position, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
+                if (canShoot())
                 {
-                    IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-                    damageable?.Damage(gunData.damage);
+                    if (Physics.Raycast(muzzle.position, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
+                    {
+                        if (hitInfo.collider.tag == "Player")
+                        {
+                            Debug.Log("Hit");
+                            hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage);
+                        }
+                        IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
+                        Debug.Log(hitInfo);
+                        damageable?.Damage(gunData.damage);
+                    }
+                    gunData.currentAmmo--;
+                    timeSinceLastShot = 0;
+                    OnGunShot();
                 }
-                gunData.currentAmmo--;
-                timeSinceLastShot = 0;
-                OnGunShot();
-            }    
+            }
         }
     }
 
