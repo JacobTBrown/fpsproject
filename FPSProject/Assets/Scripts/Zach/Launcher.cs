@@ -54,7 +54,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     void Start()
     {
-        //Debug.Log("Attemting to connect");
+        //PhotonNetwork.NickName = MasterManager.GameSettings.NickName;
+        //PhotonNetwork.GameVersion = MasterManager.GameSettings.GameVersion;
         if (!PhotonNetwork.IsConnected)
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -62,8 +63,12 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         Debug.Log("Connected");
-        PhotonNetwork.JoinLobby();
+        PhotonNetwork.JoinLobby(); //allows room list updates
         PhotonNetwork.AutomaticallySyncScene = true;     
+    }
+    public override void OnDisconnected(DisconnectCause cause)
+    {
+        Debug.Log("OnDisconnected() executed in launcher.cs");
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     { //I think its deprecated but I can't find a replacement ?
@@ -76,9 +81,21 @@ public class Launcher : MonoBehaviourPunCallbacks
         //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room 
         if (!MenuManager.Instance.menus[1].open)
         MenuManager.Instance.OpenMenu("welcome");
-        //Debug.Log("OnJoined Lobby Fucntion Call");
+       
+        Debug.Log("OnJoined Lobby Fucntion Call");
         //PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("Placeholder");
         // Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
+    }
+    public void OnClickCreateRoom()
+    {
+        RoomOptions options = new RoomOptions();
+        options.MaxPlayers = 8;
+        if (roomNameInputField != null)
+        PhotonNetwork.JoinOrCreateRoom(roomNameInputField.text, options, TypedLobby.Default );
+        else
+        {
+            Debug.Log("null name");
+        }
     }
     public void CreateRoom()
     {
@@ -87,7 +104,10 @@ public class Launcher : MonoBehaviourPunCallbacks
             Debug.Log("Room name was null");
             return;
         }
+
+
         PhotonNetwork.CreateRoom(roomNameInputField.text);
+       
         MenuManager.Instance.OpenMenu("loading");
         //loading menu will automatically close after the async call above finishes executing
     }
@@ -125,10 +145,16 @@ public class Launcher : MonoBehaviourPunCallbacks
 
 
     }
-   // public void OnFailedToConnect(NetworkConnectionError error)
+    public override void OnCreatedRoom()
+    {
+        Debug.Log("created room" + roomNameText);
+
+    }
+   
+    // public void OnFailedToConnect(NetworkConnectionError error)
     //{
-        //photon tells me to use this function but it doesn't work *shrugs* 
-//    }
+    //photon tells me to use this function but it doesn't work *shrugs* 
+    //    }
     public void CheckConnection()
     {
         if (pingAsInt == 0 || pingAsInt > 199) //When we're not connected, ping is 200
@@ -178,19 +204,27 @@ public class Launcher : MonoBehaviourPunCallbacks
         MenuManager.Instance.OpenMenu("title");
 
     }
-    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    //MOVED TO ROOMLISTINGSMENU.cs
+   /* public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        foreach (Transform trans in roomListContent)
-        {
-            Destroy(trans.gameObject);
-        }
+        
         for (int i = 0; i < roomList.Count; i++)
         {
-            if (roomList[i].PlayerCount >7) { roomList[i].RemovedFromList = true;  }
-            if (roomList[i].RemovedFromList) { continue; }
-            Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().Setup(roomList[i]);
+            if (!roomList[i].IsVisible || !roomList[i].IsOpen || roomList[i].RemovedFromList)
+            {
+                Debug.Log("dont add to list");
+                Destroy(roomList[i].trans)
+            }
+            else
+            {
+                Debug.Log(" add room to list: " + roomList[i].Name);
+                Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().Setup(roomList[i]);
+            }
+            //if (roomList[i].PlayerCount >7) { roomList[i].RemovedFromList = true;  }
+            //if (roomList[i].RemovedFromList) { continue; }
+            
         }
-    }
+    }*/
     public void startGame()
     {
         PhotonNetwork.LoadLevel(1);
@@ -200,10 +234,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
 
     }
-    public override void OnDisconnected(DisconnectCause cause)
-    {
-        base.OnDisconnected(cause);
-    }
+   
 
 }
 
