@@ -9,8 +9,10 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
     [SerializeField] public float currentHealth;
     public float maxHealth = 100f;
     public HealthBar healthBar;
+    public Animator DamageFlash;
     public GameObject player;
     public PhotonView PV;
+    AudioSource impact;
 
     void Awake()
     {
@@ -23,13 +25,14 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         //Debug.Log(PV.name.ToString());
         // if (PV.IsMine)
         // {
-      
+        impact = GetComponent<AudioSource>();
+        DamageFlash = GameObject.Find("DamageFlash").GetComponent<Animator>();
         healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
         healthBar.SetMaxHealth(maxHealth);
         currentHealth = maxHealth;
 
-            //healthBar.SetMaxHealth(100);
-            Debug.Log(currentHealth);
+        //healthBar.SetMaxHealth(100);
+        Debug.Log(currentHealth);
         //}
     }
 
@@ -40,7 +43,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
             Debug.Log("TEST DAMAGE KEY PRESSED, PLAYER TAKES 20 DAMAGE!");
             Damage(20f);
         }
-        healthBar.SetHealth(currentHealth);
+        healthBar.SetHealth(currentHealth, PV);
     }
 
     public void Damage(float damage)
@@ -48,7 +51,9 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         if(PV.IsMine)
         {
             currentHealth -= damage;
-            healthBar.SetHealth(currentHealth);
+            impact.Play();
+            DamageFlash.SetTrigger("Damage");
+            healthBar.SetHealth(currentHealth, PV);
             Debug.Log("Hit Player for " + damage + " damage. Player is now at " + currentHealth + " HP.");
         }
         if (currentHealth <= 0)
@@ -59,7 +64,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
             {
                 evt.player = player;
                 currentHealth = 100;
-                healthBar.SetHealth(currentHealth);
+                healthBar.SetHealth(currentHealth, PV);
                 EventManager.Broadcast(evt);
                 
             }

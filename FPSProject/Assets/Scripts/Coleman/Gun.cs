@@ -11,6 +11,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private Transform muzzle;
     [SerializeField] private ParticleSystem flash;
     public GameObject player;
+    public GameObject hitMarker;
     public PhotonView PV;
     public Text ammoCounter;
     public bool settingsOpen = false;
@@ -24,6 +25,8 @@ public class Gun : MonoBehaviour
     private void Start()
     {
         ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
+        hitMarker = GameObject.Find("HitMarker");
+        hitMarker.SetActive(false);
         PlayerShoot.shootInput += Shoot;
         PlayerShoot.reloadInput += ReloadInit;
         animator = GetComponent<Animator>();
@@ -83,6 +86,7 @@ public class Gun : MonoBehaviour
                         if (hitInfo.collider.tag == "Player")
                         {
                             Debug.Log("Hit");
+                            StartCoroutine(playerHit());
                             hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage);
                         }
                         IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
@@ -113,5 +117,12 @@ public class Gun : MonoBehaviour
             gunshot.Play();
             animator.SetTrigger("Shoot");
         }
+    }
+
+    private IEnumerator playerHit()
+    {
+        hitMarker.SetActive(true);
+        yield return new WaitForSeconds(.5f);
+        hitMarker.SetActive(false);
     }
 }
