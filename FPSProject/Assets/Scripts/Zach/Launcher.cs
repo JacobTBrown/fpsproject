@@ -23,15 +23,19 @@ using ExitGames;
 public class Launcher : MonoBehaviourPunCallbacks
 {
     public static Launcher Instance;
-
+    [Header("Create")]
     [SerializeField] TMP_InputField roomNameInputField;
-    [SerializeField] TMP_Text errorText;
+
+    [Header("Find Room List")]
     [SerializeField] TMP_Text roomNameText;
     [SerializeField] Transform roomListContent;
     [SerializeField] GameObject roomListItemPrefab;
+    [Header("Room")]
     [SerializeField] GameObject PlayerListItemPrefab;
     [SerializeField] Transform playerListContent;
     [SerializeField] GameObject startGameButton;
+    [Header("Utils")]
+    [SerializeField] TMP_Text errorText;
     [SerializeField] TMP_Text pingText;
     [SerializeField] Button[] multiplayerButtons;
 
@@ -74,7 +78,9 @@ public class Launcher : MonoBehaviourPunCallbacks
     { //I think its deprecated but I can't find a replacement ?
         //throws error: Referenced Script is missing (from like 10 different callbacks)
    //     base.OnJoinRoomFailed(returnCode, message);
-       Debug.Log("log error here");
+       Debug.Log("Failed to join room, log error here" + message);
+        MenuManager.Instance.OpenMenu("title");
+ 
     }
     public override void OnJoinedLobby()
     {
@@ -88,10 +94,17 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public void OnClickCreateRoom()
     {
+        //https://answers.unity.com/questions/1718924/photon-network-wont-join-random-room-with-a-custom.html
+        //ExitGames.Client.Photon.Hashtable customProperties = new ExitGames.Client.Photon.Hashtable();
+        //customProperties["Scene"] = selectedMap.map.name // this for the in-game properties i think?
+
+
         RoomOptions options = new RoomOptions();
         options.MaxPlayers = 8;
+        options.CustomRoomPropertiesForLobby = new string[] { "Key" };
+
         if (roomNameInputField != null)
-        PhotonNetwork.JoinOrCreateRoom(roomNameInputField.text, options, TypedLobby.Default );
+        PhotonNetwork.CreateRoom(roomNameInputField.text, options );
         else
         {
             Debug.Log("null name");
@@ -104,7 +117,6 @@ public class Launcher : MonoBehaviourPunCallbacks
             Debug.Log("Room name was null");
             return;
         }
-
 
         PhotonNetwork.CreateRoom(roomNameInputField.text);
        
@@ -174,7 +186,6 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             multiplayerButtons[i].gameObject.SetActive(false);
         }
-
     }
     public void ConnectManually()
     {
@@ -185,7 +196,13 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public void JoinRoom(RoomInfo info)
     {
-
+        Debug.Log("This room has: " +info.MaxPlayers + "Max players"); 
+        
+        if (info.PlayerCount == info.MaxPlayers)
+        {
+            Debug.Log("you tried to join a full room");
+            return;
+        }
         PhotonNetwork.JoinRoom(info.Name);
         MenuManager.Instance.OpenMenu("loading");
 
@@ -197,10 +214,15 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public void LeaveRoom()
     {
+        //PhotonNetwork.CurrentRoom.IsOpen = false;
+
         //needs better logic
         Debug.Log("called my LeaveRoom() handler");
+        
         PhotonNetwork.LeaveRoom(); //sends player to WelcomeScreen as a callback (The default state of Scene 0).
         //Finishes execution AFTER opening the title menu
+        
+
         MenuManager.Instance.OpenMenu("title");
 
     }
@@ -229,6 +251,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LoadLevel(1);
     }
+    
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);

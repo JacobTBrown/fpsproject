@@ -6,41 +6,76 @@ using Photon.Realtime;
 
 public class RoomListingsMenu : MonoBehaviourPunCallbacks
 {
+
     [SerializeField] private Transform _content;
     [SerializeField] private RoomListItem _roomListItemPrefab;
 
+    List<RoomInfo> fullRoomList = new List<RoomInfo>();
     private List<RoomListItem> _listings = new List<RoomListItem>();
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        //_listings = roomList;
         Debug.Log("new on room list update");
-        //foreach (RoomInfo info in roomList)
-        //{
-            for (int i = 0; i < roomList.Count; i++) {
-                if (roomList[i].RemovedFromList)
-                {
-                    Destroy(_listings[i].gameObject);
-                    _listings.RemoveAt(i);
-                    Debug.Log("removed from list");
-                    /*int index = _listings.FindIndex(x => x.info.Name == info.Name);
-                    if (index != -1)
-                    {
-                        Destroy(_listings[index].gameObject);
-                        _listings.RemoveAt(index);
-                    }*/
-                }
-            else
+        foreach (RoomInfo updatedRoom in roomList)
+        {
+            if (updatedRoom.RemovedFromList)
             {
-                Debug.Log("Instantiated a room" + roomList[i].Name);
-                RoomListItem listing = Instantiate(_roomListItemPrefab, _content);
-                if (listing != null)
+                fullRoomList.Remove(updatedRoom);
+                Debug.Log("removed from list ");
+                RenderRoomList();
+                continue;
+            }
+            RoomInfo existingRoom = fullRoomList.Find(x => x.Name.Equals(updatedRoom.Name)); //foreach room, check to see it it already exists & store it in existingRoom
+            
+            if (existingRoom == null)
+            {
+                Debug.Log("esiting room did not exist");
+
+                fullRoomList.Add(updatedRoom); //Existing room does not exist, so add to list of full rooms
+                Debug.Log(updatedRoom.PlayerCount + "total palyer count just added");
+                if (updatedRoom.PlayerCount == 0)
                 {
-                    Debug.Log("populating with room");
-                    listing.Setup(roomList[i]);
-                    _listings.Add(listing);
+                    fullRoomList.Remove(updatedRoom);
+                    Debug.Log("removed that");
+                    updatedRoom.RemovedFromList = true;
+                }
+                else if (updatedRoom.RemovedFromList)
+                {
+                    fullRoomList.Remove(existingRoom);
+                }
+                else if (updatedRoom.PlayerCount == 1)
+                {
+                    Debug.Log("player count was 1");
+                    fullRoomList.Remove(existingRoom);
+                }
+                else if (updatedRoom.PlayerCount == 0)
+                {
+                    Debug.Log("player count was 0");
+                    fullRoomList.Remove(existingRoom);
+                }
+
+                RenderRoomList();
+            }
+
+
+            void RenderRoomList()
+            {
+                RemoveRoomList();
+                foreach (RoomInfo roomInfo in fullRoomList)
+                {
+                    RoomListItem roomListItem = Instantiate(_roomListItemPrefab, _content).GetComponent<RoomListItem>();
+                    roomListItem.Setup(roomInfo);
+                    _listings.Add(roomListItem);
                 }
             }
-        }
-            
+            void RemoveRoomList()
+            {
+                foreach (RoomListItem roomListItem in _listings)
+                {
+                    Destroy(roomListItem.gameObject);
+                }
+                _listings.Clear();
+            }
         }
     }
-
+}

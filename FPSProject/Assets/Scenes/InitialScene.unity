@@ -494,7 +494,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roomNameInputField: {fileID: 748838324}
-  errorText: {fileID: 2116535466}
   roomNameText: {fileID: 630483120}
   roomListContent: {fileID: 815785699}
   roomListItemPrefab: {fileID: 6364982182280764386, guid: 4c5cd05144ba19846918f4ad43e88acb,
@@ -503,6 +502,7 @@ MonoBehaviour:
     type: 3}
   playerListContent: {fileID: 1793987994}
   startGameButton: {fileID: 9152074028888084253}
+  errorText: {fileID: 2116535466}
   pingText: {fileID: 1565675082}
   multiplayerButtons:
   - {fileID: 286588586}
@@ -8790,7 +8790,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 73928499}
-        m_MethodName: CreateRoom
+        m_MethodName: OnClickCreateRoom
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
