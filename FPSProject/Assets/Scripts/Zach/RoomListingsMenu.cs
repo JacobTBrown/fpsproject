@@ -15,13 +15,13 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
         //_listings = roomList;
-        Debug.Log("new on room list update");
+        //Debug.Log("new on room list update");
         foreach (RoomInfo updatedRoom in roomList)
         {
             if (updatedRoom.RemovedFromList)
             {
                 fullRoomList.Remove(updatedRoom);
-                Debug.Log("removed from list ");
+                //Debug.Log("removed from list ");
                 RenderRoomList();
                 continue;
             }
@@ -29,25 +29,25 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
             
             if (existingRoom == null)
             {
-                Debug.Log("esiting room did not exist");
+                //Debug.Log("that room did not exist");
 
                 fullRoomList.Add(updatedRoom); //Existing room does not exist, so add to list of full rooms
-                Debug.Log(updatedRoom.PlayerCount + "total palyer count just added");
+                //Debug.Log(updatedRoom.PlayerCount + "total palyer count just added");
                 if (updatedRoom.PlayerCount == 0)
                 {
                     fullRoomList.Remove(updatedRoom);
-                    Debug.Log("removed that");
+                    //Debug.Log("removed that");
                     updatedRoom.RemovedFromList = true;
                 }
                 else if (updatedRoom.RemovedFromList)
                 {
                     fullRoomList.Remove(existingRoom);
                 }
-                else if (updatedRoom.PlayerCount == 1)
+                /*else if (updatedRoom.PlayerCount == 1)
                 {
                     Debug.Log("player count was 1");
                     fullRoomList.Remove(existingRoom);
-                }
+                }*/
                 else if (updatedRoom.PlayerCount == 0)
                 {
                     Debug.Log("player count was 0");

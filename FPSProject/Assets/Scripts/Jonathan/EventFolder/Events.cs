@@ -12,6 +12,7 @@ namespace Unity.Scripts.Jonathan{
     public static class Events
     {
          public static PlayerDeathEvent PlayerDeathEvent = new PlayerDeathEvent();
+
     }
 
     public class PlayerDeathEvent : GameEvent { 

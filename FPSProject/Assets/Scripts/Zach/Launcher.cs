@@ -47,6 +47,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     private void Awake()
     {
+        //Debug.Log("Script activated");
         Instance = this;
         Invoke("CheckConnection", 30);
     }
