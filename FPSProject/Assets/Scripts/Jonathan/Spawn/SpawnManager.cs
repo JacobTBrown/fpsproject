@@ -32,6 +32,7 @@ namespace Unity.Scripts.Jonathan
 	    void OnPlayerDeath(PlayerDeathEvent evt){
 	        HandlePlayerSpawn(evt.player);
 	    }
+
 	
 	    public void HandlePlayerSpawn(GameObject player){
 	        strategy.HandlePlayerSpawn(player, SpawnPoints);

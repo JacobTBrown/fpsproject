@@ -2,10 +2,12 @@
 
 public class WeaponSwapping : MonoBehaviour
 {
+    public bool hasSecondWeapon;
     public int selectedWeapon = 0;
     // Start is called before the first frame update
     void Start()
     {
+        hasSecondWeapon = false;
         SelectWeapon();
     }
 
@@ -14,8 +16,8 @@ public class WeaponSwapping : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Q))
         {
-            if (selectedWeapon == 0) selectedWeapon++;
-            else selectedWeapon--;
+            if (selectedWeapon == 0 && hasSecondWeapon) selectedWeapon++;
+            if (selectedWeapon == 1 && hasSecondWeapon) selectedWeapon--;
             SelectWeapon();
         }
     }
