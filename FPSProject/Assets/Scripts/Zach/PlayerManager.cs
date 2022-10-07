@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Unity.Scripts.Jonathan;
+using Photon.Realtime;
+using System.Linq;
 /*
-    Author: Zach Emerson
-    Creation: 9/2/22
-    Last Edit: 9/30/22 -Zach
+Author: Zach Emerson
+Creation: 9/2/22
+Last Edit: 9/30/22 -Zach
 
-    The class is attatched to a prefab
-    This class acts as the middle-man between the heigher-level RoomManager and the player controller (PlayerSettings.cs).
-    We are able to instantiate a player based on information given to ous from the RoomManager (ex: when a player dies, we will respawn them based on that data).
- */
+The class is attatched to a prefab
+This class acts as the middle-man between the heigher-level RoomManager and the player controller (PlayerSettings.cs).
+We are able to instantiate a player based on information given to ous from the RoomManager (ex: when a player dies, we will respawn them based on that data).
+*/
 public class PlayerManager : MonoBehaviour
 {
     SpawnManager spawnReference;
@@ -62,6 +64,7 @@ public class PlayerManager : MonoBehaviour
         //PhotonNetwork.Destroy(controllerReference);
         createController();
     }
+
 }
 
 //TODO:

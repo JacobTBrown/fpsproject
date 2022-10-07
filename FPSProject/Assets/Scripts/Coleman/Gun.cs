@@ -80,12 +80,6 @@ public class Gun : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q) == true)
-        {
-            Debug.Log("Pressed Q");
-            //UnityEditor.EditorApplication.isPlaying = false;
-            Application.Quit();
-        }
         timeSinceLastShot += Time.deltaTime;
         Debug.DrawRay(muzzle.position, muzzle.forward);
      

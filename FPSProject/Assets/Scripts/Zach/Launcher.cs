@@ -7,6 +7,7 @@ using Photon.Realtime;
 using System.Linq;
 using UnityEngine.UI;
 using ExitGames;
+using UnityEngine.SceneManagement;
 
 /*
     Author: Zach Emerson
@@ -74,8 +75,13 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room 
+        Debug.Log("JoinedLobby.");
         if (!MenuManager.Instance.menus[1].open)
-        MenuManager.Instance.OpenMenu("welcome");
+        {
+            Debug.Log("Opening Welcome Screen.");
+            MenuManager.Instance.OpenMenu("welcome");
+        }
+        //MenuManager.Instance.OpenMenu("welcome");
         //Debug.Log("OnJoined Lobby Fucntion Call");
         //PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("Placeholder");
         // Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
@@ -193,6 +199,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public void startGame()
     {
+        //SceneManager.UnloadSceneAsync("InitialScene");
         PhotonNetwork.LoadLevel(1);
     }
     public override void OnPlayerEnteredRoom(Player newPlayer)

@@ -9,13 +9,22 @@ public class MenuManager : MonoBehaviour
 
     [SerializeField] public Menu[] menus;
 
+    public static bool loadScene = false;
     private void Awake()
     {
         Instance = this;
+        Debug.Log("MenuStart");
+        OpenMenu("welcome");
     }
 
     public void OpenMenu(string menuName)
-    { 
+    {
+        if(loadScene == true)
+        {
+            GameObject parent = GameObject.Find("Canvas");
+            Transform[] childs = parent.GetComponentsInChildren<Transform>();
+            //menuName = "TitleMenu";
+        }
         for(int i = 0; i < menus.Length; i++)
         {
             if(menus[i].menuName == menuName)
