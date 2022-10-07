@@ -9,15 +9,15 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
     [SerializeField] public float currentHealth;
     public float maxHealth = 100f;
     public HealthBar healthBar;
-    public Animator DamageFlash;
     public GameObject player;
     public PhotonView PV;
-    AudioSource impact;
 
     void Awake()
     {
         player = transform.parent.gameObject;
         PV = player.GetComponent<PhotonView>();
+        
+
     }
     void Start()
     {
@@ -25,14 +25,13 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         //Debug.Log(PV.name.ToString());
         // if (PV.IsMine)
         // {
-        impact = GetComponent<AudioSource>();
-        DamageFlash = GameObject.Find("DamageFlash").GetComponent<Animator>();
+      
         healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
         healthBar.SetMaxHealth(maxHealth);
         currentHealth = maxHealth;
 
-        //healthBar.SetMaxHealth(100);
-        Debug.Log(currentHealth);
+            //healthBar.SetMaxHealth(100);
+            Debug.Log(currentHealth);
         //}
     }
 
@@ -43,19 +42,13 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
             Debug.Log("TEST DAMAGE KEY PRESSED, PLAYER TAKES 20 DAMAGE!");
             Damage(20f);
         }
-        healthBar.SetHealth(currentHealth, PV);
+        healthBar.SetHealth(currentHealth);
     }
-
     public void Damage(float damage)
     {
-        if(PV.IsMine)
-        {
-            currentHealth -= damage;
-            impact.Play();
-            DamageFlash.SetTrigger("Damage");
-            healthBar.SetHealth(currentHealth, PV);
-            Debug.Log("Hit Player for " + damage + " damage. Player is now at " + currentHealth + " HP.");
-        }
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
+        Debug.Log("Hit Player for " + damage + " damage. Player is now at " + currentHealth + " HP.");
         if (currentHealth <= 0)
         {
 
@@ -64,7 +57,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
             {
                 evt.player = player;
                 currentHealth = 100;
-                healthBar.SetHealth(currentHealth, PV);
+                healthBar.SetHealth(currentHealth);
                 EventManager.Broadcast(evt);
                 
             }

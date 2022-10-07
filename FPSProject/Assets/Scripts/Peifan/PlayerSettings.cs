@@ -23,8 +23,6 @@ public class PlayerSettings : MonoBehaviour
     GameObject errorTextPopup;
     [SerializeField] TMP_Text errorText;
     public GameObject settingPanel;
-    public GameObject canvas;
-    public GameObject weaponHolder;
     [Header("User Mouse Settings")]
     // Horizontal mouse sensitivity
     public float mouseXSensitivity = 500f;
@@ -52,8 +50,7 @@ public class PlayerSettings : MonoBehaviour
     void Start() {
         PV = GetComponent<PhotonView>();
         playermanager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
-        canvas = GameObject.FindGameObjectWithTag("Settings");
-        weaponHolder = GameObject.FindGameObjectWithTag("MainCamera").transform.GetChild(0).gameObject;
+
         if (PV.IsMine)
         {
             settingPanel = GameObject.Find("SettingPanel");
@@ -81,12 +78,10 @@ public class PlayerSettings : MonoBehaviour
         mouseXSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseXSlider.value + "";
         if (Input.GetKeyDown(KeyCode.Escape))
         {
+            
+            
             if (settingPanel.activeInHierarchy)
             {
-                canvas.transform.GetChild(1).gameObject.SetActive(true);
-                canvas.transform.GetChild(2).gameObject.SetActive(true);
-                canvas.transform.GetChild(3).gameObject.SetActive(true);
-                weaponHolder.SetActive(true);
                 // Lock the cursor to the center of the screen 
                 Cursor.lockState = CursorLockMode.Locked;
                 //// Make the cursor invisible
@@ -94,10 +89,6 @@ public class PlayerSettings : MonoBehaviour
             }
             else
             {
-                canvas.transform.GetChild(1).gameObject.SetActive(false);
-                canvas.transform.GetChild(2).gameObject.SetActive(false);
-                canvas.transform.GetChild(3).gameObject.SetActive(false);
-                weaponHolder.SetActive(false);
                 settingPanel.SetActive(settingPanel.activeInHierarchy);
                 // Lock the cursor to the center of the screen 
                 Cursor.lockState = CursorLockMode.None;

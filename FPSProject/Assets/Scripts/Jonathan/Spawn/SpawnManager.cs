@@ -6,6 +6,7 @@ namespace Unity.Scripts.Jonathan
 {
 	public class SpawnManager : MonoBehaviour
 	{
+		//we'll need to access this elsewhere for the multiplayer
 	    public List<SpawnController> SpawnPoints;
 	    
 	    public int NumberofSpawnPoints = 0;
@@ -36,5 +37,4 @@ namespace Unity.Scripts.Jonathan
 	        strategy.HandlePlayerSpawn(player, SpawnPoints);
 	    } 
 	}
-
 }
