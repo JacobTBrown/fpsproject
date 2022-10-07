@@ -1,29 +1,50 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.Scripts.Jonathan;
 using UnityEngine;
-
-public class ObjectiveFlag : MonoBehaviour
+namespace Unity.Scripts.zach
 {
-    //we will instantiate the prefab from elsewhere? or in here?
-    //should be added onto the player's model when we walk over the collider.
-    //should be destroyed on player death
-    //should be destroyed when walking over the player's team's capture zone & increment score
+    public class ObjectiveFlag : Objective
+    {
+        //we will instantiate the prefab from elsewhere? or in here?
+        //should be added onto the player's model when we walk over the collider.
+        //should be destroyed on player death
+        //should be destroyed when walking over the player's team's capture zone & increment score
+
+        [Header("Game object to pickup")]
+        public GameObject ItemToPickup;
 
 
-    private void Awake()
-    {
-        //add listener
-        //initialize spawn point?
-    }
-    void Start()
-    {
-            
-    }
+        private void Awake()
+        {
+            //add listener
+            //initialize spawn point?
+        }
+        protected override void Start()
+        {
+            base.Start();
+            EventManager.AddListener<PickupEvent>(OnPickupEvent);
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        void OnPickupEvent(PickupEvent evt)
+        {
+            if (IsCompleted || ItemToPickup != evt.Pickup)
+                return;
+
+            // this will trigger the objective completion
+            // it works even if the player can't pickup the item (i.e. objective pickup healthpack while at full heath)
+            CompleteObjective(string.Empty, string.Empty, "Objective complete : " + Title);
+
+            if (gameObject)
+            {
+                Destroy(gameObject);
+            }
+        }
+
+        void OnDestroy()
+        {
+            EventManager.RemoveListener<PickupEvent>(OnPickupEvent);
+        }
     }
 }
 
@@ -56,4 +77,4 @@ public class ObjectiveFlag : MonoBehaviour
             }
         }
     }
- */
+ }*/

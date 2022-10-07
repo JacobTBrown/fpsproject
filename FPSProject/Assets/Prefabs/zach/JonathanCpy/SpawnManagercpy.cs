@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Unity.Scripts.Jonathan
-{
-	public class SpawnManager : MonoBehaviour
+/*
+	public class SpawnManagercpy : MonoBehaviour
 	{
 	    public List<SpawnController> SpawnPoints;
 	    
 	    public int NumberofSpawnPoints = 0;
 	    public SpawnStrategy strategy;
-		public static SpawnManager Instance;
+		public static SpawnManagercpy Instance;
 
 	    void Awake()
 	    {
@@ -36,5 +35,4 @@ namespace Unity.Scripts.Jonathan
 	        strategy.HandlePlayerSpawn(player, SpawnPoints);
 	    } 
 	}
-
-}
+*/
