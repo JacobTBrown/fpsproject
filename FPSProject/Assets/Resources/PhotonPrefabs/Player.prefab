@@ -5459,6 +5459,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   errorText: {fileID: 0}
   settingPanel: {fileID: 0}
+  scoreBoard: {fileID: 0}
   mouseXSensitivity: 500
   mouseYSensitivity: 500
   mouseYSlider: {fileID: 0}

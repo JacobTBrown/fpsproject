@@ -91,6 +91,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (string.IsNullOrEmpty(roomNameInputField.text))
         {
             Debug.Log("Room name was null");
+            Debug.Log("Going into a created room.");
             return;
         }
         PhotonNetwork.CreateRoom(roomNameInputField.text);
