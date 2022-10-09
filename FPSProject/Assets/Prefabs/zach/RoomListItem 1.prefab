@@ -246,11 +246,12 @@ GameObject:
   - component: {fileID: 5580144839611923295}
   - component: {fileID: 5580144839611923294}
   - component: {fileID: 5580144839611923289}
+  - component: {fileID: 6412114584362893283}
   - component: {fileID: 3067600700271591524}
   - component: {fileID: 1521137477806876421}
   - component: {fileID: 274430049193538343}
   m_Layer: 0
-  m_Name: RoomListItem
+  m_Name: RoomListItem 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -332,6 +333,19 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &6412114584362893283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580144839611923291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7bf410015c5b07c4e984fd8c951b53b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _textName: {fileID: 0}
 --- !u!114 &3067600700271591524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -347,8 +361,6 @@ MonoBehaviour:
   sizeText: {fileID: 3286025225676832201}
   nameText: {fileID: 88717775656230588}
   mapText: {fileID: 7763697626803779572}
-  PV: {fileID: 0}
-  pref: {fileID: 0}
 --- !u!114 &1521137477806876421
 MonoBehaviour:
   m_ObjectHideFlags: 0

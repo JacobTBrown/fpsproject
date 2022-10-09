@@ -14,6 +14,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
     private List<RoomListItem> _listings = new List<RoomListItem>();
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
+        
         //roomListItem.sizeText.text = roomInfo.PlayerCount.ToString();
         //_listings = roomList;
         //Debug.Log("new on room list update");
@@ -38,7 +39,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
             {
                 //Debug.Log("that room did not exist");
                 //RUNNING INIT
-                    AllRoomsList.Add(updatedRoom); //Existing room does not exist, so add to list of full rooms
+                    AllRoomsList.Add(updatedRoom); //Existing room does not exist, so add to list of all rooms
                                                    //Debug.Log(updatedRoom.PlayerCount + "total palyer count just added");
                     if (updatedRoom.PlayerCount == 0)
                     { //its done automatically by photon, this code is not reached
@@ -70,7 +71,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
                 RemoveRoomList(); //_listings holds current rooms, destroy all -> rebuild list -> render
                 foreach (RoomInfo roomInfo in AllRoomsList)
                 {
-                    //Debug.Log("hit");
+                    Debug.Log("hit");
                     //Debug.Log(roomInfo.Name);
                     RoomListItem roomListItem = Instantiate(_roomListItemPrefab, findRoomPanel).GetComponent<RoomListItem>();
                     roomListItem.Setup(roomInfo);//, roomInfo.Name, roomInfo.cu); //!
