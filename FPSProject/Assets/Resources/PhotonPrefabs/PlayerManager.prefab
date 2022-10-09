@@ -52,8 +52,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   observableSearch: 2
-  ObservedComponents:
-  - {fileID: -3651275637673116650}
+  ObservedComponents: [{fileID: -3651275637673116650}]
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -71,6 +70,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SettingsPanel: {fileID: 4589801214357729024, guid: 85631c19424344343990067c73c2dc64,
     type: 3}
+  playerstring: PhotonPrefabs\Player
 --- !u!114 &1416599735451868053
 MonoBehaviour:
   m_ObjectHideFlags: 0
