@@ -52,7 +52,7 @@ public class PlayerSettings : MonoBehaviour
 
     void Start() {
         PV = GetComponent<PhotonView>();
-        playermanager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
+        //playermanager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
         canvas = GameObject.FindGameObjectWithTag("Settings");
         weaponHolder = GameObject.FindGameObjectWithTag("MainCamera").transform.GetChild(0).gameObject;
         if (PV.IsMine)
@@ -126,10 +126,10 @@ public class PlayerSettings : MonoBehaviour
     }
 
     //Testing lines below for multiplayer - zach - 9-30
-    void Die()
-    {
-        playermanager.KillPlayer();
-    }
+    //void Die()
+    //{
+    //    playermanager.KillPlayer();
+    //}
 }
 public enum KeycodeFunction
 {

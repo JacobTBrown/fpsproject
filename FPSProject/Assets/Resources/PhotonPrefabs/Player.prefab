@@ -5329,6 +5329,7 @@ GameObject:
   - component: {fileID: -5744510429079796653}
   - component: {fileID: -8896846525926025363}
   - component: {fileID: 9209984020067275009}
+  - component: {fileID: 2545113045250547669}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -5472,7 +5473,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3173107398918425439}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 252e31a1f3893a447873f0b398969e93, type: 3}
   m_Name: 
@@ -5493,7 +5494,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3173107398918425439}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6245bd667653f14b9596c0968e71566, type: 3}
   m_Name: 
@@ -5603,6 +5604,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PV: {fileID: 0}
   damageable: {fileID: 0}
+--- !u!114 &2545113045250547669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3173107398918425439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb075ce7ed7029c4292a9650bc4b73d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PV: {fileID: 0}
 --- !u!1 &3173107399746349718
 GameObject:
   m_ObjectHideFlags: 0
@@ -5884,7 +5898,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4017857724056262080}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -5935,7 +5949,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4017857724056262080}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78432d30685ab7f46b59924205a5668a, type: 3}
   m_Name: 

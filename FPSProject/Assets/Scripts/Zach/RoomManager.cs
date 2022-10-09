@@ -21,6 +21,7 @@ using System.IO;
 public class RoomManager : MonoBehaviourPunCallbacks
 {
     public static RoomManager Instance;
+    public Vector3 initSpawn = new Vector3(0, 5, 0);
     private void Awake()
     {
         //list all players with their name
@@ -53,7 +54,6 @@ public class RoomManager : MonoBehaviourPunCallbacks
         //{//instantiate the player prefab into scene 1 (ALL Players in the room execute this code in their own game)
             //Debug.Log("player prefab instantiate");
             //https://stackoverflow.com/questions/54981930/how-to-give-unique-ids-to-instantiated-objects-in-unity-c-sharp
-                Vector3 initSpawn = new Vector3(0, 5, 0);
            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);  
         //Instantiates the player prefab with a PhotonViewID
             //https://forum.photonengine.com/discussion/1577/how-to-use-photonnetwork-instantiate-with-object-data

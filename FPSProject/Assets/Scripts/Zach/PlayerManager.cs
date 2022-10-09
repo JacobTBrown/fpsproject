@@ -75,8 +75,9 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("New Player Registered");
         if(player.GetComponent<PhotonView>().IsMine)
         {
+            Debug.Log("TEST1");
            ((MonoBehaviour)player.GetComponent<PlayerMovement>()).enabled = true;
-  //         ((MonoBehaviour)player.GetComponent<PlayerShoot>()).enabled = true;
+  //       ((MonoBehaviour)player.GetComponent<PlayerShoot>()).enabled = true;
            ((MonoBehaviour)player.GetComponent<PlayerSettings>()).enabled = true;
            player.transform.Find("Player Camera").gameObject.GetComponent<Camera>().enabled = true;
            player.transform.Find("Player Camera").gameObject.GetComponent<PlayerCameraMovement>().enabled = true;

@@ -69,10 +69,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fe2463269013684e88d8cb5ba7b01dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
   SettingsPanel: {fileID: 4589801214357729024, guid: 85631c19424344343990067c73c2dc64,
     type: 3}
-  playerstring: PhotonPrefabs\Player
+<<<<<<< HEAD
 --- !u!114 &1416599735451868053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112,3 +111,6 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+=======
+  playerstring: PhotonPrefabs\Player
+>>>>>>> FPSProject/Jonathan
