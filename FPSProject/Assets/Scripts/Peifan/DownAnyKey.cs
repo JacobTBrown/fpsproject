@@ -2,13 +2,20 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+    Author: Peifan Tian
+    Creation: 9/19/22
+    Last Edit: 9/23/22 -Peifan
+
+*/
+
 public class DownAnyKey : MonoBehaviour
 {
     Button button;
     Text inputtext;
     public KeyCode curKetCode;
     [HideInInspector]
-    public bool IsChangeKey = false; //是否改键位
+    public bool IsChangeKey = false; 
     public KeycodeFunction keycodeFunction;
     private void Start()
     {

@@ -22,6 +22,9 @@ public class PlayerSettings : MonoBehaviour
     MenuManager menuManager;
     GameObject errorTextPopup;
     [SerializeField] TMP_Text errorText;
+    public int instanceID;
+    public int viewID;
+    public string nickname;
     public GameObject settingPanel;
     [Header("User Mouse Settings")]
     // Horizontal mouse sensitivity
@@ -40,6 +43,7 @@ public class PlayerSettings : MonoBehaviour
         { KeycodeFunction.rightMove, KeyCode.D},
         { KeycodeFunction.upMove, KeyCode.W},
         { KeycodeFunction.downMove, KeyCode.S},
+        { KeycodeFunction.slowwalk, KeyCode.LeftControl},
         { KeycodeFunction.sprint, KeyCode.LeftShift},
         { KeycodeFunction.jump, KeyCode.Space},
         { KeycodeFunction.reload, KeyCode.R},
@@ -51,6 +55,13 @@ public class PlayerSettings : MonoBehaviour
         PV = GetComponent<PhotonView>();
         playermanager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
 
+        // Added by Jacob Brown: 10/03/2022
+        // created some variables for correctly identifying players 
+        instanceID = this.gameObject.GetInstanceID();
+        viewID = PV.ViewID;
+        nickname = PV.Owner.NickName;
+        // end add by Jacob Brown
+
         if (PV.IsMine)
         {
             settingPanel = GameObject.Find("SettingPanel");
@@ -60,8 +71,12 @@ public class PlayerSettings : MonoBehaviour
             errorTextPopup = GameObject.Find("ErrorTextPopup");
             //errorText = errorTextPopup.GetComponent<TMP_Text>();
             //errorTextPopup.SetActive(false);
-
         }
+
+        //debugs if you need them - Jacob B
+        //Debug.Log("Instance ID: " + instanceID);
+        //Debug.Log("View ID: " + viewID);
+        //Debug.Log("Nickname: " + nickname);
     }
     void Update()
     {
@@ -76,10 +91,8 @@ public class PlayerSettings : MonoBehaviour
         mouseYSensitivity = mouseYSlider.value * 5;
         mouseYSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseYSlider.value + "";
         mouseXSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseXSlider.value + "";
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]))
         {
-            
-            
             if (settingPanel.activeInHierarchy)
             {
                 // Lock the cursor to the center of the screen 
@@ -95,6 +108,7 @@ public class PlayerSettings : MonoBehaviour
                 //// Make the cursor invisible
                 Cursor.visible = true;
             }
+
             settingPanel.SetActive(!settingPanel.activeInHierarchy);
         }
     }
@@ -104,9 +118,35 @@ public class PlayerSettings : MonoBehaviour
         if (inputSystemDic.Values.Contains(keyCode))
         {
             Debug.Log(keyCode + "：Button logic already exists");
-            MenuManager.Instance.OpenMenu("error");
-            errorText.text = "That key is already in use";
-            return true;
+            //MenuManager.Instance.OpenMenu("error");
+            //errorText.text = "That key is already in use";
+
+            // The following code was written by Jacob Brown : 10/3/2022
+            // this code swaps the keyCodes if a key has already been mapped to an action
+            // You can remove the debugs whenever you like
+            KeyValuePair<KeycodeFunction, KeyCode>[] pairs;
+            pairs = inputSystemDic.ToArray();
+            KeycodeFunction tempFunction;
+            KeyCode temp;
+
+            for (int i = 0; i < pairs.Length; i++) {
+                if (pairs[i].Value == keyCode) {
+                    tempFunction = pairs[i].Key;
+                    Debug.Log(tempFunction);
+                    temp = inputSystemDic[keycodeFunction];
+                    Debug.Log(temp);
+                    Debug.Log("BEFORE: " + inputSystemDic[keycodeFunction]);
+                    inputSystemDic[keycodeFunction] = keyCode;
+                    Debug.Log("AFTER: " + inputSystemDic[keycodeFunction]);
+                    Debug.Log("BEFORE: " + inputSystemDic[tempFunction]);
+                    inputSystemDic[tempFunction] = temp;
+                    Debug.Log("AFTER: " + inputSystemDic[tempFunction]);
+                    break;
+                }
+            }
+            // end Jacob Brown edits
+
+            return false;
         }
         else
         {
@@ -127,10 +167,10 @@ public enum KeycodeFunction
     rightMove,
     upMove,
     downMove,
+    slowwalk,
     sprint,
     jump,
     reload,
     scoreboard,
     menu
-
 }

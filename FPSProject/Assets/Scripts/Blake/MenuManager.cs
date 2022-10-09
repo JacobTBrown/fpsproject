@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,12 +17,14 @@ public class MenuManager : MonoBehaviour
 
     public void OpenMenu(string menuName)
     { 
+        
         for(int i = 0; i < menus.Length; i++)
         {
             if(menus[i].menuName == menuName)
             {
-                //Debug.Log("Menu script called Open()");
+     
                 menus[i].Open();
+           
             }
             else if(menus[i].open)
             {
