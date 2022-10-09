@@ -19,7 +19,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
         //Debug.Log("new on room list update");
         foreach (RoomInfo updatedRoom in roomList)
         {
-            
+            Debug.Log("updating from roomListingMenu.cs");
             if (updatedRoom.PlayerCount > 7)
             {
                 updatedRoom.RemovedFromList = true;

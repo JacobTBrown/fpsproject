@@ -24,7 +24,7 @@ public class RoomListItem : MonoBehaviourPunCallbacks
  
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        Debug.Log("update room list from the prefab script");
+        //Debug.Log("update room list from the prefab script");
         //Debug.Log(roomList.Count);
         //base.OnRoomListUpdate(roomList); 
         foreach (RoomInfo r in roomList)
@@ -48,14 +48,14 @@ public class RoomListItem : MonoBehaviourPunCallbacks
     }
     public void Setup(RoomInfo _info) //, Hashtable maps) //!
     {
-        Debug.Log("setting room prefab info");
+       
             info = _info;
             sizeText.text = info.PlayerCount.ToString();
             sizeText.text += "/" + info.MaxPlayers; 
-            Debug.Log(info.Name + "was the name");
+            //Debug.Log(info.Name + "was the name");
             nameText.text = info.Name; //!
             mapText.text = Launcher.Instance.mapsArr[(int)_info.CustomProperties["map"]].name;
-
+            
         //mapText.text = maps[info.CustomProperties["map"]].name;
 
     }

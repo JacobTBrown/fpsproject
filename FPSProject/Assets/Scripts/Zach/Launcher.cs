@@ -52,7 +52,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] GameObject startGameButton;
     [SerializeField] GameObject gameDMButton;
     [SerializeField] GameObject gameTDMButton;
-    
+    [SerializeField] GameObject mapSelectButton;
     [Header("Utils")]
     [SerializeField] TMP_Text errorText;
     [SerializeField] TMP_Text pingText;
@@ -75,8 +75,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         Instance = this;
         Invoke("CheckConnection", 30);
         mapsArr = new MapData[2];
-        mapsArr[0] = new MapData("red", 1);
-        mapsArr[1] = new MapData("blue", 2);
+        mapsArr[0] = new MapData("Red Map", 1);
+        mapsArr[1] = new MapData("Blue Map", 2);
     }
     public void Update()
     {
@@ -175,8 +175,9 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
         }
-        gameTDMButton.SetActive(PhotonNetwork.IsMasterClient);
-        gameDMButton.SetActive(PhotonNetwork.IsMasterClient);
+        //gameTDMButton.SetActive(PhotonNetwork.IsMasterClient);
+        //gameDMButton.SetActive(PhotonNetwork.IsMasterClient);
+        //mapSelectButton.SetActive(PhotonNetwork.IsMasterClient);
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 
