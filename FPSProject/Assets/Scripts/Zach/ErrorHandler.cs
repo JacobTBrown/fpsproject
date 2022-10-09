@@ -7,5 +7,5 @@ public class ErrorHandler : MonoBehaviour
 {
     [SerializeField] TMP_Text errorText;
     // Start is called before the first frame update
-
+    //it wont let me commit unless I add something
 }
