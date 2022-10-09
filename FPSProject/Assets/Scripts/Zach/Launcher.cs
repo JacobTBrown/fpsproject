@@ -7,6 +7,7 @@ using Photon.Realtime;
 using System.Linq;
 using UnityEngine.UI;
 using ExitGames;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 /*
     Author: Zach Emerson
@@ -20,12 +21,26 @@ using ExitGames;
     -instantiates Prefabs for Players and Rooms in the 2D menu GUI
     -startGame() for the host of a Room
 */
+[System.Serializable]
+public class MapData //!
+{
+    public string name;
+    public int scene;
+    public MapData(string n, int s)
+    {
+        this.name = n;
+        this.scene = s;
+    }
+}
 public class Launcher : MonoBehaviourPunCallbacks
 {
     public static Launcher Instance;
     [Header("Create")]
     [SerializeField] TMP_InputField roomNameInputField;
-
+    //[SerializeField] public MapData[] mapsArr;
+    [SerializeField] public TMP_Text mapValue;
+    [SerializeField] public TMP_Text modeValue;
+    [SerializeField] public Slider maxPlayersInput;
     [Header("Find Room List")]
     [SerializeField] TMP_Text roomNameText;
     [SerializeField] Transform roomListContent;
@@ -33,14 +48,23 @@ public class Launcher : MonoBehaviourPunCallbacks
     [Header("Room")]
     [SerializeField] GameObject PlayerListItemPrefab;
     [SerializeField] Transform playerListContent;
+    [Header("Host Options")]
     [SerializeField] GameObject startGameButton;
+    [SerializeField] GameObject gameDMButton;
+    [SerializeField] GameObject gameTDMButton;
+    
     [Header("Utils")]
     [SerializeField] TMP_Text errorText;
     [SerializeField] TMP_Text pingText;
     [SerializeField] Button[] multiplayerButtons;
+    public int currentMap = 0;
 
+    public MapData[] mapsArr;
+                //public string[] maps = { "test", "test2" };
+    public int mapAsInt = 0;
     public int MaxPlayersPerLobby = 8;
     public int pingAsInt;
+    public Text maxPlayersString;
     //public bool isConnected;
     public TMP_Text ping;
     //public GameObject Loadingpanel; //vs LoadingMenu 
@@ -50,6 +74,9 @@ public class Launcher : MonoBehaviourPunCallbacks
         //Debug.Log("Script activated");
         Instance = this;
         Invoke("CheckConnection", 30);
+        mapsArr = new MapData[2];
+        mapsArr[0] = new MapData("red", 1);
+        mapsArr[1] = new MapData("blue", 2);
     }
     public void Update()
     {
@@ -79,7 +106,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     { //I think its deprecated but I can't find a replacement ?
         //throws error: Referenced Script is missing (from like 10 different callbacks)
    //     base.OnJoinRoomFailed(returnCode, message);
-       Debug.Log("Failed to join room, log error here" + message);
+       //Debug.Log("Failed to join room, log error here" + message);
         MenuManager.Instance.OpenMenu("title");
  
     }
@@ -89,7 +116,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (!MenuManager.Instance.menus[1].open)
         MenuManager.Instance.OpenMenu("welcome");
        
-        Debug.Log("OnJoined Lobby Fucntion Call");
+        //Debug.Log("OnJoined Lobby Fucntion Call");
         //PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("Placeholder");
         // Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
     }
@@ -101,9 +128,15 @@ public class Launcher : MonoBehaviourPunCallbacks
 
 
         RoomOptions options = new RoomOptions();
-        options.MaxPlayers = 8;
-        options.CustomRoomPropertiesForLobby = new string[] { "Key" };
+        options.CustomRoomPropertiesForLobby = new string[] { "map" }; //!
 
+        Hashtable properties = new Hashtable();
+        properties.Add("map", mapAsInt);
+
+        options.MaxPlayers = (byte)maxPlayersInput.value;
+        //Debug.Log("You gave max players input: " + options.MaxPlayers);
+        //options.CustomRoomPropertiesForLobby = new string[] { "Key" };
+        options.CustomRoomProperties = properties;
         if (roomNameInputField != null)
         PhotonNetwork.CreateRoom(roomNameInputField.text, options );
         else
@@ -111,20 +144,21 @@ public class Launcher : MonoBehaviourPunCallbacks
             Debug.Log("null name");
         }
     }
-    public void CreateRoom()
+
+    //REPLACED with ABOVE FUNCTION OnClickCreateRoom for room options fucntionality
+   /* public void CreateRoom()
     {
         if (string.IsNullOrEmpty(roomNameInputField.text))
         {
             Debug.Log("Room name was null");
             return;
         }
-
-        PhotonNetwork.CreateRoom(roomNameInputField.text);
-       
+        PhotonNetwork.CreateRoom(roomNameInputField.text);      
         MenuManager.Instance.OpenMenu("loading");
         //loading menu will automatically close after the async call above finishes executing
     }
    
+    */
     public override void OnJoinedRoom()
     {
         MenuManager.Instance.OpenMenu("room");
@@ -141,6 +175,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
         }
+        gameTDMButton.SetActive(PhotonNetwork.IsMasterClient);
+        gameDMButton.SetActive(PhotonNetwork.IsMasterClient);
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
     }
 
@@ -163,16 +199,35 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log("created room" + roomNameText);
 
     }
-   
+    public void ChangeMap()
+    {   //attatched to the select map button
+        mapAsInt++;
+        if (mapAsInt >= mapsArr.Length) mapAsInt = 0; //button click loops through the array
+        //if (mapAsInt >= mapsArr.Length) mapsArr[mapAsInt].scene = 0;
+        Debug.Log("map int value: " + mapAsInt);
+        Debug.Log("map string value: " + mapsArr[mapAsInt].name);
+        mapValue.text = "Map: " + mapsArr[mapAsInt].name;
+        
+    }
+
+    public void MaxPlayersSlider (float sliderInput) //!
+    {
+        Debug.Log("Seetting max players" + sliderInput);
+        maxPlayersString.text = Mathf.RoundToInt(sliderInput).ToString();
+    }
+   public void ChangeGameMode()
+    {
+
+    }
     // public void OnFailedToConnect(NetworkConnectionError error)
     //{
     //photon tells me to use this function but it doesn't work *shrugs* 
     //    }
     public void CheckConnection()
     {
-        if (pingAsInt == 0 || pingAsInt > 199) //When we're not connected, ping is 200
+        if (pingAsInt < 21 || pingAsInt > 199) //When we're not connected, ping is 200
         {
-            pingText.text = "Bad Connection/Disconnected";
+            pingText.text = "Connecting..";
             Debug.Log("bad connection");
             ConnectionFailed();
         }
@@ -250,9 +305,14 @@ public class Launcher : MonoBehaviourPunCallbacks
     }*/
     public void startGame()
     {
-        PhotonNetwork.LoadLevel(1);
+        PhotonNetwork.LoadLevel(1); 
     }
-    
+    public void startGameWithMap()
+    {
+        Debug.Log("loading map number: " + mapsArr[mapAsInt].scene);
+        PhotonNetwork.LoadLevel(mapsArr[mapAsInt].scene); //!
+    }
+
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);

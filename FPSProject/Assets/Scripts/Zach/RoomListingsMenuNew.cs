@@ -28,7 +28,7 @@
         */
 
 
-
+/*
 
 using System.Collections;
 using System.Collections.Generic;
@@ -53,7 +53,7 @@ public class RoomListingsMenuNew : MonoBehaviourPunCallbacks
             {
                 Destroy(_listings[i].gameObject);
                 _listings.RemoveAt(i);
-                Debug.Log("removed room " + _listings[i].text + " from the list");
+                Debug.Log("removed room " + _listings[i].nameText + " from the list");
             }
             else
             {
@@ -84,3 +84,4 @@ public class RoomListingsMenuNew : MonoBehaviourPunCallbacks
     }
 }
 
+*/

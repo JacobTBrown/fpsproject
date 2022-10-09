@@ -18,7 +18,7 @@ public class MasterManager : SingletonScriptableObject<MasterManager>
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     private static void Init()
     {
-        Debug.Log("Before awake");
+        //Debug.Log("Before awake");
 
     }
     private static void Awake()

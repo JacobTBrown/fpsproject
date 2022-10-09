@@ -11,7 +11,15 @@ using Photon.Realtime;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
-    public GameObject playerPrefab;
+    //public GameObject playerPrefab;
+    //public GameObject flagPrefab;
+    //public GameObject flagReturnPrefag;
+    //public string flagPrefabString = "PhotonPrefabs/flag";
+    //public string flagReturnPrefabString = "PhotonPrefabs/FlagReturn";
+    //List<PhotonView> pvList = new List<PhotonView>();
+    //list of players and their stats
+    //kills of each player 
+
     //right now, I'm using PlayerManager instead.
     //Later, We'll want to instantiate other objects as prefabs that are not unique to a single player.
     //That's what this file is for.
@@ -26,8 +34,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        Debug.Log("Instantiating");
-        PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0, 5, 0), Quaternion.identity);
+        //get the list of players from the roomManager.
+        //
+       // Debug.Log("Instantiating new objects from game manager");
+        //PhotonNetwork.Instantiate(flagPrefabString, new Vector3(-9.62f, .88f, 27.35f), Quaternion.identity);
+        //PhotonNetwork.Instantiate(flagReturnPrefabString, new Vector3(-25f, 3.83f, 24.51f), Quaternion.identity);
+        // PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(0, 5, 0), Quaternion.identity);
     }
     public override void OnLeftRoom()
     {

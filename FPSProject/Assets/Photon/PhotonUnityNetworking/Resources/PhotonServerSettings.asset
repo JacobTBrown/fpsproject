@@ -40,6 +40,8 @@ MonoBehaviour:
   - Fire
   - RespawnSpaceship
   - RPC_TakeDamage
+  - PickupWeapon
+  - KickPlayerCMD
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
