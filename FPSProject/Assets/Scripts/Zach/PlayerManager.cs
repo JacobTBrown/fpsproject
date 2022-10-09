@@ -7,7 +7,7 @@ using Unity.Scripts.Jonathan;
 /*
     Author: Zach Emerson
     Creation: 9/2/22
-    Last Edit: 9/30/22 -Zach
+    Last Edit: 10/07/2022 - Jacob B
 
     The class is attatched to a prefab
     This class acts as the middle-man between the heigher-level RoomManager and the player controller (PlayerSettings.cs).
@@ -21,6 +21,8 @@ public class PlayerManager : MonoBehaviour
     SpawnManager spawnReference;
     PhotonView PV;
     [SerializeField] GameObject SettingsPanel;
+    //added this for player spawn position - Jacob
+    public GameObject playerPrefab;
     PlayerSettings playerSettings;
     public string playerstring = Path.Combine("PhotonPrefabs", "Player");
     GameObject canvas;
@@ -43,12 +45,15 @@ public class PlayerManager : MonoBehaviour
         {
             createController();
         }
+<<<<<<< HEAD
 */
+=======
+>>>>>>> Jacob
     }
+
     void createController()
     {
-       // int seed = Random.Range(0, spawnReference.SpawnPoints.length);
-
+        // int seed = Random.Range(0, spawnReference.SpawnPoints.length);
         Debug.Log("PlayerManager.cs called createController()!");
 
         //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);
@@ -56,13 +61,17 @@ public class PlayerManager : MonoBehaviour
         //TODO: WRITE MULTIPLAYER LOGIC FOR JONATHAN'S CODE
         //List<SpawnController>spawnPoint = SpawnManager.Instance.SpawnPoints;
         //with spawn points we need a reference to the player before we kill it. Because we literally destroy the GameObject
+<<<<<<< HEAD
      //   controllerAsGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity, 0, new object[] { PV.ViewID });  
         controllerAsGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity, 0);
+=======
+        controllerAsGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnReference.strategy.HandlePlayerSpawn(playerPrefab, spawnReference.SpawnPoints), Quaternion.identity, 0, new object[] { PV.ViewID });  
+>>>>>>> Jacob
         //Instantiates the player prefab with a PhotonViewID
         //With that, the playerController will have a reference to send data back to the PlayerManager
-
     }
 
+<<<<<<< HEAD
     public void RegisterPlayer(GameObject player)
     {
         /*
@@ -83,6 +92,8 @@ public class PlayerManager : MonoBehaviour
            player.transform.Find("Player Camera").gameObject.GetComponent<PlayerCameraMovement>().enabled = true;
         }
     }
+=======
+>>>>>>> Jacob
     public void KillPlayer()
     {
         PhotonNetwork.Destroy(controllerAsGameObject);
