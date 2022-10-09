@@ -19,18 +19,13 @@ public class MenuManager : MonoBehaviour
     }
 
     public void OpenMenu(string menuName)
-<<<<<<< HEAD
     { 
-        
-=======
-    {
         if(loadScene == true)
         {
             GameObject parent = GameObject.Find("Canvas");
             Transform[] childs = parent.GetComponentsInChildren<Transform>();
             //menuName = "TitleMenu";
         }
->>>>>>> fpsproject/Blake_Brooks
         for(int i = 0; i < menus.Length; i++)
         {
             if(menus[i].menuName == menuName)

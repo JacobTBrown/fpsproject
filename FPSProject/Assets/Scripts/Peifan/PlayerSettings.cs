@@ -26,12 +26,9 @@ public class PlayerSettings : MonoBehaviour
     public int viewID;
     public string nickname;
     public GameObject settingPanel;
-<<<<<<< HEAD
     public GameObject canvas;
     public GameObject weaponHolder;
-=======
     public GameObject scoreBoard;
->>>>>>> fpsproject/Blake_Brooks
     [Header("User Mouse Settings")]
     // Horizontal mouse sensitivity
     public float mouseXSensitivity = 500f;
@@ -105,10 +102,8 @@ public class PlayerSettings : MonoBehaviour
         mouseYSensitivity = mouseYSlider.value * 5;
         mouseYSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseYSlider.value + "";
         mouseXSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseXSlider.value + "";
-<<<<<<< HEAD
-        if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]))
-=======
-        if (Input.GetKeyDown(KeyCode.Tab))
+        
+        if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.scoreboard]))
         {
             if (scoreBoard.activeInHierarchy)
             {
@@ -118,8 +113,8 @@ public class PlayerSettings : MonoBehaviour
                 scoreBoard.SetActive(true);
             }
         }
-        if (Input.GetKeyDown(KeyCode.Escape))
->>>>>>> fpsproject/Blake_Brooks
+
+        if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]))
         {
             if (settingPanel.activeInHierarchy)
             {
