@@ -37,7 +37,7 @@ public class PlayerCameraMovement : MonoBehaviour
 
     void Update()
     {
-            if (playerMove.PV)
+        if (playerMove.PV)
         if (playerMove.PV.IsMine)
         {
 
@@ -83,7 +83,7 @@ public class PlayerCameraMovement : MonoBehaviour
     */
     public IEnumerator AdjustFov(float value) {
         // smoothly lerp fov to desired value
-        float time = 0;
+        float time = 0; 
         float currentFov = Camera.main.fieldOfView;
         float difference = Mathf.Abs(value - currentFov);
         float startValue = currentFov;
