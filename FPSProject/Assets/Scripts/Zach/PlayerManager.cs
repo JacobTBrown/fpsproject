@@ -1,4 +1,4 @@
-﻿using Photon.Pun;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,29 +15,35 @@ using Unity.Scripts.Jonathan;
  */
 public class PlayerManager : MonoBehaviour
 {
+
+     public List<PlayerController> players;
+
     SpawnManager spawnReference;
     PhotonView PV;
     [SerializeField] GameObject SettingsPanel;
     PlayerSettings playerSettings;
+    public string playerstring = Path.Combine("PhotonPrefabs", "Player");
     GameObject canvas;
     Vector3 initSpawn = new Vector3(0, 5, 0);
-    private void Awake()
+   /*
+   private void Awake()
     {
         PV = GetComponent<PhotonView>();
     }
-    
+    */
     CharacterController cc;
     GameObject controllerAsGameObject;
     //GameObject controllerRefrence
     //CharacterController cc;
     private void Start()
     {
+        /*
         spawnReference = GameObject.Find("GameManager").GetComponent<SpawnManager>();
         if (PV.IsMine)
         {
             createController();
         }
-
+*/
     }
     void createController()
     {
@@ -50,10 +56,31 @@ public class PlayerManager : MonoBehaviour
         //TODO: WRITE MULTIPLAYER LOGIC FOR JONATHAN'S CODE
         //List<SpawnController>spawnPoint = SpawnManager.Instance.SpawnPoints;
         //with spawn points we need a reference to the player before we kill it. Because we literally destroy the GameObject
-        controllerAsGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity, 0, new object[] { PV.ViewID });  
+     //   controllerAsGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity, 0, new object[] { PV.ViewID });  
+        controllerAsGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity, 0);
         //Instantiates the player prefab with a PhotonViewID
         //With that, the playerController will have a reference to send data back to the PlayerManager
 
+    }
+
+    public void RegisterPlayer(GameObject player)
+    {
+        /*
+            Adds Players to an Player List
+            If player IsMine Enable Player Controls and Cameras
+
+
+        */
+
+        Debug.Log("New Player Registered");
+        if(player.GetComponent<PhotonView>().IsMine)
+        {
+           ((MonoBehaviour)player.GetComponent<PlayerMovement>()).enabled = true;
+  //         ((MonoBehaviour)player.GetComponent<PlayerShoot>()).enabled = true;
+           ((MonoBehaviour)player.GetComponent<PlayerSettings>()).enabled = true;
+           player.transform.Find("Player Camera").gameObject.GetComponent<Camera>().enabled = true;
+           player.transform.Find("Player Camera").gameObject.GetComponent<PlayerCameraMovement>().enabled = true;
+        }
     }
     public void KillPlayer()
     {

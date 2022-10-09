@@ -1,4 +1,5 @@
-﻿using System.Collections;
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -49,8 +50,9 @@ public class RoomManager : MonoBehaviourPunCallbacks
         {//instantiate the player prefab into scene 1 (ALL Players in the room execute this code in their own game)
             //Debug.Log("player prefab instantiate");
             //https://stackoverflow.com/questions/54981930/how-to-give-unique-ids-to-instantiated-objects-in-unity-c-sharp
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerManager"), Vector3.zero, Quaternion.identity);
-
+                Vector3 initSpawn = new Vector3(0, 5, 0);
+           PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);  
+        //Instantiates the player prefab with a PhotonViewID
             //https://forum.photonengine.com/discussion/1577/how-to-use-photonnetwork-instantiate-with-object-data
             //for (p in players[]){ PlayerManager.name = "player" + PhotonNetwork.NickName } //would require that everyone has a unique name. 
         }
