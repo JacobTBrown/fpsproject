@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody playerRigidbody;
     public Transform playerTransform;
     public LayerMask groundLayer;
+    private RaycastHit frontWallHit;
     
     [Header("Movement Variables")]
     private float moveSpeed;
@@ -24,18 +25,24 @@ public class PlayerMovement : MonoBehaviour
     public float groundSlowWalkSpeed;
     public float groundWalkSpeed;
     public float groundSprintSpeed;
+    //wip
+    //public float wallrunSpeed;
     public float airDrag;
     public float airSpeed;
     public float jumpForce;
     public float doubleJumpTimer;
     public bool isOnGround;
+    public bool wallInFront;
     public bool canDoubleJump;
-    
+    public bool isClimbing;
+    //wip
+    //public bool isWallrunning;
+    public float wallCheckDistance;
     private PlayerSettings keybinds;
     private PlayerCameraMovement playerCam;
     private float horizontalXInput;
     private float horizontalZInput;
-    private Vector3 movement, velocity, limitedVelocity;
+    private Vector3 movement, velocity, newVelXZocity;
 
     public MovementState playerState;
     //Adding just a few lines below for PUN
@@ -48,6 +55,9 @@ public class PlayerMovement : MonoBehaviour
         slowwalking,
         walking,
         sprinting,
+        climbing,
+        //wip
+        //wallrunning,
         inAir,
     }
 
@@ -56,8 +66,8 @@ public class PlayerMovement : MonoBehaviour
         {
             Destroy(GetComponentInChildren<Camera>().gameObject);
             //wheres the other people's guns ?
-            
         }
+
         keybinds = GetComponent<PlayerSettings>();
         playerCam = GetComponentInChildren<PlayerCameraMovement>();
         
@@ -69,29 +79,56 @@ public class PlayerMovement : MonoBehaviour
     {
         if (PV.IsMine)
         {  
-            CheckForGround();
+            RaycastChecks();
             GetInputs();
+            LimitSpeed();
             UpdateState();
             ApplyDrag();
+        }
+    }
+
+    private void LimitSpeed()
+    {
+        // limiting x-z speed on ground or in air
+        Vector3 velXZ = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
+        // limiting y speed
+        //Vector3 velY = new Vector3(0f, playerRigidbody.velocity.y, 0f);
+
+        // limit velocity if needed
+        if (velXZ.magnitude > moveSpeed)
+        {
+            // Movement speed and jump speed are different values
+            Vector3 newVelXZ = velXZ.normalized * moveSpeed;
+            //Vector3 newVelY = velY.normalized * jumpForce;
+            playerRigidbody.velocity = new Vector3(newVelXZ.x, playerRigidbody.velocity.y, newVelXZ.z);
         }
     }
 
     void FixedUpdate() {
         if (PV.IsMine)
         {
-            Move();
-            // If the player presses the jump button and the player is grounded.
-            if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.jump]) && isOnGround)
-            {
+            if (playerState != MovementState.climbing) {
+                Move();
+                // If the player presses the jump button and the player is grounded.
+                if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.jump]) 
+                    && (isOnGround)) //|| (wallrunning.wallLeft || wallrunning.wallRight)))
+                {
+                    Jump();
+                    // Let the player do a double jump after the specified amount of time.
+                    Invoke(nameof(DoubleJump), doubleJumpTimer);
+                }
+            } else if (playerState == MovementState.climbing) {
+                playerRigidbody.useGravity = false;
                 Jump();
             }
         }
     }
 
-    private void CheckForGround() {
+    private void RaycastChecks() {
         /* This raycast simply points downwards from the player's position. It extends to half
         // the player's height + 0.1f. */
         isOnGround = Physics.Raycast(playerTransform.position, Vector3.down, 1.1f, groundLayer);
+        wallInFront = Physics.Raycast(transform.position, playerTransform.forward, out frontWallHit, wallCheckDistance, groundLayer);
     }
 
     private void GetInputs() {
@@ -143,7 +180,21 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void UpdateState() {
-        if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.slowwalk]) && isOnGround) {
+        // State - wallclimb
+        if (wallInFront && horizontalZInput > 0) {
+            isClimbing = true;
+        } else {
+            playerRigidbody.useGravity = true;
+            if (isClimbing)
+                isClimbing = false;
+        }
+
+        if (isClimbing) {       // State - climbing
+            playerState = MovementState.climbing;
+        } /*else if (isWallrunning) { // State - Wallrunning
+            playerState = MovementState.wallrunning;
+            moveSpeed = wallrunSpeed;*/
+        else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.slowwalk]) && isOnGround) {
             playerState = MovementState.slowwalking;
             moveSpeed = groundSlowWalkSpeed;
             canDoubleJump = true;
@@ -170,9 +221,6 @@ public class PlayerMovement : MonoBehaviour
         playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
         // Add an upwards impulse to the player rigidbody multiplied by the jumpForce
         playerRigidbody.AddForce(playerTransform.up * jumpForce, ForceMode.Impulse);
-
-        // Let the player do a double jump after the specified amount of time.
-        Invoke(nameof(DoubleJump), doubleJumpTimer);
     }
 
     private void DoubleJump() {
@@ -217,11 +265,10 @@ public class PlayerMovement : MonoBehaviour
             return;
         }
         Debug.Log("RPC took damage! damage: " + damage);
-        
     }
 }
 
 /* -- note from Zach 9/29 -- 
-  For Multiplayer, I need an Instance of the player prefab --
+  For Multiplayer, I need an instanceID of the player prefab --
   Currently, this is being created in the PlayerManager.cs file.
 */
