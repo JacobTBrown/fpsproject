@@ -928,6 +928,7 @@ GameObject:
   - component: {fileID: 481273548}
   - component: {fileID: 481273550}
   - component: {fileID: 481273549}
+  - component: {fileID: 481273551}
   m_Layer: 0
   m_Name: ChatPannel
   m_TagString: Untagged
@@ -993,6 +994,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 481273547}
   m_CullTransparentMesh: 0
+--- !u!114 &481273551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 481273547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c80685e6d27e6ac448031a1d9537e9a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &484243219
 GameObject:
   m_ObjectHideFlags: 0
@@ -13434,8 +13447,8 @@ Transform:
   m_Children:
   - {fileID: 781997329}
   - {fileID: 1698569898}
-  m_Father: {fileID: 1958999474716159609}
-  m_RootOrder: 4
+  m_Father: {fileID: 1958999475127856975}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1235052137
 MonoBehaviour:
@@ -14205,7 +14218,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1501042698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15219,7 +15232,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1984042247
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15743,7 +15756,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 0.3913781}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -17013,7 +17026,6 @@ RectTransform:
   - {fileID: 928172942}
   - {fileID: 596199942}
   - {fileID: 579820284}
-  - {fileID: 1235052136}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -17073,6 +17085,7 @@ GameObject:
   - component: {fileID: 1958999474716159608}
   - component: {fileID: 1958999474716159611}
   - component: {fileID: 1958999474716159610}
+  - component: {fileID: 1958999474716159614}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -17080,6 +17093,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1958999474716159614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958999474716159613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2622a0adfdf3c54381b759fe64ab1fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SettingPanel: {fileID: 1958999475127856974}
 --- !u!114 &1958999474737120528
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18296,6 +18322,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1958999475280877533}
+  - {fileID: 1235052136}
   m_Father: {fileID: 1958999474716159609}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

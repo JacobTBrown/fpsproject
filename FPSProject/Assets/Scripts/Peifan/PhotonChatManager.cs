@@ -6,6 +6,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/*
+    Author: Peifan Tian
+    Creation: 10/03/22
+    Last Edit: 10/08/22 -Peifan
+
+*/
 public class PhotonChatManager : MonoBehaviour, IChatClientListener
 {
 
@@ -138,7 +144,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
 
     public void OnPrivateMessage(string sender, object message, string channelName)
     {
-        string text = "private to" + " " + sendPrivatelyTo +": "+ message;
+        string text = "(private)" + " " + sendPrivatelyTo +": "+ message;
         chatDisplay.text +=  "\n " + text;
 
     }

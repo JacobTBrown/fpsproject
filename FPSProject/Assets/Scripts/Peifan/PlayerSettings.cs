@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /*
-    Author: Jacob Brown
+    Author: Jacob Brown, Peifan Tian
     Creation: 9/19/22
     Last Edit: 9/29/22 -Zach
 
@@ -45,6 +45,7 @@ public class PlayerSettings : MonoBehaviour
         { KeycodeFunction.reload, KeyCode.R},
         { KeycodeFunction.scoreboard, KeyCode.Tab},
         { KeycodeFunction.menu, KeyCode.Escape},
+        //{ KeycodeFunction.menu, KeyCode.KeypadEnter},
         };
 
     void Start() {
@@ -76,7 +77,7 @@ public class PlayerSettings : MonoBehaviour
         mouseYSensitivity = mouseYSlider.value * 5;
         mouseYSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseYSlider.value + "";
         mouseXSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseXSlider.value + "";
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)/* || Input.GetKeyDown(KeyCode.KeypadEnter)*/)
         {
             
             

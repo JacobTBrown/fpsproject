@@ -9,6 +9,7 @@ public class PlayerShoot : MonoBehaviour
     public static Action shootInput;
     public static Action reloadInput;
 
+
     [SerializeField] private KeyCode reloadKey;
     private Gun gun;
 
@@ -23,7 +24,7 @@ public class PlayerShoot : MonoBehaviour
         }
     private void Update()
     {
-
+        if (!DataManager.Instance.IsCanShoot) return;
        // if (!gun.gunData.fullAuto && gun.gameObject.activeSelf)
         //{
             if (Input.GetMouseButtonDown(0)) shootInput?.Invoke();
