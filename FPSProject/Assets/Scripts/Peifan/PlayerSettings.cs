@@ -56,23 +56,21 @@ public class PlayerSettings : MonoBehaviour
 
     void Start() {
         PV = GetComponent<PhotonView>();
-<<<<<<< HEAD
+        //Debug.Log("PV instantiate: " + PV.ViewID);
         //playermanager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
         canvas = GameObject.FindGameObjectWithTag("Settings");
         weaponHolder = GameObject.FindGameObjectWithTag("MainCamera").transform.GetChild(0).gameObject;
-=======
-        playermanager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
 
         // Added by Jacob Brown: 10/03/2022
         // created some variables for correctly identifying players 
         instanceID = this.gameObject.GetInstanceID();
         viewID = PV.ViewID;
+        //Debug.Log("ViewID instantiate: " + viewID);
         nickname = PV.Owner.NickName;
         // end add by Jacob Brown
-
->>>>>>> Jacob
         if (PV.IsMine)
         {
+            //Debug.Log("GETTING SETTINGS PANEL");
             settingPanel = GameObject.Find("SettingPanel");
             mouseYSlider = GameObject.FindGameObjectWithTag("SliderV").GetComponent<Slider>();
             mouseXSlider = GameObject.FindGameObjectWithTag("SliderH").GetComponent<Slider>();
@@ -100,11 +98,7 @@ public class PlayerSettings : MonoBehaviour
         mouseYSensitivity = mouseYSlider.value * 5;
         mouseYSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseYSlider.value + "";
         mouseXSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseXSlider.value + "";
-<<<<<<< HEAD
-        if (Input.GetKeyDown(KeyCode.Escape)/* || Input.GetKeyDown(KeyCode.KeypadEnter)*/)
-=======
         if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]))
->>>>>>> Jacob
         {
             if (settingPanel.activeInHierarchy)
             {

@@ -394,7 +394,7 @@ MonoBehaviour:
   - {fileID: 9152074027720653416}
   currentMap: 0
   mapsArr: []
-  mapAsInt: 1
+  mapAsInt: 0
   MaxPlayersPerLobby: 8
   pingAsInt: 0
   maxPlayersString: {fileID: 1265953770}
@@ -9718,6 +9718,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfc29747c59a5f242b9a21f1c0800f76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPrefab: {fileID: 3173107398918425439, guid: e7eb17970275c7c47bc5692de04f6ac2,
+    type: 3}
+  initSpawn: {x: 0, y: 5, z: 0}
 --- !u!4 &2142901059
 Transform:
   m_ObjectHideFlags: 0

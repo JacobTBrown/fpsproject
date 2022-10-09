@@ -17,61 +17,16 @@ public class PlayerManager : MonoBehaviour
 {
 
      public List<PlayerController> players;
-
-    SpawnManager spawnReference;
     PhotonView PV;
-    [SerializeField] GameObject SettingsPanel;
-    //added this for player spawn position - Jacob
-    public GameObject playerPrefab;
     PlayerSettings playerSettings;
     public string playerstring = Path.Combine("PhotonPrefabs", "Player");
     GameObject canvas;
     Vector3 initSpawn = new Vector3(0, 5, 0);
-   /*
-   private void Awake()
-    {
-        PV = GetComponent<PhotonView>();
-    }
-    */
     CharacterController cc;
     GameObject controllerAsGameObject;
     //GameObject controllerRefrence
     //CharacterController cc;
-    private void Start()
-    {
-        /*
-        spawnReference = GameObject.Find("GameManager").GetComponent<SpawnManager>();
-        if (PV.IsMine)
-        {
-            createController();
-        }
-<<<<<<< HEAD
-*/
-=======
->>>>>>> Jacob
-    }
 
-    void createController()
-    {
-        // int seed = Random.Range(0, spawnReference.SpawnPoints.length);
-        Debug.Log("PlayerManager.cs called createController()!");
-
-        //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);
-        //https://forum.photonengine.com/discussion/1577/how-to-use-photonnetwork-instantiate-with-object-data
-        //TODO: WRITE MULTIPLAYER LOGIC FOR JONATHAN'S CODE
-        //List<SpawnController>spawnPoint = SpawnManager.Instance.SpawnPoints;
-        //with spawn points we need a reference to the player before we kill it. Because we literally destroy the GameObject
-<<<<<<< HEAD
-     //   controllerAsGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity, 0, new object[] { PV.ViewID });  
-        controllerAsGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity, 0);
-=======
-        controllerAsGameObject = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), spawnReference.strategy.HandlePlayerSpawn(playerPrefab, spawnReference.SpawnPoints), Quaternion.identity, 0, new object[] { PV.ViewID });  
->>>>>>> Jacob
-        //Instantiates the player prefab with a PhotonViewID
-        //With that, the playerController will have a reference to send data back to the PlayerManager
-    }
-
-<<<<<<< HEAD
     public void RegisterPlayer(GameObject player)
     {
         /*
@@ -91,15 +46,6 @@ public class PlayerManager : MonoBehaviour
            player.transform.Find("Player Camera").gameObject.GetComponent<Camera>().enabled = true;
            player.transform.Find("Player Camera").gameObject.GetComponent<PlayerCameraMovement>().enabled = true;
         }
-    }
-=======
->>>>>>> Jacob
-    public void KillPlayer()
-    {
-        PhotonNetwork.Destroy(controllerAsGameObject);
-        Debug.Log("PlayerManager.cs called KillPlayer()");
-        //PhotonNetwork.Destroy(controllerReference);
-        createController();
     }
 }
 

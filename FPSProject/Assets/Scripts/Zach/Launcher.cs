@@ -217,9 +217,9 @@ public class Launcher : MonoBehaviourPunCallbacks
         Debug.Log("Seetting max players" + sliderInput);
         maxPlayersString.text = Mathf.RoundToInt(sliderInput).ToString();
     }
-   public void ChangeGameMode()
+    public void ChangeGameMode()
     {
-
+        
     }
     // public void OnFailedToConnect(NetworkConnectionError error)
     //{

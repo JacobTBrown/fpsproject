@@ -16,7 +16,6 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody playerRigidbody;
     public Transform playerTransform;
     public LayerMask groundLayer;
-    private RaycastHit frontWallHit;
     
     [Header("Movement Variables")]
     private float moveSpeed;
@@ -42,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     private PlayerCameraMovement playerCam;
     private float horizontalXInput;
     private float horizontalZInput;
-    private Vector3 movement, velocity, newVelXZocity;
+    private Vector3 movement, velocity;
 
     public MovementState playerState;
     //Adding just a few lines below for PUN
@@ -64,6 +63,7 @@ public class PlayerMovement : MonoBehaviour
     void Start() {
         if (!PV.IsMine)
         {
+            Destroy(GetComponentInChildren<AudioListener>());
             Destroy(GetComponentInChildren<Camera>().gameObject);
             //wheres the other people's guns ?
         }
@@ -118,8 +118,8 @@ public class PlayerMovement : MonoBehaviour
                     Invoke(nameof(DoubleJump), doubleJumpTimer);
                 }
             } else if (playerState == MovementState.climbing) {
-                playerRigidbody.useGravity = false;
-                Jump();
+                //playerRigidbody.useGravity = false;
+                //Jump();
             }
         }
     }
@@ -128,7 +128,7 @@ public class PlayerMovement : MonoBehaviour
         /* This raycast simply points downwards from the player's position. It extends to half
         // the player's height + 0.1f. */
         isOnGround = Physics.Raycast(playerTransform.position, Vector3.down, 1.1f, groundLayer);
-        wallInFront = Physics.Raycast(transform.position, playerTransform.forward, out frontWallHit, wallCheckDistance, groundLayer);
+        wallInFront = Physics.Raycast(playerTransform.position, playerTransform.forward, wallCheckDistance, groundLayer);
     }
 
     private void GetInputs() {
