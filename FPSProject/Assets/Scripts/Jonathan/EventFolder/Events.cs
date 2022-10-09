@@ -12,11 +12,30 @@ namespace Unity.Scripts.Jonathan{
     public static class Events
     {
          public static PlayerDeathEvent PlayerDeathEvent = new PlayerDeathEvent();
+        public static PickupEvent pickupEvent = new PickupEvent();
+        public static ObjectiveUpdateEvent ObjectiveUpdateEvent = new ObjectiveUpdateEvent();
+        public static AllObjectivesCompletedEvent allOjbectivesCompletedEvent = new AllObjectivesCompletedEvent();
+        public static EnemyKillEvent enemyKillEvent = new EnemyKillEvent();
+    }
+
+    public class PickupEvent : GameEvent
+    {
+    }
+
+    public class ObjectiveUpdateEvent : GameEvent
+    {
+    }
+
+    public class AllObjectivesCompletedEvent : GameEvent
+    {
     }
 
     public class PlayerDeathEvent : GameEvent { 
         public GameObject player;
     }
+    public class EnemyKillEvent :GameEvent
+    {
 
+    }
     
 }
