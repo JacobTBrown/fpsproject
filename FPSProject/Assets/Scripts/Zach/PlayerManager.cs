@@ -49,7 +49,7 @@ public class PlayerManager : MonoBehaviour
     {
        // int seed = Random.Range(0, spawnReference.SpawnPoints.length);
 
-        Debug.Log("PlayerManager.cs called createController()!");
+        //Debug.Log("PlayerManager.cs called createController()!");
 
         //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);
         //https://forum.photonengine.com/discussion/1577/how-to-use-photonnetwork-instantiate-with-object-data
@@ -60,10 +60,11 @@ public class PlayerManager : MonoBehaviour
         //With that, the playerController will have a reference to send data back to the PlayerManager
         
     }
+    //unused function below, would need to be improved
     public void KillPlayer()
     {
         PhotonNetwork.Destroy(controllerAsGameObject);
-        Debug.Log("PlayerManager.cs called KillPlayer()");
+        //Debug.Log("PlayerManager.cs called KillPlayer()");
         //PhotonNetwork.Destroy(controllerReference);
         createController();
     }

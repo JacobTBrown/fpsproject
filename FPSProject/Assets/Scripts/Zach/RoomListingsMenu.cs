@@ -20,8 +20,8 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
         //Debug.Log("new on room list update");
         foreach (RoomInfo updatedRoom in roomList)
         {
-            Debug.Log("updating from roomListingMenu.cs");
-            if (updatedRoom.PlayerCount > 7)
+            //Debug.Log("updating from roomListingMenu.cs");
+            if (updatedRoom.PlayerCount == updatedRoom.MaxPlayers)
             {
                 updatedRoom.RemovedFromList = true;
             }
@@ -71,7 +71,7 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
                 RemoveRoomList(); //_listings holds current rooms, destroy all -> rebuild list -> render
                 foreach (RoomInfo roomInfo in AllRoomsList)
                 {
-                    Debug.Log("hit");
+                   
                     //Debug.Log(roomInfo.Name);
                     RoomListItem roomListItem = Instantiate(_roomListItemPrefab, findRoomPanel).GetComponent<RoomListItem>();
                     roomListItem.Setup(roomInfo);//, roomInfo.Name, roomInfo.cu); //!

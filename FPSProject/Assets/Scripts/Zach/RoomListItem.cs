@@ -14,8 +14,7 @@ public class RoomListItem : MonoBehaviourPunCallbacks
     public Text sizeText;
     public Text nameText;
     public Text mapText;
-    public PhotonView PV;
-    [SerializeField] public GameObject pref;
+    //[SerializeField] public GameObject pref; // if i need a reference to the game object of the prefab
 
 
     public void Awake()
@@ -23,37 +22,38 @@ public class RoomListItem : MonoBehaviourPunCallbacks
     }
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        Debug.Log("update room list from the prefab script");
+        //Debug.Log("update room list from the prefab script");
         //Debug.Log(roomList.Count);
         //base.OnRoomListUpdate(roomList); 
         foreach (RoomInfo r in roomList)
         {
-            
-                Debug.Log("name:" + r.Name);
-            Debug.Log("count:" + r.PlayerCount.ToString());
-            if (nameText.text == r.Name)
-            {
-                sizeText.text = r.PlayerCount.ToString() + "/" + r.MaxPlayers;
-            
-                Debug.Log("put code here");
-            
-                if (r.CustomProperties.ContainsKey("map"))
+            //! for troubleshooting , 2:22am sunday 10/8
+
+                 Debug.Log("name: " + r.Name);
+                 Debug.Log("count: " + r.PlayerCount.ToString());
+                if (nameText.text == r.Name)
                 {
-                    //if (r.CustomProperties.)
-                    //sets all both rooms
-                    Debug.Log("set map text");
-                    // if (mapText.text == Launcher.Instance.)
-                    mapText.text = Launcher.Instance.mapsArr[(int)r.CustomProperties["map"]].name;
+                    sizeText.text = r.PlayerCount.ToString() + "/" + r.MaxPlayers;
+
+                    //   Debug.Log("put code here");
+
+                    if (r.CustomProperties.ContainsKey("map"))
+                    {
+                        //sets all both rooms
+                        //     Debug.Log("set map text");
+
+                        mapText.text = Launcher.Instance.mapsArr[(int)r.CustomProperties["map"]].name; //for changing the map inside the room
+                    }
+                    else if (r.IsVisible)
+                    {
+                        Debug.Log("no map value in the hashtable was found");
+                    }
+                    else
+                    {
+                        Debug.Log("non-visible room has no hashtable");
+                    }
                 }
-                else if (r.IsVisible)
-                {
-                    Debug.Log("no map value in the hashtable was found");
-                }
-                else
-                {
-                    Debug.Log("non-visible room has no hashtable");
-                }
-            }
+            
         }
     }
     public void Setup(RoomInfo _info) //, Hashtable maps) //!

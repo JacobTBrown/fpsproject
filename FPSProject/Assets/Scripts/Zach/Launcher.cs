@@ -94,7 +94,7 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
-        Debug.Log("Connected");
+        //Debug.Log("Connected");
         PhotonNetwork.JoinLobby(); //allows room list updates
         PhotonNetwork.AutomaticallySyncScene = true;     
     }
@@ -112,12 +112,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedLobby()
     {
-        //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room 
+        // - Photon's 'Lobby' means we're avaiable to join a room/game
         if (!MenuManager.Instance.menus[1].open)
         MenuManager.Instance.OpenMenu("welcome");
        
         //Debug.Log("OnJoined Lobby Fucntion Call");
-        //PhotonNetwork.NickName = "Player " + Random.Range(0, 1000).ToString("Placeholder");
         // Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
     }
     public void OnClickCreateRoom()
@@ -126,23 +125,25 @@ public class Launcher : MonoBehaviourPunCallbacks
         //ExitGames.Client.Photon.Hashtable customProperties = new ExitGames.Client.Photon.Hashtable();
         //customProperties["Scene"] = selectedMap.map.name // this for the in-game properties i think?
 
-
+        if (string.IsNullOrEmpty(roomNameInputField.text))
+        {
+            Debug.Log("Room name was null");
+            return;
+        }
         RoomOptions options = new RoomOptions();
         options.CustomRoomPropertiesForLobby = new string[] { "map" }; //!
 
-        Hashtable properties = new Hashtable();
-        properties.Add("map", mapAsInt);
+        Hashtable properties = new Hashtable();             //custom properties with a hashtable- - 
+        properties.Add("map", mapAsInt);        
 
-        options.MaxPlayers = (byte)maxPlayersInput.value;
+        options.MaxPlayers = (byte)maxPlayersInput.value;   // - - default properties given by RoomOptions from Photon API
+       
         //Debug.Log("You gave max players input: " + options.MaxPlayers);
         //options.CustomRoomPropertiesForLobby = new string[] { "Key" };
         options.CustomRoomProperties = properties;
-        if (roomNameInputField != null)
+      
         PhotonNetwork.CreateRoom(roomNameInputField.text, options );
-        else
-        {
-            Debug.Log("null name");
-        }
+      
     }
 
     //REPLACED with ABOVE FUNCTION OnClickCreateRoom for room options fucntionality
