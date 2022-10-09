@@ -26,8 +26,12 @@ public class PlayerSettings : MonoBehaviour
     public int viewID;
     public string nickname;
     public GameObject settingPanel;
+<<<<<<< HEAD
     public GameObject canvas;
     public GameObject weaponHolder;
+=======
+    public GameObject scoreBoard;
+>>>>>>> fpsproject/Blake_Brooks
     [Header("User Mouse Settings")]
     // Horizontal mouse sensitivity
     public float mouseXSensitivity = 500f;
@@ -55,6 +59,7 @@ public class PlayerSettings : MonoBehaviour
         };
 
     void Start() {
+        Debug.Log("GameObject.Name," + gameObject.name);
         PV = GetComponent<PhotonView>();
         //Debug.Log("PV instantiate: " + PV.ViewID);
         //playermanager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
@@ -72,6 +77,8 @@ public class PlayerSettings : MonoBehaviour
         {
             //Debug.Log("GETTING SETTINGS PANEL");
             settingPanel = GameObject.Find("SettingPanel");
+            scoreBoard = GameObject.FindObjectOfType<Scoreboard>().gameObject;
+            scoreBoard.SetActive(false);
             mouseYSlider = GameObject.FindGameObjectWithTag("SliderV").GetComponent<Slider>();
             mouseXSlider = GameObject.FindGameObjectWithTag("SliderH").GetComponent<Slider>();
             settingPanel.SetActive(false);
@@ -98,7 +105,21 @@ public class PlayerSettings : MonoBehaviour
         mouseYSensitivity = mouseYSlider.value * 5;
         mouseYSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseYSlider.value + "";
         mouseXSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseXSlider.value + "";
+<<<<<<< HEAD
         if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]))
+=======
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            if (scoreBoard.activeInHierarchy)
+            {
+                scoreBoard.SetActive(false);
+            } else
+            {
+                scoreBoard.SetActive(true);
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+>>>>>>> fpsproject/Blake_Brooks
         {
             if (settingPanel.activeInHierarchy)
             {

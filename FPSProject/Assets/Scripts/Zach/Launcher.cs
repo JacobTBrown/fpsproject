@@ -7,7 +7,11 @@ using Photon.Realtime;
 using System.Linq;
 using UnityEngine.UI;
 using ExitGames;
+<<<<<<< HEAD
 using Hashtable = ExitGames.Client.Photon.Hashtable;
+=======
+using UnityEngine.SceneManagement;
+>>>>>>> fpsproject/Blake_Brooks
 
 /*
     Author: Zach Emerson
@@ -112,10 +116,21 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public override void OnJoinedLobby()
     {
+<<<<<<< HEAD
         // - Photon's 'Lobby' means we're avaiable to join a room/game
         if (!MenuManager.Instance.menus[1].open)
         MenuManager.Instance.OpenMenu("welcome");
        
+=======
+        //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room 
+        Debug.Log("JoinedLobby.");
+        if (!MenuManager.Instance.menus[1].open)
+        {
+            Debug.Log("Opening Welcome Screen.");
+            MenuManager.Instance.OpenMenu("welcome");
+        }
+        //MenuManager.Instance.OpenMenu("welcome");
+>>>>>>> fpsproject/Blake_Brooks
         //Debug.Log("OnJoined Lobby Fucntion Call");
         // Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
     }
@@ -152,6 +167,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (string.IsNullOrEmpty(roomNameInputField.text))
         {
             Debug.Log("Room name was null");
+            Debug.Log("Going into a created room.");
             return;
         }
         PhotonNetwork.CreateRoom(roomNameInputField.text);      
@@ -307,7 +323,12 @@ public class Launcher : MonoBehaviourPunCallbacks
     }*/
     public void startGame()
     {
+<<<<<<< HEAD
         PhotonNetwork.LoadLevel(1); 
+=======
+        //SceneManager.UnloadSceneAsync("InitialScene");
+        PhotonNetwork.LoadLevel(1);
+>>>>>>> fpsproject/Blake_Brooks
     }
     public void startGameWithMap()
     {

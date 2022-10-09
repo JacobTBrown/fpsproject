@@ -4,15 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using Unity.Scripts.Jonathan;
+using Photon.Realtime;
+using System.Linq;
 /*
+<<<<<<< HEAD
     Author: Zach Emerson
     Creation: 9/2/22
     Last Edit: 10/07/2022 - Jacob B
+=======
+Author: Zach Emerson
+Creation: 9/2/22
+Last Edit: 9/30/22 -Zach
+>>>>>>> fpsproject/Blake_Brooks
 
-    The class is attatched to a prefab
-    This class acts as the middle-man between the heigher-level RoomManager and the player controller (PlayerSettings.cs).
-    We are able to instantiate a player based on information given to ous from the RoomManager (ex: when a player dies, we will respawn them based on that data).
- */
+The class is attatched to a prefab
+This class acts as the middle-man between the heigher-level RoomManager and the player controller (PlayerSettings.cs).
+We are able to instantiate a player based on information given to ous from the RoomManager (ex: when a player dies, we will respawn them based on that data).
+*/
 public class PlayerManager : MonoBehaviour
 {
 
@@ -47,6 +55,7 @@ public class PlayerManager : MonoBehaviour
            player.transform.Find("Player Camera").gameObject.GetComponent<PlayerCameraMovement>().enabled = true;
         }
     }
+
 }
 
 //TODO:
