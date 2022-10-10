@@ -39,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
     public float wallCheckDistance;
     private PlayerSettings keybinds;
     private PlayerCameraMovement playerCam;
+    private SoundManager playerSounds;
     private float horizontalXInput;
     private float horizontalZInput;
     private Vector3 movement, velocity;
@@ -70,6 +71,7 @@ public class PlayerMovement : MonoBehaviour
 
         keybinds = GetComponent<PlayerSettings>();
         playerCam = GetComponentInChildren<PlayerCameraMovement>();
+        playerSounds = GetComponent<SoundManager>();
         
         // If we don't do this the player will fall over because it is a capsule
         playerRigidbody.freezeRotation = true;
@@ -117,9 +119,9 @@ public class PlayerMovement : MonoBehaviour
                     // Let the player do a double jump after the specified amount of time.
                     Invoke(nameof(DoubleJump), doubleJumpTimer);
                 }
-            } else if (playerState == MovementState.climbing) {
-                //playerRigidbody.useGravity = false;
-                //Jump();
+            } else {
+                playerRigidbody.useGravity = false;
+                Jump();
             }
         }
     }
@@ -180,17 +182,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void UpdateState() {
-        // State - wallclimb
-        if (wallInFront && horizontalZInput > 0) {
-            isClimbing = true;
-        } else {
-            playerRigidbody.useGravity = true;
-            if (isClimbing)
-                isClimbing = false;
-        }
-
-        if (isClimbing) {       // State - climbing
+        if (wallInFront && horizontalZInput > 0) {       // State - climbing
             playerState = MovementState.climbing;
+            isClimbing = true;
         } /*else if (isWallrunning) { // State - Wallrunning
             playerState = MovementState.wallrunning;
             moveSpeed = wallrunSpeed;*/
@@ -213,6 +207,11 @@ public class PlayerMovement : MonoBehaviour
         } else {
             playerState = MovementState.inAir;
             moveSpeed = airSpeed;
+            
+            if (isClimbing) {
+                playerRigidbody.useGravity = true;
+                isClimbing = false;
+            }
         }
     }
     
