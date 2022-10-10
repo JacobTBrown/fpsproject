@@ -149,6 +149,12 @@
         "com.unity.modules.imgui": "1.0.0"
       }
     },
+    "io.backtrace.unity": {
+      "version": "file:C:/Users/lordo/Desktop/School/SoftwareDesign&Development/backtrace-unity-3.7.7",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.modules.ai": {
       "version": "1.0.0",
       "depth": 0,

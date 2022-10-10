@@ -35,7 +35,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject); //RoomManager comes with us into the next scene so that we can instantiate the player.
         Instance = this;
     }
     public override void OnEnable()
