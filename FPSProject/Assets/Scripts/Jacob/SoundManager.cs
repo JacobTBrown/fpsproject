@@ -8,6 +8,8 @@ public class SoundManager : MonoBehaviour
     private AudioSource audioSource;
     private Rigidbody playerRigidbody;
     private PlayerMovement playerMovement;
+    private int routineCount;
+    private IEnumerator routine;
 
     // Start is called before the first frame update
     void Start()
@@ -15,8 +17,24 @@ public class SoundManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         playerRigidbody = GetComponent<Rigidbody>();
         playerMovement = GetComponent<PlayerMovement>();
+        routineCount = 0;
+    }
 
-        StartCoroutine(ChooseAFootstep());
+    void Update() {
+        if (playerMovement.playerState == PlayerMovement.MovementState.walking
+            || playerMovement.playerState == PlayerMovement.MovementState.sprinting) {
+            if (routineCount == 0)
+            {
+                routine = ChooseAFootstep();
+                StartCoroutine(routine);
+                routineCount++;
+            }
+        } else {
+            if (routineCount == 1 && routine != null) {
+                StopCoroutine(routine);
+                routineCount = 0;
+            } 
+        }
     }
 
     public IEnumerator ChooseAFootstep() {

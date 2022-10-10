@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90e908b13f7467f4185f3f45d43568c4, type: 3}
   m_Name: Backtrace Configuration
   m_EditorClassIdentifier: 
-  ServerUrl: https://submit.backtrace.io/unity-game-trace/2046c92e0c8629067cee604de2a8bcd0c7885399315739cb937dc31b414faf2e/json
+  ServerUrl: https://submit.backtrace.io/fpsproject/2eb88257af2e629bde649b37e0077dd5a0d54c43c9e066a3e8a2f7fe7dd004b3/json
   Token: 
   ReportPerMin: 50
   DisableInEditor: 0

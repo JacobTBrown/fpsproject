@@ -7,15 +7,9 @@ using Unity.Scripts.Jonathan;
 using Photon.Realtime;
 using System.Linq;
 /*
-<<<<<<< HEAD
     Author: Zach Emerson
     Creation: 9/2/22
     Last Edit: 10/07/2022 - Jacob B
-=======
-Author: Zach Emerson
-Creation: 9/2/22
-Last Edit: 9/30/22 -Zach
->>>>>>> fpsproject/Blake_Brooks
 
 The class is attatched to a prefab
 This class acts as the middle-man between the heigher-level RoomManager and the player controller (PlayerSettings.cs).
