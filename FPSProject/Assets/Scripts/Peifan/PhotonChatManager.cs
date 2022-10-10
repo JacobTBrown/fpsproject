@@ -62,7 +62,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
 
         if (chatField.text != "") 
         {
-            if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))
+            if (Input.GetKey(KeyCode.Return))
             { 
                 SubmitPublicChatOnClick();
                 SubmitPrivateChatOnClick();

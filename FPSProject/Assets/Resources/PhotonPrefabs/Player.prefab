@@ -5486,6 +5486,7 @@ MonoBehaviour:
   canvas: {fileID: 0}
   weaponHolder: {fileID: 0}
   scoreBoard: {fileID: 0}
+  chatRoom: {fileID: 0}
   mouseXSensitivity: 500
   mouseYSensitivity: 500
   mouseYSlider: {fileID: 0}

@@ -29,6 +29,7 @@ public class PlayerSettings : MonoBehaviour
     public GameObject canvas;
     public GameObject weaponHolder;
     public GameObject scoreBoard;
+    public GameObject chatRoom;
     [Header("User Mouse Settings")]
     // Horizontal mouse sensitivity
     public float mouseXSensitivity = 500f;
@@ -52,7 +53,7 @@ public class PlayerSettings : MonoBehaviour
         { KeycodeFunction.reload, KeyCode.R},
         { KeycodeFunction.scoreboard, KeyCode.Tab},
         { KeycodeFunction.menu, KeyCode.Escape},
-        //{ KeycodeFunction.menu, KeyCode.KeypadEnter},
+        { KeycodeFunction.chatRoom, KeyCode.KeypadEnter},
         };
 
     void Start() {
@@ -76,6 +77,8 @@ public class PlayerSettings : MonoBehaviour
             settingPanel = GameObject.Find("SettingPanel");
             scoreBoard = GameObject.FindObjectOfType<Scoreboard>().gameObject;
             scoreBoard.SetActive(false);
+            chatRoom = GameObject.Find("ChatPannel");
+            chatRoom.SetActive(false);
             mouseYSlider = GameObject.FindGameObjectWithTag("SliderV").GetComponent<Slider>();
             mouseXSlider = GameObject.FindGameObjectWithTag("SliderH").GetComponent<Slider>();
             settingPanel.SetActive(false);
@@ -114,6 +117,25 @@ public class PlayerSettings : MonoBehaviour
             }
         }
 
+        if (Input.GetKeyUp(inputSystemDic [KeycodeFunction.chatRoom]))
+        {
+            if (chatRoom.activeInHierarchy)
+            {
+                chatRoom.SetActive(false);
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
+            else
+            {
+                chatRoom.SetActive(true);
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+            }
+
+
+        }
+
+
         if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]))
         {
             if (settingPanel.activeInHierarchy)
@@ -126,6 +148,7 @@ public class PlayerSettings : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 //// Make the cursor invisible
                 Cursor.visible = false;
+                chatRoom.SetActive(false);
             }
             else
             {
@@ -138,6 +161,7 @@ public class PlayerSettings : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 //// Make the cursor invisible
                 Cursor.visible = true;
+                chatRoom.SetActive(false);
             }
 
             settingPanel.SetActive(!settingPanel.activeInHierarchy);
@@ -203,5 +227,6 @@ public enum KeycodeFunction
     jump,
     reload,
     scoreboard,
-    menu
+    menu,
+    chatRoom
 }
