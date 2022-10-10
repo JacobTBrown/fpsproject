@@ -5473,7 +5473,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3173107398918425439}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 252e31a1f3893a447873f0b398969e93, type: 3}
   m_Name: 
@@ -5498,7 +5498,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3173107398918425439}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c6245bd667653f14b9596c0968e71566, type: 3}
   m_Name: 
@@ -5510,7 +5510,7 @@ MonoBehaviour:
     m_Bits: 1024
   groundDrag: 5
   groundSlowWalkSpeed: 25
-  groundWalkSpeed: 50
+  groundWalkSpeed: 45
   groundSprintSpeed: 80
   airDrag: 1.25
   airSpeed: 12
