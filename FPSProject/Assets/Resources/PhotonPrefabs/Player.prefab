@@ -5509,9 +5509,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   groundDrag: 5
-  groundSlowWalkSpeed: 25
-  groundWalkSpeed: 45
-  groundSprintSpeed: 80
+  groundSlowWalkSpeed: 20
+  groundWalkSpeed: 40
+  groundSprintSpeed: 65
   airDrag: 1.25
   airSpeed: 12
   jumpForce: 10
