@@ -76,8 +76,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         Instance = this;
         Invoke("CheckConnection", 30);
         mapsArr = new MapData[2];
-        mapsArr[0] = new MapData("Red Map", 1);
-        mapsArr[1] = new MapData("Blue Map", 2);
+        mapsArr[0] = new MapData("Map 1", 1);
+        mapsArr[1] = new MapData("Map 2", 2);
     }
     public void Update()
     {
@@ -214,7 +214,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         //if (mapAsInt >= mapsArr.Length) mapsArr[mapAsInt].scene = 0;
         Debug.Log("map int value: " + mapAsInt);
         Debug.Log("map string value: " + mapsArr[mapAsInt].name);
-        mapValue.text = "Map: " + mapsArr[mapAsInt].name;
+        mapValue.text =  mapsArr[mapAsInt].name;
         
     }
 

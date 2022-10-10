@@ -11,15 +11,18 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/JonathanTestScene.unity
     guid: f38fd55debc7c8749a5ffe41aa3fddad
+  - enabled: 0
+    path: Assets/Scenes/BlueMap.unity
+    guid: 7edb1a8e3dd09774b91af7c1bc954a0f
   - enabled: 1
     path: Assets/Scenes/ColemanWeaponsAndPowerups.unity
     guid: 745e40d07e4784b4891bf5e874f1572a
-  - enabled: 1
-    path: Assets/Scenes/BlueMap.unity
-    guid: 7edb1a8e3dd09774b91af7c1bc954a0f
   - enabled: 0
     path: Assets/Scenes/RedMap.unity
     guid: 40c6e68b3344b4b468ccb07c22db09f5
+  - enabled: 1
+    path: Assets/Scenes/ColemanWeaponsAndPowerups copy.unity
+    guid: ab7024af1f648d9429ccfd523b6dd783
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9ea411099dc52a444a619f5fb17a88ec,
       type: 2}
