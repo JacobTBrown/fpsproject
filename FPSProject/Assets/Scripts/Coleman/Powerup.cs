@@ -32,9 +32,11 @@ public class Powerup : MonoBehaviour
             {
                 child.GetComponent<MeshRenderer>().enabled = false;
             }
-            GetComponent<Collider>().enabled = false;
             if (stats.currentHealth < (stats.maxHealth / 2)) stats.currentHealth += 50f;
             else stats.currentHealth += stats.maxHealth - stats.currentHealth;
+            transform.parent.position = new Vector3(0, 1000, 0);
+            yield return new WaitForSeconds(1);
+            GetComponent<Collider>().enabled = false;
             yield return new WaitForSeconds(3);
             Destroy(transform.parent.gameObject);
         }

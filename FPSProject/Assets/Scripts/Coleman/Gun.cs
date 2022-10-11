@@ -24,20 +24,26 @@ public class Gun : MonoBehaviour
 
     private void Start()
     {
-        ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
-        hitMarker = GameObject.Find("HitMarker");
-        hitMarker.SetActive(false);
-        PlayerShoot.shootInput += Shoot;
-        PlayerShoot.reloadInput += ReloadInit;
-        animator = GetComponent<Animator>();
-        sounds = GetComponents<AudioSource>();
-        gunshot = sounds[0];
-        reload = sounds[1];
+        if (transform.parent != null)
+        {
+            ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
+            hitMarker = GameObject.Find("HitMarker");
+            hitMarker.SetActive(false);
+            PlayerShoot.shootInput += Shoot;
+            PlayerShoot.reloadInput += ReloadInit;
+            animator = GetComponent<Animator>();
+            sounds = GetComponents<AudioSource>();
+            gunshot = sounds[0];
+            reload = sounds[1];
+        }
     }
     void Awake()
     {
-        player = transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject;
-        PV = player.GetComponent<PhotonView>();
+        if (transform.parent != null)
+        {
+            player = transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject;
+            PV = player.GetComponent<PhotonView>();
+        }
     }
 
     private IEnumerator Reload()
@@ -105,9 +111,12 @@ public class Gun : MonoBehaviour
     {
         timeSinceLastShot += Time.deltaTime;
         Debug.DrawRay(muzzle.position, muzzle.forward);
-     
-        if(gunData.reserveAmmo == -1) ammoCounter.text = gunData.currentAmmo.ToString() + "/\u221e";
-        else ammoCounter.text = gunData.currentAmmo.ToString() + "/" + gunData.reserveAmmo.ToString();
+
+        if (transform.parent != null)
+        {
+            if (gunData.reserveAmmo == -1) ammoCounter.text = gunData.currentAmmo.ToString() + "/\u221e";
+            else ammoCounter.text = gunData.currentAmmo.ToString() + "/" + gunData.reserveAmmo.ToString();
+        }
     }
 
     private void OnGunShot()
