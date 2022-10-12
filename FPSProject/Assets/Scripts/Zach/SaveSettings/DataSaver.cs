@@ -4,40 +4,117 @@ using UnityEngine;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System;
+
 public static class DataSaver
 {
-
-    public static void SaveStats(PlayerStatsPage playerStats)
+    //Zach 10-10
+    // PlayerStatsPage tells this file when to save data.
+    // Data from PlayerStatsPage is serialized by DataToStore,
+    // then the serialized data is saved to C:\Users\"UserName"\AppData\LocalLow\DefaultCompany\FPSProject\player.stats
+    public static void SaveStats(DataToStore data)
     {
-        BinaryFormatter formatter = new BinaryFormatter();
+        
+        Debug.Log("saving from DataSaver.cs");
+        
+        //string path = Path.Combine(Application.persistentDataPath, "player.stats2");
+        string path = Application.persistentDataPath + "/player.stats2";
+        Debug.Log("path was " + path);
+        string json = JsonUtility.ToJson(data);
+        //Debug.Log(json);
+        if (File.Exists(path))
+        {
+            // Take the exisintg Json from file -> convert to data -> data += oldData + data
+            //FileStream fs = File.OpenRead(path);
+            Debug.Log("File Found");
+            string oldJson = File.ReadAllText(path);
+            //Debug.Log(File.ReadAllText(path));
+            DataToStore oldData = JsonUtility.FromJson<DataToStore>(oldJson);
+            DataToStore newData = new DataToStore(data, oldData);
+            json = JsonUtility.ToJson(newData);
+            //json = JsonUtility.ToJson(File.ReadAllText(path));
+            Debug.Log(json);
+            
+            JsonUtility.FromJsonOverwrite(json, data);
+            //fs.Dispose();
+            //do the json overwriting
+            //FileStream newFS = File.OpenWrite(path);
+            File.WriteAllText(path, json);
+            Debug.Log("Finished saving new data");
+            Debug.Log("data was " + json);
+            //fs.Dispose();
+            //fs.Close();
+            Debug.Log("file closed");
 
-        string path = Application.persistentDataPath + "/player.stats"; //"C:/System/";
-        FileStream fs = new FileStream(path, FileMode.Create);
-
-        DataToStore data = new DataToStore(playerStats);
-
-        formatter.Serialize(fs, data);
-        fs.Close();
+        }
+        else
+        {
+            Debug.Log("file not found, saving json " + json);
+            FileStream fs = File.Create(path);
+            fs.Close();
+            File.WriteAllText(path, json);
+            fs.Dispose();
+            //fs.Close();
+            Debug.Log("file closed");
+            //create new file & save
+        }
     }
 
-    public static DataToStore LoadData()
+    public static DataToStore LoadData(DataToStore data)
     {
-        string path = Application.persistentDataPath + "/player.stats";
-        try
+        Debug.Log("entered DataSaver's loader");
+        string path = Application.persistentDataPath + "/player.stats2";
+        //string path = Path.Combine(Application.persistentDataPath, "player.stats2");
+         //check existing -> read or create -> return data
+            Debug.Log("loading from dataSaver.cs");
+            Debug.Log("path was: " + path);
+        if (File.Exists(path))
         {
-            BinaryFormatter formatter = new BinaryFormatter();
-            FileStream fs = new FileStream(path, FileMode.Open);
-
-            formatter.Deserialize(fs);
-            DataToStore data = formatter.Deserialize(fs) as DataToStore;
-            fs.Close();
-            return data;
-        } catch (Exception e)
-        {
-            Debug.Log("file " + path + " not found - Error : " + e);
-            
+            try
+            {
+                FileStream fs = File.OpenRead(path);
+                Debug.Log("file was found and your json is -> ");
+                fs.Dispose();
+                //Debug.Log("that took " + Time.realtimeSinceStartup + " seconds");
+                string json = File.ReadAllText(path);
+                Debug.Log("-> " + json);
+                data = JsonUtility.FromJson<DataToStore>(json);
+                if (fs.CanRead)
+                {
+                    Debug.Log("fs still open");
+                    fs.Close();
+                }
+                Debug.Log("file closed");
+            }
+            catch (Exception e)
+            {
+                Debug.Log("file was found, but Unity threw " + e);
+            }
         }
-        return null;
+        else
+        {
+            try
+            {
+                string json = JsonUtility.ToJson(data);
+                Debug.Log("making you a new file now with default values");
+                FileStream fs = File.Create(path);
+                fs.Close();
+                File.WriteAllText(path, json);
+                fs.Close();
+                fs.Dispose();
+                Debug.Log("file closed");
+            }
+
+            catch (Exception e)
+            {
+                Debug.Log("ERROR MESSAGE FROM UNITY: " + e);
+                Debug.Log("Path was: " + path);
+                Debug.Log("If this is your first time launching the game, you will have a new file on first auto-save");
+                
+            }
+        }
+        Debug.Log("data was : " + data.timeInGame + " " + data.totalTime);//data.totalDeaths);
+        return data; //! CHANGE TO NEW DATA PLS, ITS NO LONGER DEFAULT VALUES 
+
         /*if (File.Exists(path))
         {
                     BinaryFormatter formatter = new BinaryFormatter();

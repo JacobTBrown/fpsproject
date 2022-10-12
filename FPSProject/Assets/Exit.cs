@@ -10,7 +10,7 @@ public class Exit : MonoBehaviour
         //SceneManager.UnloadSceneAsync("ColemanWeaponsAndPowerups");
         SceneManager.LoadScene("InitialScene");
         MenuManager.loadScene = true;
-
+        Debug.Log("clicked");
         //GameObject titleMenu = GameObject.Find("TitleMenu");
         //titleMenu.SetActive(true);
     }

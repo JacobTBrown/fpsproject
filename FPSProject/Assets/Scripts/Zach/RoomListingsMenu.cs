@@ -4,6 +4,10 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 
+//Zach - 10/10 -
+// Updates the List of all rooms (FindRoomMenu)
+// onRoomListUpdate is called every time someone leaves or joins.
+
 public class RoomListingsMenu : MonoBehaviourPunCallbacks
 {
 
@@ -36,13 +40,13 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
             RoomInfo existingRoom = AllRoomsList.Find(x => x.Name.Equals(updatedRoom.Name)); //foreach room, check to see it it already exists & store it in existingRoom
             
             if (existingRoom == null)
-            {
+            {   //room was not found, so add it to the list
                 //Debug.Log("that room did not exist");
-                //RUNNING INIT
+                
                     AllRoomsList.Add(updatedRoom); //Existing room does not exist, so add to list of all rooms
                                                    //Debug.Log(updatedRoom.PlayerCount + "total palyer count just added");
                     if (updatedRoom.PlayerCount == 0)
-                    { //its done automatically by photon, this code is not reached
+                    { //it should be done automatically by photon, this code is not reached anymore
                         AllRoomsList.Remove(updatedRoom);
                         Debug.Log("removed empty room");
                         updatedRoom.RemovedFromList = true;
@@ -51,11 +55,6 @@ public class RoomListingsMenu : MonoBehaviourPunCallbacks
                     {
                         AllRoomsList.Remove(existingRoom);
                     }
-                    /*else if (updatedRoom.PlayerCount == 1)
-                    {
-                        Debug.Log("player count was 1");
-                        fullRoomList.Remove(existingRoom);
-                    }*/
                     else if (updatedRoom.PlayerCount == 0)
                     {
                         Debug.Log("player count was 0");

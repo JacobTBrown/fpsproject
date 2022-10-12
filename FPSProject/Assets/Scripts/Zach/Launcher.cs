@@ -46,7 +46,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] TMP_Text roomNameText;
     [SerializeField] Transform roomListContent;
     [SerializeField] GameObject roomListItemPrefab;
-    [Header("Room")]
+    [Header("In Room List")]
     [SerializeField] GameObject PlayerListItemPrefab;
     [SerializeField] Transform playerListContent;
     [Header("Host Options")]
@@ -56,7 +56,6 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] GameObject mapSelectButton;
     [Header("Utils")]
     [SerializeField] TMP_Text errorText;
-    [SerializeField] TMP_Text pingText;
     [SerializeField] Button[] multiplayerButtons;
     public int currentMap = 0;
 
@@ -68,22 +67,23 @@ public class Launcher : MonoBehaviourPunCallbacks
     public Text maxPlayersString;
     //public bool isConnected;
     public TMP_Text ping;
-    //public GameObject Loadingpanel; //vs LoadingMenu 
-
+    private GameObject pingObj;
+    
     private void Awake()
     {
+        pingObj = GameObject.Find("PingVariable");
+        pingObj.SetActive(false);
         //Debug.Log("Script activated");
         Instance = this;
         Invoke("CheckConnection", 30);
-        mapsArr = new MapData[2];
+        mapsArr = new MapData[2];          //to add maps, increment this array, and add the map name below with its index.
         mapsArr[0] = new MapData("Map 1", 1);
         mapsArr[1] = new MapData("Map 2", 2);
     }
     public void Update()
-    {
+    { 
         pingAsInt = PhotonNetwork.GetPing();
         ping.text = PhotonNetwork.GetPing().ToString();
-        
     }
     void Start()
     {
@@ -95,13 +95,16 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
+        pingObj.SetActive(true);
+        pingAsInt = PhotonNetwork.GetPing();
+        ping.text = PhotonNetwork.GetPing().ToString();
         //Debug.Log("Connected");
         PhotonNetwork.JoinLobby(); //allows room list updates
         PhotonNetwork.AutomaticallySyncScene = true;     
     }
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Debug.Log("OnDisconnected() executed in launcher.cs");
+       // Debug.Log("OnDisconnected() executed in launcher.cs");
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     { //I think its deprecated but I can't find a replacement ?
@@ -114,10 +117,10 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room 
-        Debug.Log("JoinedLobby.");
+        //Debug.Log("JoinedLobby.");
         if (!MenuManager.Instance.menus[1].open)
         {
-            Debug.Log("Opening Welcome Screen.");
+            //Debug.Log("Opening Welcome Screen.");
             MenuManager.Instance.OpenMenu("welcome");
         }
         //MenuManager.Instance.OpenMenu("welcome");
@@ -204,7 +207,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public override void OnCreatedRoom()
     {
-        Debug.Log("created room" + roomNameText);
+        //Debug.Log("created room" + roomNameText);
 
     }
     public void ChangeMap()
@@ -212,15 +215,15 @@ public class Launcher : MonoBehaviourPunCallbacks
         mapAsInt++;
         if (mapAsInt >= mapsArr.Length) mapAsInt = 0; //button click loops through the array
         //if (mapAsInt >= mapsArr.Length) mapsArr[mapAsInt].scene = 0;
-        Debug.Log("map int value: " + mapAsInt);
-        Debug.Log("map string value: " + mapsArr[mapAsInt].name);
+        //Debug.Log("map int value: " + mapAsInt);
+        //Debug.Log("map string value: " + mapsArr[mapAsInt].name);
         mapValue.text =  mapsArr[mapAsInt].name;
         
     }
 
-    public void MaxPlayersSlider (float sliderInput) //!
+    public void MaxPlayersSlider (float sliderInput)
     {
-        Debug.Log("Seetting max players" + sliderInput);
+        //Debug.Log("Setting max players" + sliderInput);
         maxPlayersString.text = Mathf.RoundToInt(sliderInput).ToString();
     }
     public void ChangeGameMode()
@@ -235,7 +238,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         if (pingAsInt < 21 || pingAsInt > 199) //When we're not connected, ping is 200
         {
-            pingText.text = "Connecting..";
+            //pingText.text = "Connecting..";
             Debug.Log("bad connection");
             ConnectionFailed();
         }
@@ -243,7 +246,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public void ConnectionFailed()
     {
         //MenuManager.Instance.OpenMenu("title");
-        Debug.Log("Connection Dropped, please try again or continue without connecting");
+        //Debug.Log("Connection Dropped, please try again or continue without connecting");
         errorText.text = "Connection Dropped, please try again or continue without connecting";
         MenuManager.Instance.OpenMenu("reconnect");
         for (int i = 0; i <multiplayerButtons.Length; i++)
@@ -260,7 +263,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public void JoinRoom(RoomInfo info)
     {
-        Debug.Log("This room has: " +info.MaxPlayers + "Max players"); 
+        //Debug.Log("This room has: " +info.MaxPlayers + "Max players"); 
         
         if (info.PlayerCount == info.MaxPlayers)
         {
@@ -281,51 +284,28 @@ public class Launcher : MonoBehaviourPunCallbacks
         //PhotonNetwork.CurrentRoom.IsOpen = false;
 
         //needs better logic
-        Debug.Log("called my LeaveRoom() handler");
+        //Debug.Log("called my LeaveRoom() handler");
         
         PhotonNetwork.LeaveRoom(); //sends player to WelcomeScreen as a callback (The default state of Scene 0).
         //Finishes execution AFTER opening the title menu
         
-
-        MenuManager.Instance.OpenMenu("title");
+        
+        //MenuManager.Instance.OpenMenu("title");
 
     }
-    //MOVED TO ROOMLISTINGSMENU.cs
-   /* public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-        
-        for (int i = 0; i < roomList.Count; i++)
-        {
-            if (!roomList[i].IsVisible || !roomList[i].IsOpen || roomList[i].RemovedFromList)
-            {
-                Debug.Log("dont add to list");
-                Destroy(roomList[i].trans)
-            }
-            else
-            {
-                Debug.Log(" add room to list: " + roomList[i].Name);
-                Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().Setup(roomList[i]);
-            }
-            //if (roomList[i].PlayerCount >7) { roomList[i].RemovedFromList = true;  }
-            //if (roomList[i].RemovedFromList) { continue; }
-            
-        }
-    }*/
     public void startGame()
     {
-        //SceneManager.UnloadSceneAsync("InitialScene");
         PhotonNetwork.LoadLevel(1);
     }
     public void startGameWithMap()
     {
-        Debug.Log("loading map number: " + mapsArr[mapAsInt].scene);
+        //Debug.Log("loading map number: " + mapsArr[mapAsInt].scene);
         PhotonNetwork.LoadLevel(mapsArr[mapAsInt].scene); //!
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
-
     }
    
 

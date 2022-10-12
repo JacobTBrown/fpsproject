@@ -45,7 +45,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     public override void OnLeftRoom()
     {
         //Photon.Pun.SceneManager.LoadScene(0);
-        //UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        
+        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         //introduces an extra roomManager
         //probably not going to use this file anyway, but if you do..
         //TODO: delete room manager
