@@ -11,6 +11,8 @@ public static class DataSaver
     // PlayerStatsPage tells this file when to save data.
     // Data from PlayerStatsPage is serialized by DataToStore,
     // then the serialized data is saved to C:\Users\"UserName"\AppData\LocalLow\DefaultCompany\FPSProject\player.stats
+
+
     public static void SaveStats(DataToStore data)
     {
         
@@ -58,7 +60,9 @@ public static class DataSaver
             //create new file & save
         }
     }
-
+    /// <summary>
+    /// Returns data loaded from file. If no file is found, It creates a new file with your data and returns with the data you sent.
+    /// </summary>
     public static DataToStore LoadData(DataToStore data)
     {
         Debug.Log("entered DataSaver's loader");

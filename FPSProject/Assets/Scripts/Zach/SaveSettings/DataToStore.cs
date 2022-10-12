@@ -5,6 +5,8 @@ using UnityEngine;
 
 
 // MVC (and *utils**
+// MVC (and **utils**)
+// This data is populated by PlayerStatsPage and then sent to the DataSaver
 [Serializable]
 public class DataToStore
 {
@@ -24,6 +26,12 @@ public class DataToStore
         totalKills = playerStats.totalKills;
         totalDeaths = playerStats.totalDeaths;
     }
+    /// <summary>
+    /// Get a new DataToStore object by adding the your current data object to a previous data object.
+    /// <br>DataToStore(newData, OldData) </br> <br></br>Ex: DataToStore newData = new DataToStore(data, oldData); 
+    /// <br>newData.time = data.time + oldData.time</br>
+    /// <br>username = data.userName</br>
+    /// </summary>
     public DataToStore(DataToStore a, DataToStore b)
     {
         timeInGame = a.timeInGame + b.timeInGame;
