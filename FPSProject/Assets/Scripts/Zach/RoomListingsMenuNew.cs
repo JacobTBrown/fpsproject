@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using UnityEngine.UI;
 
 //Zach - 10/10 -
 // Updates the List of all rooms (FindRoomMenu)
 // onRoomListUpdate is called every time someone leaves or joins.
 
-public class RoomListingsMenu : MonoBehaviourPunCallbacks
+public class RoomListingsMenuNEW : MonoBehaviourPunCallbacks
 {
 
     [SerializeField] private Transform findRoomPanel;

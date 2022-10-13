@@ -43,10 +43,14 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] public TMP_Text modeValue;
     [SerializeField] public Slider maxPlayersInput;
     [Header("Find Room List")]
-    [SerializeField] TMP_Text roomNameText;
+    private Text roomPrefabName;
+    private Text roomPrefabMap;
+    private Text roomPrefabSize;
+    [SerializeField] private RoomListItemNew _roomListItemPrefab;
     [SerializeField] Transform roomListContent;
     [SerializeField] GameObject roomListItemPrefab;
     [Header("In Room List")]
+    [SerializeField] TMP_Text roomNameText;
     [SerializeField] GameObject PlayerListItemPrefab;
     [SerializeField] Transform playerListContent;
     [Header("Host Options")]
@@ -68,7 +72,9 @@ public class Launcher : MonoBehaviourPunCallbacks
     //public bool isConnected;
     public TMP_Text ping;
     private GameObject pingObj;
-    
+    private List<RoomInfo> AllRoomsList = new List<RoomInfo>();
+    private List<GameObject> NewRoomsList = new List<GameObject>();
+    public bool debug = true;
     private void Awake()
     {
         pingObj = GameObject.Find("PingVariable");
@@ -142,33 +148,106 @@ public class Launcher : MonoBehaviourPunCallbacks
         options.CustomRoomPropertiesForLobby = new string[] { "map" }; //!
 
         Hashtable properties = new Hashtable();             //custom properties with a hashtable- - 
-        properties.Add("map", mapAsInt);        
-
+        properties.Add("map", mapAsInt);                    //adds map name based on index in array above, index is changed by clicking button in CreateRoomMenu
+        
         options.MaxPlayers = (byte)maxPlayersInput.value;   // - - default properties given by RoomOptions from Photon API
        
         //Debug.Log("You gave max players input: " + options.MaxPlayers);
-        //options.CustomRoomPropertiesForLobby = new string[] { "Key" };
+        
         options.CustomRoomProperties = properties;
-      
-        PhotonNetwork.CreateRoom(roomNameInputField.text, options );
-      
-    }
 
-    //REPLACED with ABOVE FUNCTION OnClickCreateRoom for room options fucntionality
-   /* public void CreateRoom()
-    {
-        if (string.IsNullOrEmpty(roomNameInputField.text))
-        {
-            Debug.Log("Room name was null");
-            Debug.Log("Going into a created room.");
-            return;
-        }
-        PhotonNetwork.CreateRoom(roomNameInputField.text);      
-        MenuManager.Instance.OpenMenu("loading");
-        //loading menu will automatically close after the async call above finishes executing
+        PhotonNetwork.CreateRoom(roomNameInputField.text, options );
+        //GameObject myRoomBtn = Instantiate(roomListItemPrefab, roomListContent) as GameObject;
+        //string myText = myRoomBtn.transform.Find("nameText").GetComponent<Text>().text = roomNameInputField.text;
+        //myRoomBtn.transform.Find("sizeText").GetComponent<Text>().text = "1/" + mapValue.text;
+
+            //myRoomBtn.transform.Find("mapText").GetComponent<Text>().text = mapValue.text;
+        //Debug.Log("created room with values" + myText);
     }
-   
-    */
+    private void ClearRoomList()
+    {
+        foreach (Transform t in roomListContent) //! fixes updates? 10-12 10pm
+        {
+            Destroy(t.gameObject);
+        }
+        //NewRoomsList.Clear();
+    }
+    public void RenderRooms()
+    { //AllRoomsList has been updated, so store into NewRoomsList and render to screen
+        ClearRoomList();    
+        foreach (RoomInfo r in AllRoomsList)
+        {
+            if (debug)
+                Debug.Log("rendering room : " + r.Name + "with info : " + r);
+            GameObject newRoomItemPrefab = roomListItemPrefab;
+            newRoomItemPrefab.GetComponent<RoomListItemNew>().Setup(r);
+            newRoomItemPrefab.transform.Find("nameText").GetComponent<Text>().text = r.Name;
+                newRoomItemPrefab.transform.Find("sizeText").GetComponent<Text>().text = r.PlayerCount + "/" + r.MaxPlayers;
+            if (r.CustomProperties.ContainsKey("map"))
+            {
+                //if (debug) Debug.Log("had key");
+                newRoomItemPrefab.transform.Find("mapText").GetComponent<Text>().text = mapsArr[(int)r.CustomProperties["map"]].name; //for changing the map inside the room
+            }
+            //RoomListItemNew roomListItem = newRoomItemPrefab.GetComponent<RoomListItemNew>();
+            //RoomListItemNew roomListItem = newRoomItemPrefab.GetComponent<RoomListItemNew>();
+            //roomListItem = newRoomItemPrefab.GetComponent<RoomListItemNew>();
+            //roomListItem.Setup(r);
+
+            if (debug) Debug.Log("info: " + newRoomItemPrefab.GetComponent<RoomListItemNew>().info);
+                //roomListItem.GetComponent<Button>().onClick.AddListener(delegate { JoinOnClick(r); });
+                //newRoomItemPrefab.GetComponent<Button>().onClick.AddListener(delegate { JoinOnClick(r); });
+                //newRoomItemPrefab.transform.Find("mapText").GetComponent<Text>().text = r.Name;
+                //Debug.Log("instantiating that: " + newRoomItemPrefab.name);
+            GameObject newRoomBtn = Instantiate(roomListItemPrefab, roomListContent) as GameObject;
+            newRoomBtn.GetComponent<Button>().onClick.AddListener(delegate { JoinOnClick(r); });
+            //NewRoomsList.Add(newRoomBtn);
+        }
+        /*  foreach (GameObject newRoomBtn in NewRoomsList)
+          {
+              SetRoomInfo(newRoomBtn, AllRoomsList);
+          }*/
+    }
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    { //this function creates the AllRoomsList. The AllRoomsList populates the newRoomList with RenderRooms() 
+        //foreach (RoomInfo r in AllRoomsList) { Debug.Log("all names in AllRoomsList: " + r.Name); }
+        foreach (RoomInfo r in roomList)
+        {
+            if (r.PlayerCount == 0 || r.PlayerCount == r.MaxPlayers)
+            {
+                if (debug) Debug.Log("removed 0 or hit count from room name: " + r.Name);
+                 
+                r.RemovedFromList = true;
+                AllRoomsList.Remove(r);
+                RenderRooms();
+                continue;
+            } else if (r.RemovedFromList){
+                if (debug) Debug.Log("room was hidden or full");
+                AllRoomsList.Remove(r);
+                RenderRooms();
+                continue;
+            } 
+            RoomInfo existingRoom = AllRoomsList.Find(x => x.Name.Equals(r.Name)); //foreach room, check to see it it already exists & store it in existingRoom
+            if (existingRoom == null)
+            {
+                AllRoomsList.Add(r); //! check for proper removal of empty rooms, should have happened already: check RoomListingsMenu.cs
+                if (debug) Debug.Log("added to all roomlist: " + AllRoomsList.Count);
+            }
+            else
+            {//existing room was found, so update the info
+                if (debug) Debug.Log("old player count: " + existingRoom.PlayerCount);
+                if (debug) Debug.Log("new player count: " + r.PlayerCount);
+                AllRoomsList.Remove(existingRoom);
+                AllRoomsList.Add(r);
+                
+
+            }
+            RenderRooms();
+        }
+        base.OnRoomListUpdate(roomList);
+        //Debug.Log("new list of allRooms: " + roomList);
+        foreach (RoomInfo r in AllRoomsList) { if (debug) Debug.Log("new names in AllRoomsList: " + r.Name); }
+    }
+  
     public override void OnJoinedRoom()
     {
         MenuManager.Instance.OpenMenu("room");
@@ -239,7 +318,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (pingAsInt < 21 || pingAsInt > 199) //When we're not connected, ping is 200
         {
             //pingText.text = "Connecting..";
-            Debug.Log("bad connection");
+            if (debug) Debug.Log("bad connection");
             ConnectionFailed();
         }
     }
@@ -256,18 +335,16 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public void ConnectManually()
     {
-        //needs better logic
-        //its buggy 
-        Debug.Log("attempting to reconnect...");
+        if (debug) Debug.Log("attempting to reconnect...");
         PhotonNetwork.ConnectUsingSettings();
     }
     public void JoinRoom(RoomInfo info)
     {
-        //Debug.Log("This room has: " +info.MaxPlayers + "Max players"); 
+        if (debug) Debug.Log("This room has: " +info.MaxPlayers + "Max players"); 
         
         if (info.PlayerCount == info.MaxPlayers)
         {
-            Debug.Log("you tried to join a full room");
+            if (debug) Debug.Log("you tried to join a full room");
             return;
         }
         PhotonNetwork.JoinRoom(info.Name);
@@ -307,16 +384,33 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
     }
-   
 
+    void SetRoomInfo(GameObject newRoomBtn, RoomInfo r)
+    {
+        //Debug.Log(newRoomBtn.transform.Find("nameText").GetComponent<Text>().text);
+        Debug.Log(AllRoomsList.Count);
+        RoomInfo existingRoom = AllRoomsList.Find(x => x.Name.Equals(newRoomBtn.transform.Find("nameText").GetComponent<Text>().text));
+        if (existingRoom != null)
+        { //room already existed, update count.
+            newRoomBtn.transform.Find("sizeText").GetComponent<Text>().text = existingRoom.PlayerCount + "/" + existingRoom.MaxPlayers;
+        }
+        else
+        {//room did not exist on lsit, so add it, then set name, count, map (other info later? like game type)
+            AllRoomsList.Add(r);
+            newRoomBtn.transform.Find("nameText").GetComponent<Text>().text = r.Name;
+            if (existingRoom.CustomProperties.ContainsKey("map"))
+            {
+                newRoomBtn.transform.Find("mapText").GetComponent<Text>().text = mapsArr[(int)existingRoom.CustomProperties["map"]].name; //for changing the map inside the room
+            }
+            //newRoomBtn.GetComponent<Button>().onClick.AddListener(delegate { JoinOnClick(existingRoom); });
+        }
+        //newRoomBtn.transform.Find("nameText").GetComponent<Text>().text = AllRoomsList.Find
+        /*   !! 2pm     newRoomBtn.transform.Find("sizeText").GetComponent<Text>().text = existingRoom.PlayerCount + "/" + existingRoom.MaxPlayers;
+                if (existingRoom.CustomProperties.ContainsKey("map"))
+                {
+
+                    newRoomBtn.transform.Find("mapText").GetComponent<Text>().text = mapsArr[(int)existingRoom.CustomProperties["map"]].name; //for changing the map inside the room
+                }
+                newRoomBtn.GetComponent<Button>().onClick.AddListener(delegate { JoinOnClick(existingRoom); });*/
+    }
 }
-
-// we'll need a public variable to access spawn points
-// programatically, each player should recieve a spawn point, (not necessarily different)
-//   > we should be able to check for the most appropriate spawn based on some function such as
-//		"checkForPlayerInRange()" function the that keeps track of other player's position - in GameManager.cs possibly? idk
-//		not *quite* sure on the implementation quite yet, but we will need a static reference to this controller (probably in SpawnManager.cs or some Class that references the SpawnManager).
-//		note* functions that are not attatched to an instantiated object/prefab be executed by all players, so this will need to be adapted a little for multiplayer.
-//			** Instantiated objects are created at runtime, i.e., they will not exist in the heirarchy when the game is not executing.
-//			so, the spawn points themselvs will not be instantiated, but we will need access to them to instantiate the players.
-// -Zach

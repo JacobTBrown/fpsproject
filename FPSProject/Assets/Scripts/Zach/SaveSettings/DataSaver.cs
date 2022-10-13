@@ -16,18 +16,18 @@ public static class DataSaver
     public static void SaveStats(DataToStore data)
     {
         
-        Debug.Log("saving from DataSaver.cs");
+        //Debug.Log("saving from DataSaver.cs");
         
         //string path = Path.Combine(Application.persistentDataPath, "player.stats2");
         string path = Application.persistentDataPath + "/player.stats2";
-        Debug.Log("path was " + path);
+        //Debug.Log("path was " + path);
         string json = JsonUtility.ToJson(data);
         //Debug.Log(json);
         if (File.Exists(path))
         {
-            // Take the exisintg Json from file -> convert to data -> data += oldData + data
+            // Take the exisintg Json from file -> convert to data -> data = oldData + data
             //FileStream fs = File.OpenRead(path);
-            Debug.Log("File Found");
+            //Debug.Log("File Found");
             string oldJson = File.ReadAllText(path);
             //Debug.Log(File.ReadAllText(path));
             DataToStore oldData = JsonUtility.FromJson<DataToStore>(oldJson);
@@ -41,22 +41,22 @@ public static class DataSaver
             //do the json overwriting
             //FileStream newFS = File.OpenWrite(path);
             File.WriteAllText(path, json);
-            Debug.Log("Finished saving new data");
-            Debug.Log("data was " + json);
+            //Debug.Log("Finished saving new data");
+            //Debug.Log("data was " + json);
             //fs.Dispose();
             //fs.Close();
-            Debug.Log("file closed");
+            //Debug.Log("file closed");
 
         }
         else
         {
-            Debug.Log("file not found, saving json " + json);
+            //Debug.Log("file not found, saving json " + json);
             FileStream fs = File.Create(path);
             fs.Close();
             File.WriteAllText(path, json);
             fs.Dispose();
             //fs.Close();
-            Debug.Log("file closed");
+            //Debug.Log("file closed");
             //create new file & save
         }
     }
@@ -65,29 +65,29 @@ public static class DataSaver
     /// </summary>
     public static DataToStore LoadData(DataToStore data)
     {
-        Debug.Log("entered DataSaver's loader");
+        //Debug.Log("entered DataSaver's loader");
         string path = Application.persistentDataPath + "/player.stats2";
         //string path = Path.Combine(Application.persistentDataPath, "player.stats2");
          //check existing -> read or create -> return data
-            Debug.Log("loading from dataSaver.cs");
-            Debug.Log("path was: " + path);
+            //Debug.Log("loading from dataSaver.cs");
+            //Debug.Log("path was: " + path);
         if (File.Exists(path))
         {
             try
             {
                 FileStream fs = File.OpenRead(path);
-                Debug.Log("file was found and your json is -> ");
+                //Debug.Log("file was found and your json is -> ");
                 fs.Dispose();
                 //Debug.Log("that took " + Time.realtimeSinceStartup + " seconds");
                 string json = File.ReadAllText(path);
-                Debug.Log("-> " + json);
+                //Debug.Log("-> " + json);
                 data = JsonUtility.FromJson<DataToStore>(json);
                 if (fs.CanRead)
                 {
-                    Debug.Log("fs still open");
+                    //Debug.Log("fs still open");
                     fs.Close();
                 }
-                Debug.Log("file closed");
+                //Debug.Log("file closed");
             }
             catch (Exception e)
             {
@@ -99,13 +99,13 @@ public static class DataSaver
             try
             {
                 string json = JsonUtility.ToJson(data);
-                Debug.Log("making you a new file now with default values");
+                //Debug.Log("making you a new file now with default values");
                 FileStream fs = File.Create(path);
                 fs.Close();
                 File.WriteAllText(path, json);
                 fs.Close();
                 fs.Dispose();
-                Debug.Log("file closed");
+                //Debug.Log("file closed");
             }
 
             catch (Exception e)
@@ -116,7 +116,7 @@ public static class DataSaver
                 
             }
         }
-        Debug.Log("data was : " + data.timeInGame + " " + data.totalTime);//data.totalDeaths);
+        //Debug.Log("data was : " + data.timeInGame + " " + data.totalTime);//data.totalDeaths);
         return data; //! CHANGE TO NEW DATA PLS, ITS NO LONGER DEFAULT VALUES 
 
         /*if (File.Exists(path))

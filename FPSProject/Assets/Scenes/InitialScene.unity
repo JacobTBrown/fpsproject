@@ -352,7 +352,6 @@ GameObject:
   - component: {fileID: 73928500}
   - component: {fileID: 73928499}
   - component: {fileID: 73928504}
-  - component: {fileID: 73928505}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -376,10 +375,12 @@ MonoBehaviour:
   mapValue: {fileID: 1692048440}
   modeValue: {fileID: 1819973698}
   maxPlayersInput: {fileID: 1962535227}
-  roomNameText: {fileID: 630483120}
-  roomListContent: {fileID: 815785699}
-  roomListItemPrefab: {fileID: 6364982182280764386, guid: 4c5cd05144ba19846918f4ad43e88acb,
+  _roomListItemPrefab: {fileID: 3205912698528923857, guid: a98a11f2624995549b23fffb82499d60,
     type: 3}
+  roomListContent: {fileID: 815785699}
+  roomListItemPrefab: {fileID: 5580144839611923291, guid: a98a11f2624995549b23fffb82499d60,
+    type: 3}
+  roomNameText: {fileID: 630483120}
   PlayerListItemPrefab: {fileID: 322553657005841354, guid: a00c58fb3d30ec24c9432393d54e7784,
     type: 3}
   playerListContent: {fileID: 1793987994}
@@ -398,6 +399,7 @@ MonoBehaviour:
   pingAsInt: 0
   maxPlayersString: {fileID: 1265953770}
   ping: {fileID: 440553625}
+  debug: 1
 --- !u!114 &73928500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,21 +512,6 @@ MonoBehaviour:
   - {fileID: 1022458865}
   - {fileID: 8113632758131124212}
   - {fileID: 798943333}
---- !u!114 &73928505
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 73928498}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68fcae60e0ad5eb4ca8129531cea6459, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  findRoomPanel: {fileID: 815785699}
-  _roomListItemPrefab: {fileID: 3067600700271591524, guid: a98a11f2624995549b23fffb82499d60,
-    type: 3}
 --- !u!1 &99206329
 GameObject:
   m_ObjectHideFlags: 0
@@ -4458,7 +4445,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 768211972}
-        m_MethodName: SetPlayerName
+        m_MethodName: OnInputChanged
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4532,7 +4519,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 768211967}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6bf604abce0b5ab4ca2a10257198f4ea, type: 3}
+  m_Script: {fileID: 11500000, guid: 6029d69e90b0b74449624ba23c173d23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &798943329
@@ -9316,7 +9303,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1968331161}
   - component: {fileID: 1968331162}
-  - component: {fileID: 1968331164}
   m_Layer: 0
   m_Name: PlayerStatsGUI
   m_TagString: Untagged
@@ -9368,18 +9354,6 @@ MonoBehaviour:
   deathsCounterText: {fileID: 1509915243}
   pingCounterText: {fileID: 440553625}
   stats: {fileID: 2010204806}
---- !u!114 &1968331164
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1968331160}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 286afdf0dca451346bcc8f32f6d5d877, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2003380688
 GameObject:
   m_ObjectHideFlags: 0
@@ -12968,7 +12942,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 73928499}
-        m_MethodName: LeaveRoom
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

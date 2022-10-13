@@ -90,6 +90,7 @@ public class PlayerStatsPage : MonoBehaviour
     }
     public void SavePlayer()
     {
+        //Save on destroy? zach 11:30 10-12
         data = new DataToStore(this);
         Debug.Log("saving data -- time: " + data.totalTime + " timeInGame: " + data.timeInGame + " Kills: " + data.totalKills + " deaths: " + data.totalDeaths);
         //Debug.Log("saving " + JsonUtility.ToJson(data) +  "from PlayerStatsPage.cs");

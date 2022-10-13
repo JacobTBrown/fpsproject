@@ -77,7 +77,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: count
+  m_Text: 1/8
 --- !u!1 &2358374598416890317
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Map
+  m_Text: Map 1
 --- !u!1 &2754149029463377906
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,7 +233,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Name
+  m_Text: 1234
 --- !u!1 &5580144839611923291
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,9 +246,9 @@ GameObject:
   - component: {fileID: 5580144839611923295}
   - component: {fileID: 5580144839611923294}
   - component: {fileID: 5580144839611923289}
-  - component: {fileID: 3067600700271591524}
   - component: {fileID: 1521137477806876421}
   - component: {fileID: 274430049193538343}
+  - component: {fileID: 3205912698528923857}
   m_Layer: 0
   m_Name: RoomListItem
   m_TagString: Untagged
@@ -332,23 +332,6 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
---- !u!114 &3067600700271591524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5580144839611923291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e85f27edb24e796458628a825f8438e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sizeText: {fileID: 3286025225676832201}
-  nameText: {fileID: 88717775656230588}
-  mapText: {fileID: 7763697626803779572}
-  PV: {fileID: 0}
-  pref: {fileID: 0}
 --- !u!114 &1521137477806876421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,18 +374,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5580144839611923289}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 3067600700271591524}
-        m_MethodName: OnClick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &274430049193538343
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,3 +400,18 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 1
   m_ChildScaleHeight: 0
+--- !u!114 &3205912698528923857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5580144839611923291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74fb7962f2174cf4697ed86a2dc2eaad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sizeText: {fileID: 3286025225676832201}
+  nameText: {fileID: 88717775656230588}
+  mapText: {fileID: 7763697626803779572}
