@@ -7,7 +7,7 @@ public class ItemSpawn : MonoBehaviour
     public static GameObject[] spawnList;
     private GameObject itemSpawn;
     private float spawnDelay = 10;
-    private float nextSpawnTime;
+    private float spawnTime;
     private bool hasSpawned;
     // Start is called before the first frame update
     void Start()
@@ -27,7 +27,7 @@ public class ItemSpawn : MonoBehaviour
 
     private void Spawn()
     {
-        nextSpawnTime = Time.time + spawnDelay; 
+        spawnTime = Time.time + spawnDelay;
         itemSpawn = spawnList[Random.Range(0,spawnList.Length)];
         Instantiate(itemSpawn, transform.position + new Vector3(0,1,0), transform.rotation);
     }
@@ -35,12 +35,21 @@ public class ItemSpawn : MonoBehaviour
     private bool shouldSpawn()
     {
         if (hasSpawned) return false;
-        else return Time.time >= nextSpawnTime;
+        else return Time.time >= spawnTime;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Item"))
+        if (other.CompareTag("Item") || other.CompareTag("Weapon"))
+        {
+            hasSpawned = true;
+            Debug.Log(hasSpawned);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Item") || other.CompareTag("Weapon"))
         {
             hasSpawned = true;
             Debug.Log(hasSpawned);
@@ -49,9 +58,10 @@ public class ItemSpawn : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Item"))
+        if (other.CompareTag("Item") || other.CompareTag("Weapon"))
         {
             hasSpawned = false;
+            spawnTime = Time.time + spawnDelay;
             Debug.Log(hasSpawned);
         }
     }

@@ -395,7 +395,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 9.44e-43, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 840789.94, y: 3.3776812e+9, z: 1.1e-43, w: 6e-45}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -427,7 +427,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1492415945}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.71, y: 0.1, z: 0.42}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
   m_Children:
   - {fileID: 1306556105814821762}
@@ -662,10 +662,12 @@ MonoBehaviour:
   muzzle: {fileID: 1545153791}
   flash: {fileID: 1545153793}
   player: {fileID: 0}
+  WeaponHolder: {fileID: 0}
   hitMarker: {fileID: 0}
   PV: {fileID: 0}
   ammoCounter: {fileID: 0}
   settingsOpen: 0
+  equipped: 0
 --- !u!1 &1545153790
 GameObject:
   m_ObjectHideFlags: 0
@@ -5549,7 +5551,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1248940839372081596}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.022, y: -0.068, z: 0.764}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1247551895641880116}
@@ -5643,7 +5645,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 6.9e-44, z: 7.372e-42, w: 6e-44}
+  m_BoundingSphereOverride: {x: 0, y: 1.7e-44, z: 0, w: 3e-45}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -5655,7 +5657,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1247551895034259357}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.61, z: 0}
+  m_LocalPosition: {x: 0.614, y: -0.556, z: 0.629}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1247551895641880116}
@@ -5673,7 +5675,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1247551895034259356}
   - component: {fileID: 1247551895034259359}
-  - component: {fileID: 3025383897280518615}
   m_Layer: 0
   m_Name: Weapon Holder
   m_TagString: Untagged
@@ -5784,7 +5785,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1247551895605543970}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.018, y: 0.07, z: 1.228}
+  m_LocalPosition: {x: -0, y: 0.138, z: 0.465}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children:
   - {fileID: 1247551894137483874}
@@ -10515,7 +10516,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1247551895641880117}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.599, y: 0.25, z: -0.2}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1243355038814156416}
@@ -10578,10 +10579,12 @@ MonoBehaviour:
   muzzle: {fileID: 1247551895605543973}
   flash: {fileID: 1247551895605543975}
   player: {fileID: 0}
+  WeaponHolder: {fileID: 0}
   hitMarker: {fileID: 0}
   PV: {fileID: 0}
   ammoCounter: {fileID: 0}
   settingsOpen: 0
+  equipped: 0
 --- !u!82 &1247551895641880120
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11162,20 +11165,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PV: {fileID: 0}
---- !u!114 &3025383897280518615
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1247551895034259357}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bcca4699ae51b146bf9c3a3dd165149, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hasSecondWeapon: 0
-  selectedWeapon: 0
 --- !u!114 &3253950356704501474
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ TagManager:
   - SliderV
   - Settings
   - Item
+  - Weapon
   layers:
   - Default
   - TransparentFX

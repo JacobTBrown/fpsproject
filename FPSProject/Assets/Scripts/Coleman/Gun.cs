@@ -11,10 +11,12 @@ public class Gun : MonoBehaviour
     [SerializeField] private Transform muzzle;
     [SerializeField] private ParticleSystem flash;
     public GameObject player;
+    public GameObject WeaponHolder;
     public GameObject hitMarker;
     public PhotonView PV;
     public Text ammoCounter;
     public bool settingsOpen = false;
+    public bool equipped;
     Animator animator;
     AudioSource[] sounds;
     AudioSource gunshot;
@@ -26,6 +28,7 @@ public class Gun : MonoBehaviour
     {
         if (transform.parent != null)
         {
+            equipped = true;
             ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
             hitMarker = GameObject.Find("HitMarker");
             hitMarker.SetActive(false);
@@ -35,6 +38,9 @@ public class Gun : MonoBehaviour
             sounds = GetComponents<AudioSource>();
             gunshot = sounds[0];
             reload = sounds[1];
+        } else
+        {
+            equipped = false;
         }
     }
     void Awake()
@@ -69,7 +75,7 @@ public class Gun : MonoBehaviour
 
     private bool canShoot()
     {
-        if (!gunData.isReloading && timeSinceLastShot > 1f / (gunData.fireRate / 60f) && !settingsOpen)
+        if (!gunData.isReloading && timeSinceLastShot > 1f / (gunData.fireRate / 60f) && !settingsOpen && equipped)
         {
             return true;
         }
@@ -114,8 +120,11 @@ public class Gun : MonoBehaviour
 
         if (transform.parent != null)
         {
+            ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
             if (gunData.reserveAmmo == -1) ammoCounter.text = gunData.currentAmmo.ToString() + "/\u221e";
             else ammoCounter.text = gunData.currentAmmo.ToString() + "/" + gunData.reserveAmmo.ToString();
+            transform.localPosition = Vector3.zero;
+            transform.localRotation = Quaternion.identity;
         }
     }
 
@@ -131,7 +140,7 @@ public class Gun : MonoBehaviour
     private IEnumerator playerHit()
     {
         hitMarker.SetActive(true);
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.25f);
         hitMarker.SetActive(false);
     }
 }
