@@ -8,6 +8,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
 {
     [SerializeField] public float currentHealth;
     public float maxHealth = 100f;
+    public bool isInvincible = false;
     public HealthBar healthBar;
     public Animator DamageFlash;
     public GameObject player;
@@ -44,17 +45,22 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
             Damage(20f);
         }
         healthBar.SetHealth(currentHealth, PV);
+        if (isInvincible) healthBar.changeColor(PV, Color.blue);
+        else healthBar.changeColor(PV, Color.green);
     }
 
     public void Damage(float damage)
     {
         if(PV.IsMine)
         {
-            currentHealth -= damage;
-            impact.Play();
-            DamageFlash.SetTrigger("Damage");
-            healthBar.SetHealth(currentHealth, PV);
-            Debug.Log("Hit Player for " + damage + " damage. Player is now at " + currentHealth + " HP.");
+            if (!isInvincible)
+            {
+                currentHealth -= damage;
+                impact.Play();
+                DamageFlash.SetTrigger("Damage");
+                healthBar.SetHealth(currentHealth, PV);
+                Debug.Log("Hit Player for " + damage + " damage. Player is now at " + currentHealth + " HP.");
+            }
         }
         if (currentHealth <= 0)
         {

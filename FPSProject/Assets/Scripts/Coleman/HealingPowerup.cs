@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Powerup : MonoBehaviour
+public class HealingPowerup : MonoBehaviour
 {
     [SerializeField] private ParticleSystem pickupEffect;
     public AudioSource powerupSound;
@@ -17,11 +17,11 @@ public class Powerup : MonoBehaviour
     {
         if(other.CompareTag("Player"))
         {
-            StartCoroutine(Pickup(other));
+            StartCoroutine(HealthPickup(other));
         }
     }
 
-    IEnumerator Pickup(Collider player)
+    IEnumerator HealthPickup(Collider player)
     {
         PlayerDamageable stats = player.GetComponent<PlayerDamageable>();
         if (stats.currentHealth < stats.maxHealth)
