@@ -9,10 +9,16 @@ public class ScoreboardScript : MonoBehaviour
     public TMP_Text usernameText;
     public TMP_Text killsText;
     public TMP_Text deathsText;
+    private Player player;
 
-    public void Initialize(Player player)
+    public void Initialize(Player _player)
     {
-        Debug.Log("Player name is: " + player.NickName);
+        Debug.Log("Player name is: " + _player.NickName);
+        player = _player;
+        usernameText.text = _player.NickName;
+    }
+
+    private void Update() {
         usernameText.text = player.NickName;
     }
 }
