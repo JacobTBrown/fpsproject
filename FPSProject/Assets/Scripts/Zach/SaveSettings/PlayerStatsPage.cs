@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,6 +7,7 @@ using UnityEngine.SceneManagement;
 // Processes persistant stats for the player.
 // This file dictates when to save - must exist in DoNotDestroyOnLoad to carry over into scenes.
 // Also needs 
+// 10-13  BUGFIX PLS: use onDestroy() to save!!! destroy it and save when we get back to scene 0!!
 public class PlayerStatsPage : MonoBehaviour
 {
 
@@ -20,6 +22,8 @@ public class PlayerStatsPage : MonoBehaviour
     [SerializeField] public float updateInterval = 0.5f;
     [SerializeField] public double lastInterval;
     public int frames;
+    public int level = 1;
+    public int exp;
     public float fps;
     public static DataToStore data;
     public DataToStore newData;
@@ -41,13 +45,7 @@ public class PlayerStatsPage : MonoBehaviour
         //json = JsonUtility.ToJson(data);
         //Debug.Log("Json was" + json);
         newData = new DataToStore(data, DataSaver.LoadData(data));
-        Invoke("loadNew", 2); //it needs only one second to read/create the save file in my testing. 2 seconds is a safe value
-        //loadNew(); probably needs an invoke, check back later //!
-        /*        timeInGame = data.timeInGame;
-                totalTime = data.totalTime;
-                totalKills = data.totalKills;
-                totalDeaths = data.totalDeaths;*/
-        //  Debug.Log(data.totalTime);
+        loadNew(); //invoke is not needed for json implementation
     }
     public void loadNew()
     {
@@ -55,6 +53,8 @@ public class PlayerStatsPage : MonoBehaviour
         //Debug.Log("grabbing the new data loaded from PlayerStatsPage: " + data.totalKills);
         timeInGame = newData.timeInGame;
         totalTime = newData.totalTime;
+        level = newData.level;
+        exp = newData.exp;
         totalKills = newData.totalKills;
         totalDeaths = newData.totalDeaths;
         Debug.Log("New data in playerstatspage: " + JsonUtility.ToJson(newData));
@@ -73,7 +73,7 @@ public class PlayerStatsPage : MonoBehaviour
 
     }
     public void LogGameTime()
-    {
+    {// call this OnDestroy()?
 
     }
     private void Update()
@@ -92,7 +92,7 @@ public class PlayerStatsPage : MonoBehaviour
     {
         //Save on destroy? zach 11:30 10-12
         data = new DataToStore(this);
-        Debug.Log("saving data -- time: " + data.totalTime + " timeInGame: " + data.timeInGame + " Kills: " + data.totalKills + " deaths: " + data.totalDeaths);
+        Debug.Log("saving data -- time: " + data.totalTime + " timeInGame: " + data.timeInGame + " level: " + data.level + " Kills: " + data.totalKills + " deaths: " + data.totalDeaths);
         //Debug.Log("saving " + JsonUtility.ToJson(data) +  "from PlayerStatsPage.cs");
         DataSaver.SaveStats(data);
 
@@ -104,6 +104,7 @@ public class PlayerStatsPage : MonoBehaviour
         DataToStore newData = DataSaver.LoadData(data);
         totalTime = newData.totalTime;
         timeInGame = newData.timeInGame;
+        level = newData.level;
         totalKills = newData.totalKills;
         totalDeaths = newData.totalDeaths;
     }
@@ -115,6 +116,7 @@ public class PlayerStatsPage : MonoBehaviour
         {
             Debug.Log("logging");
             timeInGame += Time.timeSinceLevelLoad;
+
         }
         SavePlayer();
 
@@ -129,26 +131,40 @@ public class PlayerStatsPage : MonoBehaviour
         }
         timeInGame += Time.timeSinceLevelLoad;
     }
-    public int getTime()
+    public int GetTime()
     {
         //Debug.Log(timeInGame + "time from getTime");
         return (int)this.timeInGame;
     }
-    public int getTotalTime()
+    public int GetTotalTime()
     {
         return (int)this.totalTime;
     }
 
-    public int getFPS()
+    public int GetFPS()
     {
         return (int)this.fps;
+    } 
+    public int GetLevel()
+    {
+        return (int)this.level;
     }
-    public int getKills()
+     public int GetExp()
+    {
+        return (int)this.exp;
+    }
+    public int GetKills()
     {
         return this.totalKills;
     }
-    public int getDeaths()
+    public int GetDeaths()
     {
         return this.totalDeaths;
+    }
+
+    public void SetLevel(int l, int e)
+    {
+        level = l;
+        exp = e;
     }
 }

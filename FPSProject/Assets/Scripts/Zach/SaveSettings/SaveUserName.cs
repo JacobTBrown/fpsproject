@@ -12,7 +12,7 @@ public class SaveUserName : MonoBehaviour
     // key: PlayerName, value: *input in WelcomeScreen textbox*
     // get the value of the key with value = PlayerPrefs.GetString("key"); or set the value of the key with PlayerPrefs.SetString("key", value);
     // Zach 10-12
-    bool debug = true;
+    bool debug = false;
     
     private void Start()
     {

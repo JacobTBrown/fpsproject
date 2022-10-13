@@ -16,6 +16,7 @@ public class PlayerStatsGui : MonoBehaviour
     public string[] toolbarStrings; // = new string[] { "Show Panel", "Hide"}; setting these all in the inspector
     GameObject timeCounter;
     GameObject totalTimeCounter;
+    GameObject levelCounter;
     GameObject fpsCounter;
     GameObject killsCounter;
     GameObject deathsCounter;
@@ -23,6 +24,7 @@ public class PlayerStatsGui : MonoBehaviour
     private int buttonHeight = 50;
     public Text timeCounterText;
     public Text fpsCounterText;
+    public Text levelCounterText;
     public Text totalTimeCounterText;
     public Text killsCounterText;
     public Text deathsCounterText;
@@ -44,6 +46,7 @@ public class PlayerStatsGui : MonoBehaviour
         //totalTimeCounter = GameObject.Find("inGameTimer");
         //fpsCounter = GameObject.Find("FPS");
         fpsCounter = GameObject.Find("FPSOverlay");
+        levelCounter = GameObject.Find("LevelOverlay");
         killsCounter = GameObject.Find("KillsOverlay");
         deathsCounter = GameObject.Find("DeathsOverlay");
         timeCounter.SetActive(false);
@@ -74,11 +77,12 @@ public class PlayerStatsGui : MonoBehaviour
     {
         //Debug.Log(timeCounterText.text);
         //Debug.Log(PlayerStatsPage.Instance.getTime().ToString());
-        timeCounterText.text = stats.getTime().ToString();
-        totalTimeCounterText.text = stats.getTotalTime().ToString();
-        fpsCounterText.text = stats.getFPS().ToString();
-        killsCounterText.text = stats.getKills().ToString();
-        deathsCounterText.text = stats.getDeaths().ToString();
+        timeCounterText.text = "Time: " + stats.GetTime().ToString();
+        totalTimeCounterText.text = "Total: " + stats.GetTotalTime().ToString();
+        levelCounterText.text = "Level: " + stats.GetLevel().ToString();
+        fpsCounterText.text = "FPS: " + stats.GetFPS().ToString();
+        killsCounterText.text = "Kills: " + stats.GetKills().ToString();
+        deathsCounterText.text = "Deaths: " +stats.GetDeaths().ToString();
 
       /*  resolutionHeight = Screen.currentResolution.height;
         resolutionWidth = Screen.currentResolution.height;
@@ -89,6 +93,11 @@ public class PlayerStatsGui : MonoBehaviour
         Debug.Log("Resolution: " + relativeResolutionHeight + " X " + relativeResolutionWidth);
         Debug.Log("button size: " + buttonWidth + " X " + buttonHeight);*/
         //GUI.Toolbar(new Rect(25, 25, 250, 30), toolbarInt, toolbarStrings);
+    }
+    public int GetExp()
+    {
+
+        return 1;
     }
     private void OnGUI()
     {
@@ -118,13 +127,19 @@ public class PlayerStatsGui : MonoBehaviour
                     totalTimeCounter.SetActive(false);
                 else totalTimeCounter.SetActive(true);
             }
-            else if (GUI.Button(new Rect(10, 150 + buttonHeight, buttonWidth, buttonHeight), "FPS"))
+            else if (GUI.Button(new Rect(10, 150 + buttonHeight, buttonWidth, buttonHeight), "Level"))
+            {
+                if (levelCounter.activeInHierarchy)
+                    levelCounter.SetActive(false);
+                else levelCounter.SetActive(true);
+            }
+            else if (GUI.Button(new Rect(10, 150 + buttonHeight * 2, buttonWidth, buttonHeight), "FPS"))
             {
                 if (fpsCounter.activeInHierarchy)
                     fpsCounter.SetActive(false);
                 else fpsCounter.SetActive(true);
             }
-            else if (GUI.Button(new Rect(10, 150 + buttonHeight * 2, buttonWidth, buttonHeight), "Ping"))
+            else if (GUI.Button(new Rect(10, 150 + buttonHeight * 3, buttonWidth, buttonHeight), "Ping"))
             {
                 if (pingCounterText.IsActive()) //was set in the inspector
                 {
@@ -137,13 +152,13 @@ public class PlayerStatsGui : MonoBehaviour
                     pingCounterText.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
                 }
             }
-            else if (GUI.Button(new Rect(8, 150 + buttonHeight * 3, buttonWidth, buttonHeight), "kills"))
+            else if (GUI.Button(new Rect(8, 150 + buttonHeight * 4, buttonWidth, buttonHeight), "kills"))
             {
                 if (killsCounter.activeInHierarchy)
                     killsCounter.SetActive(false);
                 else killsCounter.SetActive(true);
             }
-            else if (GUI.Button(new Rect(8, 150 + buttonHeight * 4, buttonWidth, buttonHeight), "deaths"))
+            else if (GUI.Button(new Rect(8, 150 + buttonHeight * 5, buttonWidth, buttonHeight), "deaths"))
             {
                 if (deathsCounter.activeInHierarchy)
                     deathsCounter.SetActive(false);

@@ -31,13 +31,13 @@ public static class DataSaver
             string oldJson = File.ReadAllText(path);
             //Debug.Log(File.ReadAllText(path));
             DataToStore oldData = JsonUtility.FromJson<DataToStore>(oldJson);
-            DataToStore newData = new DataToStore(data, oldData);
+            DataToStore newData = new DataToStore(data, oldData); // newData = currentData + oldData
             json = JsonUtility.ToJson(newData);
             //json = JsonUtility.ToJson(File.ReadAllText(path));
             Debug.Log(json);
-            
-            JsonUtility.FromJsonOverwrite(json, data);
-            //fs.Dispose();
+            //JsonUtility.FromJsonOverwrite(json, data);
+            //Debug.Log("Overwritten Json: " + json);
+            //json utility adds the two data together
             //do the json overwriting
             //FileStream newFS = File.OpenWrite(path);
             File.WriteAllText(path, json);
@@ -72,7 +72,7 @@ public static class DataSaver
             //Debug.Log("loading from dataSaver.cs");
             //Debug.Log("path was: " + path);
         if (File.Exists(path))
-        {
+        { 
             try
             {
                 FileStream fs = File.OpenRead(path);
