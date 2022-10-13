@@ -20,9 +20,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/RedMap.unity
     guid: 40c6e68b3344b4b468ccb07c22db09f5
-  - enabled: 1
-    path: Assets/Scenes/ColemanWeaponsAndPowerups copy.unity
-    guid: ab7024af1f648d9429ccfd523b6dd783
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 9ea411099dc52a444a619f5fb17a88ec,
       type: 2}

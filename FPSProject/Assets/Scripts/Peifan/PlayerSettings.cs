@@ -29,6 +29,7 @@ public class PlayerSettings : MonoBehaviour
     public GameObject canvas;
     public GameObject weaponHolder;
     public GameObject scoreBoard;
+    public TextMesh playerName;
     [Header("User Mouse Settings")]
     // Horizontal mouse sensitivity
     public float mouseXSensitivity = 500f;
@@ -67,11 +68,15 @@ public class PlayerSettings : MonoBehaviour
         // created some variables for correctly identifying players 
         instanceID = this.gameObject.GetInstanceID();
         viewID = PV.ViewID;
-        //Debug.Log("ViewID instantiate: " + viewID);
         nickname = PV.Owner.NickName;
         // end add by Jacob Brown
+
         if (PV.IsMine)
         {
+            // Added by Jacob Brown: 10/13/2022
+            playerName = GetComponentInChildren<TextMesh>();
+            playerName.text = nickname;
+            // end add by Jacob Brown
             //Debug.Log("GETTING SETTINGS PANEL");
             settingPanel = GameObject.Find("SettingPanel");
             scoreBoard = GameObject.FindObjectOfType<Scoreboard>().gameObject;
@@ -121,6 +126,7 @@ public class PlayerSettings : MonoBehaviour
                 canvas.transform.GetChild(1).gameObject.SetActive(true);
                 canvas.transform.GetChild(2).gameObject.SetActive(true);
                 canvas.transform.GetChild(3).gameObject.SetActive(true);
+                canvas.transform.GetChild(4).gameObject.SetActive(true);
                 weaponHolder.SetActive(true);
                 // Lock the cursor to the center of the screen 
                 Cursor.lockState = CursorLockMode.Locked;
@@ -132,6 +138,7 @@ public class PlayerSettings : MonoBehaviour
                 canvas.transform.GetChild(1).gameObject.SetActive(false);
                 canvas.transform.GetChild(2).gameObject.SetActive(false);
                 canvas.transform.GetChild(3).gameObject.SetActive(false);
+                canvas.transform.GetChild(4).gameObject.SetActive(false);
                 weaponHolder.SetActive(false);
                 settingPanel.SetActive(settingPanel.activeInHierarchy);
                 // Lock the cursor to the center of the screen 
@@ -141,6 +148,14 @@ public class PlayerSettings : MonoBehaviour
             }
 
             settingPanel.SetActive(!settingPanel.activeInHierarchy);
+        }
+
+        // Code added - Jacob Brown 10/13/2022
+        // Reassigns the nickname whenever it is updated
+        // Also transforms the playerName
+        if (nickname != PV.Owner.NickName) {
+            nickname = PV.Owner.NickName;
+            playerName.text = nickname;
         }
     }
    

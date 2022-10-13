@@ -25,6 +25,8 @@ using UnityEngine.UI;
 
 			string defaultName = "DefaultName";
 			TMP_InputField _inputField = this.GetComponent<TMP_InputField>();
+			if (PhotonNetwork.NickName != null)
+				_inputField.text = PhotonNetwork.NickName;
 
 			if (_inputField != null)
 			{
@@ -52,6 +54,22 @@ using UnityEngine.UI;
 			if (string.IsNullOrEmpty(value))
 			{
 				Debug.LogError("Player Name is null or empty");
+				return;
+			}
+			PhotonNetwork.NickName = value;
+
+			PlayerPrefs.SetString(playerNamePrefKey, value);
+		}
+
+		/// <summary>
+		/// Changes the name of the player, and save it in the PlayerPrefs for future sessions.
+		/// </summary>
+		/// <param name="value">The name of the Player</param>
+		public void ChangePlayerName(string value)
+		{
+			// #Important
+			if (string.IsNullOrEmpty(value))
+			{
 				return;
 			}
 			PhotonNetwork.NickName = value;
