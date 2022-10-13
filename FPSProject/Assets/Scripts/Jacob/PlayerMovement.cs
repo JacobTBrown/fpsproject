@@ -1,8 +1,5 @@
 ﻿using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Photon.Realtime;
 /*
     Author: Jacob Brown
     Creation: 9/19/22
@@ -24,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     public float groundSlowWalkSpeed;
     public float groundWalkSpeed;
     public float groundSprintSpeed;
+    public float powerUpSpeed;
     //wip
     //public float wallrunSpeed;
     public float airDrag;
@@ -34,6 +32,7 @@ public class PlayerMovement : MonoBehaviour
     public bool wallInFront;
     public bool canDoubleJump;
     public bool isClimbing;
+    public bool hasSpeedPowerup;
     //wip
     //public bool isWallrunning;
     public float wallCheckDistance;
@@ -131,6 +130,17 @@ public class PlayerMovement : MonoBehaviour
         // the player's height + 0.1f. */
         isOnGround = Physics.Raycast(playerTransform.position, Vector3.down, 1.1f, groundLayer);
         wallInFront = Physics.Raycast(playerTransform.position, playerTransform.forward, wallCheckDistance, groundLayer);
+
+        // When you look at another player this will make it so the name of the player rotates towards you
+        if (Physics.Raycast(playerTransform.position, playerTransform.forward, out RaycastHit hitInfo, 100)) {
+            if (hitInfo.collider.tag == "Player") {
+                TextMesh nameMesh = hitInfo.collider.gameObject.transform.parent.GetComponentInChildren<TextMesh>();
+                var lookPos = hitInfo.collider.gameObject.transform.position - playerTransform.position;
+                lookPos.y = 0;
+                var rotation = Quaternion.LookRotation(lookPos);
+                nameMesh.gameObject.transform.rotation = Quaternion.Slerp(nameMesh.gameObject.transform.rotation, rotation, Time.deltaTime * 2.5f);
+            }
+        }
     }
 
     private void GetInputs() {
@@ -213,6 +223,25 @@ public class PlayerMovement : MonoBehaviour
                 isClimbing = false;
             }
         }
+
+        if (hasSpeedPowerup) {
+            moveSpeed = powerUpSpeed;
+        }
+    }
+
+    public float getMoveSpeed(MovementState state) {
+        switch(state) {
+            case MovementState.slowwalking:
+                return groundSlowWalkSpeed;
+            case MovementState.walking:
+                return groundWalkSpeed;
+            case MovementState.sprinting:
+                return groundSprintSpeed;
+            case MovementState.inAir:
+                return airSpeed;
+            default:
+                return moveSpeed;
+        }
     }
     
     private void Jump() {
@@ -255,6 +284,7 @@ public class PlayerMovement : MonoBehaviour
         Debug.Log("took damage : " + damage);
         PV.RPC("RPC_TakeDamage", RpcTarget.All, damage);
     }
+
     [PunRPC]
     void RPC_TakeDamage(float damage)
     {
