@@ -26,9 +26,11 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         //Debug.Log(PV.name.ToString());
         // if (PV.IsMine)
         // {
+        Debug.Log("Starting player damage");
         impact = GetComponent<AudioSource>();
         DamageFlash = GameObject.Find("DamageFlash").GetComponent<Animator>();
         healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
+        Debug.Log("Healthbar is: " + healthBar.name);
         healthBar.SetMaxHealth(maxHealth);
         currentHealth = maxHealth;
 

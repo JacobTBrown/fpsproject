@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Exit : MonoBehaviour
 {
+    [ContextMenu("Exit")]
     public void goToTitleMenu()
     {
         //SceneManager.UnloadSceneAsync("ColemanWeaponsAndPowerups");

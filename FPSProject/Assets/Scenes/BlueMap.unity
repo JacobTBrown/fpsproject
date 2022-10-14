@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -38336,6 +38336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 157559534062269311}
+  PV: {fileID: 0}
 --- !u!224 &157559534062269309
 RectTransform:
   m_ObjectHideFlags: 0
@@ -40057,7 +40058,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1801440037718154657}
   m_Direction: 2
   m_Value: 1.0000004
-  m_Size: 0.6636364
+  m_Size: 0.66363645
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -45341,6 +45342,7 @@ GameObject:
   - component: {fileID: 5035602244391745656}
   - component: {fileID: 5035602244391745657}
   - component: {fileID: 5035602244391745659}
+  - component: {fileID: 5035602244391745660}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45360,6 +45362,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ff5b19972c9484b9b592da560c07a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5035602244391745660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5035602244391745658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fe2463269013684e88d8cb5ba7b01dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  players: []
+  playerstring: PhotonPrefabs\Player
 --- !u!1 &6447946073370731482
 GameObject:
   m_ObjectHideFlags: 0
