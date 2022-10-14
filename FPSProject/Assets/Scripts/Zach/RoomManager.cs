@@ -6,6 +6,8 @@ using Photon.Pun;
 using UnityEngine.SceneManagement;
 using System.Linq;
 using System.IO;
+
+using Unity.Scripts.Jonathan;
 /*
     Author: Zach Emerson
     Creation: 9/19/22
@@ -21,6 +23,9 @@ using System.IO;
 public class RoomManager : MonoBehaviourPunCallbacks
 {
     public static RoomManager Instance;
+    //added this for player spawn position - Jacob
+    public GameObject playerPrefab;
+    private PlayerManager playerManager;
     public Vector3 initSpawn = new Vector3(0, 5, 0);
     private void Awake()
     {
@@ -50,11 +55,15 @@ public class RoomManager : MonoBehaviourPunCallbacks
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
         //!
-        if (scene.buildIndex >= 1)
-        //{//instantiate the player prefab into scene 1 (ALL Players in the room execute this code in their own game)
-            //Debug.Log("player prefab instantiate");
+        if (scene.buildIndex >= 1) {
+            playerManager = GameObject.Find("GameManager").GetComponent<PlayerManager>();
+            //{//instantiate the player prefab into scene 1 (ALL Players in the room execute this code in their own game)
+            Debug.Log("player prefab instantiate");
             //https://stackoverflow.com/questions/54981930/how-to-give-unique-ids-to-instantiated-objects-in-unity-c-sharp
-           PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);  
+            playerManager.CreateNewPlayer();
+            //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity); 
+        }
+         
         //Instantiates the player prefab with a PhotonViewID
             //https://forum.photonengine.com/discussion/1577/how-to-use-photonnetwork-instantiate-with-object-data
             //for (p in players[]){ PlayerManager.name = "player" + PhotonNetwork.NickName } //would require that everyone has a unique name. 

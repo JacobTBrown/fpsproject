@@ -16,7 +16,6 @@ public class PlayerMovement : MonoBehaviour
     public Rigidbody playerRigidbody;
     public Transform playerTransform;
     public LayerMask groundLayer;
-    private RaycastHit frontWallHit;
     
     [Header("Movement Variables")]
     private float moveSpeed;
@@ -40,9 +39,10 @@ public class PlayerMovement : MonoBehaviour
     public float wallCheckDistance;
     private PlayerSettings keybinds;
     private PlayerCameraMovement playerCam;
+    private SoundManager playerSounds;
     private float horizontalXInput;
     private float horizontalZInput;
-    private Vector3 movement, velocity, newVelXZocity;
+    private Vector3 movement, velocity;
 
     public MovementState playerState;
     //Adding just a few lines below for PUN
@@ -64,12 +64,14 @@ public class PlayerMovement : MonoBehaviour
     void Start() {
         if (!PV.IsMine)
         {
+            Destroy(GetComponentInChildren<AudioListener>());
             Destroy(GetComponentInChildren<Camera>().gameObject);
             //wheres the other people's guns ?
         }
 
         keybinds = GetComponent<PlayerSettings>();
         playerCam = GetComponentInChildren<PlayerCameraMovement>();
+        playerSounds = GetComponent<SoundManager>();
         
         // If we don't do this the player will fall over because it is a capsule
         playerRigidbody.freezeRotation = true;
@@ -117,7 +119,7 @@ public class PlayerMovement : MonoBehaviour
                     // Let the player do a double jump after the specified amount of time.
                     Invoke(nameof(DoubleJump), doubleJumpTimer);
                 }
-            } else if (playerState == MovementState.climbing) {
+            } else {
                 playerRigidbody.useGravity = false;
                 Jump();
             }
@@ -128,7 +130,7 @@ public class PlayerMovement : MonoBehaviour
         /* This raycast simply points downwards from the player's position. It extends to half
         // the player's height + 0.1f. */
         isOnGround = Physics.Raycast(playerTransform.position, Vector3.down, 1.1f, groundLayer);
-        wallInFront = Physics.Raycast(transform.position, playerTransform.forward, out frontWallHit, wallCheckDistance, groundLayer);
+        wallInFront = Physics.Raycast(playerTransform.position, playerTransform.forward, wallCheckDistance, groundLayer);
     }
 
     private void GetInputs() {
@@ -180,17 +182,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public void UpdateState() {
-        // State - wallclimb
-        if (wallInFront && horizontalZInput > 0) {
-            isClimbing = true;
-        } else {
-            playerRigidbody.useGravity = true;
-            if (isClimbing)
-                isClimbing = false;
-        }
-
-        if (isClimbing) {       // State - climbing
+        if (wallInFront && horizontalZInput > 0) {       // State - climbing
             playerState = MovementState.climbing;
+            isClimbing = true;
         } /*else if (isWallrunning) { // State - Wallrunning
             playerState = MovementState.wallrunning;
             moveSpeed = wallrunSpeed;*/
@@ -213,6 +207,11 @@ public class PlayerMovement : MonoBehaviour
         } else {
             playerState = MovementState.inAir;
             moveSpeed = airSpeed;
+            
+            if (isClimbing) {
+                playerRigidbody.useGravity = true;
+                isClimbing = false;
+            }
         }
     }
     
@@ -250,7 +249,12 @@ public class PlayerMovement : MonoBehaviour
         else
             playerRigidbody.drag = airDrag;
     }
-
+    /*
+    ##############################################################
+    Requeest to Remove or Delete From Jonathan Alexander
+    Reasons: This Code is not being used anywhere in the Project
+             This Code should not be in player Movement
+    ##############################################################
     public void TakeDamage(float damage)
     {
         Debug.Log("took damage : " + damage);
@@ -266,6 +270,7 @@ public class PlayerMovement : MonoBehaviour
         }
         Debug.Log("RPC took damage! damage: " + damage);
     }
+    */
 }
 
 /* -- note from Zach 9/29 -- 
