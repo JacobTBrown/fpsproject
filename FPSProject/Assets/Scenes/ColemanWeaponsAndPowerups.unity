@@ -20439,6 +20439,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SettingPanel: {fileID: 4610088516082311968}
+  ChatRoom: {fileID: 2654186642073426280}
 --- !u!1 &4610088516813038099
 GameObject:
   m_ObjectHideFlags: 0
