@@ -80,10 +80,11 @@ public class Launcher : MonoBehaviourPunCallbacks
     private List<GameObject> NewRoomsList = new List<GameObject>();
     public int exp;
     public int expTemp = 0;
-    public bool debug = true;
+    public bool debug;
     float incrementSize = 500f;
     private void Awake()
     {
+        debug = false;
         //if (Time.realtimeSinceStartup < 5f)
         StartCoroutine(IntroFade());
 
@@ -163,7 +164,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         while (levelText.color.a > 0.0f)
         {
             Color levelTextChildColor = levelText.GetComponentInChildren<Text>().color;
-            Debug.Log("fade out");
+            if (debug) Debug.Log("fade out");
             levelText.GetComponentInChildren<Text>().color = new Color(levelTextChildColor.r, levelTextChildColor.g, levelTextChildColor.b, levelTextChildColor.a - .01f);
             levelText.color = new Color(levelText.color.r, levelText.color.g, levelText.color.b, levelText.color.a - .01f);
             yield return new WaitForSeconds(.02f);
@@ -471,7 +472,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     void SetRoomInfo(GameObject newRoomBtn, RoomInfo r)
     {
         //Debug.Log(newRoomBtn.transform.Find("nameText").GetComponent<Text>().text);
-        Debug.Log(AllRoomsList.Count);
+        if (debug) Debug.Log(AllRoomsList.Count);
         RoomInfo existingRoom = AllRoomsList.Find(x => x.Name.Equals(newRoomBtn.transform.Find("nameText").GetComponent<Text>().text));
         if (existingRoom != null)
         { //room already existed, update count.

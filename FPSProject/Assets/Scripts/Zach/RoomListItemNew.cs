@@ -14,8 +14,8 @@ public class RoomListItemNew : MonoBehaviourPunCallbacks
     public Text sizeText;
     public Text nameText;
     public Text mapText;
-   public static RoomListItemNew Instance;
-    public bool debug = true;
+    public static RoomListItemNew Instance;
+    public static bool debug = false;
     //[SerializeField] public GameObject pref; // if i need a reference to the game object of the prefab
 
 

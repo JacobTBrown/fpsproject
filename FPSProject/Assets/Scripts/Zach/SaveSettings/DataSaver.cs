@@ -12,7 +12,7 @@ public static class DataSaver
     // Data from PlayerStatsPage is serialized by DataToStore,
     // then the serialized data is saved to C:\Users\"UserName"\AppData\LocalLow\DefaultCompany\FPSProject\player.stats
 
-    private static bool debug = true;
+    private static bool debug = false;
     public static void SaveStats(DataToStore data)
     {
         
@@ -34,7 +34,7 @@ public static class DataSaver
             DataToStore newData = new DataToStore(data, oldData); // newData = currentData + oldData
             json = JsonUtility.ToJson(newData);
             //json = JsonUtility.ToJson(File.ReadAllText(path));
-            Debug.Log(json);
+            if (debug) Debug.Log(json);
             //JsonUtility.FromJsonOverwrite(json, data);
             //Debug.Log("Overwritten Json: " + json);
             //json utility adds the two data together

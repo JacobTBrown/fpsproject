@@ -31,7 +31,7 @@ public class PlayerStatsPage : MonoBehaviour
     public DataToStore newData;
     public static PlayerStatsPage Instance;
     [HideInInspector] public string json;
-    bool debug = true;
+    bool debug = false;
     public bool inGame = false;
     float initialTimeInGame;
     public bool saved = false;

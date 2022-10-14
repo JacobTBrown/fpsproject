@@ -7,7 +7,7 @@ using System;
 
 public static class DataSaverFSOLD
 {
-    private static bool debug = true;
+    private static bool debug = false;
     //Zach 10-10
     // PlayerStatsPage tells this file when to save data.
     // Data from PlayerStatsPage is serialized by DataToStore,

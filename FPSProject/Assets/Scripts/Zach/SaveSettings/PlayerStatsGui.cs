@@ -102,7 +102,7 @@ public class PlayerStatsGui : MonoBehaviour
         int minutes = sec / 60; 
         string minutesFormat = minutes.ToString();
         minutesFormat += ":" + (sec % 60).ToString(); 
-        Debug.Log("Converting seconds to minutes" + minutesFormat);
+        //Debug.Log("Converting seconds to minutes" + minutesFormat);
         return minutesFormat;
     }
     private void OnGUI()
