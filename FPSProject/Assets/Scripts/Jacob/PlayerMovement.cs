@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
     
     [Header("Movement Variables")]
-    private float moveSpeed;
+    public float moveSpeed;
     // All values are set in the inspector
     public float groundDrag;
     public float groundSlowWalkSpeed;

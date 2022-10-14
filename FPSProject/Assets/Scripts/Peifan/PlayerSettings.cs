@@ -29,11 +29,8 @@ public class PlayerSettings : MonoBehaviour
     public GameObject canvas;
     public GameObject weaponHolder;
     public GameObject scoreBoard;
-<<<<<<< HEAD
     public TextMesh playerName;
-=======
     public GameObject chatRoom;
->>>>>>> Coleman-Fisher-3
     [Header("User Mouse Settings")]
     // Horizontal mouse sensitivity
     public float mouseXSensitivity = 500f;

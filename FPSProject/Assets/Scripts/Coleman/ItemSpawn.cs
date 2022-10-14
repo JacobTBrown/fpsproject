@@ -52,7 +52,7 @@ public class ItemSpawn : MonoBehaviour
         if (other.CompareTag("Item") || other.CompareTag("Weapon"))
         {
             hasSpawned = true;
-            Debug.Log(hasSpawned);
+            //Debug.Log(hasSpawned);
         }
     }
 

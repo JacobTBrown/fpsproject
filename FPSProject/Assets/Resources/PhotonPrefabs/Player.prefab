@@ -5507,8 +5507,8 @@ MonoBehaviour:
   canvas: {fileID: 0}
   weaponHolder: {fileID: 0}
   scoreBoard: {fileID: 0}
-  chatRoom: {fileID: 0}
   playerName: {fileID: 0}
+  chatRoom: {fileID: 0}
   mouseXSensitivity: 500
   mouseYSensitivity: 500
   mouseYSlider: {fileID: 4971374802412171786, guid: 0f30d4f1a15df2f4e98b8ae075ea8da9,
@@ -5533,6 +5533,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
+  moveSpeed: 0
   groundDrag: 5
   groundSlowWalkSpeed: 20
   groundWalkSpeed: 40

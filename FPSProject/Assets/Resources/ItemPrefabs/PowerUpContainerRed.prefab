@@ -5134,7 +5134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pickupEffect: {fileID: 3519587118998785017}
-  powerupSound: {fileID: 0}
+  powerupSound: {fileID: 3519587118998785023}
   parent: {fileID: 0}
 --- !u!198 &3519587118998785017
 ParticleSystem:
