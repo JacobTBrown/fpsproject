@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using ExitGames;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
 using UnityEngine.SceneManagement;
+using System;
 
 /*
     Author: Zach Emerson
@@ -43,10 +44,14 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] public TMP_Text modeValue;
     [SerializeField] public Slider maxPlayersInput;
     [Header("Find Room List")]
-    [SerializeField] TMP_Text roomNameText;
+    private Text roomPrefabName;
+    private Text roomPrefabMap;
+    private Text roomPrefabSize;
+    [SerializeField] private RoomListItemNew _roomListItemPrefab;
     [SerializeField] Transform roomListContent;
     [SerializeField] GameObject roomListItemPrefab;
-    [Header("Room")]
+    [Header("In Room List")]
+    [SerializeField] TMP_Text roomNameText;
     [SerializeField] GameObject PlayerListItemPrefab;
     [SerializeField] Transform playerListContent;
     [Header("Host Options")]
@@ -55,35 +60,120 @@ public class Launcher : MonoBehaviourPunCallbacks
     [SerializeField] GameObject gameTDMButton;
     [SerializeField] GameObject mapSelectButton;
     [Header("Utils")]
+    //[SerializeField] Image levelImage;
+    [SerializeField] SpriteRenderer levelImage;
+    [SerializeField] TMP_Text levelText;
     [SerializeField] TMP_Text errorText;
-    [SerializeField] TMP_Text pingText;
     [SerializeField] Button[] multiplayerButtons;
     public int currentMap = 0;
 
     public MapData[] mapsArr;
-                //public string[] maps = { "test", "test2" };
+    //public string[] maps = { "test", "test2" };
     public int mapAsInt = 0;
     public int MaxPlayersPerLobby = 8;
     public int pingAsInt;
     public Text maxPlayersString;
     //public bool isConnected;
     public TMP_Text ping;
-    //public GameObject Loadingpanel; //vs LoadingMenu 
-
+    private GameObject pingObj;
+    private List<RoomInfo> AllRoomsList = new List<RoomInfo>();
+    private List<GameObject> NewRoomsList = new List<GameObject>();
+    public int exp;
+    public int expTemp = 0;
+    public bool debug;
+    float incrementSize = 500f;
     private void Awake()
     {
+        debug = false;
+        //if (Time.realtimeSinceStartup < 5f)
+        StartCoroutine(IntroFade());
+
+        //int exp = (int)PlayerStatsPage.Instance.GetTotalTime();
+        //StartCoroutine(LevelTracker(.03f, levelText, levelImage, exp));
+        pingObj = GameObject.Find("PingVariable");
+        pingObj.SetActive(false);
         //Debug.Log("Script activated");
         Instance = this;
         Invoke("CheckConnection", 30);
-        mapsArr = new MapData[2];
+        Invoke("LevelRoutine", 1);
+        mapsArr = new MapData[2];          //to add maps, increment this array, and add the map name below with its index.
         mapsArr[0] = new MapData("Map 1", 1);
         mapsArr[1] = new MapData("Map 2", 2);
     }
-    public void Update()
+    public void LevelRoutine()
     {
+
+        int exp = (int)GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().newData.exp;
+        int levelNumber = (int)GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().level;
+        if (debug) Debug.Log("init exp: " + exp + " init level: " + levelNumber);
+
+        StartCoroutine(LevelTracker(.03f, levelText, levelImage, levelNumber, exp));
+    }
+    private IEnumerator IntroFade()
+    { //fade-in color
+        Image backgroundImg = GameObject.Find("WelcomeScreen").GetComponent<Image>();
+        while (backgroundImg.color.a < 1.0f)
+        {
+            backgroundImg.color = new Color(backgroundImg.color.r, backgroundImg.color.g, backgroundImg.color.b, backgroundImg.color.a + .005f);
+            yield return new WaitForSeconds(.01f);
+        }
+    }
+    private IEnumerator LevelTracker(float time, TMP_Text levelText, SpriteRenderer img, int level, int exp)
+    {
+        //leaving some garbage code for scaling a rectangle later...
+        int remainderExp = exp % 5;
+        if (debug) Debug.Log("Exp: " + exp + " remainder to be save: " + remainderExp);
+        //float width = exp % 5;
+        if (debug) Debug.Log(level);
+        //string levelNumberString = (levelText.GetComponentInChildren<Text>().text.ToString());
+        levelText.GetComponentInChildren<Text>().text = level.ToString();
+        if (debug) Debug.Log("level text: " + levelText.GetComponentInChildren<Text>().text);
+        //if (debug) Debug.Log(width);
+        //int levelNumber = Int32.Parse(levelNumberString);
+        //img.transform.localScale.Set(width, img.transform.localScale.y, img.transform.localScale.z);
+        img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
+        while (exp > 0)
+        {
+            //Debug.Log(exp);
+            //Debug.Log("size of rect: " + img.transform.localScale.x + "x" + img.transform.localScale.y);
+            //Vector3 imgV3 = img.transform.localScale;
+            //imgV3.x += 10f;
+            if (debug) Debug.Log(" exp % 5 is: " + exp % 5);
+            if ((exp % 5) == 0)
+            {
+                //imgV3.x = 0f;
+                levelText.GetComponentInChildren<Text>().text = (++level).ToString();
+                if (debug) Debug.Log("new level! : " + level);
+            }
+            //img.transform.localScale = imgV3;
+            //img.transform.localPosition.Set(imgV3.x, img.transform.localPosition.y, img.transform.localPosition.z);
+            //img.rectTransform.sizeDelta.Set(++incrementSize, img.rectTransform.localScale.y);
+            //img.rectTransform.localPosition.Set(imgXValue + Time.timeSinceLevelLoad, imgV3.y, imgV3.z);
+            img.color = new Color(img.color.r, img.color.g, img.color.b, img.color.a - .001f);
+            exp--;
+            yield return new WaitForSeconds(.05f);
+            //yield return new WaitForSeconds(time);
+        }
+        if (debug) Debug.Log("setting exp: " + expTemp + " for level: " + level);
+        GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().SetLevel(level, remainderExp);
+        StartCoroutine(FadeOutLevelText(levelText));
+    }
+    private IEnumerator FadeOutLevelText(TMP_Text levelText) 
+    {
+      
+        while (levelText.color.a > 0.0f)
+        {
+            Color levelTextChildColor = levelText.GetComponentInChildren<Text>().color;
+            if (debug) Debug.Log("fade out");
+            levelText.GetComponentInChildren<Text>().color = new Color(levelTextChildColor.r, levelTextChildColor.g, levelTextChildColor.b, levelTextChildColor.a - .01f);
+            levelText.color = new Color(levelText.color.r, levelText.color.g, levelText.color.b, levelText.color.a - .01f);
+            yield return new WaitForSeconds(.02f);
+        }
+    }
+    public void Update()
+    { 
         pingAsInt = PhotonNetwork.GetPing();
         ping.text = PhotonNetwork.GetPing().ToString();
-        
     }
     void Start()
     {
@@ -95,13 +185,16 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     public override void OnConnectedToMaster()
     {
+        pingObj.SetActive(true);
+        pingAsInt = PhotonNetwork.GetPing();
+        ping.text = PhotonNetwork.GetPing().ToString();
         //Debug.Log("Connected");
         PhotonNetwork.JoinLobby(); //allows room list updates
         PhotonNetwork.AutomaticallySyncScene = true;     
     }
     public override void OnDisconnected(DisconnectCause cause)
     {
-        Debug.Log("OnDisconnected() executed in launcher.cs");
+       // Debug.Log("OnDisconnected() executed in launcher.cs");
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
     { //I think its deprecated but I can't find a replacement ?
@@ -114,10 +207,10 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnJoinedLobby()
     {
         //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room 
-        Debug.Log("JoinedLobby.");
+        //Debug.Log("JoinedLobby.");
         if (!MenuManager.Instance.menus[1].open)
         {
-            Debug.Log("Opening Welcome Screen.");
+            //Debug.Log("Opening Welcome Screen.");
             MenuManager.Instance.OpenMenu("welcome");
         }
         //MenuManager.Instance.OpenMenu("welcome");
@@ -139,33 +232,106 @@ public class Launcher : MonoBehaviourPunCallbacks
         options.CustomRoomPropertiesForLobby = new string[] { "map" }; //!
 
         Hashtable properties = new Hashtable();             //custom properties with a hashtable- - 
-        properties.Add("map", mapAsInt);        
-
+        properties.Add("map", mapAsInt);                    //adds map name based on index in array above, index is changed by clicking button in CreateRoomMenu
+        
         options.MaxPlayers = (byte)maxPlayersInput.value;   // - - default properties given by RoomOptions from Photon API
        
         //Debug.Log("You gave max players input: " + options.MaxPlayers);
-        //options.CustomRoomPropertiesForLobby = new string[] { "Key" };
+        
         options.CustomRoomProperties = properties;
-      
-        PhotonNetwork.CreateRoom(roomNameInputField.text, options );
-      
-    }
 
-    //REPLACED with ABOVE FUNCTION OnClickCreateRoom for room options fucntionality
-   /* public void CreateRoom()
-    {
-        if (string.IsNullOrEmpty(roomNameInputField.text))
-        {
-            Debug.Log("Room name was null");
-            Debug.Log("Going into a created room.");
-            return;
-        }
-        PhotonNetwork.CreateRoom(roomNameInputField.text);      
-        MenuManager.Instance.OpenMenu("loading");
-        //loading menu will automatically close after the async call above finishes executing
+        PhotonNetwork.CreateRoom(roomNameInputField.text, options );
+        //GameObject myRoomBtn = Instantiate(roomListItemPrefab, roomListContent) as GameObject;
+        //string myText = myRoomBtn.transform.Find("nameText").GetComponent<Text>().text = roomNameInputField.text;
+        //myRoomBtn.transform.Find("sizeText").GetComponent<Text>().text = "1/" + mapValue.text;
+
+            //myRoomBtn.transform.Find("mapText").GetComponent<Text>().text = mapValue.text;
+        //Debug.Log("created room with values" + myText);
     }
-   
-    */
+    private void ClearRoomList()
+    {
+        foreach (Transform t in roomListContent) //! fixes updates? 10-12 10pm
+        {
+            Destroy(t.gameObject);
+        }
+        //NewRoomsList.Clear();
+    }
+    public void RenderRooms()
+    { //AllRoomsList has been updated, so store into NewRoomsList and render to screen
+        ClearRoomList();    
+        foreach (RoomInfo r in AllRoomsList)
+        {
+            if (debug)
+                Debug.Log("rendering room : " + r.Name + "with info : " + r);
+            GameObject newRoomItemPrefab = roomListItemPrefab;
+            newRoomItemPrefab.GetComponent<RoomListItemNew>().Setup(r);
+            newRoomItemPrefab.transform.Find("nameText").GetComponent<Text>().text = r.Name;
+                newRoomItemPrefab.transform.Find("sizeText").GetComponent<Text>().text = r.PlayerCount + "/" + r.MaxPlayers;
+            if (r.CustomProperties.ContainsKey("map"))
+            {
+                //if (debug) Debug.Log("had key");
+                newRoomItemPrefab.transform.Find("mapText").GetComponent<Text>().text = mapsArr[(int)r.CustomProperties["map"]].name; //for changing the map inside the room
+            }
+            //RoomListItemNew roomListItem = newRoomItemPrefab.GetComponent<RoomListItemNew>();
+            //RoomListItemNew roomListItem = newRoomItemPrefab.GetComponent<RoomListItemNew>();
+            //roomListItem = newRoomItemPrefab.GetComponent<RoomListItemNew>();
+            //roomListItem.Setup(r);
+
+            if (debug) Debug.Log("info: " + newRoomItemPrefab.GetComponent<RoomListItemNew>().info);
+                //roomListItem.GetComponent<Button>().onClick.AddListener(delegate { JoinOnClick(r); });
+                //newRoomItemPrefab.GetComponent<Button>().onClick.AddListener(delegate { JoinOnClick(r); });
+                //newRoomItemPrefab.transform.Find("mapText").GetComponent<Text>().text = r.Name;
+                //Debug.Log("instantiating that: " + newRoomItemPrefab.name);
+            GameObject newRoomBtn = Instantiate(roomListItemPrefab, roomListContent) as GameObject;
+            newRoomBtn.GetComponent<Button>().onClick.AddListener(delegate { JoinOnClick(r); });
+            //NewRoomsList.Add(newRoomBtn);
+        }
+        /*  foreach (GameObject newRoomBtn in NewRoomsList)
+          {
+              SetRoomInfo(newRoomBtn, AllRoomsList);
+          }*/
+    }
+    public override void OnRoomListUpdate(List<RoomInfo> roomList)
+    { //this function creates the AllRoomsList. The AllRoomsList populates the newRoomList with RenderRooms() 
+        //foreach (RoomInfo r in AllRoomsList) { Debug.Log("all names in AllRoomsList: " + r.Name); }
+        foreach (RoomInfo r in roomList)
+        {
+            if (r.PlayerCount == 0 || r.PlayerCount == r.MaxPlayers)
+            {
+                if (debug) Debug.Log("removed 0 or hit count from room name: " + r.Name);
+                 
+                r.RemovedFromList = true;
+                AllRoomsList.Remove(r);
+                RenderRooms();
+                continue;
+            } else if (r.RemovedFromList){
+                if (debug) Debug.Log("room was hidden or full");
+                AllRoomsList.Remove(r);
+                RenderRooms();
+                continue;
+            } 
+            RoomInfo existingRoom = AllRoomsList.Find(x => x.Name.Equals(r.Name)); //foreach room, check to see it it already exists & store it in existingRoom
+            if (existingRoom == null)
+            {
+                AllRoomsList.Add(r); //! check for proper removal of empty rooms, should have happened already: check RoomListingsMenu.cs
+                if (debug) Debug.Log("added to all roomlist: " + AllRoomsList.Count);
+            }
+            else
+            {//existing room was found, so update the info
+                if (debug) Debug.Log("old player count: " + existingRoom.PlayerCount);
+                if (debug) Debug.Log("new player count: " + r.PlayerCount);
+                AllRoomsList.Remove(existingRoom);
+                AllRoomsList.Add(r);
+                
+
+            }
+            RenderRooms();
+        }
+        base.OnRoomListUpdate(roomList);
+        //Debug.Log("new list of allRooms: " + roomList);
+        foreach (RoomInfo r in AllRoomsList) { if (debug) Debug.Log("new names in AllRoomsList: " + r.Name); }
+    }
+  
     public override void OnJoinedRoom()
     {
         MenuManager.Instance.OpenMenu("room");
@@ -204,7 +370,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public override void OnCreatedRoom()
     {
-        Debug.Log("created room" + roomNameText);
+        //Debug.Log("created room" + roomNameText);
 
     }
     public void ChangeMap()
@@ -212,15 +378,15 @@ public class Launcher : MonoBehaviourPunCallbacks
         mapAsInt++;
         if (mapAsInt >= mapsArr.Length) mapAsInt = 0; //button click loops through the array
         //if (mapAsInt >= mapsArr.Length) mapsArr[mapAsInt].scene = 0;
-        Debug.Log("map int value: " + mapAsInt);
-        Debug.Log("map string value: " + mapsArr[mapAsInt].name);
+        //Debug.Log("map int value: " + mapAsInt);
+        //Debug.Log("map string value: " + mapsArr[mapAsInt].name);
         mapValue.text =  mapsArr[mapAsInt].name;
         
     }
 
-    public void MaxPlayersSlider (float sliderInput) //!
+    public void MaxPlayersSlider (float sliderInput)
     {
-        Debug.Log("Seetting max players" + sliderInput);
+        //Debug.Log("Setting max players" + sliderInput);
         maxPlayersString.text = Mathf.RoundToInt(sliderInput).ToString();
     }
     public void ChangeGameMode()
@@ -235,15 +401,15 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         if (pingAsInt < 21 || pingAsInt > 199) //When we're not connected, ping is 200
         {
-            pingText.text = "Connecting..";
-            Debug.Log("bad connection");
+            //pingText.text = "Connecting..";
+            if (debug) Debug.Log("bad connection");
             ConnectionFailed();
         }
     }
     public void ConnectionFailed()
     {
         //MenuManager.Instance.OpenMenu("title");
-        Debug.Log("Connection Dropped, please try again or continue without connecting");
+        //Debug.Log("Connection Dropped, please try again or continue without connecting");
         errorText.text = "Connection Dropped, please try again or continue without connecting";
         MenuManager.Instance.OpenMenu("reconnect");
         for (int i = 0; i <multiplayerButtons.Length; i++)
@@ -253,18 +419,16 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public void ConnectManually()
     {
-        //needs better logic
-        //its buggy 
-        Debug.Log("attempting to reconnect...");
+        if (debug) Debug.Log("attempting to reconnect...");
         PhotonNetwork.ConnectUsingSettings();
     }
     public void JoinRoom(RoomInfo info)
     {
-        Debug.Log("This room has: " +info.MaxPlayers + "Max players"); 
+        if (debug) Debug.Log("This room has: " +info.MaxPlayers + "Max players"); 
         
         if (info.PlayerCount == info.MaxPlayers)
         {
-            Debug.Log("you tried to join a full room");
+            if (debug) Debug.Log("you tried to join a full room");
             return;
         }
         PhotonNetwork.JoinRoom(info.Name);
@@ -281,62 +445,56 @@ public class Launcher : MonoBehaviourPunCallbacks
         //PhotonNetwork.CurrentRoom.IsOpen = false;
 
         //needs better logic
-        Debug.Log("called my LeaveRoom() handler");
+        //Debug.Log("called my LeaveRoom() handler");
         
         PhotonNetwork.LeaveRoom(); //sends player to WelcomeScreen as a callback (The default state of Scene 0).
         //Finishes execution AFTER opening the title menu
         
-
-        MenuManager.Instance.OpenMenu("title");
+        
+        //MenuManager.Instance.OpenMenu("title");
 
     }
-    //MOVED TO ROOMLISTINGSMENU.cs
-   /* public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    {
-        
-        for (int i = 0; i < roomList.Count; i++)
-        {
-            if (!roomList[i].IsVisible || !roomList[i].IsOpen || roomList[i].RemovedFromList)
-            {
-                Debug.Log("dont add to list");
-                Destroy(roomList[i].trans)
-            }
-            else
-            {
-                Debug.Log(" add room to list: " + roomList[i].Name);
-                Instantiate(roomListItemPrefab, roomListContent).GetComponent<RoomListItem>().Setup(roomList[i]);
-            }
-            //if (roomList[i].PlayerCount >7) { roomList[i].RemovedFromList = true;  }
-            //if (roomList[i].RemovedFromList) { continue; }
-            
-        }
-    }*/
     public void startGame()
     {
-        //SceneManager.UnloadSceneAsync("InitialScene");
         PhotonNetwork.LoadLevel(1);
     }
     public void startGameWithMap()
     {
-        Debug.Log("loading map number: " + mapsArr[mapAsInt].scene);
+        //Debug.Log("loading map number: " + mapsArr[mapAsInt].scene);
         PhotonNetwork.LoadLevel(mapsArr[mapAsInt].scene); //!
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(newPlayer);
-
     }
-   
 
+    void SetRoomInfo(GameObject newRoomBtn, RoomInfo r)
+    {
+        //Debug.Log(newRoomBtn.transform.Find("nameText").GetComponent<Text>().text);
+        if (debug) Debug.Log(AllRoomsList.Count);
+        RoomInfo existingRoom = AllRoomsList.Find(x => x.Name.Equals(newRoomBtn.transform.Find("nameText").GetComponent<Text>().text));
+        if (existingRoom != null)
+        { //room already existed, update count.
+            newRoomBtn.transform.Find("sizeText").GetComponent<Text>().text = existingRoom.PlayerCount + "/" + existingRoom.MaxPlayers;
+        }
+        else
+        {//room did not exist on lsit, so add it, then set name, count, map (other info later? like game type)
+            AllRoomsList.Add(r);
+            newRoomBtn.transform.Find("nameText").GetComponent<Text>().text = r.Name;
+            if (existingRoom.CustomProperties.ContainsKey("map"))
+            {
+                newRoomBtn.transform.Find("mapText").GetComponent<Text>().text = mapsArr[(int)existingRoom.CustomProperties["map"]].name; //for changing the map inside the room
+            }
+            //newRoomBtn.GetComponent<Button>().onClick.AddListener(delegate { JoinOnClick(existingRoom); });
+        }
+        //newRoomBtn.transform.Find("nameText").GetComponent<Text>().text = AllRoomsList.Find
+        /*   !! 2pm     newRoomBtn.transform.Find("sizeText").GetComponent<Text>().text = existingRoom.PlayerCount + "/" + existingRoom.MaxPlayers;
+                if (existingRoom.CustomProperties.ContainsKey("map"))
+                {
+
+                    newRoomBtn.transform.Find("mapText").GetComponent<Text>().text = mapsArr[(int)existingRoom.CustomProperties["map"]].name; //for changing the map inside the room
+                }
+                newRoomBtn.GetComponent<Button>().onClick.AddListener(delegate { JoinOnClick(existingRoom); });*/
+    }
 }
-
-// we'll need a public variable to access spawn points
-// programatically, each player should recieve a spawn point, (not necessarily different)
-//   > we should be able to check for the most appropriate spawn based on some function such as
-//		"checkForPlayerInRange()" function the that keeps track of other player's position - in GameManager.cs possibly? idk
-//		not *quite* sure on the implementation quite yet, but we will need a static reference to this controller (probably in SpawnManager.cs or some Class that references the SpawnManager).
-//		note* functions that are not attatched to an instantiated object/prefab be executed by all players, so this will need to be adapted a little for multiplayer.
-//			** Instantiated objects are created at runtime, i.e., they will not exist in the heirarchy when the game is not executing.
-//			so, the spawn points themselvs will not be instantiated, but we will need access to them to instantiate the players.
-// -Zach
