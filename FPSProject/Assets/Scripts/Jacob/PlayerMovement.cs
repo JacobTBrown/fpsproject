@@ -132,7 +132,7 @@ public class PlayerMovement : MonoBehaviour
         wallInFront = Physics.Raycast(playerTransform.position, playerTransform.forward, wallCheckDistance, groundLayer);
 
         // When you look at another player this will make it so the name of the player rotates towards you
-        if (Physics.Raycast(playerTransform.position, playerTransform.forward, out RaycastHit hitInfo, 100)) {
+       /* if (Physics.Raycast(playerTransform.position, playerTransform.forward, out RaycastHit hitInfo, 100)) {
             if (hitInfo.collider.tag == "Player") {
                 TextMesh nameMesh = hitInfo.collider.gameObject.transform.parent.GetComponentInChildren<TextMesh>();
                 var lookPos = hitInfo.collider.gameObject.transform.position - playerTransform.position;
@@ -140,7 +140,7 @@ public class PlayerMovement : MonoBehaviour
                 var rotation = Quaternion.LookRotation(lookPos);
                 nameMesh.gameObject.transform.rotation = Quaternion.Slerp(nameMesh.gameObject.transform.rotation, rotation, Time.deltaTime * 2.5f);
             }
-        }
+        }*/
     }
 
     private void GetInputs() {

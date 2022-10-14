@@ -75,8 +75,8 @@ public class PlayerSettings : MonoBehaviour
         if (PV.IsMine)
         {
             // Added by Jacob Brown: 10/13/2022
-            playerName = GetComponentInChildren<TextMesh>();
-            playerName.text = nickname;
+            //playerName = GetComponentInChildren<TextMesh>();
+            //playerName.text = nickname;
             // end add by Jacob Brown
             //Debug.Log("GETTING SETTINGS PANEL");
             settingPanel = GameObject.Find("SettingPanel");
@@ -172,10 +172,10 @@ public class PlayerSettings : MonoBehaviour
         // Code added - Jacob Brown 10/13/2022
         // Reassigns the nickname whenever it is updated
         // Also transforms the playerName
-        if (nickname != PV.Owner.NickName) {
-            nickname = PV.Owner.NickName;
-            playerName.text = nickname;
-        }
+        //if (nickname != PV.Owner.NickName) {
+        //    nickname = PV.Owner.NickName;
+        //    playerName.text = nickname;
+        //}
     }
    
     public bool SetKeycodeValue(KeycodeFunction keycodeFunction, KeyCode keyCode)
