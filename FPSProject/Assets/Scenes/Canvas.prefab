@@ -251,7 +251,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3055569066100757973}
   m_HandleRect: {fileID: 3055569066100757962}
   m_Direction: 2
-  m_Value: -0.0000000517889
+  m_Value: -0.00000015536669
   m_Size: 0.3913781
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -862,7 +862,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3055569065842320172}
+      - m_Target: {fileID: 0}
         m_MethodName: UsernameOnValueChange
         m_Mode: 0
         m_Arguments:
@@ -989,17 +989,17 @@ RectTransform:
   m_GameObject: {fileID: 3055569065288732757}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0795529, y: 1.0795529, z: 1.0795529}
+  m_LocalScale: {x: 1.5054401, y: 1.5054401, z: 1.5054401}
   m_Children:
   - {fileID: 3055569065584188744}
   - {fileID: 3055569064446845833}
-  m_Father: {fileID: 3055569065842320173}
+  m_Father: {fileID: 6601046546389435838}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -129, y: -34.5}
-  m_SizeDelta: {x: 836.4574, y: 573.8487}
+  m_AnchoredPosition: {x: 569, y: 398.1}
+  m_SizeDelta: {x: 924.64655, y: 519.1173}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &3055569065288732753
 Canvas:
@@ -1666,7 +1666,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3055569065842320172}
+      - m_Target: {fileID: 0}
         m_MethodName: ChatConnectOnClick
         m_Mode: 1
         m_Arguments:
@@ -1810,7 +1810,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3055569065842320172}
+      - m_Target: {fileID: 1058943291576600881}
         m_MethodName: TypeChatOnValueChange
         m_Mode: 0
         m_Arguments:
@@ -2117,8 +2117,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3055569065842320173}
-  - component: {fileID: 3055569065842320172}
+  - component: {fileID: 6601046546389435838}
+  - component: {fileID: 7120858913551392941}
   m_Layer: 0
   m_Name: ChatManager
   m_TagString: Untagged
@@ -2126,15 +2126,15 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3055569065842320173
-Transform:
+--- !u!224 &6601046546389435838
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3055569065842320162}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -110, y: -60, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3055569065288732756}
@@ -2142,23 +2142,19 @@ Transform:
   m_Father: {fileID: 3551172163271355196}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3055569065842320172
-MonoBehaviour:
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0, y: 0}
+--- !u!222 &7120858913551392941
+CanvasRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3055569065842320162}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9bde89300e4bb6e4d80a4fced1d240d5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerName: 
-  joinChatButton: {fileID: 3055569065584188748}
-  chatPanel: {fileID: 3055569066240200771}
-  chatField: {fileID: 3055569065663162554}
-  chatDisplay: {fileID: 3055569066044694782}
+  m_CullTransparentMesh: 0
 --- !u!1 &3055569065939770886
 GameObject:
   m_ObjectHideFlags: 0
@@ -2621,7 +2617,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 242.05043}
+  m_AnchoredPosition: {x: 0, y: 242.05046}
   m_SizeDelta: {x: 0, y: 484.10083}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3055569066044694777
@@ -3429,7 +3425,7 @@ Transform:
   m_LocalPosition: {x: -580.5, y: -344.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3055569065842320173}
+  m_Father: {fileID: 6601046546389435838}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3055569066452802537
@@ -3599,7 +3595,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3055569065842320172}
+      - m_Target: {fileID: 1058943291576600881}
         m_MethodName: ReceiverOnValueChange
         m_Mode: 0
         m_Arguments:
@@ -3815,7 +3811,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 3055569065842320172}
+      - m_Target: {fileID: 1058943291576600881}
         m_MethodName: SubmitPrivateChatOnClick
         m_Mode: 1
         m_Arguments:
@@ -3826,7 +3822,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 3055569065842320172}
+      - m_Target: {fileID: 1058943291576600881}
         m_MethodName: SubmitPublicChatOnClick
         m_Mode: 1
         m_Arguments:
@@ -4063,6 +4059,7 @@ GameObject:
   - component: {fileID: 3551172163271355198}
   - component: {fileID: 3551172163271355199}
   - component: {fileID: 3551172163271355195}
+  - component: {fileID: 1058943291576600881}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Settings
@@ -4083,7 +4080,7 @@ RectTransform:
   m_Children:
   - {fileID: 3551172164000770570}
   - {fileID: 3055569065150746315}
-  - {fileID: 3055569065842320173}
+  - {fileID: 6601046546389435838}
   - {fileID: 3055569065471905603}
   - {fileID: 3055569065489080249}
   - {fileID: 3055569065173725444}
@@ -4171,6 +4168,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SettingPanel: {fileID: 3551172164000770571}
   ChatRoom: {fileID: 3055569066240200771}
+--- !u!114 &1058943291576600881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3551172163271355192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bde89300e4bb6e4d80a4fced1d240d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerName: 
+  joinChatButton: {fileID: 3055569065584188748}
+  chatPanel: {fileID: 3055569066240200771}
+  chatField: {fileID: 3055569065663162554}
+  chatDisplay: {fileID: 3055569066044694782}
 --- !u!1 &3551172163288566037
 GameObject:
   m_ObjectHideFlags: 0
@@ -7966,7 +7980,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.000043097534}
+  m_AnchoredPosition: {x: 0, y: 0.000030517578}
   m_SizeDelta: {x: 0, y: 1100}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &3551172164847804102

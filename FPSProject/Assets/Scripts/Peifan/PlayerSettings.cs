@@ -148,7 +148,6 @@ public class PlayerSettings : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 //// Make the cursor invisible
                 Cursor.visible = false;
-                chatRoom.SetActive(false);
             }
             else
             {
@@ -161,7 +160,6 @@ public class PlayerSettings : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
                 //// Make the cursor invisible
                 Cursor.visible = true;
-                chatRoom.SetActive(false);
             }
 
             settingPanel.SetActive(!settingPanel.activeInHierarchy);
