@@ -60,6 +60,14 @@ public class RoomManager : MonoBehaviourPunCallbacks
         if (scene.buildIndex >= 1) {
             
             spawnReference = GameObject.Find("GameManager").GetComponent<SpawnManager>();
+            var random = new System.Random();
+            List<SpawnController> randomSpawn = spawnReference.SpawnPoints;
+            int indes = random.Next(randomSpawn.Count);
+       
+            //do I need to do HandlePlayerSpawn?
+            //or grab a list of spawnpoints?
+            //
+            
             //{//instantiate the player prefab into scene 1 (ALL Players in the room execute this code in their own game)
             Debug.Log("player prefab instantiate");
             //https://stackoverflow.com/questions/54981930/how-to-give-unique-ids-to-instantiated-objects-in-unity-c-sharp

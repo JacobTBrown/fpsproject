@@ -51,6 +51,7 @@ public class PlayerStatsGui : MonoBehaviour
         deathsCounter = GameObject.Find("DeathsOverlay");
         timeCounter.SetActive(false);
         totalTimeCounter.SetActive(false);
+        levelCounter.SetActive(false);
         fpsCounter.SetActive(false);
         killsCounter.SetActive(false);
         deathsCounter.SetActive(false);
@@ -77,8 +78,9 @@ public class PlayerStatsGui : MonoBehaviour
     {
         //Debug.Log(timeCounterText.text);
         //Debug.Log(PlayerStatsPage.Instance.getTime().ToString());
-        timeCounterText.text = "Time: " + stats.GetTime().ToString();
-        totalTimeCounterText.text = "Total: " + stats.GetTotalTime().ToString();
+
+        timeCounterText.text = "In-Game: " + SecondsToMinutes(stats.GetTime());
+        totalTimeCounterText.text = "Total: " + SecondsToMinutes(stats.GetTotalTime());
         levelCounterText.text = "Level: " + stats.GetLevel().ToString();
         fpsCounterText.text = "FPS: " + stats.GetFPS().ToString();
         killsCounterText.text = "Kills: " + stats.GetKills().ToString();
@@ -94,10 +96,14 @@ public class PlayerStatsGui : MonoBehaviour
         Debug.Log("button size: " + buttonWidth + " X " + buttonHeight);*/
         //GUI.Toolbar(new Rect(25, 25, 250, 30), toolbarInt, toolbarStrings);
     }
-    public int GetExp()
+    public string SecondsToMinutes(int sec)
     {
-
-        return 1;
+        
+        int minutes = sec / 60; 
+        string minutesFormat = minutes.ToString();
+        minutesFormat += ":" + (sec % 60).ToString(); 
+        Debug.Log("Converting seconds to minutes" + minutesFormat);
+        return minutesFormat;
     }
     private void OnGUI()
     {
@@ -152,6 +158,7 @@ public class PlayerStatsGui : MonoBehaviour
                     pingCounterText.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
                 }
             }
+            /*
             else if (GUI.Button(new Rect(8, 150 + buttonHeight * 4, buttonWidth, buttonHeight), "kills"))
             {
                 if (killsCounter.activeInHierarchy)
@@ -163,7 +170,7 @@ public class PlayerStatsGui : MonoBehaviour
                 if (deathsCounter.activeInHierarchy)
                     deathsCounter.SetActive(false);
                 else deathsCounter.SetActive(true);
-            }
+            }*/
         }
     }
 }

@@ -12,7 +12,7 @@ public static class DataSaver
     // Data from PlayerStatsPage is serialized by DataToStore,
     // then the serialized data is saved to C:\Users\"UserName"\AppData\LocalLow\DefaultCompany\FPSProject\player.stats
 
-
+    private static bool debug = true;
     public static void SaveStats(DataToStore data)
     {
         
@@ -22,14 +22,14 @@ public static class DataSaver
         string path = Application.persistentDataPath + "/player.stats2";
         //Debug.Log("path was " + path);
         string json = JsonUtility.ToJson(data);
-        //Debug.Log(json);
+        if (debug) Debug.Log("You sent json: "+json);
         if (File.Exists(path))
         {
             // Take the exisintg Json from file -> convert to data -> data = oldData + data
             //FileStream fs = File.OpenRead(path);
             //Debug.Log("File Found");
-            string oldJson = File.ReadAllText(path);
-            //Debug.Log(File.ReadAllText(path));
+            string oldJson = File.ReadAllText(path); // i dont actually need this part
+            //if (debug) Debug.Log("Read previous data: " + oldJson);
             DataToStore oldData = JsonUtility.FromJson<DataToStore>(oldJson);
             DataToStore newData = new DataToStore(data, oldData); // newData = currentData + oldData
             json = JsonUtility.ToJson(newData);
@@ -41,8 +41,8 @@ public static class DataSaver
             //do the json overwriting
             //FileStream newFS = File.OpenWrite(path);
             File.WriteAllText(path, json);
-            //Debug.Log("Finished saving new data");
-            //Debug.Log("data was " + json);
+            if (debug) Debug.Log("Finished saving new data");
+            if (debug) Debug.Log("data was " + json);
             //fs.Dispose();
             //fs.Close();
             //Debug.Log("file closed");
@@ -75,6 +75,7 @@ public static class DataSaver
         { 
             try
             {
+                
                 FileStream fs = File.OpenRead(path);
                 //Debug.Log("file was found and your json is -> ");
                 fs.Dispose();
@@ -91,7 +92,7 @@ public static class DataSaver
             }
             catch (Exception e)
             {
-                Debug.Log("file was found, but Unity threw " + e);
+                if (debug) Debug .Log("file was found, but Unity threw " + e);
             }
         }
         else
@@ -110,9 +111,9 @@ public static class DataSaver
 
             catch (Exception e)
             {
-                Debug.Log("ERROR MESSAGE FROM UNITY: " + e);
-                Debug.Log("Path was: " + path);
-                Debug.Log("If this is your first time launching the game, you will have a new file on first auto-save");
+                if (debug) Debug.Log("ERROR MESSAGE FROM UNITY: " + e);
+                if (debug) Debug.Log("Path was: " + path);
+                if (debug) Debug.Log("If this is your first time launching the game, you will have a new file on first auto-save");
                 
             }
         }

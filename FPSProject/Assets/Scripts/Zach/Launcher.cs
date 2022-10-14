@@ -68,7 +68,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     public int currentMap = 0;
 
     public MapData[] mapsArr;
-                //public string[] maps = { "test", "test2" };
+    //public string[] maps = { "test", "test2" };
     public int mapAsInt = 0;
     public int MaxPlayersPerLobby = 8;
     public int pingAsInt;
@@ -79,13 +79,14 @@ public class Launcher : MonoBehaviourPunCallbacks
     private List<RoomInfo> AllRoomsList = new List<RoomInfo>();
     private List<GameObject> NewRoomsList = new List<GameObject>();
     public int exp;
+    public int expTemp = 0;
     public bool debug = true;
     float incrementSize = 500f;
     private void Awake()
     {
         //if (Time.realtimeSinceStartup < 5f)
-            StartCoroutine(IntroFade());
-        
+        StartCoroutine(IntroFade());
+
         //int exp = (int)PlayerStatsPage.Instance.GetTotalTime();
         //StartCoroutine(LevelTracker(.03f, levelText, levelImage, exp));
         pingObj = GameObject.Find("PingVariable");
@@ -100,63 +101,74 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     public void LevelRoutine()
     {
-        
-        int exp = (int)GameObject.Find("DataManager").GetComponent<PlayerStatsPage>().exp;
-        int levelNumber = (int)GameObject.Find("DataManager").GetComponent<PlayerStatsPage>().level;
-        Debug.Log("init exp: " + exp);
-        
+
+        int exp = (int)GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().newData.exp;
+        int levelNumber = (int)GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().level;
+        if (debug) Debug.Log("init exp: " + exp + " init level: " + levelNumber);
+
         StartCoroutine(LevelTracker(.03f, levelText, levelImage, levelNumber, exp));
     }
     private IEnumerator IntroFade()
     { //fade-in color
         Image backgroundImg = GameObject.Find("WelcomeScreen").GetComponent<Image>();
-        while (backgroundImg.color.a  < 1.0f)
+        while (backgroundImg.color.a < 1.0f)
         {
-  
             backgroundImg.color = new Color(backgroundImg.color.r, backgroundImg.color.g, backgroundImg.color.b, backgroundImg.color.a + .005f);
             yield return new WaitForSeconds(.01f);
         }
-        
     }
     private IEnumerator LevelTracker(float time, TMP_Text levelText, SpriteRenderer img, int level, int exp)
     {
-        Debug.Log("Exp: " + exp);
-        //level# = exp / 500
-        //width = exp % 500
-        float width = exp % 500;
-        Debug.Log(level);
+        //leaving some garbage code for scaling a rectangle later...
+        int remainderExp = exp % 5;
+        if (debug) Debug.Log("Exp: " + exp + " remainder to be save: " + remainderExp);
+        //float width = exp % 5;
+        if (debug) Debug.Log(level);
         //string levelNumberString = (levelText.GetComponentInChildren<Text>().text.ToString());
         levelText.GetComponentInChildren<Text>().text = level.ToString();
-        Debug.Log("level text: " + levelText.GetComponentInChildren<Text>().text);
-        Debug.Log(width);
+        if (debug) Debug.Log("level text: " + levelText.GetComponentInChildren<Text>().text);
+        //if (debug) Debug.Log(width);
         //int levelNumber = Int32.Parse(levelNumberString);
-        img.transform.localScale.Set(width, img.transform.localScale.y, img.transform.localScale.z);
-        img.color = new Color(img.color.r, img.color.g, img.color.b,  1f);
+        //img.transform.localScale.Set(width, img.transform.localScale.y, img.transform.localScale.z);
+        img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
         while (exp > 0)
-        {   
-            exp--;
+        {
             //Debug.Log(exp);
             //Debug.Log("size of rect: " + img.transform.localScale.x + "x" + img.transform.localScale.y);
-            Vector3 imgV3 = img.transform.localScale;
-            imgV3.x += 1f;
-            if (imgV3.x > 500f)
+            //Vector3 imgV3 = img.transform.localScale;
+            //imgV3.x += 10f;
+            if (debug) Debug.Log(" exp % 5 is: " + exp % 5);
+            if ((exp % 5) == 0)
             {
-                imgV3.x = 0f;
+                //imgV3.x = 0f;
                 levelText.GetComponentInChildren<Text>().text = (++level).ToString();
-                Debug.Log("new level! : " + level);
+                if (debug) Debug.Log("new level! : " + level);
             }
-            img.transform.localScale = imgV3;
+            //img.transform.localScale = imgV3;
             //img.transform.localPosition.Set(imgV3.x, img.transform.localPosition.y, img.transform.localPosition.z);
             //img.rectTransform.sizeDelta.Set(++incrementSize, img.rectTransform.localScale.y);
             //img.rectTransform.localPosition.Set(imgXValue + Time.timeSinceLevelLoad, imgV3.y, imgV3.z);
-            img.color = new Color(img.color.r, img.color.g, img.color.b,  img.color.a - .001f);
-            yield return new WaitForSeconds(1/100*exp);
+            img.color = new Color(img.color.r, img.color.g, img.color.b, img.color.a - .001f);
+            exp--;
+            yield return new WaitForSeconds(.05f);
             //yield return new WaitForSeconds(time);
         }
-        GameObject.Find("DataManager").GetComponent<PlayerStatsPage>().SetLevel(level, exp);
-        
+        if (debug) Debug.Log("setting exp: " + expTemp + " for level: " + level);
+        GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().SetLevel(level, remainderExp);
+        StartCoroutine(FadeOutLevelText(levelText));
     }
-
+    private IEnumerator FadeOutLevelText(TMP_Text levelText) 
+    {
+      
+        while (levelText.color.a > 0.0f)
+        {
+            Color levelTextChildColor = levelText.GetComponentInChildren<Text>().color;
+            Debug.Log("fade out");
+            levelText.GetComponentInChildren<Text>().color = new Color(levelTextChildColor.r, levelTextChildColor.g, levelTextChildColor.b, levelTextChildColor.a - .01f);
+            levelText.color = new Color(levelText.color.r, levelText.color.g, levelText.color.b, levelText.color.a - .01f);
+            yield return new WaitForSeconds(.02f);
+        }
+    }
     public void Update()
     { 
         pingAsInt = PhotonNetwork.GetPing();

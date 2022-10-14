@@ -402,6 +402,7 @@ MonoBehaviour:
   maxPlayersString: {fileID: 1265953770}
   ping: {fileID: 440553625}
   exp: 0
+  expTemp: 0
   debug: 1
 --- !u!114 &73928500
 MonoBehaviour:
@@ -1165,7 +1166,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &212090773
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2271,8 +2272,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4278190080
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -5685,7 +5686,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 117.1, y: 25.1}
+  m_AnchoredPosition: {x: 112.4, y: 39.727}
   m_SizeDelta: {x: 224.80115, y: 79.45352}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1043963133
@@ -5709,11 +5710,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 60
+    m_FontSize: 70
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 60
+    m_MaxSize: 70
     m_Alignment: 7
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -9846,14 +9847,14 @@ MonoBehaviour:
   toolbarStrings:
   - Stats Panel
   - Hide
-  timeCounterText: {fileID: 134160787}
+  timeCounterText: {fileID: 99206331}
   fpsCounterText: {fileID: 2010892158}
   levelCounterText: {fileID: 478255311}
-  totalTimeCounterText: {fileID: 99206331}
+  totalTimeCounterText: {fileID: 134160787}
   killsCounterText: {fileID: 392141094}
   deathsCounterText: {fileID: 1509915243}
   pingCounterText: {fileID: 440553625}
-  stats: {fileID: 2010204806}
+  stats: {fileID: 2142901061}
 --- !u!1 &2003380688
 GameObject:
   m_ObjectHideFlags: 0
@@ -9939,7 +9940,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2010204805}
   - component: {fileID: 2010204804}
-  - component: {fileID: 2010204806}
   m_Layer: 0
   m_Name: DataManager
   m_TagString: Untagged
@@ -9975,36 +9975,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2010204806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2010204803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c27004d5e85b3d44a3c09cdc0a21783, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  totalTime: 0
-  timeInGame: 0
-  totalKills: 0
-  totalDeaths: 0
-  updateInterval: 0.5
-  lastInterval: 0
-  frames: 0
-  level: 0
-  exp: 0
-  fps: 0
-  newData:
-    timeInGame: 0
-    totalTime: 0
-    level: 0
-    exp: 0
-    totalKills: 0
-    totalDeaths: 0
-  json: 
 --- !u!1 &2010892156
 GameObject:
   m_ObjectHideFlags: 0
@@ -11043,6 +11013,7 @@ GameObject:
   - component: {fileID: 2142901059}
   - component: {fileID: 2142901060}
   - component: {fileID: 2142901058}
+  - component: {fileID: 2142901061}
   m_Layer: 0
   m_Name: RoomManager
   m_TagString: Untagged
@@ -11101,6 +11072,39 @@ MonoBehaviour:
   sceneViewId: 999
   InstantiationId: 0
   isRuntimeInstantiated: 0
+--- !u!114 &2142901061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2142901057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c27004d5e85b3d44a3c09cdc0a21783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  totalTime: 0
+  timeInGame: 0
+  totalKills: 0
+  totalDeaths: 0
+  updateInterval: 0.5
+  lastInterval: 0
+  frames: 0
+  level: 1
+  exp: 0
+  newExp: 0
+  fps: 0
+  newData:
+    timeInGame: 0
+    totalTime: 0
+    level: 0
+    exp: 0
+    totalKills: 0
+    totalDeaths: 0
+  json: 
+  inGame: 0
+  saved: 0
 --- !u!212 &1077790417538989388
 SpriteRenderer:
   m_ObjectHideFlags: 0

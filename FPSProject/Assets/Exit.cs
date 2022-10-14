@@ -14,4 +14,9 @@ public class Exit : MonoBehaviour
         //GameObject titleMenu = GameObject.Find("TitleMenu");
         //titleMenu.SetActive(true);
     }
+    public void SaveAndDestroy()
+    {
+        GameObject roomManager = GameObject.Find("RoomManager");
+        Destroy(roomManager); 
+    }
 }

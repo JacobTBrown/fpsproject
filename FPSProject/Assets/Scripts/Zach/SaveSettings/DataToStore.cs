@@ -17,7 +17,7 @@ public class DataToStore
     public int exp;
     public int totalKills;
     public int totalDeaths;
-    //public Color playerColor; to save a color, would need to write a system that transfers color values -> int or string -> back to color values or some named material/asset
+    //public Color playerColor; to save a color, would need to write a system that transfers color values -> int or string -> back to color values or some named material/asset (for skins?)
     //public double lastInterval;
 
     public DataToStore(PlayerStatsPage playerStats)
@@ -37,6 +37,15 @@ public class DataToStore
     /// </summary>
     public DataToStore(DataToStore a, DataToStore b)
     {
+        timeInGame = a.timeInGame;
+        totalTime = a.totalTime;
+        level = a.level;
+        exp = a.exp;
+        totalKills = a.totalKills;
+        totalDeaths = a.totalDeaths;
+    }
+    /*    public DataToStore(DataToStore a, DataToStore b)
+    {
         timeInGame = a.timeInGame + b.timeInGame;
         totalTime = a.totalTime + b.totalTime;
         level = a.level;
@@ -44,7 +53,7 @@ public class DataToStore
         totalKills = a.totalKills + b.totalKills;
         totalDeaths = a.totalDeaths + b.totalDeaths;
     }
-
+    */
    /* public static DataToStore operator +(DataToStore a, DataToStore b) ///OpeRaToR OvErLoADinG
      {
         DataToStore newData = newDataToStore(a, b);
