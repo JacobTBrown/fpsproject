@@ -12,7 +12,7 @@ using Unity.Scripts.Jonathan;
     Author: Zach Emerson
     Creation: 9/19/22
     Last Edit: 9/30/22 -Zach
-
+    MODEL / VIEW / **CONTROLLER**
         Room Manager exists in InitScene and is carried over into the game
         RoomManager -> PlayerManager -> Player Controller
         The RooManager instantiates the PlayerManager, and the PlayerManager instantiates the player prefab.
@@ -32,10 +32,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
         //list all players with their name
         if (Instance)
         { //if another Instance of the RoomManager exists, delete and return
+          //Photon is actually throwing an error here. It doesn't keep the previous room manager. It instantly detects a duplicate PV and deletes the old one
             Destroy(gameObject);
             return;
         }
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(gameObject); //RoomManager comes with us into the next scene so that we can instantiate the player.
         Instance = this;
     }
     public override void OnEnable()
@@ -52,21 +53,30 @@ public class RoomManager : MonoBehaviourPunCallbacks
         base.OnDisable();
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
+   
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        //!
+        
         if (scene.buildIndex >= 1) {
+            
             spawnReference = GameObject.Find("GameManager").GetComponent<SpawnManager>();
+            var random = new System.Random();
+            List<SpawnController> randomSpawn = spawnReference.SpawnPoints;
+            int indes = random.Next(randomSpawn.Count);
+       
+            //do I need to do HandlePlayerSpawn?
+            //or grab a list of spawnpoints?
+            //
+            
             //{//instantiate the player prefab into scene 1 (ALL Players in the room execute this code in their own game)
             Debug.Log("player prefab instantiate");
             //https://stackoverflow.com/questions/54981930/how-to-give-unique-ids-to-instantiated-objects-in-unity-c-sharp
-            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity); 
+            PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);
+            PlayerStatsPage.Instance.StartInGameTimer();
         }
          
         //Instantiates the player prefab with a PhotonViewID
             //https://forum.photonengine.com/discussion/1577/how-to-use-photonnetwork-instantiate-with-object-data
-            //for (p in players[]){ PlayerManager.name = "player" + PhotonNetwork.NickName } //would require that everyone has a unique name. 
-        //}
     }
 
 }

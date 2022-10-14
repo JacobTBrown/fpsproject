@@ -38336,6 +38336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slider: {fileID: 157559534062269311}
+  PV: {fileID: 0}
 --- !u!224 &157559534062269309
 RectTransform:
   m_ObjectHideFlags: 0
@@ -39284,6 +39285,7 @@ GameObject:
   - component: {fileID: 1416011936643288819}
   - component: {fileID: 1416011936643288818}
   - component: {fileID: 1416011936643288817}
+  - component: {fileID: 1416011936643288820}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -39339,6 +39341,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1416011936643288820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1416011936643288816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5dabbbfb28d824c4ca6ed9ae4129376f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Configuration: {fileID: 11400000, guid: 3925b71a5ecffff489a9d73cda02942f, type: 2}
 --- !u!224 &1801440035638111424
 RectTransform:
   m_ObjectHideFlags: 0
@@ -45341,6 +45356,7 @@ GameObject:
   - component: {fileID: 5035602244391745656}
   - component: {fileID: 5035602244391745657}
   - component: {fileID: 5035602244391745659}
+  - component: {fileID: 5035602244391745660}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45360,6 +45376,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ff5b19972c9484b9b592da560c07a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5035602244391745660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5035602244391745658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fe2463269013684e88d8cb5ba7b01dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  players: []
+  playerstring: PhotonPrefabs\Player
 --- !u!1 &6447946073370731482
 GameObject:
   m_ObjectHideFlags: 0

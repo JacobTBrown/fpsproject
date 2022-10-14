@@ -21,4 +21,14 @@ public class HealthBar : MonoBehaviour
             slider.value = health;
         }
     }
+
+    public void changeColor(PhotonView Photon, Color color)
+    {
+        PV = Photon;
+        if (PV.IsMine)
+        {
+            Image fill = transform.Find("Fill").GetComponent<Image>();
+            fill.color = color;
+        }
+    }
 }

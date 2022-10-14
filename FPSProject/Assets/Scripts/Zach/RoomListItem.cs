@@ -53,17 +53,21 @@ public class RoomListItem : MonoBehaviourPunCallbacks
                         Debug.Log("non-visible room has no hashtable");
                     }
                 }
+            else
+            {
+                Debug.Log(nameText.text + " was not equal to " + r.Name);
+            }
             
         }
     }
-    public void Setup(RoomInfo _info) //, Hashtable maps) //!
+    public void Setup(RoomInfo _info) //, Hashtable maps)
     {
-       
+        Debug.Log("setup");
             info = _info;
             sizeText.text = info.PlayerCount.ToString();
             sizeText.text += "/" + info.MaxPlayers; 
             //Debug.Log(info.Name + "was the name");
-            nameText.text = info.Name; //!
+            nameText.text = info.Name;
             mapText.text = Launcher.Instance.mapsArr[(int)_info.CustomProperties["map"]].name;
             
         //mapText.text = maps[info.CustomProperties["map"]].name;
@@ -74,7 +78,7 @@ public class RoomListItem : MonoBehaviourPunCallbacks
     {
         if (info.MaxPlayers != info.PlayerCount)
         {
-            //sizeText.text = (1 + info.PlayerCount).ToString();
+            //sizeText.text = (1 + info.PlayerCount).ToString(); only changes it for the person clicking the button
             Launcher.Instance.JoinRoom(info);
         } 
         else
