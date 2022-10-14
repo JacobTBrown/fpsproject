@@ -1,0 +1,21 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "393b003e-a934-7490-e836-2ecdf0e431e5": {
+      "ProjectGuid": "393b003e-a934-7490-e836-2ecdf0e431e5",
+      "DisplayName": "Assembly-CSharp",
+      "ColorIndex": 0
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Miscellaneous Files",
+      "ColorIndex": -1
+    },
+    "6c50bf4a-c13e-b9e5-be10-380b51847f74": {
+      "ProjectGuid": "6c50bf4a-c13e-b9e5-be10-380b51847f74",
+      "DisplayName": "PhotonRealtime",
+      "ColorIndex": 1
+    }
+  },
+  "NextColorIndex": 2
+}
