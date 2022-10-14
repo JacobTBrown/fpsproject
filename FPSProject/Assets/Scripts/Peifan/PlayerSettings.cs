@@ -41,7 +41,7 @@ public class PlayerSettings : MonoBehaviour
     public Slider mouseXSlider;
     // For the user to invert the Y mouse look
     public bool invertMouse = false;
- 
+    public bool chatIsOpen = false;
     [Header("User Keybinds")]
     public Dictionary<KeycodeFunction, KeyCode> inputSystemDic = new Dictionary<KeycodeFunction, KeyCode>() {
         { KeycodeFunction.leftMove, KeyCode.A},
@@ -127,12 +127,14 @@ public class PlayerSettings : MonoBehaviour
             if (chatRoom.activeInHierarchy)
             {
                 chatRoom.SetActive(false);
+                chatIsOpen = false;
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
             else
             {
                 chatRoom.SetActive(true);
+                chatIsOpen = true;
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }

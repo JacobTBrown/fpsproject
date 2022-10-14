@@ -245,6 +245,7 @@ public class PlayerMovement : MonoBehaviour
     }
     
     private void Jump() {
+        if (keybinds.chatIsOpen) return; //Added by zach to disable jump when chat is open
         // Reset the rigidbody y velocity to start all jumps at the same baseline velocity
         playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
         // Add an upwards impulse to the player rigidbody multiplied by the jumpForce
@@ -260,6 +261,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Move() {
+        if (keybinds.chatIsOpen) return; //Added by zach to disable movement when chat is open
         // Set up our movement vector
         movement = playerTransform.right * horizontalXInput + playerTransform.forward * horizontalZInput;
             
