@@ -7,7 +7,6 @@ public class PlayerController : MonoBehaviour
 {
     // Start is called before the first frame update
     PlayerManager pManager;
-    public PhotonView PV;
 
     void Awake()
     {

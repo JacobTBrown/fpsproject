@@ -29,6 +29,17 @@ public class PlayerManager : MonoBehaviour
     //GameObject controllerRefrence
     //CharacterController cc;
 
+<<<<<<< HEAD
+=======
+    void Awake()
+    {
+        EventManager.AddListener<PlayerDeathEvent>(onPlayerDeath);
+    }
+    public void CreateNewPlayer()
+    {
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);
+    }
+>>>>>>> Jonathan
     public void RegisterPlayer(GameObject player)
     {
         /*
@@ -37,19 +48,36 @@ public class PlayerManager : MonoBehaviour
 
 
         */
-
+        PlayerSpawnEvent s_evt = Events.PlayerSpawnEvent;
+        NewPlayerEvent np_evnt = Events.NewPlayerEvent;
+        np_evnt.player = player;
+        s_evt.player = player;
+        EventManager.Broadcast(s_evt);
         Debug.Log("New Player Registered");
+        EventManager.Broadcast(np_evnt);
+
         if(player.GetComponent<PhotonView>().IsMine)
         {
-            Debug.Log("TEST1");
            ((MonoBehaviour)player.GetComponent<PlayerMovement>()).enabled = true;
   //       ((MonoBehaviour)player.GetComponent<PlayerShoot>()).enabled = true;
            ((MonoBehaviour)player.GetComponent<PlayerSettings>()).enabled = true;
            player.transform.Find("Player Camera").gameObject.GetComponent<Camera>().enabled = true;
            player.transform.Find("Player Camera").gameObject.GetComponent<PlayerCameraMovement>().enabled = true;
+
+           
         }
     }
 
+<<<<<<< HEAD
+=======
+    public void onPlayerDeath(PlayerDeathEvent evt){
+        PlayerSpawnEvent evt1 = Events.PlayerSpawnEvent;
+        evt1.player = evt.player;
+        EventManager.Broadcast(evt1);
+
+    }
+
+>>>>>>> Jonathan
 }
 
 //TODO:

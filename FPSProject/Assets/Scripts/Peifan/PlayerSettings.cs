@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /*
-    Author: Jacob Brown, Peifan Tian
+    Author: Jacob Brown
     Creation: 9/19/22
     Last Edit: 9/29/22 -Zach
 
@@ -26,11 +26,14 @@ public class PlayerSettings : MonoBehaviour
     public int viewID;
     public string nickname;
     public GameObject settingPanel;
+<<<<<<< HEAD
     public GameObject canvas;
     public GameObject weaponHolder;
     public GameObject scoreBoard;
     public TextMesh playerName;
     public GameObject chatRoom;
+=======
+>>>>>>> Jonathan
     [Header("User Mouse Settings")]
     // Horizontal mouse sensitivity
     public float mouseXSensitivity = 500f;
@@ -54,16 +57,23 @@ public class PlayerSettings : MonoBehaviour
         { KeycodeFunction.reload, KeyCode.R},
         { KeycodeFunction.scoreboard, KeyCode.Tab},
         { KeycodeFunction.menu, KeyCode.Escape},
+<<<<<<< HEAD
         { KeycodeFunction.chatRoom, KeyCode.KeypadEnter},
+=======
+>>>>>>> Jonathan
         };
 
     void Start() {
         Debug.Log("GameObject.Name," + gameObject.name);
         PV = GetComponent<PhotonView>();
+<<<<<<< HEAD
         //Debug.Log("PV instantiate: " + PV.ViewID);
         //playermanager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
         canvas = GameObject.FindGameObjectWithTag("Settings");
         weaponHolder = GameObject.FindGameObjectWithTag("MainCamera").transform.GetChild(0).gameObject;
+=======
+        playermanager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
+>>>>>>> Jonathan
 
         // Added by Jacob Brown: 10/03/2022
         // created some variables for correctly identifying players 
@@ -110,6 +120,7 @@ public class PlayerSettings : MonoBehaviour
         mouseYSensitivity = mouseYSlider.value * 5;
         mouseYSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseYSlider.value + "";
         mouseXSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseXSlider.value + "";
+<<<<<<< HEAD
         
         if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.scoreboard]))
         {
@@ -141,15 +152,20 @@ public class PlayerSettings : MonoBehaviour
         }
 
 
+=======
+>>>>>>> Jonathan
         if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]))
         {
             if (settingPanel.activeInHierarchy)
             {
+<<<<<<< HEAD
                 canvas.transform.GetChild(1).gameObject.SetActive(true);
                 canvas.transform.GetChild(2).gameObject.SetActive(true);
                 canvas.transform.GetChild(3).gameObject.SetActive(true);
                 canvas.transform.GetChild(4).gameObject.SetActive(true);
                 weaponHolder.SetActive(true);
+=======
+>>>>>>> Jonathan
                 // Lock the cursor to the center of the screen 
                 Cursor.lockState = CursorLockMode.Locked;
                 //// Make the cursor invisible
@@ -157,11 +173,14 @@ public class PlayerSettings : MonoBehaviour
             }
             else
             {
+<<<<<<< HEAD
                 canvas.transform.GetChild(1).gameObject.SetActive(false);
                 canvas.transform.GetChild(2).gameObject.SetActive(false);
                 canvas.transform.GetChild(3).gameObject.SetActive(false);
                 canvas.transform.GetChild(4).gameObject.SetActive(false);
                 weaponHolder.SetActive(false);
+=======
+>>>>>>> Jonathan
                 settingPanel.SetActive(settingPanel.activeInHierarchy);
                 // Lock the cursor to the center of the screen 
                 Cursor.lockState = CursorLockMode.None;
@@ -224,10 +243,10 @@ public class PlayerSettings : MonoBehaviour
     }
 
     //Testing lines below for multiplayer - zach - 9-30
-    //void Die()
-    //{
-    //    playermanager.KillPlayer();
-    //}
+    void Die()
+    {
+        playermanager.KillPlayer();
+    }
 }
 public enum KeycodeFunction
 {

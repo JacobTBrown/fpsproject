@@ -25,7 +25,11 @@ public class RoomManager : MonoBehaviourPunCallbacks
     public static RoomManager Instance;
     //added this for player spawn position - Jacob
     public GameObject playerPrefab;
+<<<<<<< HEAD
     private SpawnManager spawnReference;
+=======
+    private PlayerManager playerManager;
+>>>>>>> Jonathan
     public Vector3 initSpawn = new Vector3(0, 5, 0);
     private void Awake()
     {
@@ -56,6 +60,7 @@ public class RoomManager : MonoBehaviourPunCallbacks
    
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
+<<<<<<< HEAD
         
         if (scene.buildIndex >= 1) {
             
@@ -73,6 +78,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
             //https://stackoverflow.com/questions/54981930/how-to-give-unique-ids-to-instantiated-objects-in-unity-c-sharp
             PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);
             PlayerStatsPage.Instance.StartInGameTimer();
+=======
+        //!
+        if (scene.buildIndex >= 1) {
+            playerManager = GameObject.Find("GameManager").GetComponent<PlayerManager>();
+            //{//instantiate the player prefab into scene 1 (ALL Players in the room execute this code in their own game)
+            Debug.Log("player prefab instantiate");
+            //https://stackoverflow.com/questions/54981930/how-to-give-unique-ids-to-instantiated-objects-in-unity-c-sharp
+            playerManager.CreateNewPlayer();
+            //PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity); 
+>>>>>>> Jonathan
         }
          
         //Instantiates the player prefab with a PhotonViewID

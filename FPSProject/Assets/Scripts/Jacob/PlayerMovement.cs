@@ -130,6 +130,7 @@ public class PlayerMovement : MonoBehaviour
         // the player's height + 0.1f. */
         isOnGround = Physics.Raycast(playerTransform.position, Vector3.down, 1.1f, groundLayer);
         wallInFront = Physics.Raycast(playerTransform.position, playerTransform.forward, wallCheckDistance, groundLayer);
+<<<<<<< HEAD
 
         // When you look at another player this will make it so the name of the player rotates towards you
         if (Physics.Raycast(playerTransform.position, playerTransform.forward, out RaycastHit hitInfo, 100)) {
@@ -141,6 +142,8 @@ public class PlayerMovement : MonoBehaviour
                 nameMesh.gameObject.transform.rotation = Quaternion.Slerp(nameMesh.gameObject.transform.rotation, rotation, Time.deltaTime * 2.5f);
             }
         }
+=======
+>>>>>>> Jonathan
     }
 
     private void GetInputs() {
@@ -222,6 +225,7 @@ public class PlayerMovement : MonoBehaviour
                 playerRigidbody.useGravity = true;
                 isClimbing = false;
             }
+<<<<<<< HEAD
         }
 
         if (hasSpeedPowerup) {
@@ -241,6 +245,8 @@ public class PlayerMovement : MonoBehaviour
                 return airSpeed;
             default:
                 return moveSpeed;
+=======
+>>>>>>> Jonathan
         }
     }
     
@@ -278,7 +284,12 @@ public class PlayerMovement : MonoBehaviour
         else
             playerRigidbody.drag = airDrag;
     }
-
+    /*
+    ##############################################################
+    Requeest to Remove or Delete From Jonathan Alexander
+    Reasons: This Code is not being used anywhere in the Project
+             This Code should not be in player Movement
+    ##############################################################
     public void TakeDamage(float damage)
     {
         Debug.Log("took damage : " + damage);
@@ -295,6 +306,7 @@ public class PlayerMovement : MonoBehaviour
         }
         Debug.Log("RPC took damage! damage: " + damage);
     }
+    */
 }
 
 /* -- note from Zach 9/29 -- 
