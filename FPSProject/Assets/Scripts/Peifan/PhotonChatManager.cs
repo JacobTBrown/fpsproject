@@ -62,8 +62,8 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
 
         if (chatField.text != "") 
         {
-            if (Input.GetKey(KeyCode.Return) || Input.GetKey(KeyCode.KeypadEnter))
-            { 
+            if (Input.GetKey(KeyCode.Return))
+            {
                 SubmitPublicChatOnClick();
                 SubmitPrivateChatOnClick();
             }
@@ -74,6 +74,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         if (sendPrivatelyTo == "")
         {
+            if (enterText == "") return;
             chatClient.PublishMessage("RegionChannel", enterText);
             chatField.text = "";
             enterText = "";
@@ -94,6 +95,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         if (sendPrivatelyTo != "")
         {
+            if (enterText == "") return;
             chatClient.SendPrivateMessage(sendPrivatelyTo, enterText);
             chatField.text = "";
             enterText = "";
