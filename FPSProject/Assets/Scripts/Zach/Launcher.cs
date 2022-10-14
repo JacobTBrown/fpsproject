@@ -107,7 +107,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         int levelNumber = (int)GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().level;
         if (debug) Debug.Log("init exp: " + exp + " init level: " + levelNumber);
 
-        StartCoroutine(LevelTracker(.03f, levelText, levelImage, levelNumber, exp));
+        LevelTracker(.03f, levelText, levelImage, levelNumber, exp);
     }
     private IEnumerator IntroFade()
     { //fade-in color
@@ -118,7 +118,31 @@ public class Launcher : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(.01f);
         }
     }
-    private IEnumerator LevelTracker(float time, TMP_Text levelText, SpriteRenderer img, int level, int exp)
+    private void LevelTracker(float time, TMP_Text levelText, SpriteRenderer img, int level, int exp)
+    {
+        //leaving some garbage code for scaling a rectangle later...
+        int remainderExp = exp % 5;
+        if (debug) Debug.Log("Exp: " + exp + " remainder to be save: " + remainderExp);
+        if (debug) Debug.Log(level);
+        levelText.GetComponentInChildren<Text>().text = level.ToString();
+        if (debug) Debug.Log("level text: " + levelText.GetComponentInChildren<Text>().text);
+        img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
+        while (exp > 0)
+        {
+            if (debug) Debug.Log(" exp % 5 is: " + exp % 5);
+            if ((exp % 5) == 0)
+            {
+                levelText.GetComponentInChildren<Text>().text = (++level).ToString();
+                if (debug) Debug.Log("new level! : " + level);
+            }
+            img.color = new Color(img.color.r, img.color.g, img.color.b, img.color.a - .001f);
+            exp--;
+        }
+        if (debug) Debug.Log("setting exp: " + expTemp + " for level: " + level);
+        GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().SetLevel(level, remainderExp);
+        StartCoroutine(FadeOutLevelText(levelText));
+    }
+/*    private IEnumerator LevelTracker(float time, TMP_Text levelText, SpriteRenderer img, int level, int exp)
     {
         //leaving some garbage code for scaling a rectangle later...
         int remainderExp = exp % 5;
@@ -157,7 +181,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         if (debug) Debug.Log("setting exp: " + expTemp + " for level: " + level);
         GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().SetLevel(level, remainderExp);
         StartCoroutine(FadeOutLevelText(levelText));
-    }
+    }*/
     private IEnumerator FadeOutLevelText(TMP_Text levelText) 
     {
       

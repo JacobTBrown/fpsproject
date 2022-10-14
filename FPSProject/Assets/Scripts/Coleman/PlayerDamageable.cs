@@ -49,6 +49,14 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         healthBar.SetHealth(currentHealth, PV);
         if (isInvincible) healthBar.changeColor(PV, Color.blue);
         else healthBar.changeColor(PV, Color.green);
+
+        if (Input.GetKeyDown(KeyCode.K))
+        {
+            Debug.Log("TEST: NEW PLAYER KILL EVENT FOR " + player);
+            PlayerKillEvent playerKillEvent = Events.PlayerKillEvent;
+            playerKillEvent.player = player;
+            EventManager.Broadcast(playerKillEvent);
+        }
     }
 
     public void Damage(float damage)

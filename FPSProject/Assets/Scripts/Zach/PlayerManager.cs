@@ -29,8 +29,6 @@ public class PlayerManager : MonoBehaviour
     //GameObject controllerRefrence
     //CharacterController cc;
 
-<<<<<<< HEAD
-=======
     void Awake()
     {
         EventManager.AddListener<PlayerDeathEvent>(onPlayerDeath);
@@ -39,7 +37,6 @@ public class PlayerManager : MonoBehaviour
     {
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);
     }
->>>>>>> Jonathan
     public void RegisterPlayer(GameObject player)
     {
         /*
@@ -68,8 +65,6 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
-=======
     public void onPlayerDeath(PlayerDeathEvent evt){
         PlayerSpawnEvent evt1 = Events.PlayerSpawnEvent;
         evt1.player = evt.player;
@@ -77,7 +72,6 @@ public class PlayerManager : MonoBehaviour
 
     }
 
->>>>>>> Jonathan
 }
 
 //TODO:

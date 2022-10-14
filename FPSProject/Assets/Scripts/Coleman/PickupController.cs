@@ -62,10 +62,10 @@ public class PickupController : MonoBehaviour
     private void Drop()
     {
         currentWeapon.transform.parent = null;
-        currentWeapon.transform.position = weaponHolder.position;
+        currentWeapon.transform.position = transform.position;
         currentWeapon.GetComponent<Gun>().enabled = false;
-        currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
-        currentWeapon.transform.position = weaponHolder.position;
+        currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
+        //currentWeapon.transform.position = weaponHolder.position;
         currentWeapon = null;
         weapon = null;
     }

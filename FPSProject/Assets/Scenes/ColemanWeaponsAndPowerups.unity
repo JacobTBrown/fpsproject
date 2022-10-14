@@ -29023,6 +29023,10 @@ GameObject:
   - component: {fileID: 5035602244391745656}
   - component: {fileID: 5035602244391745657}
   - component: {fileID: 5035602244391745659}
+  - component: {fileID: 5035602244391745663}
+  - component: {fileID: 5035602244391745662}
+  - component: {fileID: 5035602244391745660}
+  - component: {fileID: 5035602244391745661}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -29044,6 +29048,54 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   players: []
   playerstring: PhotonPrefabs\Player
+--- !u!114 &5035602244391745660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5035602244391745658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54f6532c9ad128c4c92e35bb13bdc836, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5035602244391745661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5035602244391745658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe37789ea9491c54bbc69cd0bbbe6a01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5035602244391745662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5035602244391745658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ef6fa99cc16a234294250aa052067fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5035602244391745663
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5035602244391745658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af1a1b730b0c19644a406cee0ed5a063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &5129693119738309450
 CanvasRenderer:
   m_ObjectHideFlags: 0

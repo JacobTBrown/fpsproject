@@ -130,7 +130,6 @@ public class PlayerMovement : MonoBehaviour
         // the player's height + 0.1f. */
         isOnGround = Physics.Raycast(playerTransform.position, Vector3.down, 1.1f, groundLayer);
         wallInFront = Physics.Raycast(playerTransform.position, playerTransform.forward, wallCheckDistance, groundLayer);
-<<<<<<< HEAD
 
         // When you look at another player this will make it so the name of the player rotates towards you
         if (Physics.Raycast(playerTransform.position, playerTransform.forward, out RaycastHit hitInfo, 100)) {
@@ -142,8 +141,6 @@ public class PlayerMovement : MonoBehaviour
                 nameMesh.gameObject.transform.rotation = Quaternion.Slerp(nameMesh.gameObject.transform.rotation, rotation, Time.deltaTime * 2.5f);
             }
         }
-=======
->>>>>>> Jonathan
     }
 
     private void GetInputs() {
@@ -225,7 +222,6 @@ public class PlayerMovement : MonoBehaviour
                 playerRigidbody.useGravity = true;
                 isClimbing = false;
             }
-<<<<<<< HEAD
         }
 
         if (hasSpeedPowerup) {
@@ -245,8 +241,6 @@ public class PlayerMovement : MonoBehaviour
                 return airSpeed;
             default:
                 return moveSpeed;
-=======
->>>>>>> Jonathan
         }
     }
     

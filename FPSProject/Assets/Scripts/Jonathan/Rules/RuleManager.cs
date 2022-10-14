@@ -24,6 +24,9 @@ namespace Unity.Scripts.Jonathan
         {
             EventManager.AddListener<ObjectiveCompletedEvent>(onCompletedObjective);
             Instance = this;
+        }
+
+        public void Init() {
             ruleList = new List<Rule>();
         }
 
