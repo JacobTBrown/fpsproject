@@ -33,7 +33,7 @@ public class InvincibilityPowerup : MonoBehaviour
                 child.GetComponent<MeshRenderer>().enabled = false;
             }
             stats.isInvincible = true;
-            transform.parent.position = new Vector3(0, 1000, 0);
+            transform.parent.position = new Vector3(0, -100, 0);
             yield return new WaitForSeconds(1);
             GetComponent<Collider>().enabled = false;
             yield return new WaitForSeconds(14);

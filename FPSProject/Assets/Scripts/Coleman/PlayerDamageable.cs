@@ -9,6 +9,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
     [SerializeField] public float currentHealth;
     public float maxHealth = 100f;
     public bool isInvincible = false;
+    public bool isSpeed = false;
     public HealthBar healthBar;
     public Animator DamageFlash;
     public GameObject player;
@@ -48,7 +49,8 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         }
         healthBar.SetHealth(currentHealth, PV);
         if (isInvincible) healthBar.changeColor(PV, Color.blue);
-        else healthBar.changeColor(PV, Color.green);
+        else if (isSpeed) healthBar.changeColor(PV, Color.green);
+        else healthBar.changeColor(PV, Color.red);
 
         if (Input.GetKeyDown(KeyCode.K))
         {
