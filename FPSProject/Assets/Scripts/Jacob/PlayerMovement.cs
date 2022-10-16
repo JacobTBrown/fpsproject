@@ -64,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
         if (!PV.IsMine)
         {
             Destroy(GetComponentInChildren<AudioListener>());
-            Destroy(GetComponentInChildren<Camera>().gameObject);
+            Destroy(GetComponentInChildren<Camera>());
             //wheres the other people's guns ?
         }
 
