@@ -1,5 +1,6 @@
 ﻿using Photon.Pun;
 using UnityEngine;
+using System.Collections;
 /*
     Author: Jacob Brown
     Creation: 9/19/22
@@ -125,6 +126,9 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    private IEnumerator displayRoutine;
+    private int displayCount = 0;
+
     private void RaycastChecks() {
         /* This raycast simply points downwards from the player's position. It extends to half
         // the player's height + 0.1f. */
@@ -132,15 +136,31 @@ public class PlayerMovement : MonoBehaviour
         wallInFront = Physics.Raycast(playerTransform.position, playerTransform.forward, wallCheckDistance, groundLayer);
 
         // When you look at another player this will make it so the name of the player rotates towards you
-       /* if (Physics.Raycast(playerTransform.position, playerTransform.forward, out RaycastHit hitInfo, 100)) {
+       if (Physics.Raycast(playerTransform.position, playerTransform.forward, out RaycastHit hitInfo, 100)) {
             if (hitInfo.collider.tag == "Player") {
-                TextMesh nameMesh = hitInfo.collider.gameObject.transform.parent.GetComponentInChildren<TextMesh>();
+                TextMesh nameMesh = hitInfo.collider.gameObject.GetComponentInParent<PlayerSettings>().playerName;
+                nameMesh.gameObject.SetActive(true);
                 var lookPos = hitInfo.collider.gameObject.transform.position - playerTransform.position;
                 lookPos.y = 0;
                 var rotation = Quaternion.LookRotation(lookPos);
-                nameMesh.gameObject.transform.rotation = Quaternion.Slerp(nameMesh.gameObject.transform.rotation, rotation, Time.deltaTime * 2.5f);
+                nameMesh.gameObject.transform.rotation = Quaternion.Slerp(nameMesh.gameObject.transform.rotation, rotation, 0.75f);
+
+                if (displayCount == 0) {
+                    displayRoutine = DisableName(nameMesh);
+                    displayCount++;
+                }
+            } else {
+                if (displayCount == 1 && displayRoutine != null) {
+                    displayCount = 0;
+                    StartCoroutine(displayRoutine);
+                }
             }
-        }*/
+        }
+    }
+
+    public IEnumerator DisableName(TextMesh nameMesh) {
+        yield return new WaitForSeconds(2.5f);
+        nameMesh.gameObject.SetActive(false);
     }
 
     private void GetInputs() {
