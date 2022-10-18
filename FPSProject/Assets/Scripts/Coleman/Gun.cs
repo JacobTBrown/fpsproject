@@ -29,22 +29,19 @@ public class Gun : MonoBehaviour
 
     private void Start()
     {
-        if (transform.parent != null)
-        {
-            equipped = true;            
+        if (equipped)
+        {          
             ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
             hitMarker = GameObject.Find("HitMarker");
-            hitMarker.SetActive(false);
+            if(hitMarker) hitMarker.SetActive(false);
             gunData.currentAmmo = gunData.magSize;
+            gunData.reserveAmmo = gunData.maxReserveAmmo;
             PlayerShoot.shootInput += Shoot;
             PlayerShoot.reloadInput += ReloadInit;
             animator = GetComponent<Animator>();
             sounds = GetComponents<AudioSource>();
             gunshot = sounds[0];
             reload = sounds[1];
-        } else
-        {
-            equipped = false;
         }
     }
     void Awake()
@@ -119,19 +116,20 @@ public class Gun : MonoBehaviour
                     }
                     else
                     {
+                        bool tempHit = false;
                         for (var i = 0; i < 12; i++)
                         {
                             Vector2 localOffset = playerOrientation.transform.position;
-                            float randomX = Random.Range(-1.0f, 1.0f);
-                            float randomY = Random.Range(-1.0f, 1.0f);
+                            float randomX = Random.Range(-.1f, .1f);
+                            float randomY = Random.Range(-.1f, .1f);
                             localOffset.y += randomY;
                             localOffset.x += randomX;
                             if (Physics.Raycast(localOffset, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
                             {
                                 if (hitInfo.collider.tag == "Player")
                                 {
+                                    tempHit = true;
                                     Debug.Log("Hit");
-                                    StartCoroutine(playerHit());
                                     hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage);
                                 }
                                 IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
@@ -139,6 +137,7 @@ public class Gun : MonoBehaviour
                                 damageable?.Damage(gunData.damage);
                             }
                         }
+                        if(tempHit) StartCoroutine(playerHit());
                     }
                     gunData.currentAmmo--;
                     timeSinceLastShot = 0;
@@ -153,7 +152,7 @@ public class Gun : MonoBehaviour
         timeSinceLastShot += Time.deltaTime;
         Debug.DrawRay(playerOrientation.transform.position, transform.forward);
 
-        if (transform.parent != null)
+        if (transform.parent != null && !settingsOpen && equipped)
         {
             ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
             if (gunData.reserveAmmo == -1) ammoCounter.text = gunData.currentAmmo.ToString() + "/\u221e";
