@@ -35,6 +35,7 @@ public class Gun : MonoBehaviour
             ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
             hitMarker = GameObject.Find("HitMarker");
             hitMarker.SetActive(false);
+            gunData.currentAmmo = gunData.magSize;
             PlayerShoot.shootInput += Shoot;
             PlayerShoot.reloadInput += ReloadInit;
             animator = GetComponent<Animator>();
@@ -101,17 +102,43 @@ public class Gun : MonoBehaviour
             {
                 if (canShoot())
                 {
-                    if (Physics.Raycast(playerOrientation.transform.position, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
+                    if (!gunData.isShotgun)
                     {
-                        if (hitInfo.collider.tag == "Player")
+                        if (Physics.Raycast(playerOrientation.transform.position, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
                         {
-                            Debug.Log("Hit");
-                            StartCoroutine(playerHit());
-                            hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage);
+                            if (hitInfo.collider.tag == "Player")
+                            {
+                                Debug.Log("Hit");
+                                StartCoroutine(playerHit());
+                                hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage);
+                            }
+                            IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
+                            Debug.Log(hitInfo);
+                            damageable?.Damage(gunData.damage);
                         }
-                        IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-                        Debug.Log(hitInfo);
-                        damageable?.Damage(gunData.damage);
+                    }
+                    else
+                    {
+                        for (var i = 0; i < 12; i++)
+                        {
+                            Vector2 localOffset = playerOrientation.transform.position;
+                            float randomX = Random.Range(-1.0f, 1.0f);
+                            float randomY = Random.Range(-1.0f, 1.0f);
+                            localOffset.y += randomY;
+                            localOffset.x += randomX;
+                            if (Physics.Raycast(localOffset, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
+                            {
+                                if (hitInfo.collider.tag == "Player")
+                                {
+                                    Debug.Log("Hit");
+                                    StartCoroutine(playerHit());
+                                    hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage);
+                                }
+                                IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
+                                Debug.Log(hitInfo);
+                                damageable?.Damage(gunData.damage);
+                            }
+                        }
                     }
                     gunData.currentAmmo--;
                     timeSinceLastShot = 0;

@@ -133,6 +133,7 @@ MonoBehaviour:
   muzzle: {fileID: 2537517487781564149}
   flash: {fileID: 6771445386938339882}
   player: {fileID: 0}
+  playerOrientation: {fileID: 0}
   WeaponHolder: {fileID: 0}
   hitMarker: {fileID: 0}
   PV: {fileID: 0}
@@ -363,9 +364,9 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!65 &-7049095319436947669
 BoxCollider:
   m_ObjectHideFlags: 0
