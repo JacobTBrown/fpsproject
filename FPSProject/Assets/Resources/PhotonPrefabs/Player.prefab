@@ -137,7 +137,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -233,7 +233,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -5382,7 +5382,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3173107398918425439}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -12.631263, y: 5.26, z: -7.3300004}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4017857724056262081}
@@ -5464,7 +5464,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -5479,7 +5479,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 0.06944445
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -5549,20 +5549,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRigidbody: {fileID: 3173107398918425438}
   playerTransform: {fileID: 3173107399746349717}
+  playerBodyTransform: {fileID: 3173107400187305611}
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
   moveSpeed: 0
   groundDrag: 5
-  groundSlowWalkSpeed: 20
-  groundWalkSpeed: 40
-  groundSprintSpeed: 65
+  slowWalkSpeed: 25
+  walkSpeed: 40
+  sprintSpeed: 65
+  crouchSpeed: 15
   powerUpSpeed: 0
+  wallrunSpeed: 40
   airDrag: 1.25
   airSpeed: 12
+  crouchYScale: 0.5
+  maxSlopeAngle: 60
   jumpForce: 10
   doubleJumpTimer: 0.5
   isOnGround: 1
+  isOnSlope: 0
   wallInFront: 0
   canDoubleJump: 0
   isClimbing: 0
@@ -5631,6 +5637,7 @@ MonoBehaviour:
   - {fileID: -8896846525926025363}
   - {fileID: -5931245863507772595}
   - {fileID: 625458334813862768}
+  - {fileID: 4715249802361258056}
   - {fileID: 7855732400737611595}
   sceneViewId: 0
   InstantiationId: 0
@@ -5732,6 +5739,7 @@ GameObject:
   - component: {fileID: 3173107400187305609}
   - component: {fileID: 2860633775319273357}
   - component: {fileID: 6744389058498910436}
+  - component: {fileID: 4715249802361258056}
   m_Layer: 0
   m_Name: Player Body
   m_TagString: Player
@@ -5930,6 +5938,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &4715249802361258056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3173107400187305612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 0
+  m_SynchronizeRotation: 0
+  m_SynchronizeScale: 1
+  m_UseLocal: 1
 --- !u!1 &4017857724056262080
 GameObject:
   m_ObjectHideFlags: 0
@@ -5958,7 +5982,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4017857724056262080}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.61, z: 0}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2002808870315144947}
