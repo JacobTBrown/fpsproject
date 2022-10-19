@@ -23,13 +23,15 @@ public class Gun : MonoBehaviour
     AudioSource gunshot;
     AudioSource reload;
 
+    private RPC_Functions rpcFunc;
+
     float timeSinceLastShot;
 
     private void Start()
     {
         if (transform.parent != null)
         {
-            equipped = true;
+            equipped = true;            
             ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
             hitMarker = GameObject.Find("HitMarker");
             hitMarker.SetActive(false);
@@ -50,6 +52,10 @@ public class Gun : MonoBehaviour
         {
             player = transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject;
             PV = player.GetComponent<PhotonView>();
+
+            rpcFunc = GetComponentInParent<RPC_Functions>();
+            rpcFunc.gunShot = GetComponents<AudioSource>()[0];
+            rpcFunc.reload = GetComponents<AudioSource>()[1];
         }
     }
 
@@ -71,6 +77,7 @@ public class Gun : MonoBehaviour
         {
             StartCoroutine(Reload());
             animator.SetTrigger("Reload");
+            PV.RPC("triggerAnim", RpcTarget.OthersBuffered, "Reload");
         }
     }
 
@@ -135,6 +142,7 @@ public class Gun : MonoBehaviour
             flash.Play();
             gunshot.Play();
             animator.SetTrigger("Shoot");
+            PV.RPC("triggerAnim", RpcTarget.OthersBuffered, "Shoot");
         }
     }
 

@@ -50,6 +50,7 @@ public class PlayerSettings : MonoBehaviour
         { KeycodeFunction.downMove, KeyCode.S},
         { KeycodeFunction.slowwalk, KeyCode.LeftControl},
         { KeycodeFunction.sprint, KeyCode.LeftShift},
+        { KeycodeFunction.crouch, KeyCode.C},
         { KeycodeFunction.jump, KeyCode.Space},
         { KeycodeFunction.reload, KeyCode.R},
         { KeycodeFunction.scoreboard, KeyCode.Tab},
@@ -75,8 +76,9 @@ public class PlayerSettings : MonoBehaviour
         if (PV.IsMine)
         {
             // Added by Jacob Brown: 10/13/2022
-            //playerName = GetComponentInChildren<TextMesh>();
-            //playerName.text = nickname;
+            playerName = GetComponentInChildren<TextMesh>();
+            playerName.text = nickname;
+            playerName.gameObject.SetActive(false);
             // end add by Jacob Brown
             //Debug.Log("GETTING SETTINGS PANEL");
             settingPanel = GameObject.Find("SettingPanel");
@@ -90,6 +92,10 @@ public class PlayerSettings : MonoBehaviour
             errorTextPopup = GameObject.Find("ErrorTextPopup");
             //errorText = errorTextPopup.GetComponent<TMP_Text>();
             //errorTextPopup.SetActive(false);
+        } else {
+            playerName = GetComponentInChildren<TextMesh>();
+            playerName.text = nickname;
+            playerName.gameObject.SetActive(false);
         }
 
         //debugs if you need them - Jacob B
@@ -101,6 +107,15 @@ public class PlayerSettings : MonoBehaviour
     {
         if (PV)
         {
+            // Code added - Jacob Brown 10/13/2022
+            // Reassigns the nickname whenever it is updated
+            // Also transforms the playerName
+            if (nickname != PV.Owner.NickName) {
+                nickname = PV.Owner.NickName;
+                playerName.text = nickname;
+                PV.RPC("UpdatePlayerName", RpcTarget.OthersBuffered, nickname);
+            }
+
             if (!PV.IsMine)
             {
                 return;
@@ -170,14 +185,11 @@ public class PlayerSettings : MonoBehaviour
 
             settingPanel.SetActive(!settingPanel.activeInHierarchy);
         }
+    }
 
-        // Code added - Jacob Brown 10/13/2022
-        // Reassigns the nickname whenever it is updated
-        // Also transforms the playerName
-        //if (nickname != PV.Owner.NickName) {
-        //    nickname = PV.Owner.NickName;
-        //    playerName.text = nickname;
-        //}
+    [PunRPC]
+    public void UpdatePlayerName(string name) {
+        playerName.text = nickname;
     }
    
     public bool SetKeycodeValue(KeycodeFunction keycodeFunction, KeyCode keyCode)
@@ -236,6 +248,7 @@ public enum KeycodeFunction
     downMove,
     slowwalk,
     sprint,
+    crouch,
     jump,
     reload,
     scoreboard,

@@ -1,6 +1,4 @@
 ﻿using Photon.Pun;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PickupController : MonoBehaviour
@@ -11,6 +9,8 @@ public class PickupController : MonoBehaviour
     GameObject weapon;
     bool canGrab;
 
+    private GameObject droppedWeapons;
+
     private PhotonView PV;
     private Animator anim;
     private BoxCollider _collider;
@@ -19,6 +19,7 @@ public class PickupController : MonoBehaviour
         PV = GetComponent<PhotonView>();
         anim = currentWeapon.GetComponent<Animator>();
         _collider = currentWeapon.GetComponent<BoxCollider>();
+        droppedWeapons = GameObject.Find("DroppedWeapons");
     }
 
     void Update()
@@ -34,6 +35,7 @@ public class PickupController : MonoBehaviour
                     anim.enabled = true;
                     _collider.isTrigger = true;
                     Pickup();
+                    PV.RPC("Pickup", RpcTarget.OthersBuffered);
                 }
             }
             if(currentWeapon != null)
@@ -45,6 +47,7 @@ public class PickupController : MonoBehaviour
                     anim.enabled = false;
                     _collider.isTrigger = false;
                     Drop();
+                    PV.RPC("Drop", RpcTarget.OthersBuffered);
                 }
             }
         }
@@ -57,13 +60,14 @@ public class PickupController : MonoBehaviour
         {
             if(info.transform.tag == "Weapon")
             {
-                Debug.Log("weapon detected");
+                //Debug.Log("weapon detected");
                 canGrab = true;
                 weapon = info.transform.gameObject;
             }
         } else canGrab = false;
     }
 
+    [PunRPC]
     private void Pickup()
     {
         currentWeapon = weapon;
@@ -79,10 +83,12 @@ public class PickupController : MonoBehaviour
         weapon = null;
     }
 
+    [PunRPC]
     private void Drop()
     {
-        currentWeapon.transform.parent = null;
+        currentWeapon.transform.parent = droppedWeapons.transform;
         currentWeapon.transform.position = transform.position;
+        currentWeapon.GetComponent<Gun>().PV = droppedWeapons.GetComponent<PhotonView>();
         currentWeapon.GetComponent<Gun>().enabled = false;
         currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
         //currentWeapon.transform.position = weaponHolder.position;

@@ -2,15 +2,15 @@
 using System.Collections;
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour//, IPunObservable
+public class SoundManager : MonoBehaviour, IPunObservable
 {
     public AudioClip[] footsteps;
     private AudioSource audioSource;
     private PhotonView PV;
     private Rigidbody playerRigidbody;
     private PlayerMovement playerMovement;
-    private int routineCount;
-    private IEnumerator routine;
+    private int routineCount = 0;
+    private IEnumerator routine, otherRoutine;
     private int current;
 
     // Start is called before the first frame update
@@ -24,22 +24,40 @@ public class SoundManager : MonoBehaviour//, IPunObservable
         current = 0;
     }
 
-    // public void OnPhotonSerializeView(PhotonStream s, PhotonMessageInfo i) {
-    //     if (s.IsWriting) {
-    //         Debug.Log("writing from soundmanager");
-    //         s.SendNext(footsteps[current]);
-    //     } else {
-    //         Debug.Log("reading in soundmanager");
-    //         //s.ReceiveNext
-    //     }
-    // }
+    public void OnPhotonSerializeView(PhotonStream s, PhotonMessageInfo i) {
+        if (s.IsWriting) {
+            //Debug.Log("writing from soundmanager");
+            s.SendNext(current);
+            if (playerRigidbody != null)
+                s.SendNext(playerRigidbody.velocity);
+            if (playerMovement != null) {
+                s.SendNext(playerMovement.isOnGround);
+                s.SendNext(playerMovement.playerState);
+            }
+        } else {
+            //Debug.Log("reading in soundmanager");
+            current = (int) s.ReceiveNext();
+            if (playerRigidbody != null)
+                playerRigidbody.velocity = (Vector3) s.ReceiveNext();
+            if (playerMovement != null) {
+                playerMovement.isOnGround = (bool) s.ReceiveNext();
+                playerMovement.playerState = (PlayerMovement.MovementState) s.ReceiveNext();
+            }
+        }
+    }
 
     void Update() {
         if (PV.IsMine) {
-            if (playerMovement.playerState == PlayerMovement.MovementState.walking
+            UpdateRoutine();
+        } else { 
+            UpdateRoutine();
+        }
+    }
+
+    public void UpdateRoutine() {
+        if (playerMovement.playerState == PlayerMovement.MovementState.walking
             || playerMovement.playerState == PlayerMovement.MovementState.sprinting) {
-                if (routineCount == 0)
-                {
+                if (routineCount == 0) {
                     routine = ChooseAFootstep();
                     StartCoroutine(routine);
                     routineCount++;   
@@ -50,7 +68,6 @@ public class SoundManager : MonoBehaviour//, IPunObservable
                     routineCount = 0;
                 } 
             }
-        }
     }
 
     public IEnumerator ChooseAFootstep() {
