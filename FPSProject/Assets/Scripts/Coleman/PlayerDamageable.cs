@@ -1,4 +1,6 @@
-﻿using Photon.Pun;
+using ExitGames.Client.Photon;
+using Photon.Realtime;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Scripts.Jonathan;
@@ -9,6 +11,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
     [SerializeField] public float currentHealth;
     public float maxHealth = 100f;
     public bool isInvincible = false;
+    public bool isSpeed = false;
     public HealthBar healthBar;
     public Animator DamageFlash;
     public GameObject player;
@@ -48,14 +51,16 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         }
         healthBar.SetHealth(currentHealth, PV);
         if (isInvincible) healthBar.changeColor(PV, Color.blue);
-        else healthBar.changeColor(PV, Color.green);
+        else if (isSpeed) healthBar.changeColor(PV, Color.green);
+        else healthBar.changeColor(PV, Color.red);
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            Debug.Log("TEST: NEW PLAYER KILL EVENT FOR " + player);
-            PlayerKillEvent playerKillEvent = Events.PlayerKillEvent;
-            playerKillEvent.player = player;
-            EventManager.Broadcast(playerKillEvent);
+            /*
+                This is for testing purposes only
+            */
+            onDie();
+
         }
     }
 
@@ -74,21 +79,30 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         }
         if (currentHealth <= 0)
         {
-
+            onDie();
             PlayerDeathEvent evt = Events.PlayerDeathEvent;
             if (PV.IsMine)
             {
                 evt.player = player;
                 currentHealth = 100;
                 healthBar.SetHealth(currentHealth, PV);
-                EventManager.Broadcast(evt);
-                
+               // EventManager.Broadcast(evt);\
             }
             
             Debug.Log("A player has died!");
             
             //Destroy(transform.gameObject);
             //chaging to jonathan's script
+        }
+    }
+
+    public void onDie(){
+        if(PV.IsMine)
+        {
+            RaiseEventOptions o = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            int viewID = PV.ViewID;
+            object[] obj = new object[]{viewID};
+            PhotonNetwork.RaiseEvent(PhotonEvents.PLAYERDEATH,obj,o,SendOptions.SendReliable);
         }
     }
 }

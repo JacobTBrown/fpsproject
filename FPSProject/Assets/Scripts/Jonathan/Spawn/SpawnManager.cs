@@ -18,7 +18,7 @@ namespace Unity.Scripts.Jonathan
 			Instance = this;
 	        SpawnPoints = new List<SpawnController>();
 
-	        EventManager.AddListener<PlayerDeathEvent>(OnPlayerDeath);
+	        EventManager.AddListener<PlayerSpawnEvent>(OnPlayerSpawn);
 
 	        strategy = new RandomSpawnStrategy();
 	    }
@@ -29,7 +29,7 @@ namespace Unity.Scripts.Jonathan
 	        NumberofSpawnPoints++;
 	    }
 	
-	    void OnPlayerDeath(PlayerDeathEvent evt){
+	    void OnPlayerSpawn(PlayerSpawnEvent evt){
 	        HandlePlayerSpawn(evt.player);
 	    }
 

@@ -10,6 +10,11 @@ namespace Unity.Scripts.Jonathan{
     
         - Edited By Jonathan Alexander on 9/27/2022 11:33pm
  */
+  /*
+        I have player death be default event. IT's unkown what other program needs 
+        so beware of some programms requiring PlayerDeathEvents and 
+        others needing PlayerKillEvents
+*/
     public static class Events
     {
         public static PlayerDeathEvent PlayerDeathEvent = new PlayerDeathEvent();
