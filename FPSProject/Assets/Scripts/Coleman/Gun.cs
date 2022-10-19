@@ -11,6 +11,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private Transform muzzle;
     [SerializeField] private ParticleSystem flash;
     public GameObject player;
+    public GameObject playerOrientation;
     public GameObject WeaponHolder;
     public GameObject hitMarker;
     public PhotonView PV;
@@ -93,7 +94,7 @@ public class Gun : MonoBehaviour
             {
                 if (canShoot())
                 {
-                    if (Physics.Raycast(muzzle.position, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
+                    if (Physics.Raycast(playerOrientation.transform.position, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
                     {
                         if (hitInfo.collider.tag == "Player")
                         {
@@ -116,7 +117,7 @@ public class Gun : MonoBehaviour
     private void Update()
     {
         timeSinceLastShot += Time.deltaTime;
-        Debug.DrawRay(muzzle.position, muzzle.forward);
+        Debug.DrawRay(playerOrientation.transform.position, transform.forward);
 
         if (transform.parent != null)
         {

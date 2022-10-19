@@ -41,7 +41,7 @@ public class PlayerSettings : MonoBehaviour
     public Slider mouseXSlider;
     // For the user to invert the Y mouse look
     public bool invertMouse = false;
- 
+    public bool chatIsOpen = false;
     [Header("User Keybinds")]
     public Dictionary<KeycodeFunction, KeyCode> inputSystemDic = new Dictionary<KeycodeFunction, KeyCode>() {
         { KeycodeFunction.leftMove, KeyCode.A},
@@ -75,8 +75,8 @@ public class PlayerSettings : MonoBehaviour
         if (PV.IsMine)
         {
             // Added by Jacob Brown: 10/13/2022
-            playerName = GetComponentInChildren<TextMesh>();
-            playerName.text = nickname;
+            //playerName = GetComponentInChildren<TextMesh>();
+            //playerName.text = nickname;
             // end add by Jacob Brown
             //Debug.Log("GETTING SETTINGS PANEL");
             settingPanel = GameObject.Find("SettingPanel");
@@ -127,12 +127,14 @@ public class PlayerSettings : MonoBehaviour
             if (chatRoom.activeInHierarchy)
             {
                 chatRoom.SetActive(false);
+                chatIsOpen = false;
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
             else
             {
                 chatRoom.SetActive(true);
+                chatIsOpen = true;
                 Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
             }
@@ -172,10 +174,10 @@ public class PlayerSettings : MonoBehaviour
         // Code added - Jacob Brown 10/13/2022
         // Reassigns the nickname whenever it is updated
         // Also transforms the playerName
-        if (nickname != PV.Owner.NickName) {
-            nickname = PV.Owner.NickName;
-            playerName.text = nickname;
-        }
+        //if (nickname != PV.Owner.NickName) {
+        //    nickname = PV.Owner.NickName;
+        //    playerName.text = nickname;
+        //}
     }
    
     public bool SetKeycodeValue(KeycodeFunction keycodeFunction, KeyCode keyCode)

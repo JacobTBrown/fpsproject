@@ -10,23 +10,42 @@ public class PickupController : MonoBehaviour
     public GameObject currentWeapon;
     GameObject weapon;
     bool canGrab;
+
+    private PhotonView PV;
+    private Animator anim;
+    private BoxCollider _collider;
+
+    void Start() {
+        PV = GetComponent<PhotonView>();
+        anim = currentWeapon.GetComponent<Animator>();
+        _collider = currentWeapon.GetComponent<BoxCollider>();
+    }
+
     void Update()
     {
-        canGrab = false;
-        CheckWeapons();
-        if(canGrab)
-        {
-            if(Input.GetKeyDown(KeyCode.E))
+        if (PV.IsMine) { 
+            canGrab = false;
+            CheckWeapons();
+            if(canGrab)
             {
-                if (currentWeapon != null) Drop();
-                Pickup();
+                if(Input.GetKeyDown(KeyCode.E))
+                {
+                    if (currentWeapon != null) Drop();
+                    anim.enabled = true;
+                    _collider.isTrigger = true;
+                    Pickup();
+                }
             }
-        }
-        if(currentWeapon != null)
-        {
-            if(Input.GetKeyDown(KeyCode.Q))
+            if(currentWeapon != null)
             {
-                Drop();
+                if(Input.GetKeyDown(KeyCode.Q))
+                {
+                    anim = currentWeapon.GetComponent<Animator>();
+                    _collider = currentWeapon.GetComponent<BoxCollider>();
+                    anim.enabled = false;
+                    _collider.isTrigger = false;
+                    Drop();
+                }
             }
         }
     }
@@ -38,6 +57,7 @@ public class PickupController : MonoBehaviour
         {
             if(info.transform.tag == "Weapon")
             {
+                Debug.Log("weapon detected");
                 canGrab = true;
                 weapon = info.transform.gameObject;
             }
@@ -64,7 +84,7 @@ public class PickupController : MonoBehaviour
         currentWeapon.transform.parent = null;
         currentWeapon.transform.position = transform.position;
         currentWeapon.GetComponent<Gun>().enabled = false;
-        currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
+        currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
         //currentWeapon.transform.position = weaponHolder.position;
         currentWeapon = null;
         weapon = null;

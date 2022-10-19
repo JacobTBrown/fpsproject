@@ -7,6 +7,7 @@ public class SpeedPowerup : MonoBehaviour
     [SerializeField] private ParticleSystem HealthPickupEffect;
     public AudioSource powerupSound;
     public GameObject parent;
+    public float duration = 5f;
 
     public void Start()
     {
@@ -24,14 +25,15 @@ public class SpeedPowerup : MonoBehaviour
     IEnumerator SpeedPickup(Collider player)
     {
         PlayerMovement move = player.GetComponentInParent<PlayerMovement>();
+        PlayerDamageable stats = player.GetComponent<PlayerDamageable>();
         powerupSound.Play();
         foreach (Transform child in parent.gameObject.transform)
         {
             child.GetComponent<MeshRenderer>().enabled = false;
         }
-        GetComponent<Collider>().enabled = false;
+        transform.parent.position = new Vector3(0, -100, 0);
+        stats.isSpeed = true;
 
-        float duration = 5f;
         float time = 0;
         float origSpeed;
         float newSpeed;
@@ -47,6 +49,9 @@ public class SpeedPowerup : MonoBehaviour
             }
             move.hasSpeedPowerup = false;
         }
+
+        yield return new WaitForSeconds(1);
+        stats.isSpeed = false;
         Destroy(transform.parent.gameObject);
         
         yield return null;
