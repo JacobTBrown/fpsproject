@@ -59,6 +59,7 @@ namespace Unity.Scripts.Jonathan{
     }
 
     public class PlayerDeathEvent : GameEvent { 
+    
         public GameObject player;
     }
     public class EnemyKillEvent :GameEvent

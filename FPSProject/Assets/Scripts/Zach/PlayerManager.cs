@@ -28,14 +28,21 @@ public class PlayerManager : MonoBehaviour
     GameObject controllerAsGameObject;
     //GameObject controllerRefrence
     //CharacterController cc;
-
+    Vector3 randomSpawn;
     void Awake()
     {
         EventManager.AddListener<PlayerDeathEvent>(onPlayerDeath);
+        GameObject spawnPointsParent = GameObject.Find("SpawnPoints");
+        SpawnController[] spawnPoints = spawnPointsParent.GetComponentsInChildren<SpawnController>(true);
+        for (int i = 0; i < spawnPoints.Length; i++) {
+            randomSpawn = spawnPoints[i].transform.localPosition;
+                }
     }
     public void CreateNewPlayer()
     {
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), initSpawn, Quaternion.identity);
+        
+        
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), randomSpawn, Quaternion.identity);
     }
     public void RegisterPlayer(GameObject player)
     {

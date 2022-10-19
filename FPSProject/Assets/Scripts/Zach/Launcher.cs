@@ -86,7 +86,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         debug = false;
         //if (Time.realtimeSinceStartup < 5f)
-        StartCoroutine(IntroFade());
+        Invoke("IntroFade", 2);
 
         //int exp = (int)PlayerStatsPage.Instance.GetTotalTime();
         //StartCoroutine(LevelTracker(.03f, levelText, levelImage, exp));
@@ -95,14 +95,13 @@ public class Launcher : MonoBehaviourPunCallbacks
         //Debug.Log("Script activated");
         Instance = this;
         Invoke("CheckConnection", 30);
-        Invoke("LevelRoutine", 1);
+        Invoke("LevelRoutine", 2);
         mapsArr = new MapData[2];          //to add maps, increment this array, and add the map name below with its index.
         mapsArr[0] = new MapData("Map 1", 1);
         mapsArr[1] = new MapData("Map 2", 2);
     }
     public void LevelRoutine()
     {
-
         int exp = (int)GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().newData.exp;
         int levelNumber = (int)GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().level;
         if (debug) Debug.Log("init exp: " + exp + " init level: " + levelNumber);
