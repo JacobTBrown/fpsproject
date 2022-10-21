@@ -73,6 +73,7 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void onPlayerDeath(PlayerDeathEvent evt){
+        Debug.Log("Broadcasting " + evt + " from PlayerManager.cs");
         PlayerSpawnEvent evt1 = Events.PlayerSpawnEvent;
         evt1.player = evt.player;
         EventManager.Broadcast(evt1);

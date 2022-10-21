@@ -7,37 +7,49 @@ using UnityEngine.SceneManagement;
 
 public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
 {
+    RPC_Functions rpcFunc;
     PhotonView PV;
     [ContextMenu("Exit")]
     private void Awake()
     {
 
     }
+    private void Start()
+    {
+        rpcFunc = GetComponentInParent<RPC_Functions>();
+    }
     public void goToTitleMenu()
     {
         //SceneManager.UnloadSceneAsync("ColemanWeaponsAndPowerups");
 
-        
+        Invoke("afterRPC", 1);
         //SaveAndDestroy();
         PV = GameObject.Find("Player(Clone)").GetComponent<PhotonView>();
         if (PV.IsMine)
         {
-
+            Debug.Log(PV.ViewID);
+            //PV.RPC("ClearRPCs", RpcTarget.OthersBuffered, PhotonNetwork.LocalPlayer);
+            PhotonNetwork.RemoveRPCs(PhotonNetwork.LocalPlayer);
             //PhotonNetwork.CleanRpcBufferIfMine(PV);
             Debug.Log("exit destroyed u");
           //  PhotonNetwork.Destroy(PV);
+          
         }
         else
         {
             Debug.Log("exit cant find ur PV");
         }
-        PhotonNetwork.LeaveRoom();
-        PhotonNetwork.Disconnect();
+        //PhotonNetwork.LeaveRoom();
+        //PhotonNetwork.Disconnect();
             //PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
        // GameObject.FindObjectsOfTypeAll<PhotonView>();
         //Debug.Log("destroyed " + PhotonNetwork.LocalPlayer);
         //PhotonNetwork.LeaveRoom();
 
+    }
+    public void afterRPC()
+    {
+        PhotonNetwork.LeaveRoom(); 
     }
 
     public void OnPreNetDestroy(PhotonView rootView)
@@ -49,8 +61,9 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         //PhotonView PV = GameObject.Find("Player(Clone)").GetComponent<PhotonView>();
+        Debug.Log(PV);
+            //PhotonNetwork.OpCleanActorRpcBuffer(otherPlayer.ActorNumber);
 
-            PhotonNetwork.OpCleanActorRpcBuffer(otherPlayer.ActorNumber);
             Debug.Log("OnPlayerLeftRoom: " + otherPlayer.ActorNumber);
             //PhotonNetwork.CleanRpcBufferIfMine(PV);
             //PhotonNetwork.Destroy(PV);
@@ -60,13 +73,13 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
     }
     public void DisconnectPlayer()
     {
-        StartCoroutine(DisconnectAndLoad());
+       // StartCoroutine(DisconnectAndLoad());
     }
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
     }
-    IEnumerator DisconnectAndLoad()
+  /*  IEnumerator DisconnectAndLoad()
     {
        
         PhotonNetwork.LeaveRoom();
@@ -82,17 +95,19 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
             yield return null;
         }
         PhotonNetwork.LoadLevel(0);
-    }
+    }*/
     public override void OnLeftRoom()
     {
         PhotonNetwork.Disconnect();
         //SceneManager.LoadScene(0);
         //MenuManager.loadScene = true;
+        
 
     }
     public override void OnDisconnected(DisconnectCause cause)
     {
-        SceneManager.LoadScene(0);
+        PhotonNetwork.LoadLevel(0);
+        //SceneManager.LoadScene(0);
         Debug.Log("onDisconnected callbac for " + cause);
         base.OnDisconnected(cause);
     }

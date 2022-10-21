@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Scripts.Jonathan;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 // Zach 10-10: **MODEL** / VIEW / Controller
@@ -31,7 +32,7 @@ public class PlayerStatsPage : MonoBehaviour
     public DataToStore newData;
     public static PlayerStatsPage Instance;
     [HideInInspector] public string json;
-    bool debug = false;
+    bool debug = true;
     public bool inGame = false;
     float initialTimeInGame;
     public bool saved = false;
@@ -43,7 +44,8 @@ public class PlayerStatsPage : MonoBehaviour
         //     Debug.Log("destroy");
         //   Destroy(this);
         //    }
-        
+
+        EventManager.AddListener<PlayerKillEvent>(SetKills);
         DontDestroyOnLoad(this.gameObject);
         //going to try making the JSON in DataSaver.cs
         Instance = this;
@@ -69,6 +71,7 @@ public class PlayerStatsPage : MonoBehaviour
         totalDeaths = newData.totalDeaths;
         if (debug) Debug.Log("New data in playerstatspage: " + JsonUtility.ToJson(newData));
     }
+
     private void Start()
     {
         lastInterval = Time.realtimeSinceStartup;
@@ -206,6 +209,12 @@ public class PlayerStatsPage : MonoBehaviour
     public int GetKills()
     {
         return this.totalKills;
+    }
+    public void SetKills(PlayerKillEvent evt)
+    {
+        Debug.Log("PlayerStatsPage.cs Event: " + evt);
+        totalKills++;
+        return;
     }
     public int GetDeaths()
     {

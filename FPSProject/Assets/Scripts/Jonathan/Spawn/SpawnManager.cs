@@ -21,6 +21,7 @@ namespace Unity.Scripts.Jonathan
 	        EventManager.AddListener<PlayerDeathEvent>(OnPlayerDeath);
 
 	        strategy = new RandomSpawnStrategy();
+
 	    }
 	
 	    public void RegisterSpawnPoint(SpawnController SpawnPoint)

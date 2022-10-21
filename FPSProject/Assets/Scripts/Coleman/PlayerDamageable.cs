@@ -25,8 +25,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
     {
 
         //Debug.Log(PV.name.ToString());
-        if (PV.IsMine)
-        {
+  
             //Debug.Log("Starting player damage");
             impact = gameObject.GetComponent<AudioSource>();
             DamageFlash = GameObject.Find("Canvas10-14").GetComponentInChildren<Animator>();
@@ -35,7 +34,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
             Debug.Log("Healthbar is: " + healthBar.name);
             healthBar.SetMaxHealth(maxHealth);
             currentHealth = maxHealth;
-        }
+        
         /*    impact = GetComponent<AudioSource>();
             DamageFlash = GameObject.Find("DamageFlash").GetComponent<Animator>();
             healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
@@ -89,7 +88,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         }
         if (currentHealth <= 0)
         {
-
+            Debug.Log("your current health: " + currentHealth);
             PlayerDeathEvent evt = Events.PlayerDeathEvent;
             if (PV.IsMine)
             {

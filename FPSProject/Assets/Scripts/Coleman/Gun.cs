@@ -31,7 +31,9 @@ public class Gun : MonoBehaviour
     {
         //Debug.Log("Gun.cs start");
         //Debug.Log(PhotonNetwork.LocalPlayer.NickName);
-
+        rpcFunc = GetComponentInParent<RPC_Functions>();
+        rpcFunc.gunShot = GetComponents<AudioSource>()[0];
+        rpcFunc.reload = GetComponents<AudioSource>()[1];
         if (transform.parent != null && PV.IsMine)
         {
             if (ammoCounter)
@@ -49,9 +51,10 @@ public class Gun : MonoBehaviour
             sounds = GetComponents<AudioSource>();
             gunshot = sounds[0];
             reload = sounds[1];
+            Debug.Log("Gun.cs exited start with reload: " + reload.name);
         } else
         {
-           // Debug.Log("gun.cs failed");
+           Debug.Log("gun.cs failed");
             equipped = false;
         }
     }
@@ -70,9 +73,14 @@ public class Gun : MonoBehaviour
             PV = player.GetComponent<PhotonView>();
             Debug.Log("player was set: " + player.GetComponent<PhotonView>().ViewID.ToString());
             //Debug.Log("player's pv: " + PV.ViewID);
-            rpcFunc = GetComponentInParent<RPC_Functions>();
-            rpcFunc.gunShot = GetComponents<AudioSource>()[0];
-            rpcFunc.reload = GetComponents<AudioSource>()[1];
+
+            //moving RPCs to start() - Kassad November 2018
+            //https://forum.photonengine.com/discussion/2300/solved-received-rpc-photonview-does-not-exist
+
+        }
+        else
+        {
+            Debug.Log("was already set");
         }
     }
 
@@ -90,14 +98,17 @@ public class Gun : MonoBehaviour
 
     public void ReloadInit()
     {
-
-        //Debug.Log("10-20: exit btn - ReloadInit(): " + this.gameObject);
+        if (!this.gameObject) //1
+        {
+            GameObject pistol = player.GetComponentInChildren<Gun>().gameObject;
+        }
+        Debug.Log("10-20: exit btn - ReloadInit(): " + this.gameObject);
         //Debug.Log(PhotonNetwork.LocalPlayer); 
         if(!gunData.isReloading && gunData.magSize != gunData.currentAmmo && this.gameObject.activeSelf)
         {
             StartCoroutine(Reload());
             animator.SetTrigger("Reload");
-            PV.RPC("triggerAnim", RpcTarget.OthersBuffered, "Reload");
+            PV.RPC("triggerAnim", RpcTarget.Others, "Reload");
         }
     }
 
