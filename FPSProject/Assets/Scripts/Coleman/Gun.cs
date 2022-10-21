@@ -20,49 +20,35 @@ public class Gun : MonoBehaviour
     public bool settingsOpen = false;
     public bool equipped;
     Animator animator;
-    AudioSource[] sounds;
-    AudioSource gunshot;
-    AudioSource reload;
+    public AudioClip gunshot;
+    public AudioClip reload;
+    public AudioSource audioSource;
 
-    private RPC_Functions rpcFunc;
+    //private RPC_Functions rpcFunc;
 
     float timeSinceLastShot;
 
-    void Awake()
-    {
-        if (transform.parent != null)
-        {
-            player = transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject;
-            PV = player.GetComponent<PhotonView>();
-
-            rpcFunc = GetComponentInParent<RPC_Functions>();
-            rpcFunc.gunShot = GetComponents<AudioSource>()[0];
-            rpcFunc.reload = GetComponents<AudioSource>()[1];
-        }
-    }
-
     private void Start()
     {
-        if (equipped)
+        if (equipped && PV.IsMine)
         {          
             ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
-            hitMarker = GameObject.Find("HitMarker");
-            if(hitMarker) hitMarker.SetActive(false);
             gunData.currentAmmo = gunData.magSize;
             gunData.reserveAmmo = gunData.maxReserveAmmo;
             PlayerShoot.shootInput += Shoot;
             PlayerShoot.reloadInput += ReloadInit;
             animator = GetComponent<Animator>();
-            sounds = GetComponents<AudioSource>();
-            gunshot = sounds[0];
-            reload = sounds[1];
         }
+
+        hitMarker = GameObject.Find("HitMarker");
+        if(hitMarker) hitMarker.SetActive(false);
     }
 
     private IEnumerator Reload()
     {
         gunData.isReloading = true;
-        reload.Play();
+        audioSource.clip = reload;
+        audioSource.Play();
         yield return new WaitForSeconds(gunData.reloadTime);
         if (gunData.reserveAmmo != -1) gunData.reserveAmmo -= gunData.magSize - gunData.currentAmmo;
         gunData.currentAmmo = gunData.magSize;
@@ -77,7 +63,19 @@ public class Gun : MonoBehaviour
         {
             StartCoroutine(Reload());
             animator.SetTrigger("Reload");
-            PV.RPC("triggerAnim", RpcTarget.Others, "Reload");
+            switch(gunData.name) {
+                case "M1911":
+                    PV.RPC("TriggerAnimPistol", RpcTarget.Others, "Reload");
+                    break;
+                case "SPAS-12":
+                    PV.RPC("TriggerAnimShotgun", RpcTarget.Others, "Reload");
+                    break;
+                case "AK-47":
+                    PV.RPC("TriggerAnimAK", RpcTarget.Others, "Reload");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -152,16 +150,20 @@ public class Gun : MonoBehaviour
 
     private void Update()
     {
-        timeSinceLastShot += Time.deltaTime;
-        //Debug.DrawRay(playerOrientation.transform.position, transform.forward);
+        if (PV) {
+            if (PV.IsMine) {
+                timeSinceLastShot += Time.deltaTime;
+                //Debug.DrawRay(playerOrientation.transform.position, transform.forward);
 
-        if (transform.parent != null && !settingsOpen && equipped)
-        {
-            //ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
-            if (gunData.reserveAmmo == -1) ammoCounter.text = gunData.currentAmmo.ToString() + "/\u221e";
-            else ammoCounter.text = gunData.currentAmmo.ToString() + "/" + gunData.reserveAmmo.ToString();
-            transform.localPosition = Vector3.zero;
-            transform.localRotation = Quaternion.identity;
+                if (transform.parent != null && !settingsOpen && equipped)
+                {
+                    //ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
+                    if (gunData.reserveAmmo == -1) ammoCounter.text = gunData.currentAmmo.ToString() + "/\u221e";
+                    else ammoCounter.text = gunData.currentAmmo.ToString() + "/" + gunData.reserveAmmo.ToString();
+                    transform.localPosition = Vector3.zero;
+                    transform.localRotation = Quaternion.identity;
+                }
+            }
         }
     }
 
@@ -169,9 +171,22 @@ public class Gun : MonoBehaviour
     {
         if (this.gameObject.activeSelf) {
             flash.Play();
-            gunshot.Play();
+            audioSource.clip = gunshot;
+            audioSource.Play();
             animator.SetTrigger("Shoot");
-            PV.RPC("triggerAnim", RpcTarget.Others, "Shoot");
+            switch(gunData.name) {
+                case "M1911":
+                    PV.RPC("TriggerAnimPistol", RpcTarget.Others, "Shoot");
+                    break;
+                case "SPAS-12":
+                    PV.RPC("TriggerAnimShotgun", RpcTarget.Others, "Shoot");
+                    break;
+                case "AK-47":
+                    PV.RPC("TriggerAnimAK", RpcTarget.Others, "Shoot");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

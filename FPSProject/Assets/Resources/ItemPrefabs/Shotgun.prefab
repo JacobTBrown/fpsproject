@@ -4869,6 +4869,7 @@ MonoBehaviour:
   playerOrientation: {fileID: 0}
   WeaponHolder: {fileID: 0}
   hitMarker: {fileID: 0}
+  thisCollider: {fileID: 0}
   PV: {fileID: 0}
   ammoCounter: {fileID: 0}
   settingsOpen: 0
@@ -4958,7 +4959,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -5054,7 +5055,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0

@@ -1,33 +1,50 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class WeaponSwap : MonoBehaviour
 {
+    [SerializeField]
+    private PlayerMovement player;
     public int selected;
+    private int previous;
     // Start is called before the first frame update
     void Start()
     {
         selectWeapon();
+
+        if (!player.PV.IsMine)
+        previous = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        int previous = selected;
-        if (Input.GetAxis("Mouse ScrollWheel") > 0)
-        {
-            if (selected >= transform.childCount - 1) selected = 0;
-            else selected++;
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") < 0)
-        {
-            if (selected <= 0) selected = transform.childCount-1;
-            else selected--;
-        }
-        if(previous != selected)
-        {
-            selectWeapon();
+        if (player.PV.IsMine) {
+            int previous = selected;
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            {
+                if (selected >= transform.childCount - 1) selected = 0;
+                else selected++;
+                player.PV.RPC("SetCurrentWeapon", RpcTarget.OthersBuffered, selected);
+            }
+            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            {
+                if (selected <= 0) selected = transform.childCount-1;
+                else selected--;
+                player.PV.RPC("SetCurrentWeapon", RpcTarget.OthersBuffered, selected);
+            }
+            if(previous != selected)
+            {
+                selectWeapon();
+            }
+        } else {
+            if(previous != selected)
+            {
+                selectWeapon();
+            }
+            previous = selected;
         }
     }
 
