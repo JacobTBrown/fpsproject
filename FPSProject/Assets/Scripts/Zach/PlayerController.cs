@@ -10,13 +10,15 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
-   
+        Debug.Log("pmanager awake");
     }
 
     void Start()
     {
+        
         	pManager = FindObjectOfType<PlayerManager>();
 	        pManager.RegisterPlayer(gameObject);
+        Debug.Log("pmanager : " + pManager.name);
 
     }
 

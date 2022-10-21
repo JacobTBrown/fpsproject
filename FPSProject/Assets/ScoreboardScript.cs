@@ -15,7 +15,7 @@ public class ScoreboardScript : MonoBehaviour
 
     public void Initialize(Player _player)
     {
-        Debug.Log("Player name is: " + _player.NickName);
+        //Debug.Log("Player name is: " + _player.NickName);
         player = _player;
         usernameText.text = _player.NickName;
     }

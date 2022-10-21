@@ -46,6 +46,16 @@ public class PlayerMovement : MonoBehaviour
     public MovementState playerState;
     //Adding just a few lines below for PUN
     public PhotonView PV;
+
+    //############################
+    //ADDED
+    //###########################
+    private float rotateYAxis, rotateXAxis;
+    private Vector3 mouseMovement = new Vector3(0, 0, 0);
+    private PlayerMovement playerMove;
+    private PlayerSettings playerSettings;
+
+    //##############################################
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -64,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         if (!PV.IsMine)
         {
             Destroy(GetComponentInChildren<AudioListener>());
-            Destroy(GetComponentInChildren<Camera>());
+   //         Destroy(GetComponentInChildren<Camera>().gameObject);
             //wheres the other people's guns ?
         }
 
@@ -74,6 +84,7 @@ public class PlayerMovement : MonoBehaviour
         
         // If we don't do this the player will fall over because it is a capsule
         playerRigidbody.freezeRotation = true;
+        //#################################################
     }
     
     void Update()
@@ -85,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
             LimitSpeed();
             UpdateState();
             ApplyDrag();
+            PerformRotation();
         }
     }
 
@@ -132,7 +144,7 @@ public class PlayerMovement : MonoBehaviour
         wallInFront = Physics.Raycast(playerTransform.position, playerTransform.forward, wallCheckDistance, groundLayer);
 
         // When you look at another player this will make it so the name of the player rotates towards you
-       /* if (Physics.Raycast(playerTransform.position, playerTransform.forward, out RaycastHit hitInfo, 100)) {
+        if (Physics.Raycast(playerTransform.position, playerTransform.forward, out RaycastHit hitInfo, 100)) {
             if (hitInfo.collider.tag == "Player") {
                 TextMesh nameMesh = hitInfo.collider.gameObject.transform.parent.GetComponentInChildren<TextMesh>();
                 var lookPos = hitInfo.collider.gameObject.transform.position - playerTransform.position;
@@ -140,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
                 var rotation = Quaternion.LookRotation(lookPos);
                 nameMesh.gameObject.transform.rotation = Quaternion.Slerp(nameMesh.gameObject.transform.rotation, rotation, Time.deltaTime * 2.5f);
             }
-        }*/
+        }
     }
 
     private void GetInputs() {
@@ -189,8 +201,31 @@ public class PlayerMovement : MonoBehaviour
             horizontalZInput = -0.5f;
             horizontalXInput = 0.5f;
         }
+
+        //###########################
+
+        // Get the horizontal mouse movement * sensitivity
+        mouseMovement.x = Input.GetAxis("Mouse X") * keybinds.mouseXSensitivity; 
+        // Get the vertical mouse movement * sensitivity
+        mouseMovement.y = Input.GetAxis("Mouse Y") * keybinds.mouseYSensitivity;
+        mouseMovement *= Time.deltaTime;
+        //#############################
+    }
+    //#############################
+
+        private void PerformRotation() {
+        rotateYAxis += mouseMovement.x;
+        // Clamp the mouse rotation X so that we can't look over and backwards.
+        // By default the camera is looking forward at an x angle of 0, hence we use
+        // -90f and 90f to prevent going too far down or too far up.
+        rotateXAxis = Mathf.Clamp(rotateXAxis, -90f, 90f);
+        // If the player is on the ground. Then rotate the player on the y axis so that 
+        // upon moving, we move relative to the player's orientation. This way
+        // if we are in the air turning the camera doesn't alter the trajectory.
+        gameObject.transform.rotation = Quaternion.Euler(0f, rotateYAxis, 0f);
     }
 
+    //#############################
     public void UpdateState() {
         if (wallInFront && horizontalZInput > 0) {       // State - climbing
             playerState = MovementState.climbing;
@@ -245,7 +280,6 @@ public class PlayerMovement : MonoBehaviour
     }
     
     private void Jump() {
-        if (keybinds.chatIsOpen) return; //Added by zach to disable jump when chat is open
         // Reset the rigidbody y velocity to start all jumps at the same baseline velocity
         playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
         // Add an upwards impulse to the player rigidbody multiplied by the jumpForce
@@ -261,7 +295,6 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Move() {
-        if (keybinds.chatIsOpen) return; //Added by zach to disable movement when chat is open
         // Set up our movement vector
         movement = playerTransform.right * horizontalXInput + playerTransform.forward * horizontalZInput;
             

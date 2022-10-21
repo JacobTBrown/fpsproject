@@ -45,6 +45,11 @@ MonoBehaviour:
   - Damage
   - DamageEvent
   - DamagePlayer
+  - Drop
+  - Pickup
+  - UpdatePlayerName
+  - triggerAnim
+  - ClearRPCs
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0
