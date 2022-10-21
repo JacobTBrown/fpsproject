@@ -31,18 +31,17 @@ public class PlayerManager : MonoBehaviour
     Vector3 randomSpawn;
     void Awake()
     {
+        GameObject gamemgr = GameObject.Find("GameManager");
         EventManager.AddListener<PlayerDeathEvent>(onPlayerDeath);
-        GameObject spawnPointsParent = GameObject.Find("SpawnPoints");
-        SpawnController[] spawnPoints = spawnPointsParent.GetComponentsInChildren<SpawnController>(true);
-        for (int i = 0; i < spawnPoints.Length; i++) {
-            randomSpawn = spawnPoints[i].transform.localPosition;
-                }
+
+        Debug.Log("Found Game Manager: " + gamemgr.name);
     }
     public void CreateNewPlayer()
     {
-        
-        
-        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), randomSpawn, Quaternion.identity);
+        Vector3 v = new Vector3(0,-10,0);
+
+
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), v, Quaternion.identity);
     }
     public void RegisterPlayer(GameObject player)
     {
@@ -59,7 +58,7 @@ public class PlayerManager : MonoBehaviour
         EventManager.Broadcast(s_evt);
         //Debug.Log("New Player Registered");
         EventManager.Broadcast(np_evnt);
-
+        Debug.Log(player.GetComponent<PhotonView>().ViewID + " Trying to register their player");
         if(player.GetComponent<PhotonView>().IsMine)
         {
            ((MonoBehaviour)player.GetComponent<PlayerMovement>()).enabled = true;
@@ -67,7 +66,7 @@ public class PlayerManager : MonoBehaviour
            ((MonoBehaviour)player.GetComponent<PlayerSettings>()).enabled = true;
            player.transform.Find("Player Camera").gameObject.GetComponent<Camera>().enabled = true;
            player.transform.Find("Player Camera").gameObject.GetComponent<PlayerCameraMovement>().enabled = true;
-
+            Debug.Log("Player finished camera setup: " + player.GetComponent<PhotonView>().ViewID);
            
         }
     }

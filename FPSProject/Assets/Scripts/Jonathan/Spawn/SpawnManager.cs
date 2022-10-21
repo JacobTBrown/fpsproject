@@ -15,7 +15,11 @@ namespace Unity.Scripts.Jonathan
 
 	    void Awake()
 	    {
+
+			if (Instance)
+				Debug.Log("Instance already existed");
 			Instance = this;
+			
 	        SpawnPoints = new List<SpawnController>();
 
 	        EventManager.AddListener<PlayerSpawnEvent>(OnPlayerSpawn);
@@ -26,6 +30,7 @@ namespace Unity.Scripts.Jonathan
 	
 	    public void RegisterSpawnPoint(SpawnController SpawnPoint)
 	    {
+			//Debug.Log("Register Spawn Point: " );
 	        SpawnPoints.Add(SpawnPoint);
 	        NumberofSpawnPoints++;
 	    }

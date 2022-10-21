@@ -46,6 +46,7 @@ public class PlayerStatsPage : MonoBehaviour
         //    }
 
         EventManager.AddListener<PlayerKillEvent>(SetKills);
+
         DontDestroyOnLoad(this.gameObject);
         //going to try making the JSON in DataSaver.cs
         Instance = this;

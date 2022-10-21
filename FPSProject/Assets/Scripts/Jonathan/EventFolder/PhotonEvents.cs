@@ -30,6 +30,11 @@ namespace Unity.Scripts.Jonathan
             /*
                 This assumes that Obj[0] is the players veiwID
             */
+            Debug.Log("OnEvent called for " + photonEvent.CustomData);
+            if (photonEvent.Code.ToString().Length == 0)
+            {
+                Debug.Log("empty event " + photonEvent.CustomData);
+            }
             byte eventCode = photonEvent.Code;
             object[] player = (object[])photonEvent.CustomData;
 

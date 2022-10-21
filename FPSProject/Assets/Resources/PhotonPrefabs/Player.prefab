@@ -5549,26 +5549,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerRigidbody: {fileID: 3173107398918425438}
   playerTransform: {fileID: 3173107399746349717}
-  playerBodyTransform: {fileID: 3173107400187305611}
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
   moveSpeed: 0
   groundDrag: 5
-  slowWalkSpeed: 25
-  walkSpeed: 40
-  sprintSpeed: 65
-  crouchSpeed: 15
+  groundSlowWalkSpeed: 0
+  groundWalkSpeed: 0
+  groundSprintSpeed: 0
   powerUpSpeed: 0
-  wallrunSpeed: 40
   airDrag: 1.25
   airSpeed: 12
-  crouchYScale: 0.5
-  maxSlopeAngle: 60
   jumpForce: 10
   doubleJumpTimer: 0.5
   isOnGround: 1
-  isOnSlope: 0
   wallInFront: 0
   canDoubleJump: 0
   isClimbing: 0
