@@ -18,7 +18,7 @@ public class FreeForAll : MonoBehaviour, GameMode
         o_Manager = GameObject.Find("GameManager").GetComponent<ObjectiveManager>();
         r_Manager = GameObject.Find("GameManager").GetComponent<RuleManager>();
         r_Manager.Init();
-        Debug.Log(r_Manager);
+        //Debug.Log(r_Manager);
         EventManager.AddListener<NewPlayerEvent>(onNewPlayer);
         createGameRules();
         

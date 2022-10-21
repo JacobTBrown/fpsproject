@@ -87,7 +87,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         debug = false;
         //if (Time.realtimeSinceStartup < 5f)
         Invoke("IntroFade", 2);
-
+        PhotonNetwork.OfflineMode = false;
         //int exp = (int)PlayerStatsPage.Instance.GetTotalTime();
         //StartCoroutine(LevelTracker(.03f, levelText, levelImage, exp));
         pingObj = GameObject.Find("PingVariable");
@@ -110,6 +110,10 @@ public class Launcher : MonoBehaviourPunCallbacks
     }
     private IEnumerator IntroFade()
     { //fade-in color
+        while (GameObject.Find("LoadingMenu").activeInHierarchy){
+            Debug.Log("loading");
+            yield return null;
+        }
         Image backgroundImg = GameObject.Find("WelcomeScreen").GetComponent<Image>();
         while (backgroundImg.color.a < 1.0f)
         {
@@ -203,8 +207,11 @@ public class Launcher : MonoBehaviourPunCallbacks
         //PhotonNetwork.NickName = MasterManager.GameSettings.NickName;
         //PhotonNetwork.GameVersion = MasterManager.GameSettings.GameVersion;
         if (!PhotonNetwork.IsConnected)
-        PhotonNetwork.ConnectUsingSettings();
-    }
+        {
+           // Debug.Log(PhotonNetwork.IsConnectedAndReady + " - launcher did call connectUsingSettings");
+            PhotonNetwork.ConnectUsingSettings();
+        }
+        }
 
     public override void OnConnectedToMaster()
     {
@@ -262,7 +269,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         //Debug.Log("You gave max players input: " + options.MaxPlayers);
         
         options.CustomRoomProperties = properties;
-
+        options.CleanupCacheOnLeave = true;
         PhotonNetwork.CreateRoom(roomNameInputField.text, options );
         //GameObject myRoomBtn = Instantiate(roomListItemPrefab, roomListContent) as GameObject;
         //string myText = myRoomBtn.transform.Find("nameText").GetComponent<Text>().text = roomNameInputField.text;
@@ -289,7 +296,8 @@ public class Launcher : MonoBehaviourPunCallbacks
             GameObject newRoomItemPrefab = roomListItemPrefab;
             newRoomItemPrefab.GetComponent<RoomListItemNew>().Setup(r);
             newRoomItemPrefab.transform.Find("nameText").GetComponent<Text>().text = r.Name;
-                newRoomItemPrefab.transform.Find("sizeText").GetComponent<Text>().text = r.PlayerCount + "/" + r.MaxPlayers;
+            newRoomItemPrefab.transform.Find("sizeText").GetComponent<Text>().text = r.PlayerCount + "/" + r.MaxPlayers;
+
             if (r.CustomProperties.ContainsKey("map"))
             {
                 //if (debug) Debug.Log("had key");

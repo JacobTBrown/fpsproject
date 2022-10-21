@@ -25,23 +25,36 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
     {
 
         //Debug.Log(PV.name.ToString());
-        // if (PV.IsMine)
-        // {
-        Debug.Log("Starting player damage");
-        impact = GetComponent<AudioSource>();
-        DamageFlash = GameObject.Find("DamageFlash").GetComponent<Animator>();
-        healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
-        Debug.Log("Healthbar is: " + healthBar.name);
-        healthBar.SetMaxHealth(maxHealth);
-        currentHealth = maxHealth;
+        if (PV.IsMine)
+        {
+            //Debug.Log("Starting player damage");
+            impact = gameObject.GetComponent<AudioSource>();
+            DamageFlash = GameObject.Find("Canvas10-14").GetComponentInChildren<Animator>();
 
+            healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
+            Debug.Log("Healthbar is: " + healthBar.name);
+            healthBar.SetMaxHealth(maxHealth);
+            currentHealth = maxHealth;
+        }
+        /*    impact = GetComponent<AudioSource>();
+            DamageFlash = GameObject.Find("DamageFlash").GetComponent<Animator>();
+            healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
+            healthBar.SetMaxHealth(maxHealth);
+            currentHealth = maxHealth;
+    */
         //healthBar.SetMaxHealth(100);
-        Debug.Log(currentHealth);
+        //Debug.Log(currentHealth);
         //}
+        //Debug.Log("Player damageable started with objects: dmgFlash: " + DamageFlash.gameObject + " HealthBar: " + healthBar.gameObject);
     }
 
     void Update()
     {
+        if (!PV.IsMine)
+        {
+           // Debug.Log("not your pv");
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.BackQuote))
         {
             Debug.Log("TEST DAMAGE KEY PRESSED, PLAYER TAKES 20 DAMAGE!");

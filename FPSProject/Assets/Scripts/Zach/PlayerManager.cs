@@ -57,7 +57,7 @@ public class PlayerManager : MonoBehaviour
         np_evnt.player = player;
         s_evt.player = player;
         EventManager.Broadcast(s_evt);
-        Debug.Log("New Player Registered");
+        //Debug.Log("New Player Registered");
         EventManager.Broadcast(np_evnt);
 
         if(player.GetComponent<PhotonView>().IsMine)
