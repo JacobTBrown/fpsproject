@@ -153,7 +153,7 @@ public class Gun : MonoBehaviour
     private void Update()
     {
         timeSinceLastShot += Time.deltaTime;
-        Debug.DrawRay(playerOrientation.transform.position, transform.forward);
+        //Debug.DrawRay(playerOrientation.transform.position, transform.forward);
 
         if (transform.parent != null && !settingsOpen && equipped)
         {

@@ -57,6 +57,7 @@ MonoBehaviour:
   playerOrientation: {fileID: 4017857724056262080}
   WeaponHolder: {fileID: 2002808870315144946}
   hitMarker: {fileID: 0}
+  thisCollider: {fileID: 0}
   PV: {fileID: 0}
   ammoCounter: {fileID: 0}
   settingsOpen: 0
@@ -10517,6 +10518,7 @@ MonoBehaviour:
   playerOrientation: {fileID: 4017857724056262080}
   WeaponHolder: {fileID: 2002808870315144946}
   hitMarker: {fileID: 0}
+  thisCollider: {fileID: 0}
   PV: {fileID: 0}
   ammoCounter: {fileID: 0}
   settingsOpen: 0
