@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 2002808868783662935}
   - component: {fileID: 130488344898638665}
   - component: {fileID: 4369060684196386015}
-  - component: {fileID: 7855732400737611595}
   m_Layer: 12
   m_Name: Pistol
   m_TagString: Weapon
@@ -58,6 +57,7 @@ MonoBehaviour:
   playerOrientation: {fileID: 4017857724056262080}
   WeaponHolder: {fileID: 2002808870315144946}
   hitMarker: {fileID: 0}
+  thisCollider: {fileID: 3173107400187305609}
   PV: {fileID: 0}
   ammoCounter: {fileID: 0}
   settingsOpen: 0
@@ -302,22 +302,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1175127, y: 0.41599035, z: 0.6279659}
   m_Center: {x: 0.00018262863, y: -0.01806283, z: 0.15612316}
---- !u!114 &7855732400737611595
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2002808868783662938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
-  m_UseLocal: 1
 --- !u!1 &2002808868805825869
 GameObject:
   m_ObjectHideFlags: 0
@@ -5550,14 +5534,15 @@ MonoBehaviour:
   playerRigidbody: {fileID: 3173107398918425438}
   playerTransform: {fileID: 3173107399746349717}
   playerBodyTransform: {fileID: 3173107400187305611}
+  cameraTransform: {fileID: 4017857724056262081}
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
-  moveSpeed: 0
+  moveSpeed: 40
   groundDrag: 5
   slowWalkSpeed: 25
   walkSpeed: 40
-  sprintSpeed: 65
+  sprintSpeed: 55
   crouchSpeed: 15
   powerUpSpeed: 0
   wallrunSpeed: 40
@@ -5570,10 +5555,16 @@ MonoBehaviour:
   isOnGround: 1
   isOnSlope: 0
   wallInFront: 0
+  wallToLeft: 0
+  wallToRight: 0
   canDoubleJump: 0
+  canStartSlide: 0
   isClimbing: 0
+  isCrouching: 0
+  isSliding: 0
+  isWallrunning: 0
   hasSpeedPowerup: 0
-  wallCheckDistance: 0.6
+  wallCheckDistance: 0.7
   playerState: 1
   PV: {fileID: 0}
 --- !u!114 &2177449969952911222
@@ -5638,7 +5629,6 @@ MonoBehaviour:
   - {fileID: -5931245863507772595}
   - {fileID: 625458334813862768}
   - {fileID: 4715249802361258056}
-  - {fileID: 7855732400737611595}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0

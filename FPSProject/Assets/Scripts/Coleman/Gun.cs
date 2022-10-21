@@ -14,6 +14,7 @@ public class Gun : MonoBehaviour
     public GameObject playerOrientation;
     public GameObject WeaponHolder;
     public GameObject hitMarker;
+    public Collider thisCollider;
     public PhotonView PV;
     public Text ammoCounter;
     public bool settingsOpen = false;
@@ -26,6 +27,19 @@ public class Gun : MonoBehaviour
     private RPC_Functions rpcFunc;
 
     float timeSinceLastShot;
+
+    void Awake()
+    {
+        if (transform.parent != null)
+        {
+            player = transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject;
+            PV = player.GetComponent<PhotonView>();
+
+            rpcFunc = GetComponentInParent<RPC_Functions>();
+            rpcFunc.gunShot = GetComponents<AudioSource>()[0];
+            rpcFunc.reload = GetComponents<AudioSource>()[1];
+        }
+    }
 
     private void Start()
     {
@@ -44,18 +58,6 @@ public class Gun : MonoBehaviour
         } else
         {
             equipped = false;
-        }
-    }
-    void Awake()
-    {
-        if (transform.parent != null)
-        {
-            player = transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject;
-            PV = player.GetComponent<PhotonView>();
-
-            rpcFunc = GetComponentInParent<RPC_Functions>();
-            rpcFunc.gunShot = GetComponents<AudioSource>()[0];
-            rpcFunc.reload = GetComponents<AudioSource>()[1];
         }
     }
 
@@ -77,7 +79,7 @@ public class Gun : MonoBehaviour
         {
             StartCoroutine(Reload());
             animator.SetTrigger("Reload");
-            PV.RPC("triggerAnim", RpcTarget.OthersBuffered, "Reload");
+            PV.RPC("triggerAnim", RpcTarget.Others, "Reload");
         }
     }
 
@@ -103,16 +105,18 @@ public class Gun : MonoBehaviour
                 {
                     if (Physics.Raycast(playerOrientation.transform.position, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
                     {
-                        if (hitInfo.collider.tag == "Player")
+                        if (hitInfo.collider.tag == "Player" && hitInfo.collider != thisCollider)
                         {
                             Debug.Log("Hit");
                             StartCoroutine(playerHit());
                             hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage);
                         }
+
                         IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
                         Debug.Log(hitInfo);
                         damageable?.Damage(gunData.damage);
                     }
+                    
                     gunData.currentAmmo--;
                     timeSinceLastShot = 0;
                     OnGunShot();
@@ -128,7 +132,7 @@ public class Gun : MonoBehaviour
 
         if (transform.parent != null)
         {
-            ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
+            //ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
             if (gunData.reserveAmmo == -1) ammoCounter.text = gunData.currentAmmo.ToString() + "/\u221e";
             else ammoCounter.text = gunData.currentAmmo.ToString() + "/" + gunData.reserveAmmo.ToString();
             transform.localPosition = Vector3.zero;
@@ -142,7 +146,7 @@ public class Gun : MonoBehaviour
             flash.Play();
             gunshot.Play();
             animator.SetTrigger("Shoot");
-            PV.RPC("triggerAnim", RpcTarget.OthersBuffered, "Shoot");
+            PV.RPC("triggerAnim", RpcTarget.Others, "Shoot");
         }
     }
 
