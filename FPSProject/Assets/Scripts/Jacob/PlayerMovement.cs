@@ -1,6 +1,5 @@
 ﻿using Photon.Pun;
 using UnityEngine;
-using System.Collections;
 /*
     Author: Jacob Brown
     Creation: 9/19/22
@@ -13,28 +12,23 @@ public class PlayerMovement : MonoBehaviour
     [Header("Unity Classes")]
     public Rigidbody playerRigidbody;
     public Transform playerTransform;
-    public Transform playerBodyTransform;
     public LayerMask groundLayer;
     
     [Header("Movement Variables")]
     public float moveSpeed;
     // All values are set in the inspector
     public float groundDrag;
-    public float slowWalkSpeed;
-    public float walkSpeed;
-    public float sprintSpeed;
-    public float crouchSpeed; 
+    public float groundSlowWalkSpeed;
+    public float groundWalkSpeed;
+    public float groundSprintSpeed;
     public float powerUpSpeed;
     //wip
-    public float wallrunSpeed;
+    //public float wallrunSpeed;
     public float airDrag;
     public float airSpeed;
-    public float crouchYScale;
-    public float maxSlopeAngle;
     public float jumpForce;
     public float doubleJumpTimer;
     public bool isOnGround;
-    public bool isOnSlope;
     public bool wallInFront;
     public bool canDoubleJump;
     public bool isClimbing;
@@ -47,13 +41,21 @@ public class PlayerMovement : MonoBehaviour
     private SoundManager playerSounds;
     private float horizontalXInput;
     private float horizontalZInput;
-    private float initYScale;
     private Vector3 movement, velocity;
-    private RaycastHit hitSlope;
 
     public MovementState playerState;
     //Adding just a few lines below for PUN
     public PhotonView PV;
+
+    //############################
+    //ADDED
+    //###########################
+    private float rotateYAxis, rotateXAxis;
+    private Vector3 mouseMovement = new Vector3(0, 0, 0);
+    private PlayerMovement playerMove;
+    private PlayerSettings playerSettings;
+
+    //##############################################
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -62,10 +64,9 @@ public class PlayerMovement : MonoBehaviour
         slowwalking,
         walking,
         sprinting,
-        crouching,
         climbing,
         //wip
-        wallrunning,
+        //wallrunning,
         inAir,
     }
 
@@ -73,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
         if (!PV.IsMine)
         {
             Destroy(GetComponentInChildren<AudioListener>());
-            Destroy(GetComponentInChildren<Camera>());
+   //         Destroy(GetComponentInChildren<Camera>().gameObject);
             //wheres the other people's guns ?
         }
 
@@ -83,7 +84,7 @@ public class PlayerMovement : MonoBehaviour
         
         // If we don't do this the player will fall over because it is a capsule
         playerRigidbody.freezeRotation = true;
-        initYScale = playerBodyTransform.localScale.y;
+        //#################################################
     }
     
     void Update()
@@ -95,6 +96,7 @@ public class PlayerMovement : MonoBehaviour
             LimitSpeed();
             UpdateState();
             ApplyDrag();
+            PerformRotation();
         }
     }
 
@@ -102,6 +104,9 @@ public class PlayerMovement : MonoBehaviour
     {
         // limiting x-z speed on ground or in air
         Vector3 velXZ = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
+        // limiting y speed
+        //Vector3 velY = new Vector3(0f, playerRigidbody.velocity.y, 0f);
+
         // limit velocity if needed
         if (velXZ.magnitude > moveSpeed)
         {
@@ -132,47 +137,22 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private IEnumerator displayRoutine;
-    private int displayCount = 0;
-
     private void RaycastChecks() {
         /* This raycast simply points downwards from the player's position. It extends to half
         // the player's height + 0.1f. */
         isOnGround = Physics.Raycast(playerTransform.position, Vector3.down, 1.1f, groundLayer);
         wallInFront = Physics.Raycast(playerTransform.position, playerTransform.forward, wallCheckDistance, groundLayer);
 
-        if (Physics.Raycast(transform.position, Vector3.down, out hitSlope, 1.3f)) {
-            float angle = Vector3.Angle(Vector3.up, hitSlope.normal);
-            isOnSlope = angle < maxSlopeAngle && angle != 0;
-        } else {
-            isOnSlope = false;
-        }
         // When you look at another player this will make it so the name of the player rotates towards you
-        if (Physics.Raycast(transform.position, playerTransform.forward, out RaycastHit hitInfo, 100)) {
+        if (Physics.Raycast(playerTransform.position, playerTransform.forward, out RaycastHit hitInfo, 100)) {
             if (hitInfo.collider.tag == "Player") {
-                TextMesh nameMesh = hitInfo.collider.gameObject.GetComponentInParent<PlayerSettings>().playerName;
-                nameMesh.gameObject.SetActive(true);
-                var lookPos = hitInfo.collider.gameObject.transform.position - transform.position;
+                TextMesh nameMesh = hitInfo.collider.gameObject.transform.parent.GetComponentInChildren<TextMesh>();
+                var lookPos = hitInfo.collider.gameObject.transform.position - playerTransform.position;
                 lookPos.y = 0;
                 var rotation = Quaternion.LookRotation(lookPos);
-                nameMesh.gameObject.transform.rotation = Quaternion.Slerp(nameMesh.gameObject.transform.rotation, rotation, 0.75f);
-
-                if (displayCount == 0) {
-                    displayRoutine = DisableName(nameMesh);
-                    displayCount++;
-                }
-            } else {
-                if (displayCount == 1 && displayRoutine != null) {
-                    displayCount = 0;
-                    StartCoroutine(displayRoutine);
-                }
+                nameMesh.gameObject.transform.rotation = Quaternion.Slerp(nameMesh.gameObject.transform.rotation, rotation, Time.deltaTime * 2.5f);
             }
         }
-    }
-
-    public IEnumerator DisableName(TextMesh nameMesh) {
-        yield return new WaitForSeconds(2.5f);
-        nameMesh.gameObject.SetActive(false);
     }
 
     private void GetInputs() {
@@ -221,8 +201,31 @@ public class PlayerMovement : MonoBehaviour
             horizontalZInput = -0.5f;
             horizontalXInput = 0.5f;
         }
+
+        //###########################
+
+        // Get the horizontal mouse movement * sensitivity
+        mouseMovement.x = Input.GetAxis("Mouse X") * keybinds.mouseXSensitivity; 
+        // Get the vertical mouse movement * sensitivity
+        mouseMovement.y = Input.GetAxis("Mouse Y") * keybinds.mouseYSensitivity;
+        mouseMovement *= Time.deltaTime;
+        //#############################
+    }
+    //#############################
+
+        private void PerformRotation() {
+        rotateYAxis += mouseMovement.x;
+        // Clamp the mouse rotation X so that we can't look over and backwards.
+        // By default the camera is looking forward at an x angle of 0, hence we use
+        // -90f and 90f to prevent going too far down or too far up.
+        rotateXAxis = Mathf.Clamp(rotateXAxis, -90f, 90f);
+        // If the player is on the ground. Then rotate the player on the y axis so that 
+        // upon moving, we move relative to the player's orientation. This way
+        // if we are in the air turning the camera doesn't alter the trajectory.
+        gameObject.transform.rotation = Quaternion.Euler(0f, rotateYAxis, 0f);
     }
 
+    //#############################
     public void UpdateState() {
         if (wallInFront && horizontalZInput > 0) {       // State - climbing
             playerState = MovementState.climbing;
@@ -230,24 +233,21 @@ public class PlayerMovement : MonoBehaviour
         } /*else if (isWallrunning) { // State - Wallrunning
             playerState = MovementState.wallrunning;
             moveSpeed = wallrunSpeed;*/
-        else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.crouch]) && isOnGround) {
-            playerState = MovementState.crouching;
-            moveSpeed = crouchSpeed;
-        } else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.slowwalk]) && isOnGround) {
+        else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.slowwalk]) && isOnGround) {
             playerState = MovementState.slowwalking;
-            moveSpeed = slowWalkSpeed;
+            moveSpeed = groundSlowWalkSpeed;
             canDoubleJump = true;
         } else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.sprint]) && isOnGround) {
             //IEnumerator coroutine = playerCam.AdjustFov(90);
             //StartCoroutine(coroutine);
             playerState = MovementState.sprinting;
-            moveSpeed = sprintSpeed;
+            moveSpeed = groundSprintSpeed;
             canDoubleJump = true;
         } else if (isOnGround) {
             //IEnumerator coroutine = playerCam.AdjustFov(80);
             //StartCoroutine(coroutine);
             playerState = MovementState.walking;
-            moveSpeed = walkSpeed;
+            moveSpeed = groundWalkSpeed;
             canDoubleJump = true;
         } else {
             playerState = MovementState.inAir;
@@ -259,16 +259,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(keybinds.inputSystemDic[KeycodeFunction.crouch])) {
-            //Vector3 newScale = new Vector3(transform.localScale.x, crouchYScale, transform.localScale.z);
-            playerBodyTransform.localScale = new Vector3(playerBodyTransform.localScale.x, crouchYScale, playerBodyTransform.localScale.z);
-            transform.position = new Vector3(transform.position.x, transform.position.y - crouchYScale, transform.position.z);
-            //playerRigidbody.AddForce(Vector3.down * 5, ForceMode.Impulse);
-        } else if (Input.GetKeyUp(keybinds.inputSystemDic[KeycodeFunction.crouch])) {
-            //Vector3 newScale = new Vector3(transform.localScale.x, initYScale, transform.localScale.z);
-            playerBodyTransform.localScale = new Vector3(playerBodyTransform.localScale.x, initYScale, playerBodyTransform.localScale.z);
-        }
-
         if (hasSpeedPowerup) {
             moveSpeed = powerUpSpeed;
         }
@@ -277,11 +267,11 @@ public class PlayerMovement : MonoBehaviour
     public float getMoveSpeed(MovementState state) {
         switch(state) {
             case MovementState.slowwalking:
-                return slowWalkSpeed;
+                return groundSlowWalkSpeed;
             case MovementState.walking:
-                return walkSpeed;
+                return groundWalkSpeed;
             case MovementState.sprinting:
-                return sprintSpeed;
+                return groundSprintSpeed;
             case MovementState.inAir:
                 return airSpeed;
             default:
@@ -290,7 +280,6 @@ public class PlayerMovement : MonoBehaviour
     }
     
     private void Jump() {
-        if (keybinds.chatIsOpen) return; //Added by zach to disable jump when chat is open
         // Reset the rigidbody y velocity to start all jumps at the same baseline velocity
         playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
         // Add an upwards impulse to the player rigidbody multiplied by the jumpForce
@@ -306,19 +295,11 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void Move() {
-        if (keybinds.chatIsOpen) return; //Added by zach to disable movement when chat is open
         // Set up our movement vector
         movement = playerTransform.right * horizontalXInput + playerTransform.forward * horizontalZInput;
             
-        if (isOnSlope) {
-            Vector3 projection = Vector3.ProjectOnPlane(movement, hitSlope.normal).normalized;
-            playerRigidbody.AddForce(projection * moveSpeed, ForceMode.Force);
-        } else {
-            // Moves our player based on the x-y-z of the normalized movement vector multiplied by moveSpeed
-            playerRigidbody.AddForce(movement.normalized * moveSpeed, ForceMode.Force); 
-        }
-
-        playerRigidbody.useGravity = !isOnSlope;
+        // Moves our player based on the x-y-z of the normalized movement vector multiplied by moveSpeed
+        playerRigidbody.AddForce(movement.normalized * moveSpeed, ForceMode.Force); 
     }
     
     private void ApplyDrag() {

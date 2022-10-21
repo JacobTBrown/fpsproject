@@ -1,4 +1,6 @@
-﻿using Photon.Pun;
+using ExitGames.Client.Photon;
+using Photon.Realtime;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Scripts.Jonathan;
@@ -25,35 +27,23 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
     {
 
         //Debug.Log(PV.name.ToString());
-  
-            //Debug.Log("Starting player damage");
-            impact = gameObject.GetComponent<AudioSource>();
-            DamageFlash = GameObject.Find("Canvas10-14").GetComponentInChildren<Animator>();
+        // if (PV.IsMine)
+        // {
+        Debug.Log("Starting player damage");
+        impact = GetComponent<AudioSource>();
+        DamageFlash = GameObject.Find("DamageFlash").GetComponent<Animator>();
+        healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
+        Debug.Log("Healthbar is: " + healthBar.name);
+        healthBar.SetMaxHealth(maxHealth);
+        currentHealth = maxHealth;
 
-            healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
-            Debug.Log("Healthbar is: " + healthBar.name);
-            healthBar.SetMaxHealth(maxHealth);
-            currentHealth = maxHealth;
-        
-        /*    impact = GetComponent<AudioSource>();
-            DamageFlash = GameObject.Find("DamageFlash").GetComponent<Animator>();
-            healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
-            healthBar.SetMaxHealth(maxHealth);
-            currentHealth = maxHealth;
-    */
         //healthBar.SetMaxHealth(100);
-        //Debug.Log(currentHealth);
+        Debug.Log(currentHealth);
         //}
-        //Debug.Log("Player damageable started with objects: dmgFlash: " + DamageFlash.gameObject + " HealthBar: " + healthBar.gameObject);
     }
 
     void Update()
     {
-        if (!PV.IsMine)
-        {
-           // Debug.Log("not your pv");
-            return;
-        }
         if (Input.GetKeyDown(KeyCode.BackQuote))
         {
             Debug.Log("TEST DAMAGE KEY PRESSED, PLAYER TAKES 20 DAMAGE!");
@@ -66,10 +56,11 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            Debug.Log("TEST: NEW PLAYER KILL EVENT FOR " + player);
-            PlayerKillEvent playerKillEvent = Events.PlayerKillEvent;
-            playerKillEvent.player = player;
-            EventManager.Broadcast(playerKillEvent);
+            /*
+                This is for testing purposes only
+            */
+            onDie();
+
         }
     }
 
@@ -88,21 +79,30 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         }
         if (currentHealth <= 0)
         {
-            Debug.Log("your current health: " + currentHealth);
+            onDie();
             PlayerDeathEvent evt = Events.PlayerDeathEvent;
             if (PV.IsMine)
             {
                 evt.player = player;
                 currentHealth = 100;
                 healthBar.SetHealth(currentHealth, PV);
-                EventManager.Broadcast(evt);
-                
+               // EventManager.Broadcast(evt);\
             }
             
             Debug.Log("A player has died!");
             
             //Destroy(transform.gameObject);
             //chaging to jonathan's script
+        }
+    }
+
+    public void onDie(){
+        if(PV.IsMine)
+        {
+            RaiseEventOptions o = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            int viewID = PV.ViewID;
+            object[] obj = new object[]{viewID};
+            PhotonNetwork.RaiseEvent(PhotonEvents.PLAYERDEATH,obj,o,SendOptions.SendReliable);
         }
     }
 }
