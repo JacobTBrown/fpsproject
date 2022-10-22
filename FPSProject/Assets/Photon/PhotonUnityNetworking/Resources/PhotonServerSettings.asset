@@ -49,7 +49,10 @@ MonoBehaviour:
   - Pickup
   - UpdatePlayerName
   - triggerAnim
-  - ClearRPCs
+  - SetCurrentWeapon
+  - TriggerAnimAK
+  - TriggerAnimPistol
+  - TriggerAnimShotgun
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

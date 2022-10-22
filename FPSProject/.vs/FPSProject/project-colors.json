@@ -15,7 +15,12 @@
       "ProjectGuid": "6c50bf4a-c13e-b9e5-be10-380b51847f74",
       "DisplayName": "PhotonRealtime",
       "ColorIndex": 1
+    },
+    "e11f6228-9dde-ad4c-b7a4-b99959d752ac": {
+      "ProjectGuid": "e11f6228-9dde-ad4c-b7a4-b99959d752ac",
+      "DisplayName": "PhotonUnityNetworking",
+      "ColorIndex": 2
     }
   },
-  "NextColorIndex": 2
+  "NextColorIndex": 3
 }
