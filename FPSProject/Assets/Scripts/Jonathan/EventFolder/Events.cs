@@ -38,7 +38,8 @@ namespace Unity.Scripts.Jonathan{
     
     public class PlayerKillEvent: GameEvent
     {
-        public GameObject player;
+        public GameObject killedPlayer;
+        public GameObject playerWhoKilled;
     }
 
     public class PlayerSpawnEvent : GameEvent
@@ -69,7 +70,7 @@ namespace Unity.Scripts.Jonathan{
     }
     public class EnemyKillEvent :GameEvent
     {
-
+        public GameObject player;
     }
 
     public class EndGameEvent: GameEvent

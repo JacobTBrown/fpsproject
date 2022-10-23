@@ -55,7 +55,7 @@ namespace Unity.Scripts.Jonathan
             EventManager.Broadcast(playerDeathEvent);
 
             PlayerKillEvent playerKillEvent = Events.PlayerKillEvent;
-            playerKillEvent.player = player;
+            playerKillEvent.killedPlayer = player;
             EventManager.Broadcast(playerKillEvent);
         }
     }

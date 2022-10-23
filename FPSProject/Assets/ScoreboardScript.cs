@@ -11,6 +11,7 @@ public class ScoreboardScript : MonoBehaviour
     public TMP_Text killsText;
     public TMP_Text deathsText;
     public int deaths;
+    public int kills;
     private Player player;
 
     public void Initialize(Player _player)
@@ -27,6 +28,7 @@ public class ScoreboardScript : MonoBehaviour
     private void Awake()
     {
         EventManager.AddListener<PlayerDeathEvent>(OnPlayerDeath);
+        EventManager.AddListener<PlayerKillEvent>(OnPlayerKill);
     }
 
     void OnPlayerDeath(PlayerDeathEvent evt)
@@ -38,6 +40,17 @@ public class ScoreboardScript : MonoBehaviour
             deaths += 1;
             deathsText.text = deaths.ToString();
             Debug.Log("Number of deaths are: " + deaths);
+        }
+    }
+
+    void OnPlayerKill(PlayerKillEvent evt)
+    {
+        Debug.Log("This player is: " + player.NickName + "Killed player is: " + evt.playerWhoKilled.GetComponent<PlayerSettings>().nickname);
+        if (evt.playerWhoKilled.GetComponent<PlayerSettings>().nickname.Equals(player.NickName))
+        {
+            kills += 1;
+            killsText.text = kills.ToString();
+            Debug.Log("Number of kills are: " + kills);
         }
     }
 }
