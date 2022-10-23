@@ -5,7 +5,7 @@ using UnityEngine;
 public class Target : MonoBehaviour, IDamageable
 {
     [SerializeField] float health = 100f;
-    public void Damage(float damage)
+    public void Damage(float damage,int EnemyPlayer)
     {
         health -= damage;
         Debug.Log("Hit Target for " + damage + " damage. Target is now at " + health + " HP.");
