@@ -29,7 +29,7 @@ public class PlayerKillObjective : Objective
               //          PlayerKillEvent e = (PlayerKillEvent)evt;
             if(evt.player == player){
                 kills++;
-            GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().totalKills++;
+            //GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().totalKills++;
             }
             if(kills>=killsNeeded){
              eventCompleted();

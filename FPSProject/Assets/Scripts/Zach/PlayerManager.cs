@@ -76,9 +76,9 @@ public class PlayerManager : MonoBehaviour
     public void onPlayerDeath(PlayerDeathEvent evt){
         Debug.Log("not Broadcasting " + evt + " from PlayerManager.cs");
         //edited 4pm 10-22
-        //PlayerSpawnEvent evt1 = Events.PlayerSpawnEvent;
-        //evt1.player = evt.player;
-        //EventManager.Broadcast(evt1);
+        PlayerSpawnEvent evt1 = Events.PlayerSpawnEvent;
+        evt1.player = evt.player;
+        EventManager.Broadcast(evt1);
 
     }   
     public void onPlayerSpawn(PlayerSpawnEvent evt){

@@ -5553,11 +5553,11 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024
-  moveSpeed: 0
+  moveSpeed: 40
   groundDrag: 5
-  groundSlowWalkSpeed: 0
-  groundWalkSpeed: 0
-  groundSprintSpeed: 0
+  groundSlowWalkSpeed: 25
+  groundWalkSpeed: 40
+  groundSprintSpeed: 55
   powerUpSpeed: 0
   airDrag: 1.25
   airSpeed: 12
