@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5387683512004314395}
   - component: {fileID: 1105216267872244601}
-  - component: {fileID: 7684554693769990905}
   - component: {fileID: 5906172506270970460}
   - component: {fileID: 1951868690775734185}
   - component: {fileID: 1518026814528493296}
@@ -61,25 +60,10 @@ MonoBehaviour:
   ammoCounter: {fileID: 0}
   settingsOpen: 0
   equipped: 0
+  owns: 0
   gunshot: {fileID: 8300000, guid: c30af09ecc2326d48989af81a1e6112b, type: 3}
   reload: {fileID: 8300000, guid: 082e98c77e72694439e3f026578e5b99, type: 3}
   audioSource: {fileID: 1951868690775734185}
---- !u!54 &7684554693769990905
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281115139371256043}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 3
 --- !u!65 &5906172506270970460
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -220,7 +204,6 @@ GameObject:
   - component: {fileID: 2002808868783662936}
   - component: {fileID: 2002808868783662937}
   - component: {fileID: 2002808868783662934}
-  - component: {fileID: 130488344898638665}
   - component: {fileID: 4369060684196386015}
   m_Layer: 12
   m_Name: Pistol
@@ -269,6 +252,7 @@ MonoBehaviour:
   ammoCounter: {fileID: 0}
   settingsOpen: 0
   equipped: 1
+  owns: 1
   gunshot: {fileID: 8300000, guid: 6739c01659ad96d47987f4ddee226b36, type: 3}
   reload: {fileID: 8300000, guid: 60f7d2a9dc8b55348a2c35b8020a7adb, type: 3}
   audioSource: {fileID: 2002808868783662934}
@@ -387,22 +371,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!54 &130488344898638665
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2002808868783662938}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 3
 --- !u!65 &4369060684196386015
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10286,7 +10254,6 @@ GameObject:
   - component: {fileID: 4460171690846231415}
   - component: {fileID: 4685268293628448926}
   - component: {fileID: 8781171675687005240}
-  - component: {fileID: 6101376775361234267}
   - component: {fileID: 233893545563618161}
   m_Layer: 12
   m_Name: AK
@@ -10335,6 +10302,7 @@ MonoBehaviour:
   ammoCounter: {fileID: 0}
   settingsOpen: 0
   equipped: 0
+  owns: 0
   gunshot: {fileID: 8300000, guid: 34b439bf70b80a6409eadecc6be92d68, type: 3}
   reload: {fileID: 8300000, guid: 2d347eb4b1e35e24ca54b63d4c2fedca, type: 3}
   audioSource: {fileID: 8781171675687005240}
@@ -10453,22 +10421,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!54 &6101376775361234267
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2714573879700896334}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 3
 --- !u!65 &233893545563618161
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10502,7 +10454,6 @@ GameObject:
   - component: {fileID: -8896846525926025363}
   - component: {fileID: -5931245863507772595}
   - component: {fileID: 7328578966516939411}
-  - component: {fileID: 5621763193106639543}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -10845,21 +10796,6 @@ MonoBehaviour:
   pistol: {fileID: 2002808868783662934}
   shotgun: {fileID: 1951868690775734185}
   ak: {fileID: 8781171675687005240}
---- !u!114 &5621763193106639543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3173107398918425439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 685d641240f038e4cadd34b6b7314c22, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponHolder: {fileID: 2002808870315144947}
-  distance: 10
-  currentWeapon: {fileID: 1281115139371256043}
 --- !u!1 &3173107399746349718
 GameObject:
   m_ObjectHideFlags: 0

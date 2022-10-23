@@ -19,6 +19,7 @@ public class Gun : MonoBehaviour
     public Text ammoCounter;
     public bool settingsOpen = false;
     public bool equipped;
+    public bool owns;
     Animator animator;
     public AudioClip gunshot;
     public AudioClip reload;
@@ -34,12 +35,13 @@ public class Gun : MonoBehaviour
         {          
             ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
             gunData.currentAmmo = gunData.magSize;
-            gunData.reserveAmmo = gunData.maxReserveAmmo;
+            if(gunData.reserveAmmo != -1) gunData.reserveAmmo = gunData.magSize * 2;
             PlayerShoot.shootInput += Shoot;
             PlayerShoot.reloadInput += ReloadInit;
             animator = GetComponent<Animator>();
+            if (gunData.name == "M1911") owns = true;
+            else owns = false;
         }
-
         hitMarker = GameObject.Find("HitMarker");
         if(hitMarker) hitMarker.SetActive(false);
     }
@@ -154,7 +156,7 @@ public class Gun : MonoBehaviour
             if (PV.IsMine) {
                 timeSinceLastShot += Time.deltaTime;
                 //Debug.DrawRay(playerOrientation.transform.position, transform.forward);
-
+                if (equipped == true) owns = true;
                 if (transform.parent != null && !settingsOpen && equipped)
                 {
                     //ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();

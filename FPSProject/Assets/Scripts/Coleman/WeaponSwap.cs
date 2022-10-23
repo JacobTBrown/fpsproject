@@ -48,15 +48,16 @@ public class WeaponSwap : MonoBehaviour
         }
     }
 
-    void selectWeapon()
+    public void selectWeapon()
     {
         int i = 0;
         foreach(Transform weapon in transform)
         {
-            if (i == selected)
+            if (i == selected && weapon.gameObject.GetComponent<Gun>().owns == true)
             {
                 weapon.gameObject.SetActive(true);
                 weapon.gameObject.GetComponent<Gun>().equipped = true;
+                weapon.gameObject.GetComponent<Gun>().owns = true;
             }
             else
             {
