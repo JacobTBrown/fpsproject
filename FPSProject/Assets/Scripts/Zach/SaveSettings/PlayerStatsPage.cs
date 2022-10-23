@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Scripts.Jonathan;
@@ -32,7 +33,7 @@ public class PlayerStatsPage : MonoBehaviour
     public DataToStore newData;
     public static PlayerStatsPage Instance;
     [HideInInspector] public string json;
-    bool debug = true;
+    bool debug = false;
     public bool inGame = false;
     float initialTimeInGame;
     public bool saved = false;
@@ -46,6 +47,7 @@ public class PlayerStatsPage : MonoBehaviour
         //    }
 
         EventManager.AddListener<PlayerKillEvent>(SetKills);
+        EventManager.AddListener<PlayerDeathEvent>(SetDeaths);
 
         DontDestroyOnLoad(this.gameObject);
         //going to try making the JSON in DataSaver.cs
@@ -124,7 +126,7 @@ public class PlayerStatsPage : MonoBehaviour
     }
     private void OnLevelWasLoaded(int level)
     {
-        if (debug) Debug.Log("scene transition to #" + level);
+        //if (debug) Debug.Log("scene transition to #" + level);
         if (level > 0)
         {
             inGame = true;
@@ -213,9 +215,29 @@ public class PlayerStatsPage : MonoBehaviour
     }
     public void SetKills(PlayerKillEvent evt)
     {
-        Debug.Log("PlayerStatsPage.cs Event: " + evt);
-        totalKills++;
+        // BUGLOG: gives me 2 kills when a different player gets a kill
+        Debug.Log(evt.player.GetComponent<PhotonView>().OwnerActorNr + "is actor number calling setKills");
+        if (evt.player.GetComponent<PhotonView>().IsMine)
+        {
+            Debug.Log("PlayerStatsPage.cs Event: " + evt);
+            totalKills++;
+            return;
+        }
+  /*      Debug.Log("PlayerStatsPage.cs Event: " + evt);
+        totalKills++;*/
         return;
+    }
+    public void SetDeaths(PlayerDeathEvent evt)
+    {
+        Debug.Log("This player's actor # is: " + PhotonNetwork.LocalPlayer.ActorNumber);
+
+        Debug.Log(evt.player.GetComponent<PhotonView>().OwnerActorNr + "is actor number calling setDeaths");
+        if (evt.player.GetComponent<PhotonView>().OwnerActorNr == PhotonNetwork.LocalPlayer.ActorNumber)
+        {
+            Debug.Log("PlayerStatsPage.cs Event: " + evt);
+            totalDeaths++;
+        }
+
     }
     public int GetDeaths()
     {

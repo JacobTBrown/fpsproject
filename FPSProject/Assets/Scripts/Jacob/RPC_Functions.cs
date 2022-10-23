@@ -28,8 +28,8 @@ public class RPC_Functions : MonoBehaviourPunCallbacks
             Debug.Log("bad animation call");
             return;
         }
-        Debug.Log("triggered anim " + s);
-        Debug.Log("animator ws " + animator.name + " reload was " + reload.name);
+        //Debug.Log("triggered anim " + s);
+        //Debug.Log("animator ws " + animator.name + " reload was " + reload.name);
         animator.SetTrigger(s);
         if (s == "Reload") {
             reload.Play();

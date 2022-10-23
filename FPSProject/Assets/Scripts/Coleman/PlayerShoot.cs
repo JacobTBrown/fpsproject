@@ -24,7 +24,7 @@ public class PlayerShoot : MonoBehaviour
         }
     private void Update()
     {
-        gun = GetComponentInChildren<Gun>();
+      //  gun = GetComponentInChildren<Gun>();
         if (!DataManager.Instance.IsCanShoot) return;
        // if (!gun.gunData.fullAuto && gun.gameObject.activeSelf)
         //{

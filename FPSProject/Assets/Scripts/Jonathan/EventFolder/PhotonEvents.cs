@@ -18,27 +18,33 @@ namespace Unity.Scripts.Jonathan
         public const byte PLAYERDEATH = 0; 
         private void OnEnable()
         {
-            PhotonNetwork.NetworkingClient.EventReceived += OnEvent;
+            PhotonNetwork.NetworkingClient.EventReceived += OnEvent1;
         }
 
         private void OnDisable()
         {
-            PhotonNetwork.NetworkingClient.EventReceived -= OnEvent;
+            PhotonNetwork.NetworkingClient.EventReceived -= OnEvent1;
         }
 
-        private void OnEvent(EventData photonEvent){
+        private void OnEvent1(EventData photonEvent){
             /*
                 This assumes that Obj[0] is the players veiwID
             */
-            Debug.Log("OnEvent called for " + photonEvent.CustomData);
+            //Debug.Log("OnEvent called for " + photonEvent.CustomData);
+
             if (photonEvent.Code.ToString().Length == 0)
             {
-                Debug.Log("empty event " + photonEvent.CustomData);
+            //    Debug.Log("empty event " + photonEvent.CustomData.ToString());
+            }
+            else
+            {
+              ///  Debug.Log("event code : " + photonEvent.Code.ToString());
             }
             byte eventCode = photonEvent.Code;
             object[] player = (object[])photonEvent.CustomData;
 
-            if(eventCode == PLAYERDEATH){OnPlayerDeath(PhotonView.Find((int)player[0]).gameObject);}
+            if(eventCode == PLAYERDEATH){ OnPlayerDeath(PhotonView.Find((int)player[0]).gameObject);
+                                         }
         }
 
         private void OnPlayerDeath(GameObject player){

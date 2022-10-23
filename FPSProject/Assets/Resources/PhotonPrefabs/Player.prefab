@@ -5535,6 +5535,7 @@ MonoBehaviour:
     type: 3}
   invertMouse: 0
   chatIsOpen: 0
+  team: 
 --- !u!114 &3173107398918425437
 MonoBehaviour:
   m_ObjectHideFlags: 0
