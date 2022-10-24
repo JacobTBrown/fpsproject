@@ -30,6 +30,7 @@ public class PlayerKillObjective : Objective
             if(evt.killedPlayer == player){
                 kills++;
             GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().totalKills++;
+            GameObject.Find("Scoreboard").GetComponent<ScoreboardScript>().kills++;
             }
             if(kills>=killsNeeded){
              eventCompleted();

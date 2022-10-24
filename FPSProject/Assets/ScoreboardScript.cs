@@ -32,7 +32,7 @@ public class ScoreboardScript : MonoBehaviour
         EventManager.AddListener<PlayerKillEvent>(OnPlayerKill);
     }
 
-    void OnPlayerDeath(PlayerDeathEvent evt)
+    public void OnPlayerDeath(PlayerDeathEvent evt)
     {
         //HandlePlayerSpawn(evt.player);
         //Debug.Log("This player is: " + player.NickName + " Dead player is: " + evt.player.GetComponent<PlayerSettings>().nickname);
@@ -44,7 +44,7 @@ public class ScoreboardScript : MonoBehaviour
         }
     }
 
-    void OnPlayerKill(PlayerKillEvent evt)
+    public void OnPlayerKill(PlayerKillEvent evt)
     {
         Debug.Log("Entered ScoreboardScript.cs OnPlayerKill");
         Debug.Log("This player is: " + player.NickName + "Killed player is: " + evt.playerWhoKilled.GetComponent<PlayerSettings>().nickname);
