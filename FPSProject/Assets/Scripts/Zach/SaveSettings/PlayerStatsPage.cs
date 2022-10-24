@@ -213,8 +213,9 @@ public class PlayerStatsPage : MonoBehaviour
     }
     public void SetKills(PlayerKillEvent evt)
     {
-        Debug.Log("PlayerStatsPage.cs Event: " + evt);
+        //Debug.Log("PlayerStatsPage.cs Event: " + evt);
         totalKills++;
+        //Debug.Log("total kills is now: " + totalKills);
         return;
     }
     public int GetDeaths()
