@@ -142,7 +142,7 @@ public class Gun : MonoBehaviour
                         }
                         IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
                         //Debug.Log(hitInfo);
-                        damageable?.Damage(gunData.damage);
+                        //damageable?.Damage(gunData.damage);
                     }
                     gunData.currentAmmo--;
                     timeSinceLastShot = 0;
