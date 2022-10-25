@@ -47,7 +47,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         if (Input.GetKeyDown(KeyCode.BackQuote))
         {
             Debug.Log("TEST DAMAGE KEY PRESSED, PLAYER TAKES 20 DAMAGE!");
-            Damage(20f, PV.ViewID);
+            Damage(20f);
         }
         healthBar.SetHealth(currentHealth, PV);
         if (isInvincible) healthBar.changeColor(PV, Color.blue);
@@ -64,7 +64,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         }
     }
 
-    public void Damage(float damage, int EnemyPlayer)
+    public void Damage(float damage)
     {
         if(PV.IsMine)
         {
@@ -79,7 +79,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         }
         if (currentHealth <= 0)
         {
-            onDie(EnemyPlayer);
+            onDie();
             PlayerDeathEvent evt = Events.PlayerDeathEvent;
             if (PV.IsMine)
             {
@@ -96,12 +96,12 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         }
     }
 
-    public void onDie(int EnemyPlayer){
+    public void onDie(){
         if(PV.IsMine)
         {
             RaiseEventOptions o = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             int DeadviewID = PV.ViewID;
-            object[] obj = new object[]{DeadviewID, EnemyPlayer};
+            object[] obj = new object[]{DeadviewID};
             PhotonNetwork.RaiseEvent(PhotonEvents.PLAYERDEATH,obj,o,SendOptions.SendReliable);
         }
     }
