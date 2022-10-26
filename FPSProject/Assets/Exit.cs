@@ -21,7 +21,6 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
     public void goToTitleMenu()
     {
         //SceneManager.UnloadSceneAsync("ColemanWeaponsAndPowerups");
-
        // Invoke("afterRPC", 1);
         //SaveAndDestroy();
         PV = GameObject.Find("Player(Clone)").GetComponent<PhotonView>();
@@ -33,18 +32,19 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
             //PhotonNetwork.CleanRpcBufferIfMine(PV);
             Debug.Log("exit destroyed u");
             //  PhotonNetwork.Destroy(PV);
-            Destroy(PV.gameObject);
+           // Destroy(PV.gameObject);
         }
         else
         {
             Debug.Log("exit cant find ur PV");
         }
-        Destroy(GameObject.Find("GameManager"));
+        DisconnectPlayer();
+        //Destroy(GameObject.Find("GameManager"));
      
         //PhotonHandler.
-        PhotonNetwork.LeaveRoom();
+        //PhotonNetwork.LeaveRoom();
         
-        //PhotonNetwork.Disconnect();
+        PhotonNetwork.Disconnect();
             //PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
        // GameObject.FindObjectsOfTypeAll<PhotonView>();
         //Debug.Log("destroyed " + PhotonNetwork.LocalPlayer);
@@ -65,7 +65,7 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         //PhotonView PV = GameObject.Find("Player(Clone)").GetComponent<PhotonView>();
-        Debug.Log(PV);
+        //Debug.Log(PV);
             //PhotonNetwork.OpCleanActorRpcBuffer(otherPlayer.ActorNumber);
 
             Debug.Log("OnPlayerLeftRoom: " + otherPlayer.ActorNumber);
@@ -78,40 +78,40 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
     }
     public void DisconnectPlayer()
     {
-       // StartCoroutine(DisconnectAndLoad());
+       StartCoroutine(DisconnectAndLoad());
     }
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
     }
-  /*  IEnumerator DisconnectAndLoad()
+    IEnumerator DisconnectAndLoad()
     {
        
         PhotonNetwork.LeaveRoom();
-        PhotonNetwork.Disconnect();
+        //PhotonNetwork.Disconnect();
         while (PhotonNetwork.InRoom)
         {
             Debug.Log("leaving room..");
             yield return null;
         }
-        while (PhotonNetwork.LevelLoadingProgress < 1)
+   /*     while (PhotonNetwork.LevelLoadingProgress < 1)
         {
             Debug.Log("loading from exit btn");
             yield return null;
-        }
+        }*/
         PhotonNetwork.LoadLevel(0);
-    }*/
+    }
     public override void OnLeftRoom()
     {
         //PhotonNetwork.Disconnect();
         //SceneManager.LoadScene(0);
         //MenuManager.loadScene = true;
-        PhotonNetwork.Disconnect();
-        PhotonNetwork.LoadLevel(0);
+       // PhotonNetwork.Disconnect();
+       // PhotonNetwork.LoadLevel(0);
     }
     public override void OnDisconnected(DisconnectCause cause)
     {
-        //PhotonNetwork.LoadLevel(0);
+        PhotonNetwork.LoadLevel(0);
         //SceneManager.LoadScene(0);
         Debug.Log("onDisconnected callbac for " + cause);
         //base.OnDisconnected(cause);

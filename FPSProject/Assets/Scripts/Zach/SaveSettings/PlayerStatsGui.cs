@@ -20,17 +20,19 @@ public class PlayerStatsGui : MonoBehaviour
     GameObject fpsCounter;
     GameObject killsCounter;
     GameObject deathsCounter;
+    GameObject KDRCounter;
     private int buttonWidth = 100;
     private int buttonHeight = 50;
-    public Text timeCounterText;
+    public Text timeCounterText; //set these in the inspector
     public Text fpsCounterText;
     public Text levelCounterText;
     public Text totalTimeCounterText;
     public Text killsCounterText;
     public Text deathsCounterText;
+    public Text KDRCounterText;
     public TMP_Text pingCounterText;
     public PlayerStatsPage stats;
-
+    public double kdr;
     /*[HideInInspector] //doesn't dynamically scale with resolution - maybe because of the canvas scaling on its own
     public int resolutionHeight;
     public int resolutionWidth;
@@ -49,12 +51,15 @@ public class PlayerStatsGui : MonoBehaviour
         levelCounter = GameObject.Find("LevelOverlay");
         killsCounter = GameObject.Find("KillsOverlay");
         deathsCounter = GameObject.Find("DeathsOverlay");
+        KDRCounter = GameObject.Find("KDROverlay");
+
         timeCounter.SetActive(false);
         totalTimeCounter.SetActive(false);
         levelCounter.SetActive(false);
         fpsCounter.SetActive(false);
         killsCounter.SetActive(false);
         deathsCounter.SetActive(false);
+        KDRCounter.SetActive(false);
 
         //Debug.Log("time counter: " + timeCounter.name);
         //Text timeCounterText = timeCounter.GetComponentInChildren<Text>();
@@ -66,14 +71,17 @@ public class PlayerStatsGui : MonoBehaviour
     }
     void Start()
     {
-        //stats.LoadPlayer();
-        // resolutionHeight = Screen.currentResolution.height;
-        //resolutionWidth = Screen.currentResolution.width ;
-        //fpsCounter.GetComponent<>;
+        if (stats.GetDeaths() == 0)
+        {
+            KDRCounterText.text = "KDR: " + stats.GetKills().ToString();
+        }
+        else {
+            double kdr = ((double)stats.GetKills() / (double)stats.GetDeaths());
+            KDRCounterText.text = "kdr" + kdr.ToString("F");
+            Debug.Log(kdr.ToString("F"));
+        }
 
     }
-    
-    // Update is called once per frame
     void Update()
     {
         //Debug.Log(timeCounterText.text);
@@ -86,15 +94,6 @@ public class PlayerStatsGui : MonoBehaviour
         killsCounterText.text = "Kills: " + stats.GetKills().ToString();
         deathsCounterText.text = "Deaths: " +stats.GetDeaths().ToString();
 
-      /*  resolutionHeight = Screen.currentResolution.height;
-        resolutionWidth = Screen.currentResolution.height;
-        relativeResolutionHeight = resolutionHeight;
-        relativeResolutionWidth = resolutionWidth;
-        buttonWidth = relativeResolutionWidth / 10;
-        buttonHeight = relativeResolutionHeight / 10;
-        Debug.Log("Resolution: " + relativeResolutionHeight + " X " + relativeResolutionWidth);
-        Debug.Log("button size: " + buttonWidth + " X " + buttonHeight);*/
-        //GUI.Toolbar(new Rect(25, 25, 250, 30), toolbarInt, toolbarStrings);
     }
     public string SecondsToMinutes(int sec)
     {
@@ -107,19 +106,10 @@ public class PlayerStatsGui : MonoBehaviour
     }
     private void OnGUI()
     {
-        /*
-        resolutionHeight = Screen.currentResolution.height;
-          resolutionWidth = Screen.currentResolution.height;
-          relativeResolutionHeight = resolutionHeight;
-          relativeResolutionWidth = resolutionWidth;
-          Debug.Log("Resolution: " + relativeResolutionHeight + " X " + relativeResolutionWidth);
-          Debug.Log("button size: " + buttonWidth + " X " + buttonHeight);*/
-        //Debug.Log("ONGUI CALL!!!");
         toolbarInt = GUI.Toolbar(new Rect(5, 5, 185, 50), toolbarInt, toolbarStrings);
         if (toolbarInt == 0)
         {
-            GUI.Box(new Rect(5, 58, 110, 500), "Player Stats");
-            //toolbarInt = GUI.Toolbar(new Rect(25, 25, 250, 30), toolbarInt, toolbarStrings);
+            GUI.Box(new Rect(5, 58, 109, 450), "Player Stats");
 
             if (GUI.Button(new Rect(10, 100, buttonWidth, buttonHeight), "In-Game Time"))
             {
@@ -158,7 +148,7 @@ public class PlayerStatsGui : MonoBehaviour
                     pingCounterText.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
                 }
             }
-            /*
+            
             else if (GUI.Button(new Rect(8, 150 + buttonHeight * 4, buttonWidth, buttonHeight), "kills"))
             {
                 if (killsCounter.activeInHierarchy)
@@ -170,7 +160,13 @@ public class PlayerStatsGui : MonoBehaviour
                 if (deathsCounter.activeInHierarchy)
                     deathsCounter.SetActive(false);
                 else deathsCounter.SetActive(true);
-            }*/
+            }
+            else if (GUI.Button(new Rect(8, 150 + buttonHeight * 6, buttonWidth, buttonHeight), "KDR"))
+            {
+                if (KDRCounter.activeInHierarchy)
+                    KDRCounter.SetActive(false);
+                else KDRCounter.SetActive(true);
+            }
         }
     }
 }

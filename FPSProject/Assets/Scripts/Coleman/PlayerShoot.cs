@@ -18,13 +18,16 @@ public class PlayerShoot : MonoBehaviour
 
         
             PhotonView PV = GetComponent<PhotonView>();
-        if (PV.IsMine)
+        if (PV.IsMine && GetComponentInChildren<Gun>()) {
+            Debug.Log(GetComponentInChildren<Gun>().name + " was the name");
+
             gun = GetComponentInChildren<Gun>();
+        }
         
         }
     private void Update()
     {
-      //  gun = GetComponentInChildren<Gun>();
+        gun = GetComponentInChildren<Gun>();
         if (!DataManager.Instance.IsCanShoot) return;
        // if (!gun.gunData.fullAuto && gun.gameObject.activeSelf)
         //{

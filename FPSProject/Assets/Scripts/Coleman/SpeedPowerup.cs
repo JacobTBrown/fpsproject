@@ -40,7 +40,7 @@ public class SpeedPowerup : MonoBehaviour
         if (!move.hasSpeedPowerup) {
             move.hasSpeedPowerup = true;
             while (time <= duration) {
-                origSpeed = move.getMoveSpeed(move.playerState);
+                origSpeed = move.getTargetSpeed(move.playerState);
                 newSpeed = origSpeed * 1.5f;
 
                 move.powerUpSpeed = newSpeed;

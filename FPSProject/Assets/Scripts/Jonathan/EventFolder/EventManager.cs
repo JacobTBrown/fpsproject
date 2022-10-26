@@ -59,13 +59,8 @@ namespace Unity.Scripts.Jonathan
             //Debug.Log("broadcasting: " + evt);
             if (s_Events.TryGetValue(evt.GetType(), out var action))
             {
-                if (evt.ToString() == "PlayerKillEvent" || evt.ToString() == "PlayerDeathEvent")
-                {
-                    Debug.Log("returning from broadcast early ");
-                    return;
-                }
                 Debug.Log("invoke: " + evt);
-               action.Invoke(evt); //trbleshoot 10-22
+               action.Invoke(evt); 
             }
         }
 

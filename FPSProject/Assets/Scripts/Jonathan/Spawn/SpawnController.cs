@@ -22,12 +22,12 @@ namespace Unity.Scripts.Jonathan
             }
 			Instance = this;
 			//Debug.Log("Spawn controller game obj : " + gameObject);
-			Debug.Log("Spawn controller game objname : " + gameObject.name);
+			//Debug.Log("Spawn controller game objname : " + gameObject.name);
         }
         void Start(){
 			//if (Instance){}
 			//Debug.Log("Running start in spawnctrl game obj: " + this.gameObject.name);
-			Debug.Log("Running start in spawnctrl game obj: " + this.gameObject.GetComponent<SpawnController>());
+			//Debug.Log("Running start in spawnctrl game obj: " + this.gameObject.GetComponent<SpawnController>());
 	        rManager = FindObjectOfType<SpawnManager>();
 	        //rManager.RegisterSpawnPoint(this);
 	        rManager.RegisterSpawnPoint(this.gameObject.GetComponent<SpawnController>());

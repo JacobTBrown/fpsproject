@@ -99,10 +99,10 @@ public class Gun : MonoBehaviour
 
     public void ReloadInit()
     {
-        if (!this.gameObject) //1
+       /* if (!this.gameObject) //1
         {
             GameObject pistol = player.GetComponentInChildren<Gun>().gameObject;
-        }
+        }*/
         //Debug.Log("10-20: exit btn - ReloadInit(): " + this.gameObject);
         //Debug.Log(PhotonNetwork.LocalPlayer); 
         if(!gunData.isReloading && gunData.magSize != gunData.currentAmmo && this.gameObject.activeSelf)
@@ -140,13 +140,11 @@ public class Gun : MonoBehaviour
                             //Debug.Log("Hit");
                             StartCoroutine(playerHit());
                             
-                            //teams by zach 10-22: only trigger the damage if we're on different teams or teams == 0
-                           // if (hitInfo.collider.GetComponentInParent<>)
-                            hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage);
+                            hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, PV.ViewID);
                         }
-                        IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
+                        //IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
                         //Debug.Log(hitInfo);
-                        damageable?.Damage(gunData.damage);
+                        //damageable?.Damage(gunData.damage);
                     }
                     gunData.currentAmmo--;
                     timeSinceLastShot = 0;
