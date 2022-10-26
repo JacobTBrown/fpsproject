@@ -33,12 +33,12 @@ public class PlayerManager : MonoBehaviour
     {
         GameObject gamemgr = GameObject.Find("GameManager");
         EventManager.AddListener<PlayerDeathEvent>(onPlayerDeath);
-
+        //EventManager.AddListener<PlayerSpawnEvent>(onPlayerSpawn);
         Debug.Log("Found Game Manager: " + gamemgr.name);
     }
     public void CreateNewPlayer()
     {
-        Vector3 v = new Vector3(0,-10,0);
+        Vector3 v = new Vector3(0,10,0);
 
 
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "Player"), v, Quaternion.identity);
@@ -58,7 +58,7 @@ public class PlayerManager : MonoBehaviour
         EventManager.Broadcast(s_evt);
         //Debug.Log("New Player Registered");
         EventManager.Broadcast(np_evnt);
-        Debug.Log(player.GetComponent<PhotonView>().ViewID + " Trying to register their player");
+        //Debug.Log(player.GetComponent<PhotonView>().ViewID + " Trying to register their player");
         if(player.GetComponent<PhotonView>().IsMine)
         {
            ((MonoBehaviour)player.GetComponent<PlayerMovement>()).enabled = true;
@@ -67,12 +67,23 @@ public class PlayerManager : MonoBehaviour
            player.transform.Find("Player Camera").gameObject.GetComponent<Camera>().enabled = true;
            player.transform.Find("Player Camera").gameObject.GetComponent<PlayerCameraMovement>().enabled = true;
             Debug.Log("Player finished camera setup: " + player.GetComponent<PhotonView>().ViewID);
+            Debug.Log("Player's camera name is: " + player.transform.Find("Player Camera").gameObject.name);
+
            
         }
     }
 
     public void onPlayerDeath(PlayerDeathEvent evt){
         Debug.Log("Broadcasting " + evt + " from PlayerManager.cs");
+        //edited 4pm 10-22
+        PlayerSpawnEvent evt1 = Events.PlayerSpawnEvent;
+        evt1.player = evt.player;
+        EventManager.Broadcast(evt1);
+
+    }   
+    public void onPlayerSpawn(PlayerSpawnEvent evt){
+        Debug.Log("Broadcasting " + evt + " from PlayerManager.cs");
+        //edited 4pm 10-22
         PlayerSpawnEvent evt1 = Events.PlayerSpawnEvent;
         evt1.player = evt.player;
         EventManager.Broadcast(evt1);

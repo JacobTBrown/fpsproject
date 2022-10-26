@@ -370,7 +370,7 @@ namespace Photon.Pun
         internal void RebuildControllerCache(bool ownerHasChanged = false)
         {
             //var prevController = this.controller;
-
+            //Debug.Log("Rebuilding controller cache");
             // objects without controller and room objects (ownerId 0) check if controller update is needed
             if (this.controllerActorNr == 0 || this.OwnerActorNr == 0 || this.Owner == null || this.Owner.IsInactive)
             {

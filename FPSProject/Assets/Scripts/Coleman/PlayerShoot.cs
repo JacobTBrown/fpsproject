@@ -18,8 +18,11 @@ public class PlayerShoot : MonoBehaviour
 
         
             PhotonView PV = GetComponent<PhotonView>();
-        if (PV.IsMine)
+        if (PV.IsMine && GetComponentInChildren<Gun>()) {
+            Debug.Log(GetComponentInChildren<Gun>().name + " was the name");
+
             gun = GetComponentInChildren<Gun>();
+        }
         
         }
     private void Update()

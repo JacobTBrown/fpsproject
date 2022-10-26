@@ -21,26 +21,30 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
     public void goToTitleMenu()
     {
         //SceneManager.UnloadSceneAsync("ColemanWeaponsAndPowerups");
-
-        Invoke("afterRPC", 1);
+       // Invoke("afterRPC", 1);
         //SaveAndDestroy();
         PV = GameObject.Find("Player(Clone)").GetComponent<PhotonView>();
         if (PV.IsMine)
         {
             Debug.Log(PV.ViewID);
             //PV.RPC("ClearRPCs", RpcTarget.OthersBuffered, PhotonNetwork.LocalPlayer);
-            PhotonNetwork.RemoveRPCs(PhotonNetwork.LocalPlayer);
+           // PhotonNetwork.RemoveRPCs(PhotonNetwork.LocalPlayer);
             //PhotonNetwork.CleanRpcBufferIfMine(PV);
             Debug.Log("exit destroyed u");
-          //  PhotonNetwork.Destroy(PV);
-          
+            //  PhotonNetwork.Destroy(PV);
+           // Destroy(PV.gameObject);
         }
         else
         {
             Debug.Log("exit cant find ur PV");
         }
+        DisconnectPlayer();
+        //Destroy(GameObject.Find("GameManager"));
+     
+        //PhotonHandler.
         //PhotonNetwork.LeaveRoom();
-        //PhotonNetwork.Disconnect();
+        
+        PhotonNetwork.Disconnect();
             //PhotonNetwork.DestroyPlayerObjects(PhotonNetwork.LocalPlayer);
        // GameObject.FindObjectsOfTypeAll<PhotonView>();
         //Debug.Log("destroyed " + PhotonNetwork.LocalPlayer);
@@ -61,55 +65,57 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         //PhotonView PV = GameObject.Find("Player(Clone)").GetComponent<PhotonView>();
-        Debug.Log(PV);
+        //Debug.Log(PV);
             //PhotonNetwork.OpCleanActorRpcBuffer(otherPlayer.ActorNumber);
 
             Debug.Log("OnPlayerLeftRoom: " + otherPlayer.ActorNumber);
-            //PhotonNetwork.CleanRpcBufferIfMine(PV);
-            //PhotonNetwork.Destroy(PV);
- 
+        //PhotonNetwork.CleanRpcBufferIfMine(PV);
+        //PhotonNetwork.Destroy(PV);
 
-       // Destroy()
+        //PhotonNetwork.Disconnect();
+        //PhotonHandler is doing cleanup
+        // Destroy()
     }
     public void DisconnectPlayer()
     {
-       // StartCoroutine(DisconnectAndLoad());
+       StartCoroutine(DisconnectAndLoad());
     }
     public override void OnJoinedRoom()
     {
         base.OnJoinedRoom();
     }
-  /*  IEnumerator DisconnectAndLoad()
+    IEnumerator DisconnectAndLoad()
     {
        
         PhotonNetwork.LeaveRoom();
-        PhotonNetwork.Disconnect();
+        //PhotonNetwork.Disconnect();
         while (PhotonNetwork.InRoom)
         {
             Debug.Log("leaving room..");
             yield return null;
         }
-        while (PhotonNetwork.LevelLoadingProgress < 1)
+   /*     while (PhotonNetwork.LevelLoadingProgress < 1)
         {
             Debug.Log("loading from exit btn");
             yield return null;
-        }
+        }*/
         PhotonNetwork.LoadLevel(0);
-    }*/
+    }
     public override void OnLeftRoom()
     {
-        PhotonNetwork.Disconnect();
+        //PhotonNetwork.Disconnect();
         //SceneManager.LoadScene(0);
         //MenuManager.loadScene = true;
-        
-
+       // PhotonNetwork.Disconnect();
+       // PhotonNetwork.LoadLevel(0);
     }
     public override void OnDisconnected(DisconnectCause cause)
     {
         PhotonNetwork.LoadLevel(0);
         //SceneManager.LoadScene(0);
         Debug.Log("onDisconnected callbac for " + cause);
-        base.OnDisconnected(cause);
+        //base.OnDisconnected(cause);
+
     }
 
     public void SaveAndDestroy()
@@ -119,10 +125,11 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
         GameObject roomManager = GameObject.Find("RoomManager");
         PlayerStatsPage pstats = roomManager.GetComponent<PlayerStatsPage>();
         PhotonView PV = roomManager.GetComponent<PhotonView>();
+        pstats.SavePlayer();
         Destroy(roomManager);
         Destroy(PV);
         Debug.Log("room manager destroyed");
-        pstats.SavePlayer();
+       
 
         
     }

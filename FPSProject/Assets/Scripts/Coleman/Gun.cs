@@ -34,7 +34,11 @@ public class Gun : MonoBehaviour
         rpcFunc = GetComponentInParent<RPC_Functions>();
         rpcFunc.gunShot = GetComponents<AudioSource>()[0];
         rpcFunc.reload = GetComponents<AudioSource>()[1];
-        if (transform.parent != null && PV.IsMine)
+        if (!this)
+        {
+            Debug.Log("gun.cs is null ");
+        }
+        if (transform.parent != null) // && PV.IsMine)
         {
             if (ammoCounter)
             {
@@ -60,7 +64,7 @@ public class Gun : MonoBehaviour
     }
     void Awake()
     {
-
+        this.gameObject.SetActive(true);
         Debug.Log("Gun.cs awake");
         if (player)
         {
@@ -78,10 +82,7 @@ public class Gun : MonoBehaviour
             //https://forum.photonengine.com/discussion/2300/solved-received-rpc-photonview-does-not-exist
 
         }
-        else
-        {
-            Debug.Log("was already set");
-        }
+
     }
 
     private IEnumerator Reload()
@@ -98,11 +99,11 @@ public class Gun : MonoBehaviour
 
     public void ReloadInit()
     {
-        if (!this.gameObject) //1
+       /* if (!this.gameObject) //1
         {
             GameObject pistol = player.GetComponentInChildren<Gun>().gameObject;
-        }
-        Debug.Log("10-20: exit btn - ReloadInit(): " + this.gameObject);
+        }*/
+        //Debug.Log("10-20: exit btn - ReloadInit(): " + this.gameObject);
         //Debug.Log(PhotonNetwork.LocalPlayer); 
         if(!gunData.isReloading && gunData.magSize != gunData.currentAmmo && this.gameObject.activeSelf)
         {
@@ -138,9 +139,10 @@ public class Gun : MonoBehaviour
                         {
                             //Debug.Log("Hit");
                             StartCoroutine(playerHit());
-                            hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage);
+                            
+                            hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, PV.ViewID);
                         }
-                        IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
+                        //IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
                         //Debug.Log(hitInfo);
                         //damageable?.Damage(gunData.damage);
                     }

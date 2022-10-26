@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Unity.Scripts.Jonathan
 {
+	
 	public class SpawnManager : MonoBehaviour
 	{
 		//we'll need to access this elsewhere for the multiplayer
@@ -15,7 +16,7 @@ namespace Unity.Scripts.Jonathan
 
 	    void Awake()
 	    {
-
+			
 			if (Instance)
 				Debug.Log("Instance already existed");
 			Instance = this;

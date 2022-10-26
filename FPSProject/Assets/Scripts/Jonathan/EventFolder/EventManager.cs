@@ -56,11 +56,11 @@ namespace Unity.Scripts.Jonathan
 
         public static void Broadcast(GameEvent evt)
         {
-            Debug.Log("broadcasting: " + evt);
+            //Debug.Log("broadcasting: " + evt);
             if (s_Events.TryGetValue(evt.GetType(), out var action))
             {
                 Debug.Log("invoke: " + evt);
-                action.Invoke(evt);
+               action.Invoke(evt); 
             }
         }
 
