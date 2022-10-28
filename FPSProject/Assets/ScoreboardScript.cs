@@ -7,7 +7,7 @@ using Unity.Scripts.Jonathan;
 using Photon.Pun;
 using ExitGames.Client.Photon;
 
-public class ScoreboardScript : MonoBehaviour, IOnEventCallback
+public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
 {
     PlayerStatsPage statsPage;
     public TMP_Text usernameText;
@@ -42,9 +42,9 @@ public class ScoreboardScript : MonoBehaviour, IOnEventCallback
         Debug.Log("This player is: " + player.NickName + " Dead player is: " + evt.player.GetComponent<PlayerSettings>().nickname);
         if (evt.player.GetComponent<PlayerSettings>().nickname.Equals(player.NickName))
         {
-            deaths += 1;
-            deathsText.text = deaths.ToString();
-            Debug.Log("Number of deaths are: " + deaths);
+            //deaths += 1;
+            //deathsText.text = deaths.ToString();
+            //Debug.Log("Number of deaths are: " + deaths);
         }
     }
 
@@ -54,8 +54,8 @@ public class ScoreboardScript : MonoBehaviour, IOnEventCallback
         Debug.Log("This player is: " + player.NickName + "Killed player is: " + evt.player.GetComponent<PlayerSettings>().nickname);
         if (evt.player.GetComponent<PlayerSettings>().nickname.Equals(player.NickName))
         {
-            kills += 1;
-            killsText.text = kills.ToString();
+            //kills += 1;
+            //killsText.text = kills.ToString();
             Debug.Log("Number of kills are: " + kills);
         }
 
@@ -104,5 +104,15 @@ public class ScoreboardScript : MonoBehaviour, IOnEventCallback
                 statsPage.SetKills();
             }
         }
+    }
+
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        Debug.Log("In here for changing properties.");
+        kills = (int)player.CustomProperties["Kills"];
+        deaths = (int)player.CustomProperties["Deaths"];
+        deathsText.text = deaths.ToString();
+        killsText.text = kills.ToString();
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
     }
 }
