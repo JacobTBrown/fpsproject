@@ -15,11 +15,12 @@ MonoBehaviour:
   name: AK-47
   damage: 20
   maxDistance: 100
-  currentAmmo: 31
+  currentAmmo: 13
   magSize: 31
-  reserveAmmo: 124
+  reserveAmmo: 0
   maxReserveAmmo: 124
   fireRate: 600
   reloadTime: 3
   fullAuto: 1
   isReloading: 0
+  isShotgun: 0
