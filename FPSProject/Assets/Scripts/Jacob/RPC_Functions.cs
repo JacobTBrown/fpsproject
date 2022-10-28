@@ -20,7 +20,6 @@ public class RPC_Functions : MonoBehaviourPunCallbacks
     public AudioSource shotgun;
     public AudioSource ak;
 
-<<<<<<< HEAD
     [PunRPC]
     public void TriggerAnimPistol(string s) {
         pistolAnim.SetTrigger(s);
@@ -30,34 +29,10 @@ public class RPC_Functions : MonoBehaviourPunCallbacks
             pistol.clip = gunPistol.gunshot;
         }
         pistol.Play();
-=======
-    public void Start() {
-        animator = GetComponentInChildren<Animator>();
-        Debug.Log(animator.name + " was animator");
-    }
-    public void Update()
-    {
-        if (!animator)
-        {
-            Debug.Log("animator was null in RPC_Functions.cs");
-        }
->>>>>>> Blake_Brooks(Current)
     }
     [PunRPC]
-<<<<<<< HEAD
     public void TriggerAnimShotgun(string s) {
         shotgunAnim.SetTrigger(s);
-=======
-    public void triggerAnim(string s) {
-        if (s.Length == 0)
-        {
-            Debug.Log("bad animation call");
-            return;
-        }
-        //Debug.Log("triggered anim " + s);
-        //Debug.Log("animator ws " + animator.name + " reload was " + reload.name);
-        animator.SetTrigger(s);
->>>>>>> Blake_Brooks(Current)
         if (s == "Reload") {
             shotgun.clip = gunShotgun.reload;
         } else if (s == "Shoot") {

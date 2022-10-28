@@ -11,7 +11,6 @@ public class DataManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-<<<<<<< HEAD
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -20,14 +19,6 @@ public class DataManager : MonoBehaviour
             Instance = this;
         }
         
-=======
-        if (Instance)
-        {
-            Debug.Log("exists");
-            return;
-        }
-        Instance = this;
->>>>>>> Blake_Brooks(Current)
         DontDestroyOnLoad(gameObject);
     }
 

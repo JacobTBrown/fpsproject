@@ -103,7 +103,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
             //object[] obj = new object[]{DeadviewID, EnemyPlayer};
             object[] obj = {DeadviewID, EnemyPlayer};
         //Debug.Log(obj[0].ToString() + obj[1].ToString() + " was your obj");
-            PhotonNetwork.RaiseEvent(PhotonEvents.PLAYERDEATH,obj, o,SendOptions.SendReliable);
+            PhotonNetwork.RaiseEvent(0, obj, o, SendOptions.SendReliable); //PhotonEvent.PLAYERDEATH
             //PhotonNetwork.RaiseEvent(PhotonEvents.PLAYERKILL, obj, o, SendOptions.SendReliable);
         }
 }

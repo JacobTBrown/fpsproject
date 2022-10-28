@@ -308,7 +308,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
             return;
         }
         byte eventCode = photonEvent.Code;
-        if (eventCode == PhotonEvents.PLAYERDEATH)
+        if (eventCode == 0) //PhotonEvents.PLAYERDEATH
         {
             
             Debug.Log("Sender: " + photonEvent.Sender.ToString());

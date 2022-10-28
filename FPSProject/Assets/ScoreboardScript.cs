@@ -84,7 +84,7 @@ public class ScoreboardScript : MonoBehaviour, IOnEventCallback
     {
         Debug.Log("In the OnEvent function in Scoreboard Script.");
         byte eventCode = photonEvent.Code;
-        if (eventCode == PhotonEvents.PLAYERDEATH)
+        if (eventCode == 0) //PhotonEvent.PLAYERDEATH
         {
             //Debug.Log("Sender: " + photonEvent.Sender.ToString());
             object[] data = (object[])photonEvent.CustomData;
