@@ -55,12 +55,20 @@ public class Gun : MonoBehaviour
             Debug.Log("Gun.cs exited start with reload: " + reload.name);
         } else
         {
+<<<<<<< HEAD
             Debug.Log("gun.cs failed");
             equipped = false;
         }
 
         gunData.currentAmmo = gunData.magSize;
         if (gunData.maxReserveAmmo != -1) gunData.reserveAmmo = gunData.magSize * 2;
+=======
+           Debug.Log("gun.cs failed");
+           equipped = false;
+        }
+        gunData.currentAmmo = gunData.magSize;
+        if(gunData.maxReserveAmmo != -1) gunData.reserveAmmo = gunData.magSize*2;
+>>>>>>> dcb61ce94349c7b24a84bc23b9501d9c56864f51
     }
 
     private IEnumerator Reload()
@@ -97,7 +105,11 @@ public class Gun : MonoBehaviour
         }*/
         //Debug.Log("10-20: exit btn - ReloadInit(): " + this.gameObject);
         //Debug.Log(PhotonNetwork.LocalPlayer); 
+<<<<<<< HEAD
         if(!gunData.isReloading && gunData.magSize != gunData.currentAmmo && gunData.reserveAmmo != 0 && this.gameObject.activeSelf)
+=======
+        if(!gunData.isReloading && gunData.magSize != gunData.currentAmmo && this.gameObject.activeSelf && gunData.reserveAmmo != 0)
+>>>>>>> dcb61ce94349c7b24a84bc23b9501d9c56864f51
         {
             StartCoroutine(Reload());
             animator.SetTrigger("Reload");
