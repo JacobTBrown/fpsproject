@@ -35,11 +35,7 @@ public class Gun : MonoBehaviour
         pstats = GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>();
         //Debug.Log(pstats.gameObject.name);
         //Debug.Log(PhotonNetwork.LocalPlayer.NickName);
-        if (!this)
-        {
-            Debug.Log("gun.cs is null ");
-        }
-        if (transform.parent != null) // && PV.IsMine)
+        if (equipped && transform.parent != null) // && PV.IsMine)
         {
             if (ammoCounter)
             {
@@ -49,11 +45,11 @@ public class Gun : MonoBehaviour
             equipped = true;            
             ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
             hitMarker = GameObject.Find("HitMarker");
-            if (hitMarker) { hitMarker.SetActive(false); Debug.Log("set ur hitmarker"); };
+            if (hitMarker) { 
+            hitMarker.SetActive(false); Debug.Log("set ur hitmarker"); };
             PlayerShoot.shootInput += Shoot;
             PlayerShoot.reloadInput += ReloadInit;
             animator = GetComponent<Animator>();
-;
             Debug.Log("Gun.cs exited start with reload: " + reload.name);
         } else
         {
@@ -91,9 +87,10 @@ public class Gun : MonoBehaviour
             animator = GetComponent<Animator>();
             if (gunData.name == "M1911") owns = true;
             else owns = false;
+            hitMarker = GameObject.Find("HitMarker");
+            if (hitMarker) hitMarker.SetActive(false);
         }
-        hitMarker = GameObject.Find("HitMarker");
-        if(hitMarker) hitMarker.SetActive(false);
+
     }
 
     private IEnumerator Reload()
