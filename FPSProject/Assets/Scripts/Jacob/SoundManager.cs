@@ -16,10 +16,13 @@ public class SoundManager : MonoBehaviour, IPunObservable
     // Start is called before the first frame update
     void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-        playerRigidbody = GetComponent<Rigidbody>();
-        playerMovement = GetComponent<PlayerMovement>();
         PV = GetComponent<PhotonView>();
+        if (PV.IsMine) {
+            audioSource = GetComponent<AudioSource>();
+            playerRigidbody = GetComponent<Rigidbody>();
+            playerMovement = GetComponent<PlayerMovement>();
+        }
+        
         routineCount = 0;
         current = 0;
     }
@@ -96,6 +99,5 @@ public class SoundManager : MonoBehaviour, IPunObservable
             else
                 yield return 0;
         }
-
     }
 }

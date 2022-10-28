@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 
 /*
     Author: Jacob Brown
     Creation: 9/20/22
     Last Edit: 9/21/22
-
     This class handles the camera attached to a player. It handles any and all
     functions related to manipulating the camera.
 */
@@ -17,13 +17,13 @@ public class PlayerCameraMovement : MonoBehaviour
     [Header("Unity Classes")]
     public Transform cameraTransform;
     public Transform playerTransform;
-    
+    public Transform playerBodyTransform;
+    public bool ifTilting;
+
     private float rotateYAxis, rotateXAxis;
     private Vector3 mouseMovement = new Vector3(0, 0, 0);
     private PlayerMovement playerMove;
     private PlayerSettings playerSettings;
-
-
 
     void Start()
     {
@@ -40,8 +40,7 @@ public class PlayerCameraMovement : MonoBehaviour
         if (playerMove.PV)
         if (playerMove.PV.IsMine)
         {
-
-            if (EventSystem.current.IsPointerOverGameObject()) return;
+            //if (EventSystem.current.IsPointerOverGameObject()) return;
 
             GetInputs();
             InvertMouse();
@@ -76,26 +75,27 @@ public class PlayerCameraMovement : MonoBehaviour
         // upon moving, we move relative to the player's orientation. This way
         // if we are in the air turning the camera doesn't alter the trajectory.
         playerTransform.rotation = Quaternion.Euler(0f, rotateYAxis, 0f);
+        if (!ifTilting)
+            playerBodyTransform.rotation = Quaternion.Euler(playerBodyTransform.rotation.eulerAngles.x, rotateYAxis, playerBodyTransform.rotation.eulerAngles.z);
     }
 
-    /* This function is still a work-in-progress and is bound to change
-       drastically. 
-    */
-    public IEnumerator AdjustFov(float value) {
-        // smoothly lerp fov to desired value
-        float time = 0; 
-        float currentFov = Camera.main.fieldOfView;
-        float difference = Mathf.Abs(value - currentFov);
-        float startValue = currentFov;
-        float newFov = value;
+    public void AdjustFov(float value) {
+        GetComponent<Camera>().DOFieldOfView(value, 0.25f);
+    }
 
-        while (time < difference)
-        {
-            newFov = Mathf.Lerp(startValue, value, time / difference);
+    public void AdjustZTilt(float value) {
+        playerBodyTransform.DORotate(new Vector3(0,rotateYAxis,value), 0.25f);
+        if (value > 0 || value < 0)
+            ifTilting = true;
+        else
+            ifTilting = false;
+    }
 
-            time += Time.deltaTime;
-            Camera.main.fieldOfView = newFov;
-        }
-        yield return null; 
+    public void AdjustXTilt(float value) {
+        playerBodyTransform.DOLocalRotate(new Vector3(value,rotateYAxis,0), 0.25f);
+        if (value > 0 || value < 0)
+            ifTilting = true;
+        else
+            ifTilting = false;
     }
 }

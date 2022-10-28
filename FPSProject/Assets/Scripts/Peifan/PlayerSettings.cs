@@ -60,7 +60,7 @@ public class PlayerSettings : MonoBehaviour
         };
 
     void Start() {
-        Debug.Log("GameObject.Name," + gameObject.name);
+        //Debug.Log("GameObject.Name," + gameObject.name);
         PV = GetComponent<PhotonView>();
         //Debug.Log("PV instantiate: " + PV.ViewID);
         //playermanager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
