@@ -34,4 +34,18 @@ public class TDM : MonoBehaviour, GameMode
         o_Manager.addObjective(new PlayerKillObjective(evt.player, killCutOff));
     }
 
+    void GameMode.CreateGameObjectives()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    void GameMode.CreateGameRules()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    void GameMode.LoadGameModeUI()
+    {
+        throw new System.NotImplementedException();
+    }
 }

@@ -45,37 +45,6 @@ public class PickupController : MonoBehaviour
             {
                 if(child.GetComponent<MeshRenderer>() != null) child.GetComponent<MeshRenderer>().enabled = false;
             }
-<<<<<<< HEAD
-        } else canGrab = false;
-    }
-
-    [PunRPC]
-    private void Pickup()
-    {
-        currentWeapon = weapon;
-        currentWeapon.transform.parent = weaponHolder;
-        currentWeapon.GetComponent<Gun>().WeaponHolder = weaponHolder.gameObject;
-        currentWeapon.GetComponent<Gun>().PV = transform.gameObject.GetComponent<PhotonView>();
-        currentWeapon.GetComponent<Gun>().enabled = true;
-        currentWeapon.transform.localPosition = Vector3.zero;
-        currentWeapon.transform.localRotation = Quaternion.identity;
-        currentWeapon.transform.localEulerAngles = new Vector3(0,180,0);
-        currentWeapon.GetComponent<Rigidbody>().isKinematic = true;
-        weapon = null;
-    }
-
-    [PunRPC]
-    private void Drop()
-    {
-        currentWeapon.transform.parent = droppedWeapons.transform;
-        currentWeapon.transform.position = transform.position;
-        currentWeapon.GetComponent<Gun>().PV = droppedWeapons.GetComponent<PhotonView>();
-        currentWeapon.GetComponent<Gun>().enabled = false;
-        currentWeapon.GetComponent<Rigidbody>().isKinematic = false;
-        //currentWeapon.transform.position = weaponHolder.position;
-        currentWeapon = null;
-        weapon = null;
-=======
             transform.position = new Vector3(0, 1000, 0);
             yield return new WaitForSeconds(1);
             GetComponent<Collider>().enabled = false;
@@ -103,6 +72,5 @@ public class PickupController : MonoBehaviour
                 Destroy(transform.gameObject);
             }
         }
->>>>>>> ZachNewHead
     }
 }

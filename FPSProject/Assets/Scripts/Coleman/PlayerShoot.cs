@@ -8,7 +8,7 @@ public class PlayerShoot : MonoBehaviour
 {
     public Action shootInput;
     public Action reloadInput;
-    public static Action pickupInput;
+    public Action pickupInput;
 
     [SerializeField] private KeyCode reloadKey;
     private PhotonView PV;

@@ -126,7 +126,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         string gameModeType = (string)PhotonNetwork.CurrentRoom.CustomProperties["GAMEMODE"]; 
        // if(gameModeType=="FFA")
       //  {
-            int killCutOff = 20;
+            //int killCutOff = 20;
            gameMode = gameObject.AddComponent<FreeForAll>();
       //  }
 

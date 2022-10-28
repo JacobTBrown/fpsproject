@@ -666,38 +666,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
                     Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
                 }
             }
-            else if ((int)currentRoomInfo.CustomProperties["mode"] == 1)
-            {
-                return; //made function RenderRooms() that re-renders in the PlayerPropertiesChanged callback 
-                MenuManager.Instance.OpenMenu("teamroom");
-                if (debug) Debug.Log("mode one ");
-                foreach (Transform child in playerListTeam1)
-                {
-                    Destroy(child.gameObject);
-                }
-                foreach (Transform child in playerListTeam2)
-                {
-                    Destroy(child.gameObject);
-                }
-                Player[] players = PhotonNetwork.PlayerList;
-                for (int i = 0; i < players.Count(); i++)
-                {
-                    //players[i].CustomProperties["team"] = 1; default for testing
-                    if ((int)players[i].CustomProperties["team"] == 2)
-                    {
-                        //players[i].CustomProperties["team"] = 2;
-                        if (debug) Debug.Log("Player added to team 2, team was: " + players[i].CustomProperties["team"].ToString());
-                        Instantiate(PlayerListItemTeamsPrefab, playerListTeam2).GetComponent<PlayerListItemTeam>().SetUp(players[i]);
-                    }
-                    else if ((int)players[i].CustomProperties["team"] == 1)
-                    {
-                        if (debug) Debug.Log("Player added to team1, team was:  " + players[i].CustomProperties["team"].ToString());
-                        Instantiate(PlayerListItemTeamsPrefab, playerListTeam1).GetComponent<PlayerListItemTeam>().SetUp(players[i]);
-                    }
-                    else if (debug) Debug.Log("player " + players[i].NickName + " was not on team 1 or 2, # = " + players[i].CustomProperties["team"].ToString());
-                }
-
-            }
         }
         else
         {//no cases found, fallback code
@@ -852,7 +820,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     public void ChangeTeamButtonClick()
     {
         int currentTeam = (int)PhotonNetwork.LocalPlayer.CustomProperties["team"];
-        int newTeam;
+        //int newTeam;
         RoomInfo info = PhotonNetwork.CurrentRoom;
         Hashtable player = new Hashtable();
         Hashtable newRoomInfo = new Hashtable();

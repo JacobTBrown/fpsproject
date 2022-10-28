@@ -25,15 +25,9 @@ public class PlayerKillObjective : Objective
     }
     public void handleEvent(PlayerKillEvent evt){
      //   if(evt.GetType() == typeof(PlayerKillEvent)){
-<<<<<<< HEAD
             Debug.Log("PlayerKill Objective Updated");
               //          PlayerKillEvent e = (PlayerKillEvent)evt;
             if(evt.player == player){
-=======
-            Debug.Log("PlayerKill Objective Updated Kills =" + kills);
-            Debug.Log(evt.player.GetComponent<PhotonView>().ViewID + " VS " + player.GetComponent<PhotonView>().ViewID);
-        if (evt.player == player){
->>>>>>> ZachNewHead
                 kills++;
            // if (evt.player.GetComponent<PhotonView>().IsMine)
            // {

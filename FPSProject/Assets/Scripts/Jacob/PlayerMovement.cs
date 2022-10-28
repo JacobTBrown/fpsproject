@@ -69,13 +69,6 @@ public class PlayerMovement : MonoBehaviour
     public MovementState playerState;
     //Adding just a few lines below for PUN
     public PhotonView PV;
-<<<<<<< HEAD
-=======
-    private void Awake()
-    {
-        PV = GetComponent<PhotonView>();
-    }
->>>>>>> ZachNewHead
     
     public enum MovementState {
         slowwalking,
@@ -130,11 +123,7 @@ public class PlayerMovement : MonoBehaviour
         // limit velocity if needed
         if (velXZ.magnitude > moveSpeed)
         {
-<<<<<<< HEAD
             //print("velXZ mag: " + velXZ.magnitude);
-=======
-            print("velXZ mag: " + velXZ.magnitude);
->>>>>>> ZachNewHead
             // Movement speed and jump speed are different values
             Vector3 newVelXZ = velXZ.normalized * moveSpeed;
             //Vector3 newVelY = velY.normalized * jumpForce;
@@ -147,11 +136,7 @@ public class PlayerMovement : MonoBehaviour
         if (PV.IsMine)
         {
             if (playerState != MovementState.climbing) {
-<<<<<<< HEAD
                 if (isWallrunning && !isCrouching) {
-=======
-                if (isWallrunning && !isCrouching)
->>>>>>> ZachNewHead
                     WallrunMove();
                     if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.jump]) && !isOnGround && canWallJump)
                         WallJump();
@@ -177,12 +162,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void WallrunMove() {
-<<<<<<< HEAD
         playerRigidbody.useGravity = useGravity;
-=======
-        playerRigidbody.useGravity = false;
-        playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
->>>>>>> ZachNewHead
 
         Vector3 wallNormal = wallToRight ? hitRightWall.normal : hitLeftWall.normal;
         Vector3 wallUp = Vector3.Cross(-playerTransform.forward, wallNormal);
@@ -190,11 +170,7 @@ public class PlayerMovement : MonoBehaviour
 
         playerRigidbody.AddForce(wallForward * moveSpeed, ForceMode.Force);
         
-<<<<<<< HEAD
         if (!(wallToLeft && horizontalZInput > 0) && !(wallToRight && horizontalZInput > 0))
-=======
-        if (!(wallToLeft && horizontalXInput > 0) && !(wallToRight && horizontalXInput < 0))
->>>>>>> ZachNewHead
             playerRigidbody.AddForce(-wallNormal * 50, ForceMode.Force);
         
         if (useGravity)
@@ -206,7 +182,6 @@ public class PlayerMovement : MonoBehaviour
             canWallJump = true;
     }
 
-<<<<<<< HEAD
     Vector3 wallNormal;
 
     private void SlideMove() {
@@ -222,13 +197,6 @@ public class PlayerMovement : MonoBehaviour
 
         if (!(wallToLeft && horizontalXInput > 0) && !(wallToRight && horizontalXInput < 0))
             playerRigidbody.AddForce(-wallNormal * 50, ForceMode.Force);
-=======
-    private void SlideMove() {
-        if (!isOnSlope || playerRigidbody.velocity.y > -0.1f) {
-            playerRigidbody.AddForce(movement.normalized * moveSpeed, ForceMode.Force);
-        } else
-            playerRigidbody.AddForce(GetSlopeDirection(movement) * moveSpeed, ForceMode.Force);    
->>>>>>> ZachNewHead
     }
 
     private IEnumerator displayRoutine;
@@ -368,10 +336,7 @@ public class PlayerMovement : MonoBehaviour
             moveSpeed = sprintSpeed;
             canDoubleJump = true;
             canStartSlide = true;
-<<<<<<< HEAD
             playerCam.AdjustFov(100f);
-=======
->>>>>>> ZachNewHead
         } else if (isOnGround) {
             //IEnumerator coroutine = playerCam.AdjustFov(80);
             //StartCoroutine(coroutine);
@@ -391,48 +356,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-<<<<<<< HEAD
         if (hasSpeedPowerup) {
             moveSpeed = powerUpSpeed;
-=======
-        if (hasSpeedPowerup)
-        {
-            moveSpeed = powerUpSpeed;
-        }
-
-        if (Input.GetKeyDown(keybinds.inputSystemDic[KeycodeFunction.crouch]))
-        {
-            playerBodyTransform.localScale = new Vector3(playerBodyTransform.localScale.x, crouchYScale, playerBodyTransform.localScale.z);
-            //transform.position = new Vector3(transform.position.x, transform.position.y - crouchYScale, transform.position.z);
-            if (!isCrouching) isCrouching = true;
-        }
-        else if (Input.GetKeyUp(keybinds.inputSystemDic[KeycodeFunction.crouch]))
-        {
-            playerBodyTransform.localScale = new Vector3(playerBodyTransform.localScale.x, initYScale, playerBodyTransform.localScale.z);
-            if (isCrouching) isCrouching = false;
-        }
-
-        if (Input.GetKeyDown(keybinds.inputSystemDic[KeycodeFunction.slide]) && canStartSlide)
-        {
-            playerBodyTransform.localScale = new Vector3(playerBodyTransform.localScale.x, crouchYScale, playerBodyTransform.localScale.z);
-            //transform.position = new Vector3(transform.position.x, transform.position.y - crouchYScale, transform.position.z);
-            if (!isSliding) isSliding = true;
-        }
-        else if (Input.GetKeyUp(keybinds.inputSystemDic[KeycodeFunction.slide]))
-        {
-            playerBodyTransform.localScale = new Vector3(playerBodyTransform.localScale.x, initYScale, playerBodyTransform.localScale.z);
-            if (isSliding) isSliding = false;
-            if (canStartSlide) canStartSlide = false;
-        }
-
-        if ((wallToLeft || wallToRight) && horizontalZInput > 0 && !isOnGround)
-        {
-            if (!isWallrunning && !isCrouching) isWallrunning = true;
-        }
-        else
-        {
-            if (isWallrunning) isWallrunning = false;
->>>>>>> ZachNewHead
         }
 
         if (Input.GetKeyDown(keybinds.inputSystemDic[KeycodeFunction.crouch])) {
@@ -554,7 +479,6 @@ public class PlayerMovement : MonoBehaviour
         if (!isWallrunning) playerRigidbody.useGravity = !isOnSlope;
     }
 
-<<<<<<< HEAD
     public Vector3 GetSlopeDirection(Vector3 direction)
     {
         return Vector3.ProjectOnPlane(direction, hitSlope.normal).normalized;
@@ -562,13 +486,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void ApplyDrag()
     {
-=======
-    public Vector3 GetSlopeDirection(Vector3 direction) {
-        return Vector3.ProjectOnPlane(direction, hitSlope.normal).normalized;
-    }
-    
-    private void ApplyDrag() {
->>>>>>> ZachNewHead
         /* If the player is on the ground, then we want to prevent the player from moving forever
         // without any input.
         // So, we set drag to our groundDrag (Value set in inspector).

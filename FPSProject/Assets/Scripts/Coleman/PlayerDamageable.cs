@@ -52,11 +52,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
             /*
                 This is for testing purposes only
             */
-<<<<<<< HEAD
             onDie(PV.ViewID);
-=======
-           // onDie(PV.ViewID);
->>>>>>> ZachNewHead
         }
     }
 
