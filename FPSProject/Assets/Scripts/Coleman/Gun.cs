@@ -10,7 +10,6 @@ public class Gun : MonoBehaviour
     [SerializeField] public GunData gunData;
     [SerializeField] private Transform muzzle;
     [SerializeField] private ParticleSystem flash;
-    public GameObject player;
     public GameObject playerOrientation;
     public GameObject WeaponHolder;
     public GameObject hitMarker;
@@ -30,18 +29,26 @@ public class Gun : MonoBehaviour
 
     private void Start()
     {
+        PV = GetComponentInParent<PhotonView>();
         if (equipped && PV.IsMine)
         {          
             ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
+            playerOrientation = GetComponentInParent<Camera>().gameObject;
+            WeaponHolder = GetComponentInParent<WeaponSway>().gameObject;
+            thisCollider = gameObject.transform.parent.parent.parent.GetComponentInChildren<CapsuleCollider>();
+            audioSource = GetComponent<AudioSource>();
             gunData.currentAmmo = gunData.magSize;
             gunData.reserveAmmo = gunData.maxReserveAmmo;
-            PlayerShoot.shootInput += Shoot;
-            PlayerShoot.reloadInput += ReloadInit;
+            var shoot = GetComponentInParent<PlayerShoot>();
+            shoot.shootInput += Shoot;
+            shoot.reloadInput += ReloadInit;
+            //PlayerShoot.shootInput += Shoot;
+            //PlayerShoot.reloadInput += ReloadInit;
             animator = GetComponent<Animator>();
-        }
 
-        hitMarker = GameObject.Find("HitMarker");
-        if(hitMarker) hitMarker.SetActive(false);
+            hitMarker = GameObject.Find("HitMarker");
+            if(hitMarker) hitMarker.SetActive(false);
+        }
     }
 
     private IEnumerator Reload()
@@ -59,22 +66,23 @@ public class Gun : MonoBehaviour
 
     public void ReloadInit()
     {
-        if(!gunData.isReloading && gunData.magSize != gunData.currentAmmo && this.gameObject.activeSelf)
-        {
-            StartCoroutine(Reload());
-            animator.SetTrigger("Reload");
-            switch(gunData.name) {
-                case "M1911":
-                    PV.RPC("TriggerAnimPistol", RpcTarget.Others, "Reload");
-                    break;
-                case "SPAS-12":
-                    PV.RPC("TriggerAnimShotgun", RpcTarget.Others, "Reload");
-                    break;
-                case "AK-47":
-                    PV.RPC("TriggerAnimAK", RpcTarget.Others, "Reload");
-                    break;
-                default:
-                    break;
+        if (this.gameObject.activeSelf) {
+            if(!gunData.isReloading && gunData.magSize != gunData.currentAmmo) {
+                StartCoroutine(Reload());
+                animator.SetTrigger("Reload");
+                switch(gunData.name) {
+                    case "M1911":
+                        PV.RPC("TriggerAnimPistol", RpcTarget.Others, "Reload");
+                        break;
+                    case "SPAS-12":
+                        PV.RPC("TriggerAnimShotgun", RpcTarget.Others, "Reload");
+                        break;
+                    case "AK-47":
+                        PV.RPC("TriggerAnimAK", RpcTarget.Others, "Reload");
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
