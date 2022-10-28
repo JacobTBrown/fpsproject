@@ -344,7 +344,13 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
             if (r.CustomProperties.ContainsKey("mode"))
             {
                 //if (debug) Debug.Log("had mode key");
-                newRoomItemPrefab.transform.Find("modeText").GetComponent<Text>().text = r.CustomProperties["mode"].ToString();
+                if ((int)r.CustomProperties["mode"] == 0)
+                {
+                    newRoomItemPrefab.transform.Find("modeText").GetComponent<Text>().text = "FFA   ";
+                }else if ((int)r.CustomProperties["mode"] == 1)
+                {
+                    newRoomItemPrefab.transform.Find("modeText").GetComponent<Text>().text = "TEAMS ";
+                }
                 //if (debug) Debug.Log(r.CustomProperties["mode"].ToString());//for changing the map inside the room
             }
             if (debug) Debug.Log("info: " + newRoomItemPrefab.GetComponent<RoomListItemNew>().info);
