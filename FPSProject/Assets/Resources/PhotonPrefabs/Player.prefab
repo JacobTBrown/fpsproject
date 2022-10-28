@@ -51,7 +51,6 @@ MonoBehaviour:
   gunData: {fileID: 11400000, guid: f77097ee38501914f8b0094609297439, type: 2}
   muzzle: {fileID: 4006288894032057998}
   flash: {fileID: 7119176687980428400}
-  player: {fileID: 0}
   playerOrientation: {fileID: 4017857724056262080}
   WeaponHolder: {fileID: 2002808870315144946}
   hitMarker: {fileID: 0}
@@ -242,7 +241,6 @@ MonoBehaviour:
   gunData: {fileID: 11400000, guid: 227dee7a740b23f478691f2746945596, type: 2}
   muzzle: {fileID: 2002808868805825866}
   flash: {fileID: 2002808868805825864}
-  player: {fileID: 0}
   playerOrientation: {fileID: 4017857724056262080}
   WeaponHolder: {fileID: 2002808870315144946}
   hitMarker: {fileID: 0}
@@ -10291,7 +10289,6 @@ MonoBehaviour:
   gunData: {fileID: 11400000, guid: 362ffc4e3b47ef8439717f956df7c852, type: 2}
   muzzle: {fileID: 4478112272137009839}
   flash: {fileID: 4677938623586117232}
-  player: {fileID: 0}
   playerOrientation: {fileID: 4017857724056262080}
   WeaponHolder: {fileID: 2002808870315144946}
   hitMarker: {fileID: 0}
@@ -10620,6 +10617,7 @@ MonoBehaviour:
     type: 3}
   invertMouse: 0
   chatIsOpen: 0
+  team: 
 --- !u!114 &3173107398918425437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10659,12 +10657,19 @@ MonoBehaviour:
   wallToLeft: 0
   wallToRight: 0
   canDoubleJump: 0
+  canWallJump: 0
   canStartSlide: 0
   isClimbing: 0
   isCrouching: 0
   isSliding: 0
   isWallrunning: 0
   hasSpeedPowerup: 0
+  useGravity: 1
+  antiGravForce: 0.32
+  maxSlideTime: 2
+  slideTimer: 0
+  maxBeforeWallJumpTime: 0.5
+  beforeWallJumpTimer: 0
   wallCheckDistance: 0.7
   playerState: 1
   PV: {fileID: 0}
@@ -10728,6 +10733,7 @@ MonoBehaviour:
   ObservedComponents:
   - {fileID: -8896846525926025363}
   - {fileID: -5931245863507772595}
+  - {fileID: 4017857724056262084}
   - {fileID: 625458334813862768}
   - {fileID: 4715249802361258056}
   sceneViewId: 0
@@ -10772,6 +10778,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b4d1fa0b1362e034db2488e82cfdebc7, type: 3}
   - {fileID: 8300000, guid: 4b20e47e97a49b24595efb5c3f653a6e, type: 3}
   - {fileID: 8300000, guid: ae9dd47a2692cb5499fbdb51f9b8943a, type: 3}
+  parkour: {fileID: 0}
+  playParkourSound: 0
 --- !u!114 &7328578966516939411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11168,6 +11176,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 4017857724056262081}
   playerTransform: {fileID: 3173107399746349717}
+  playerBodyTransform: {fileID: 3173107400187305611}
+  ifTilting: 0
 --- !u!114 &625458334813862768
 MonoBehaviour:
   m_ObjectHideFlags: 0
