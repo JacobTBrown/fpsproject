@@ -1,4 +1,6 @@
-﻿using Photon.Pun;
+using ExitGames.Client.Photon;
+using Photon.Realtime;
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Scripts.Jonathan;
@@ -23,10 +25,6 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
     }
     void Start()
     {
-
-        //Debug.Log(PV.name.ToString());
-        // if (PV.IsMine)
-        // {
         Debug.Log("Starting player damage");
         impact = GetComponent<AudioSource>();
         DamageFlash = GameObject.Find("DamageFlash").GetComponent<Animator>();
@@ -37,7 +35,6 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
 
         //healthBar.SetMaxHealth(100);
         Debug.Log(currentHealth);
-        //}
     }
 
     void Update()
@@ -45,7 +42,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         if (Input.GetKeyDown(KeyCode.BackQuote))
         {
             Debug.Log("TEST DAMAGE KEY PRESSED, PLAYER TAKES 20 DAMAGE!");
-            Damage(20f);
+            Damage(20f, PV.ViewID);
         }
         healthBar.SetHealth(currentHealth, PV);
         if (isInvincible) healthBar.changeColor(PV, Color.blue);
@@ -54,14 +51,14 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            Debug.Log("TEST: NEW PLAYER KILL EVENT FOR " + player);
-            PlayerKillEvent playerKillEvent = Events.PlayerKillEvent;
-            playerKillEvent.player = player;
-            EventManager.Broadcast(playerKillEvent);
+            /*
+                This is for testing purposes only
+            */
+            onDie(PV.ViewID);
         }
     }
 
-    public void Damage(float damage)
+    public void Damage(float damage, int EnemyPlayer)
     {
         if(PV.IsMine)
         {
@@ -76,15 +73,14 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         }
         if (currentHealth <= 0)
         {
-
-            PlayerDeathEvent evt = Events.PlayerDeathEvent;
+            onDie(EnemyPlayer);
+            PlayerDeathEvent evt = Events.PlayerDeathEvent; // ?
             if (PV.IsMine)
             {
                 evt.player = player;
                 currentHealth = 100;
                 healthBar.SetHealth(currentHealth, PV);
-                EventManager.Broadcast(evt);
-                
+               //EventManager.Broadcast(evt);
             }
             
             Debug.Log("A player has died!");
@@ -93,4 +89,20 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
             //chaging to jonathan's script
         }
     }
+
+    public void onDie(int EnemyPlayer){
+     
+            Debug.Log(PV.ViewID + " was killed by " + EnemyPlayer);
+            RaiseEventOptions o = new RaiseEventOptions { Receivers = ReceiverGroup.All };
+            PlayerStatsPage pstats = GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>();
+            pstats.gotKill = EnemyPlayer;
+            pstats.onDie = true;
+            pstats.gotKilled = PV.ViewID;
+            int DeadviewID = PV.ViewID;
+            //object[] obj = new object[]{DeadviewID, EnemyPlayer};
+            object[] obj = {DeadviewID, EnemyPlayer};
+        //Debug.Log(obj[0].ToString() + obj[1].ToString() + " was your obj");
+            PhotonNetwork.RaiseEvent(0, obj, o, SendOptions.SendReliable); //PhotonEvent.PLAYERDEATH
+            //PhotonNetwork.RaiseEvent(PhotonEvents.PLAYERKILL, obj, o, SendOptions.SendReliable);
+        }
 }

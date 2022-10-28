@@ -42,6 +42,8 @@ public class PlayerSettings : MonoBehaviour
     // For the user to invert the Y mouse look
     public bool invertMouse = false;
     public bool chatIsOpen = false;
+    public List<int> team;
+
     [Header("User Keybinds")]
     public Dictionary<KeycodeFunction, KeyCode> inputSystemDic = new Dictionary<KeycodeFunction, KeyCode>() {
         { KeycodeFunction.leftMove, KeyCode.A},
@@ -60,7 +62,7 @@ public class PlayerSettings : MonoBehaviour
         };
 
     void Start() {
-        Debug.Log("GameObject.Name," + gameObject.name);
+        //Debug.Log("GameObject.Name," + gameObject.name);
         PV = GetComponent<PhotonView>();
         //Debug.Log("PV instantiate: " + PV.ViewID);
         //playermanager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
@@ -73,7 +75,7 @@ public class PlayerSettings : MonoBehaviour
         viewID = PV.ViewID;
         nickname = PV.Owner.NickName;
         // end add by Jacob Brown
-
+    
         if (PV.IsMine)
         {
             // Added by Jacob Brown: 10/13/2022

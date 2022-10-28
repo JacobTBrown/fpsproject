@@ -121,6 +121,7 @@ namespace Photon.Pun
         {
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += (scene, loadingMode) =>
             {
+                Debug.Log("Scene loaded: " + scene.name);
                 PhotonNetwork.NewSceneLoaded();
             };
         }
@@ -135,32 +136,32 @@ namespace Photon.Pun
         /// <summary>Called in intervals by UnityEngine. Affected by Time.timeScale.</summary>
         protected void FixedUpdate()
         {
-            #if PUN_DISPATCH_IN_FIXEDUPDATE
+#if PUN_DISPATCH_IN_FIXEDUPDATE
             this.Dispatch();
-            #elif PUN_DISPATCH_IN_LATEUPDATE
+#elif PUN_DISPATCH_IN_LATEUPDATE
             // do not dispatch here
-            #else
+#else
             if (Time.timeScale > PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate)
             {
                 this.Dispatch();
             }
-            #endif
+#endif
         }
 
         /// <summary>Called in intervals by UnityEngine, after running the normal game code and physics.</summary>
         protected void LateUpdate()
         {
-            #if PUN_DISPATCH_IN_LATEUPDATE
+#if PUN_DISPATCH_IN_LATEUPDATE
             this.Dispatch();
-            #elif PUN_DISPATCH_IN_FIXEDUPDATE
+#elif PUN_DISPATCH_IN_FIXEDUPDATE
             // do not dispatch here
-            #else
+#else
             // see MinimalTimeScaleToDispatchInFixedUpdate and FixedUpdate for explanation:
             if (Time.timeScale <= PhotonNetwork.MinimalTimeScaleToDispatchInFixedUpdate)
             {
                 this.Dispatch();
             }
-            #endif
+#endif
 
             int currentMsSinceStart = (int)(Time.realtimeSinceStartup * 1000); // avoiding Environment.TickCount, which could be negative on long-running platforms
             if (PhotonNetwork.IsMessageQueueRunning && currentMsSinceStart > this.nextSendTickCountOnSerialize)
@@ -246,6 +247,7 @@ namespace Photon.Pun
 
         public void OnCreatedRoom()
         {
+            Debug.Log("phandler onCreateRoom");
             PhotonNetwork.SetLevelInPropsIfSynced(SceneManagerHelper.ActiveSceneName);
         }
 
@@ -259,12 +261,13 @@ namespace Photon.Pun
 
         public void OnMasterClientSwitched(Player newMasterClient)
         {
+            Debug.Log("master client switch");
             var views = PhotonNetwork.PhotonViewCollection;
             foreach (var view in views)
             {
                 if (view.IsRoomView)
                 {
-                    view.OwnerActorNr= newMasterClient.ActorNumber;
+                    view.OwnerActorNr = newMasterClient.ActorNumber;
                     view.ControllerActorNr = newMasterClient.ActorNumber;
                 }
             }
@@ -301,7 +304,7 @@ namespace Photon.Pun
                 int viewCreatorId = view.CreatorActorNr;
 
                 // on join / rejoin, assign control to either the Master Client (for room objects) or the owner (for anything else)
-                    view.RebuildControllerCache();
+                view.RebuildControllerCache();
 
                 // Rejoining master should enforce its world view, and override any changes that happened while it was soft disconnected
                 if (amRejoiningMaster)
@@ -322,6 +325,7 @@ namespace Photon.Pun
         {
             // Destroy spawned objects and reset scene objects
             PhotonNetwork.LocalCleanupAnythingInstantiated(true);
+            //PhotonNetwork.LoadLevel(0); !
         }
 
 
@@ -364,6 +368,7 @@ namespace Photon.Pun
 
         public void OnPlayerLeftRoom(Player otherPlayer)
         {
+            Debug.Log("from PhotonHandler.cs");
             var views = PhotonNetwork.PhotonViewCollection;
 
             int leavingPlayerId = otherPlayer.ActorNumber;
@@ -373,6 +378,7 @@ namespace Photon.Pun
             // Master will take control of this objects until the player hard disconnects, or returns.
             if (isInactive)
             {
+                   Debug.Log("hit PhotonHandler's soft disconnect");
                 foreach (var view in views)
                 {
                     // v2.27: changed from owner-check to controller-check
@@ -384,6 +390,7 @@ namespace Photon.Pun
             // HARD DISCONNECT: Player permanently removed. Remove that actor as owner for all items they created (Unless AutoCleanUp is false)
             else
             {
+                Debug.Log("hit PhotonHandler's disconnect");
                 bool autocleanup = PhotonNetwork.CurrentRoom.AutoCleanUp;
 
                 foreach (var view in views)

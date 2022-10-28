@@ -4,5 +4,7 @@ using UnityEngine;
 
 public interface GameMode 
 {
-  
+    void CreateGameObjectives();
+    void CreateGameRules();
+    void LoadGameModeUI();
 }

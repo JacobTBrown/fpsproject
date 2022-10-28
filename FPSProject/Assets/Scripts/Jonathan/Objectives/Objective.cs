@@ -6,5 +6,4 @@ using UnityEngine;
 
 public interface Objective 
 {
-    void handleEvent(PlayerKillEvent evt);
 }

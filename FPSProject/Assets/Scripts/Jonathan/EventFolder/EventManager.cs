@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Unity.Scripts.Jonathan
 {
@@ -55,8 +56,12 @@ namespace Unity.Scripts.Jonathan
 
         public static void Broadcast(GameEvent evt)
         {
+            //Debug.Log("broadcasting: " + evt);
             if (s_Events.TryGetValue(evt.GetType(), out var action))
-                action.Invoke(evt);
+            {
+                Debug.Log("invoke: " + evt);
+               action.Invoke(evt); 
+            }
         }
 
         public static void Clear()

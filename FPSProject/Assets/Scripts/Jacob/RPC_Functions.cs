@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
-public class RPC_Functions : MonoBehaviour
+public class RPC_Functions : MonoBehaviourPunCallbacks
 {
     public WeaponSwap weaponSwap;
     [SerializeField]
@@ -29,7 +30,6 @@ public class RPC_Functions : MonoBehaviour
         }
         pistol.Play();
     }
-
     [PunRPC]
     public void TriggerAnimShotgun(string s) {
         shotgunAnim.SetTrigger(s);
@@ -55,5 +55,12 @@ public class RPC_Functions : MonoBehaviour
     [PunRPC]
     public void SetCurrentWeapon(int i) {
         weaponSwap.selected = i;
+    }
+    [PunRPC]
+    public void ClearRPCs(Player o)
+    {
+        Debug.Log(PhotonNetwork.LocalPlayer.NickName + " cleared rpcs for " + o.ActorNumber);
+        if (PhotonNetwork.IsMasterClient)
+            PhotonNetwork.RemoveRPCs(o);
     }
 }

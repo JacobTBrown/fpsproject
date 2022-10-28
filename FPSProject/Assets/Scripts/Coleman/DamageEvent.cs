@@ -7,18 +7,20 @@ public class DamageEvent : MonoBehaviour
 {
     public PhotonView PV;
     public PlayerDamageable damageable;
-    void Start()
-    {
-        damageable = GetComponentInChildren<PlayerDamageable>();
-    }
     void Awake()
     {
         PV = GetComponent<PhotonView>();
     }
+    
+    void Start()
+    {
+        damageable = GetComponentInChildren<PlayerDamageable>();
+    }
+    
 
     [PunRPC]
-    public void DamagePlayer(float damage)
+    public void DamagePlayer(float damage, int EnemyPlayer)
     {
-        damageable.Damage(damage);
+        damageable.Damage(damage, EnemyPlayer);
     }
 }

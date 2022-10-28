@@ -19,7 +19,7 @@ MonoBehaviour:
     AppIdVoice: 
     AppVersion: 
     UseNameServer: 1
-    FixedRegion: us
+    FixedRegion: 
     Server: 
     Port: 0
     ProxyServer: 
@@ -53,6 +53,7 @@ MonoBehaviour:
   - TriggerAnimAK
   - TriggerAnimPistol
   - TriggerAnimShotgun
+  - ClearRPCs
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

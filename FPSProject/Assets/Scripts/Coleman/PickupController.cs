@@ -72,7 +72,6 @@ public class PickupController : MonoBehaviour
     {
         currentWeapon = weapon;
         currentWeapon.transform.parent = weaponHolder;
-        currentWeapon.GetComponent<Gun>().player = transform.gameObject;
         currentWeapon.GetComponent<Gun>().WeaponHolder = weaponHolder.gameObject;
         currentWeapon.GetComponent<Gun>().PV = transform.gameObject.GetComponent<PhotonView>();
         currentWeapon.GetComponent<Gun>().enabled = true;
