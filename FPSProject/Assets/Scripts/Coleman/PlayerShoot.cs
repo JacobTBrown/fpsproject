@@ -22,15 +22,19 @@ public class PlayerShoot : MonoBehaviour
     {
         if (PV.IsMine) {
             if (!DataManager.Instance.IsCanShoot) return;
-       // if (!gun.gunData.fullAuto && gun.gameObject.activeSelf)
-        //{
-            if (Input.GetMouseButtonDown(0)) shootInput?.Invoke();
-        //} else
-        //{
-            if (Input.GetMouseButton(0)) shootInput?.Invoke();
-        //}
-            if (Input.GetKeyDown(reloadKey)) reloadInput?.Invoke();
-            if (Input.GetKeyDown(KeyCode.E)) pickupInput?.Invoke();
+
+            Gun gun = GetComponentInChildren<Gun>();
+            if (!gun.gunData.fullAuto && gun.gameObject.activeSelf) 
+            {
+            //{
+                if (Input.GetMouseButtonDown(0)) shootInput?.Invoke();
+            //} else
+            //{
+                if (Input.GetMouseButton(0)) shootInput?.Invoke();
+            //}
+                if (Input.GetKeyDown(reloadKey)) reloadInput?.Invoke();
+                if (Input.GetKeyDown(KeyCode.E)) pickupInput?.Invoke();
+            }
         }
     }
 }

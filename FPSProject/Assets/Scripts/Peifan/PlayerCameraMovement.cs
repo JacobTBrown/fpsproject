@@ -29,9 +29,13 @@ public class PlayerCameraMovement : MonoBehaviour, IPunObservable
         if (s.IsWriting) {
             //Debug.Log("writing from soundmanager");
             s.SendNext(ifTilting);
+            s.SendNext(rotateYAxis);
+            s.SendNext(playerBodyTransform.rotation);
         } else {
             //Debug.Log("reading in soundmanager");
             ifTilting = (bool) s.ReceiveNext();
+            rotateYAxis = (float) s.ReceiveNext();
+            playerBodyTransform.rotation = (Quaternion) s.ReceiveNext();
         }
     }
 
@@ -39,6 +43,7 @@ public class PlayerCameraMovement : MonoBehaviour, IPunObservable
     {
         playerMove = transform.parent.gameObject.GetComponent<PlayerMovement>();
         playerSettings = transform.parent.gameObject.GetComponent<PlayerSettings>();
+        ifTilting = false;
         // Lock the cursor to the center of the screen 
         Cursor.lockState = CursorLockMode.Locked;
         //// Make the cursor invisible
@@ -94,7 +99,7 @@ public class PlayerCameraMovement : MonoBehaviour, IPunObservable
     }
 
     public void AdjustZTilt(float value) {
-        playerBodyTransform.DORotate(new Vector3(0,rotateYAxis,value), 0.25f);
+        playerBodyTransform.DORotate(new Vector3(0, rotateYAxis, value), 0.25f);
         if (value > 0 || value < 0)
             ifTilting = true;
         else
@@ -102,7 +107,7 @@ public class PlayerCameraMovement : MonoBehaviour, IPunObservable
     }
 
     public void AdjustXTilt(float value) {
-        playerBodyTransform.DOLocalRotate(new Vector3(value,rotateYAxis,0), 0.25f);
+        playerBodyTransform.DORotate(new Vector3(value, rotateYAxis, 0), 0.25f);
         if (value > 0 || value < 0)
             ifTilting = true;
         else

@@ -81,6 +81,48 @@ public class PlayerMovement : MonoBehaviour
         inAir,
     }
 
+    public void OnPhotonSerializeView(PhotonStream s, PhotonMessageInfo i) {
+        if (s.IsWriting) {
+            s.SendNext(moveSpeed);
+            
+            s.SendNext(isOnGround);
+            s.SendNext(isOnSlope);
+            s.SendNext(wallInFront);
+            s.SendNext(wallToLeft);
+            s.SendNext(wallToRight);
+            s.SendNext(canWallJump);
+            s.SendNext(canStartSlide);
+            s.SendNext(isClimbing);
+            s.SendNext(isCrouching);
+            s.SendNext(isSliding);
+            s.SendNext(isWallrunning);
+            s.SendNext(hasSpeedPowerup);
+            s.SendNext(useGravity);
+
+            s.SendNext(playerState);
+            s.SendNext(playerRigidbody.velocity);
+        } else {
+            moveSpeed = (float) s.ReceiveNext();
+
+            isOnGround = (bool) s.ReceiveNext();
+            isOnSlope = (bool) s.ReceiveNext();
+            wallInFront = (bool) s.ReceiveNext();
+            wallToLeft = (bool) s.ReceiveNext();
+            wallToRight = (bool) s.ReceiveNext();
+            canWallJump = (bool) s.ReceiveNext();
+            canStartSlide = (bool) s.ReceiveNext();
+            isClimbing = (bool) s.ReceiveNext();
+            isCrouching = (bool) s.ReceiveNext();
+            isSliding = (bool) s.ReceiveNext();
+            isWallrunning = (bool) s.ReceiveNext();
+            hasSpeedPowerup = (bool) s.ReceiveNext();
+            useGravity = (bool) s.ReceiveNext();
+
+            playerState = (PlayerMovement.MovementState) s.ReceiveNext();
+            playerRigidbody.velocity = (Vector3) s.ReceiveNext();
+        }
+    }
+
     private void Awake()
     {
         PV = GetComponent<PhotonView>();
@@ -330,16 +372,12 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.sprint]) && isOnGround)
         {
-            //IEnumerator coroutine = playerCam.AdjustFov(90);
-            //StartCoroutine(coroutine);
             playerState = MovementState.sprinting;
             moveSpeed = sprintSpeed;
             canDoubleJump = true;
             canStartSlide = true;
             playerCam.AdjustFov(100f);
         } else if (isOnGround) {
-            //IEnumerator coroutine = playerCam.AdjustFov(80);
-            //StartCoroutine(coroutine);
             playerState = MovementState.walking;
             moveSpeed = walkSpeed;
             canDoubleJump = true;
@@ -356,7 +394,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (hasSpeedPowerup) {
+        if (hasSpeedPowerup && !isSliding) {
             moveSpeed = powerUpSpeed;
         }
 
@@ -423,8 +461,6 @@ public class PlayerMovement : MonoBehaviour
                 return sprintSpeed;
             case MovementState.crouching:
                 return crouchSpeed;
-            case MovementState.wallrunning:
-                return crouchSpeed;
             case MovementState.inAir:
                 return airSpeed;
             default:
@@ -435,7 +471,7 @@ public class PlayerMovement : MonoBehaviour
     private void WallJump() {
         if (keybinds.chatIsOpen) return; //Added by zach to disable jump when chat is open
 
-        playerSounds.playParkourSound = true;
+        //playerSounds.playParkourSound = true;
 
         Vector3 wallNormal = wallToRight ? hitRightWall.normal : hitLeftWall.normal;
         Vector3 force = transform.up * jumpForce + wallNormal * (0.50f * jumpForce);

@@ -35,22 +35,10 @@ public class SoundManager : MonoBehaviour, IPunObservable
             //Debug.Log("writing from soundmanager");
             s.SendNext(current);
             s.SendNext(routineCount);
-            if (playerRigidbody != null)
-                s.SendNext(playerRigidbody.velocity);
-            if (playerMovement != null) {
-                s.SendNext(playerMovement.isOnGround);
-                s.SendNext(playerMovement.playerState);
-            }
         } else {
             //Debug.Log("reading in soundmanager");
             current = (int) s.ReceiveNext();
             routineCount = (int) s.ReceiveNext();
-            if (playerRigidbody != null)
-                playerRigidbody.velocity = (Vector3) s.ReceiveNext();
-            if (playerMovement != null) {
-                playerMovement.isOnGround = (bool) s.ReceiveNext();
-                playerMovement.playerState = (PlayerMovement.MovementState) s.ReceiveNext();
-            }
         }
     }
 
