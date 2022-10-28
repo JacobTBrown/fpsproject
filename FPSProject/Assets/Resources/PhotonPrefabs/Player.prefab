@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5387683512004314395}
   - component: {fileID: 1105216267872244601}
-  - component: {fileID: 7684554693769990905}
-  - component: {fileID: 5906172506270970460}
-  - component: {fileID: 1951868690775734185}
   - component: {fileID: 1518026814528493296}
+  - component: {fileID: 1951868690775734185}
+  - component: {fileID: 5906172506270970460}
   m_Layer: 12
   m_Name: Shotgun
   m_TagString: Weapon
@@ -52,7 +51,6 @@ MonoBehaviour:
   gunData: {fileID: 11400000, guid: f77097ee38501914f8b0094609297439, type: 2}
   muzzle: {fileID: 4006288894032057998}
   flash: {fileID: 7119176687980428400}
-  player: {fileID: 0}
   playerOrientation: {fileID: 4017857724056262080}
   WeaponHolder: {fileID: 2002808870315144946}
   hitMarker: {fileID: 0}
@@ -64,35 +62,25 @@ MonoBehaviour:
   gunshot: {fileID: 8300000, guid: c30af09ecc2326d48989af81a1e6112b, type: 3}
   reload: {fileID: 8300000, guid: 082e98c77e72694439e3f026578e5b99, type: 3}
   audioSource: {fileID: 1951868690775734185}
---- !u!54 &7684554693769990905
-Rigidbody:
+--- !u!95 &1518026814528493296
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1281115139371256043}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 3
---- !u!65 &5906172506270970460
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281115139371256043}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d81f0e11576da8a4bad02600a63c27a5, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!82 &1951868690775734185
 AudioSource:
   m_ObjectHideFlags: 0
@@ -189,25 +177,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!95 &1518026814528493296
-Animator:
-  serializedVersion: 3
+--- !u!65 &5906172506270970460
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1281115139371256043}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: d81f0e11576da8a4bad02600a63c27a5, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2002808868783662938
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +202,6 @@ GameObject:
   - component: {fileID: 2002808868783662936}
   - component: {fileID: 2002808868783662937}
   - component: {fileID: 2002808868783662934}
-  - component: {fileID: 130488344898638665}
   - component: {fileID: 4369060684196386015}
   m_Layer: 12
   m_Name: Pistol
@@ -260,7 +241,6 @@ MonoBehaviour:
   gunData: {fileID: 11400000, guid: 227dee7a740b23f478691f2746945596, type: 2}
   muzzle: {fileID: 2002808868805825866}
   flash: {fileID: 2002808868805825864}
-  player: {fileID: 0}
   playerOrientation: {fileID: 4017857724056262080}
   WeaponHolder: {fileID: 2002808870315144946}
   hitMarker: {fileID: 0}
@@ -387,22 +367,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!54 &130488344898638665
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2002808868783662938}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 3
 --- !u!65 &4369060684196386015
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10286,7 +10250,6 @@ GameObject:
   - component: {fileID: 4460171690846231415}
   - component: {fileID: 4685268293628448926}
   - component: {fileID: 8781171675687005240}
-  - component: {fileID: 6101376775361234267}
   - component: {fileID: 233893545563618161}
   m_Layer: 12
   m_Name: AK
@@ -10326,7 +10289,6 @@ MonoBehaviour:
   gunData: {fileID: 11400000, guid: 362ffc4e3b47ef8439717f956df7c852, type: 2}
   muzzle: {fileID: 4478112272137009839}
   flash: {fileID: 4677938623586117232}
-  player: {fileID: 0}
   playerOrientation: {fileID: 4017857724056262080}
   WeaponHolder: {fileID: 2002808870315144946}
   hitMarker: {fileID: 0}
@@ -10453,22 +10415,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!54 &6101376775361234267
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2714573879700896334}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 1
-  m_Constraints: 0
-  m_CollisionDetection: 3
 --- !u!65 &233893545563618161
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10716,6 +10662,10 @@ MonoBehaviour:
   isSliding: 0
   isWallrunning: 0
   hasSpeedPowerup: 0
+  useGravity: 1
+  antiGravForce: 0.3
+  maxSlideTime: 2
+  slideTimer: 0
   wallCheckDistance: 0.7
   playerState: 1
   PV: {fileID: 0}
@@ -11161,7 +11111,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4017857724056262080}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -11219,6 +11169,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 4017857724056262081}
   playerTransform: {fileID: 3173107399746349717}
+  playerBodyTransform: {fileID: 3173107400187305611}
+  ifTilting: 0
 --- !u!114 &625458334813862768
 MonoBehaviour:
   m_ObjectHideFlags: 0
