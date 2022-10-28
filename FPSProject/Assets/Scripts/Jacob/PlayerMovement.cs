@@ -40,6 +40,7 @@ public class PlayerMovement : MonoBehaviour
     public bool wallToLeft;
     public bool wallToRight;
     public bool canDoubleJump;
+    public bool canWallJump;
     public bool canStartSlide;
     public bool isClimbing;
     public bool isCrouching;
@@ -52,6 +53,8 @@ public class PlayerMovement : MonoBehaviour
     //timers
     public float maxSlideTime;
     public float slideTimer;
+    public float maxBeforeWallJumpTime;
+    public float beforeWallJumpTimer;
     //wip
     //public bool isWallrunning;
     public float wallCheckDistance;
@@ -67,10 +70,6 @@ public class PlayerMovement : MonoBehaviour
     public MovementState playerState;
     //Adding just a few lines below for PUN
     public PhotonView PV;
-    private void Awake()
-    {
-        PV = GetComponent<PhotonView>();
-    }
     
     public enum MovementState {
         slowwalking,
@@ -81,6 +80,11 @@ public class PlayerMovement : MonoBehaviour
         sliding,
         wallrunning,
         inAir,
+    }
+
+    private void Awake()
+    {
+        PV = GetComponent<PhotonView>();
     }
 
     void Start() {
@@ -134,22 +138,22 @@ public class PlayerMovement : MonoBehaviour
             if (playerState != MovementState.climbing) {
                 if (isWallrunning && !isCrouching) {
                     WallrunMove();
-                    if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.jump]) && !isOnGround)
+                    if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.jump]) && !isOnGround && canWallJump)
                         WallJump();
                 }
                 else if (isSliding)
                     SlideMove();
-                else
+                else {
                     Move();
 
-                // If the player presses the jump button and the player is grounded.
-                if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.jump]) 
-                    && isOnGround && !isWallrunning) //|| (wallrunning.wallLeft || wallrunning.wallRight)))
-                {
-                    Jump();
-                    // Let the player do a double jump after the specified amount of time.
-                    Invoke(nameof(DoubleJump), doubleJumpTimer);
-                }
+                    // If the player presses the jump button and the player is grounded.
+                    if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.jump]) && isOnGround)
+                    {
+                        Jump();
+                        // Let the player do a double jump after the specified amount of time.
+                        Invoke(nameof(DoubleJump), doubleJumpTimer);
+                    }
+                }    
             } else {
                 playerRigidbody.useGravity = false;
                 Jump();
@@ -171,6 +175,11 @@ public class PlayerMovement : MonoBehaviour
         
         if (useGravity)
             playerRigidbody.AddForce(transform.up * antiGravForce, ForceMode.Impulse);
+
+        if (beforeWallJumpTimer > 0)
+            beforeWallJumpTimer -= Time.fixedDeltaTime;
+        else
+            canWallJump = true;
     }
 
     private void SlideMove() {
@@ -227,7 +236,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public IEnumerator DisableName(TextMesh nameMesh) {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(0.25f);
         nameMesh.gameObject.SetActive(false);
     }
 
@@ -364,6 +373,7 @@ public class PlayerMovement : MonoBehaviour
             if (!isWallrunning && !isCrouching && !isSliding) {
                 playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
                 isWallrunning = true;
+                beforeWallJumpTimer = maxBeforeWallJumpTime;
                 playerCam.AdjustFov(90f);
                 if (wallToLeft) playerCam.AdjustZTilt(-15f);
                 if (wallToRight) playerCam.AdjustZTilt(15f);
@@ -375,6 +385,7 @@ public class PlayerMovement : MonoBehaviour
         } else {
             if (isWallrunning) {
                 isWallrunning = false;
+                canWallJump = false;
                 playerCam.AdjustFov(80f);
                 playerCam.AdjustZTilt(0);
             } 
@@ -402,6 +413,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void WallJump() {
         if (keybinds.chatIsOpen) return; //Added by zach to disable jump when chat is open
+
+        playerSounds.playParkourSound = true;
 
         Vector3 wallNormal = wallToRight ? hitRightWall.normal : hitLeftWall.normal;
         Vector3 force = transform.up * jumpForce + wallNormal * (0.50f * jumpForce);
