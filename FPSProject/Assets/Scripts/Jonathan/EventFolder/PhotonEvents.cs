@@ -47,11 +47,11 @@ namespace Unity.Scripts.Jonathan
                 Debug.Log(PhotonView.Find((int)player[0]).gameObject + " was photonEvent.cs's player game obj");
                 PhotonView enemyPV = PhotonView.Find((int)player[1]);
                 Debug.Log("Custom event data " + photonEvent.CustomData.ToString()); 
-                OnPlayerDeath(PhotonView.Find((int)player[0]).gameObject);
+                OnPlayerDeath(PhotonView.Find((int)player[0]).gameObject, enemyPV.gameObject);
             }
         }
 
-        private void OnPlayerDeath(GameObject player){
+        private void OnPlayerDeath(GameObject player, GameObject enemyPlayer){
 
             Debug.Log("OnPlayerDeath was called");
             Debug.Log("TEST: NEW PLAYER KILL EVENT FOR " + player.GetPhotonView().ViewID);
@@ -65,7 +65,7 @@ namespace Unity.Scripts.Jonathan
             EventManager.Broadcast(playerDeathEvent);
 
             PlayerKillEvent playerKillEvent = Events.PlayerKillEvent;
-            playerKillEvent.player = player;
+            playerKillEvent.player = enemyPlayer;
             //playerKillEvent.playerWhoKilled = player;
             EventManager.Broadcast(playerKillEvent);
         }

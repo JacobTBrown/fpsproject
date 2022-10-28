@@ -17,6 +17,7 @@ namespace Unity.Scripts.Jonathan{
 */
     public static class Events
     {
+        public static updateScore Updating = new updateScore();
         public static PlayerDeathEvent PlayerDeathEvent = new PlayerDeathEvent();
         public static PlayerKillEvent PlayerKillEvent = new PlayerKillEvent();
         public static NewPlayerEvent NewPlayerEvent = new NewPlayerEvent();
@@ -31,6 +32,9 @@ namespace Unity.Scripts.Jonathan{
         public static EnemyKillEvent enemyKillEvent = new EnemyKillEvent();
         public static DamageEvent damageEvent = new DamageEvent();
     }
+
+    public class updateScore : GameEvent
+    { }
 
     public class PickupEvent : GameEvent
     {
