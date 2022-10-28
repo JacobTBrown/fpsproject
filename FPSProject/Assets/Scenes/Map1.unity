@@ -10665,6 +10665,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Canvas10-14
       objectReference: {fileID: 0}
+    - target: {fileID: 1652404658913529316, guid: 70e386d9d1b5c724aafdfb42e000d302,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1652404658913529337, guid: 70e386d9d1b5c724aafdfb42e000d302,
         type: 3}
       propertyPath: m_Pivot.x
@@ -47119,7 +47124,6 @@ GameObject:
   - component: {fileID: 5035602244391745663}
   - component: {fileID: 5035602244391745662}
   - component: {fileID: 5035602244391745660}
-  - component: {fileID: 5035602244391745661}
   - component: {fileID: 5035602244391745665}
   - component: {fileID: 5035602244391745664}
   m_Layer: 0
@@ -47153,18 +47157,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 54f6532c9ad128c4c92e35bb13bdc836, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5035602244391745661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5035602244391745658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe37789ea9491c54bbc69cd0bbbe6a01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &5035602244391745662

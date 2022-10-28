@@ -59,7 +59,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
             /*
                 This is for testing purposes only
             */
-          //  onDie();
+            onDie(PV.ViewID);
 
         }
     }

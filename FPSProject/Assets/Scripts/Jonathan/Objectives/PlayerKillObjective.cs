@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Scripts.Jonathan;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class PlayerKillObjective : Objective
     {
         this.player = player;
         this.killsNeeded = DEFAULTKILLSNEEDED;
+        EventManager.AddListener<PlayerKillEvent>(OnPlayerDeath);
     }
 
     public PlayerKillObjective(GameObject player,int killsNeeded)
@@ -23,10 +25,9 @@ public class PlayerKillObjective : Objective
     }
     public void handleEvent(PlayerKillEvent evt){
      //   if(evt.GetType() == typeof(PlayerKillEvent)){
-            Debug.Log("PlayerKill Objective Updated Kills =" +kills);
-            Debug.Log(evt.player+ " VS " +player);
+            Debug.Log("PlayerKill Objective Updated");
               //          PlayerKillEvent e = (PlayerKillEvent)evt;
-            if(evt.player == player){
+            if(evt.killedPlayer == player){
                 kills++;
             }
             if(kills>=killsNeeded){
@@ -36,8 +37,14 @@ public class PlayerKillObjective : Objective
     }
     public void eventCompleted(){
             Debug.Log("Kill Event Completed for " + player );
-            ObjectiveCompletedEvent evt = Events.objectiveCompletedEvent;
+            ObjectiveCompletedEvent evt = Events.ObjectiveCompletedEvent;
             evt.objective = this;
             EventManager.Broadcast(evt);
+    }
+
+    public void OnPlayerDeath(PlayerKillEvent evy)
+    {
+
+        Debug.Log("HEEEEEEEEEEEEEEEEEEEEEEEEEELLLLLLLLLO");
     }
 }
