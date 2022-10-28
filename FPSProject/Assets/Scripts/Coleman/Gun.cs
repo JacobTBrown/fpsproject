@@ -22,6 +22,7 @@ public class Gun : MonoBehaviour
     AudioSource[] sounds;
     AudioSource gunshot;
     AudioSource reload;
+    public PlayerStatsPage pstats;
 
     private RPC_Functions rpcFunc;
 
@@ -29,7 +30,8 @@ public class Gun : MonoBehaviour
 
     private void Start()
     {
-        //Debug.Log("Gun.cs start");
+        pstats = GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>();
+        //Debug.Log(pstats.gameObject.name);
         //Debug.Log(PhotonNetwork.LocalPlayer.NickName);
         rpcFunc = GetComponentInParent<RPC_Functions>();
         rpcFunc.gunShot = GetComponents<AudioSource>()[0];
@@ -61,6 +63,7 @@ public class Gun : MonoBehaviour
            Debug.Log("gun.cs failed");
             equipped = false;
         }
+        
     }
     void Awake()
     {
@@ -136,12 +139,21 @@ public class Gun : MonoBehaviour
                     if (Physics.Raycast(playerOrientation.transform.position, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
                     {
                         if (hitInfo.collider.tag == "Player")
-                        {
-                            //Debug.Log("Hit");
-                            StartCoroutine(playerHit());
+                        {   //some lines added by zach: don't call the RPC if we're on the same team 
+                            Debug.Log("name of hitInfo.transform.GetComponent<PhotonView>()" + hitInfo.transform.GetComponent<PhotonView>());
+                            PhotonView EPV = hitInfo.transform.GetComponent<PhotonView>();
+                            Debug.Log(" hit player with viewID: " + EPV.ViewID);
                             
-                            hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, PV.ViewID);
-                        }
+                            if (pstats.CheckTeam(EPV))
+                            {
+                                Debug.Log("Player was on your team: " + EPV.ViewID + " vs " + PV.ViewID);
+                            }
+                            else
+                            {
+                                StartCoroutine(playerHit());
+                                hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, PV.ViewID);
+                            }
+                         }
                         //IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
                         //Debug.Log(hitInfo);
                         //damageable?.Damage(gunData.damage);

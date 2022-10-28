@@ -32,8 +32,6 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         Debug.Log("Healthbar is: " + healthBar.name);
         healthBar.SetMaxHealth(maxHealth);
         currentHealth = maxHealth;
-
-        //healthBar.SetMaxHealth(100);
         Debug.Log(currentHealth);
     }
 
@@ -55,12 +53,18 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
                 This is for testing purposes only
             */
            // onDie(PV.ViewID);
-
         }
     }
 
     public void Damage(float damage, int EnemyPlayer)
     {
+        PlayerStatsPage pstats = GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>();
+        PhotonView enemyPV = PhotonView.Find(EnemyPlayer);
+        //Debug.Log("began damage");
+    /*    if (pstats.CheckTeam(enemyPV)) // if we're on the same team, just return
+        {
+            return;
+        }*/
         if(PV.IsMine)
         {
             if (!isInvincible)
@@ -81,11 +85,8 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
                 evt.player = player;
                 currentHealth = 100;
                 healthBar.SetHealth(currentHealth, PV);
-               //EventManager.Broadcast(evt);
-            }
-            
+            }         
             Debug.Log("A player has died!");
-            
             //Destroy(transform.gameObject);
             //chaging to jonathan's script
         }
@@ -95,12 +96,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
      
             Debug.Log(PV.ViewID + " was killed by " + EnemyPlayer);
             RaiseEventOptions o = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            PlayerStatsPage pstats = GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>();
-            pstats.gotKill = EnemyPlayer;
-            pstats.onDie = true;
-            pstats.gotKilled = PV.ViewID;
             int DeadviewID = PV.ViewID;
-            //object[] obj = new object[]{DeadviewID, EnemyPlayer};
             object[] obj = {DeadviewID, EnemyPlayer};
         //Debug.Log(obj[0].ToString() + obj[1].ToString() + " was your obj");
             PhotonNetwork.RaiseEvent(PhotonEvents.PLAYERDEATH,obj, o,SendOptions.SendReliable);
