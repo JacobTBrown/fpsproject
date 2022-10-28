@@ -49,10 +49,14 @@ MonoBehaviour:
   - Pickup
   - UpdatePlayerName
   - triggerAnim
+<<<<<<< HEAD
   - SetCurrentWeapon
   - TriggerAnimAK
   - TriggerAnimPistol
   - TriggerAnimShotgun
+=======
+  - ClearRPCs
+>>>>>>> Blake_Brooks(Current)
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

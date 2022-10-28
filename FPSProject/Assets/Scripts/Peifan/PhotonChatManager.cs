@@ -25,7 +25,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     private void Awake()
     {
         instance = this;
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
     }
     public void UsernameOnValueChange(string valueInput)
     {

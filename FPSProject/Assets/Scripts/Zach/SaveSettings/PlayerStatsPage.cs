@@ -1,15 +1,19 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Scripts.Jonathan;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Photon.Realtime;
+using ExitGames.Client.Photon;
 // Zach 10-10: **MODEL** / VIEW / Controller
 // Processes persistant stats for the player.
 // This file dictates when to save - must exist in DoNotDestroyOnLoad to carry over into scenes.
 // Also needs 
 // 10-13  BUGFIX PLS: use onDestroy() to save!!! destroy it and save when we get back to scene 0!!
 // 10-13 9pm: write a save & destroy function for the exit game button! ez fix
-public class PlayerStatsPage : MonoBehaviour
+public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
 {
 
     /*    [HideInInspector] public float totalTime;
@@ -31,10 +35,16 @@ public class PlayerStatsPage : MonoBehaviour
     public DataToStore newData;
     public static PlayerStatsPage Instance;
     [HideInInspector] public string json;
-    bool debug = false;
+    bool debug = true;
     public bool inGame = false;
     float initialTimeInGame;
     public bool saved = false;
+    public int gotKill;
+    public int gotKilled;
+    public bool onDie;
+    PhotonView PPV;
+    PhotonView EPV;
+
     private void Awake()
     {
         // for if we need to persist it between scenes, we only keep the first one?
@@ -43,7 +53,10 @@ public class PlayerStatsPage : MonoBehaviour
         //     Debug.Log("destroy");
         //   Destroy(this);
         //    }
-        
+        onDie = false; //unused with PhotonEvent.cs 
+        EventManager.AddListener<PlayerKillEvent>(SetKills);
+        EventManager.AddListener<PlayerDeathEvent>(SetDeaths);
+
         DontDestroyOnLoad(this.gameObject);
         //going to try making the JSON in DataSaver.cs
         Instance = this;
@@ -69,10 +82,19 @@ public class PlayerStatsPage : MonoBehaviour
         totalDeaths = newData.totalDeaths;
         if (debug) Debug.Log("New data in playerstatspage: " + JsonUtility.ToJson(newData));
     }
+
     private void Start()
     {
         lastInterval = Time.realtimeSinceStartup;
         frames = 0;
+    }
+    private void OnEnable()
+    {
+        PhotonNetwork.AddCallbackTarget(this);
+    }
+    private void OnDisable()
+    {
+        PhotonNetwork.RemoveCallbackTarget(this);
     }
     public void SaveOnExit()
     {
@@ -98,7 +120,7 @@ public class PlayerStatsPage : MonoBehaviour
     {
         if (exp > 0)
         {
-            Debug.Log("saving with extra exp 0 exp: " + exp + "+= " +newExp);
+            //Debug.Log("saving with extra exp 0 exp: " + exp + "+= " +newExp);
             exp += (int)newExp;
             newExp = 0;
         }
@@ -120,13 +142,16 @@ public class PlayerStatsPage : MonoBehaviour
     }
     private void OnLevelWasLoaded(int level)
     {
-        if (debug) Debug.Log("scene transition to #" + level);
+        //if (debug) Debug.Log("scene transition to #" + level);
         if (level > 0)
         {
+            // set pv of player for events if needed
+            //PV = PhotonNetwork;
             inGame = true;
         }
         else
         {
+            
             inGame = false;
         }
     }
@@ -142,7 +167,7 @@ public class PlayerStatsPage : MonoBehaviour
     private void OnDestroy()
     {
         //this.totalTime = Time.realtimeSinceStartup;
-        if (debug) Debug.Log("Saving on exit" + this.totalTime);
+        //if (debug) Debug.Log("Saving on exit" + this.totalTime);
         if (SceneManager.GetActiveScene().buildIndex > 0)
         {
             if (debug) Debug.Log("logging");
@@ -157,6 +182,7 @@ public class PlayerStatsPage : MonoBehaviour
         
         //GameObject.Destroy(gameObject);
     }
+    
     /*
     private void OnApplicationQuit()
     {
@@ -176,7 +202,7 @@ public class PlayerStatsPage : MonoBehaviour
     {
         
         if (SceneManager.GetActiveScene().buildIndex > 0){
-            if (debug) Debug.Log("logging");
+            //if (debug) Debug.Log("logging");
             timeInGame += Time.timeSinceLevelLoad;
         }
         timeInGame += Time.timeSinceLevelLoad;
@@ -207,6 +233,61 @@ public class PlayerStatsPage : MonoBehaviour
     {
         return this.totalKills;
     }
+    public void SetKills()
+    {
+ 
+        Debug.Log("PlayerStatsPage.cs did setKills manually");
+            totalKills++;
+            return;
+
+    }
+    public void setDeaths()
+    {
+        Debug.Log("PlayerStatsPage.cs did setDeaths manually");
+        totalDeaths++;
+        return;
+    }
+    public void SetKills(PlayerKillEvent evt)
+    { //unused with the PhotonEvents
+        
+      /*  PhotonView killeePV = PhotonView.Find(gotKilled);
+        PhotonView killerPV = PhotonView.Find(gotKill);
+        Debug.Log(killeePV + " was killee, " + killerPV + " was killer");
+        // BUGLOG: gives me 2 kills when a different player gets a kill
+        Debug.Log(evt.player.GetComponent<PhotonView>().OwnerActorNr + "is actor number calling setKills");
+      //  if (PhotonNetwork.LocalPlayer.ActorNumber == evt.player.GetComponent<PhotonView>().OwnerActorNr)
+           if (!onDie && PhotonNetwork.LocalPlayer.ActorNumber == evt.player.GetComponent<PhotonView>().OwnerActorNr)
+        {
+            Debug.Log("PlayerStatsPage.cs Event: " + evt + " Set kills for local player " + PhotonNetwork.LocalPlayer.ActorNumber); 
+            //totalKills++;
+            onDie = false;
+            return;
+        }
+        else
+        {
+            Debug.Log(" you were killed ");
+        }
+        *//*      Debug.Log("PlayerStatsPage.cs Event: " + evt);
+              totalKills++;*//*
+        onDie = false;
+        return;*/
+    }
+    public void SetDeaths(PlayerDeathEvent evt)
+    {
+     /*   PhotonView killeePV = PhotonView.Find(gotKilled);
+        PhotonView killerPV = PhotonView.Find(gotKill);
+        //Debug.Log("This player's actor # is: " + PhotonNetwork.LocalPlayer.ActorNumber);
+
+        Debug.Log(evt.player.GetComponent<PhotonView>().OwnerActorNr + "is actor number calling setDeaths");
+        Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber + "is local actor number");
+        if (evt.player.GetComponent<PhotonView>().OwnerActorNr == PhotonNetwork.LocalPlayer.ActorNumber)
+       //if (killeePV.IsMine)
+        {
+            Debug.Log("PlayerStatsPage.cs Event: " + evt);
+            //totalDeaths++;
+        }*/
+
+    }
     public int GetDeaths()
     {
         return this.totalDeaths;
@@ -217,5 +298,36 @@ public class PlayerStatsPage : MonoBehaviour
         level = lvl;
         exp = xp;
         newExp = 0;
+    }
+
+   public void OnEvent(EventData photonEvent)
+    {
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0)) 
+        {
+            Debug.Log("dont do this on scene 0");
+            return;
+        }
+        byte eventCode = photonEvent.Code;
+        if (eventCode == PhotonEvents.PLAYERDEATH)
+        {
+            
+            Debug.Log("Sender: " + photonEvent.Sender.ToString());
+            object[] data = (object[])photonEvent.CustomData;
+            int EnemyPlayer = (int)data[1]; //the photon view of the person who dealt damage
+            Debug.Log(data[1].ToString() + " was enemy player data");
+            EPV = PhotonNetwork.GetPhotonView(EnemyPlayer);
+            Debug.Log("Enemy player was: " + EnemyPlayer.ToString() + " vs my actor #: " + PhotonNetwork.LocalPlayer.ActorNumber);
+            PPV = PhotonNetwork.GetPhotonView((int)data[0]);
+            if (PPV.IsMine)
+            {
+                Debug.Log("Set deaths manually for: " + PhotonNetwork.LocalPlayer.ActorNumber);
+                setDeaths();
+            }
+            else if (EPV.IsMine)
+            {
+                Debug.Log("Set kills manually for: " + PhotonNetwork.LocalPlayer.ActorNumber);
+                SetKills();
+            }
+        }
     }
 }

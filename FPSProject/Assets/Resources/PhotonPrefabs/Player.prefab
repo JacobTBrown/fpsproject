@@ -10714,6 +10714,7 @@ MonoBehaviour:
     type: 3}
   invertMouse: 0
   chatIsOpen: 0
+  team: 
 --- !u!114 &3173107398918425437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10737,14 +10738,19 @@ MonoBehaviour:
   groundDrag: 5
   slowWalkSpeed: 25
   walkSpeed: 40
+<<<<<<< HEAD
   sprintSpeed: 55
   crouchSpeed: 15
+=======
+  sprintSpeed: 50
+  crouchSpeed: 25
+>>>>>>> Blake_Brooks(Current)
   powerUpSpeed: 0
-  wallrunSpeed: 40
+  wallrunSpeed: 0
   airDrag: 1.25
   airSpeed: 12
-  crouchYScale: 0.5
-  maxSlopeAngle: 60
+  crouchYScale: 10
+  maxSlopeAngle: 10
   jumpForce: 10
   doubleJumpTimer: 0.5
   isOnGround: 1
@@ -10753,7 +10759,10 @@ MonoBehaviour:
   wallToLeft: 0
   wallToRight: 0
   canDoubleJump: 0
+<<<<<<< HEAD
   canWallJump: 0
+=======
+>>>>>>> Blake_Brooks(Current)
   canStartSlide: 0
   isClimbing: 0
   isCrouching: 0

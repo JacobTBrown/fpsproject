@@ -15,7 +15,7 @@ public class MenuManager : MonoBehaviour
     {
         Instance = this;
         Debug.Log("MenuStart");
-        OpenMenu("welcome");
+        //OpenMenu("welcome");
     }
 
     public void OpenMenu(string menuName)

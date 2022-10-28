@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using Unity.Scripts.Jonathan;
 using UnityEngine;
@@ -23,11 +24,22 @@ public class PlayerKillObjective : Objective
     }
     public void handleEvent(PlayerKillEvent evt){
      //   if(evt.GetType() == typeof(PlayerKillEvent)){
-            Debug.Log("PlayerKill Objective Updated Kills =" +kills);
-            Debug.Log(evt.player+ " VS " +player);
-              //          PlayerKillEvent e = (PlayerKillEvent)evt;
-            if(evt.player == player){
+            Debug.Log("PlayerKill Objective Updated Kills =" + kills);
+            Debug.Log(evt.player.GetComponent<PhotonView>().ViewID + " VS " + player.GetComponent<PhotonView>().ViewID);
+        if (evt.player.GetComponent<PhotonView>().ViewID != player.GetComponent<PhotonView>().ViewID)
+        {
+            
+            Debug.Log("kills++" + " for " + player.GetComponent<PhotonView>().ViewID);
+        }
+        //          PlayerKillEvent e = (PlayerKillEvent)evt;
+        if (evt.player == player){
                 kills++;
+           // if (evt.player.GetComponent<PhotonView>().IsMine)
+           // {
+                //GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().SetKills();
+                Debug.Log("kills++" + " for " + evt.player.GetComponent<PhotonView>().ViewID);
+                //Debug.Log(" or kills++" + " for " + player.GetComponent<PhotonView>().ViewID);
+          //  }
             }
             if(kills>=killsNeeded){
              eventCompleted();

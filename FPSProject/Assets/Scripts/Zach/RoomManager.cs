@@ -61,9 +61,10 @@ public class RoomManager : MonoBehaviourPunCallbacks
     {
         //!
         if (scene.buildIndex >= 1) {
+            //if (PhotonNetwork.LocalPlayer.HasRejoined)
             playerManager = GameObject.Find("GameManager").GetComponent<PlayerManager>();
             //{//instantiate the player prefab into scene 1 (ALL Players in the room execute this code in their own game)
-            Debug.Log("player prefab instantiate");
+            //Debug.Log("player prefab instantiate");
             //https://stackoverflow.com/questions/54981930/how-to-give-unique-ids-to-instantiated-objects-in-unity-c-sharp
             playerManager.CreateNewPlayer();
             PlayerStatsPage.Instance.StartInGameTimer();

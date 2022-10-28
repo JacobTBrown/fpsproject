@@ -39,7 +39,7 @@ namespace Unity.Scripts.Jonathan
         }
         public void addRule(Rule r)
         {
-            Debug.Log("NEW RULE: " + r);
+            //Debug.Log("NEW RULE: " + r);
             ruleList.Add(r);
         }
 

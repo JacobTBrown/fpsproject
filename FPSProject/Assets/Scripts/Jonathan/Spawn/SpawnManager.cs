@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Unity.Scripts.Jonathan
 {
+	
 	public class SpawnManager : MonoBehaviour
 	{
 		//we'll need to access this elsewhere for the multiplayer
@@ -15,21 +16,27 @@ namespace Unity.Scripts.Jonathan
 
 	    void Awake()
 	    {
+			
+			if (Instance)
+				Debug.Log("Instance already existed");
 			Instance = this;
+			
 	        SpawnPoints = new List<SpawnController>();
 
-	        EventManager.AddListener<PlayerDeathEvent>(OnPlayerDeath);
+	        EventManager.AddListener<PlayerSpawnEvent>(OnPlayerSpawn);
 
 	        strategy = new RandomSpawnStrategy();
+
 	    }
 	
 	    public void RegisterSpawnPoint(SpawnController SpawnPoint)
 	    {
+			//Debug.Log("Register Spawn Point: " );
 	        SpawnPoints.Add(SpawnPoint);
 	        NumberofSpawnPoints++;
 	    }
 	
-	    void OnPlayerDeath(PlayerDeathEvent evt){
+	    void OnPlayerSpawn(PlayerSpawnEvent evt){
 	        HandlePlayerSpawn(evt.player);
 	    }
 
