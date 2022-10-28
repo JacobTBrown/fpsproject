@@ -269,8 +269,11 @@ public class Launcher : MonoBehaviourPunCallbacks
         //string myText = myRoomBtn.transform.Find("nameText").GetComponent<Text>().text = roomNameInputField.text;
         //myRoomBtn.transform.Find("sizeText").GetComponent<Text>().text = "1/" + mapValue.text;
 
-            //myRoomBtn.transform.Find("mapText").GetComponent<Text>().text = mapValue.text;
+        //myRoomBtn.transform.Find("mapText").GetComponent<Text>().text = mapValue.text;
         //Debug.Log("created room with values" + myText);
+
+        DataManager.Instance.SetRoomName(roomNameInputField.text);
+
     }
     private void ClearRoomList()
     {
@@ -361,6 +364,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         MenuManager.Instance.OpenMenu("room");
         base.OnJoinedRoom();
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
+        DataManager.Instance.SetRoomName(roomNameText.text);
         //serverSettingsButton.SetActive(PhotonNetwork.IsMasterClient);
         foreach (Transform child in playerListContent)
         {
@@ -376,6 +380,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         //gameDMButton.SetActive(PhotonNetwork.IsMasterClient);
         //mapSelectButton.SetActive(PhotonNetwork.IsMasterClient);
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+        //PhotonNoGameChatManager.instance.StartChat();
+
     }
 
     //if the host leaves, another player is automatically given host privilages.

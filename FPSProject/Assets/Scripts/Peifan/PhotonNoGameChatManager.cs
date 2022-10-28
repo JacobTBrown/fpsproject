@@ -6,38 +6,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/*
-    Author: Peifan Tian
-    Creation: 10/03/22
-    Last Edit: 10/21/22 -Peifan
-
-*/
-public class PhotonChatManager : MonoBehaviour, IChatClientListener
+public class PhotonNoGameChatManager : MonoBehaviour, IChatClientListener
 {
-
-
     private bool isConnected;
     public string playerName;
+    public GameObject obj;
     public GameObject joinChatButton;
     private ChatClient chatClient;
-    public static PhotonChatManager instance;
+    public static PhotonNoGameChatManager instance;
 
     private void Awake()
     {
         instance = this;
-        DontDestroyOnLoad(this);
-    }
-    public void UsernameOnValueChange(string valueInput)
-    {
-        playerName = valueInput;
     }
 
-    public void ChatConnectOnClick()
+    public void StartChat()
     {
+        obj.gameObject.SetActive(true);
+        playerName = DataManager.Instance.UserId;
         isConnected = true;
         chatClient = new ChatClient(this);
         chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion, new AuthenticationValues(playerName));
-        //chatClient.ConnectAndSetStatus(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion, new AuthenticationValues(playerName), ChatUserStatus.Playing);
     }
 
     public GameObject chatPanel;
@@ -45,25 +34,6 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     public Text chatDisplay;
     private string sendPrivatelyTo = "";
     private string enterText;
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        Invoke("Delay",2f);
-    }
-
-    void Delay() 
-    {
-        chatClient.PublishMessage(DataManager.Instance.GetRoomName(), "joingame");
-        ///订阅消息
-        bool isSubscribed = chatClient.Subscribe(DataManager.Instance.GetRoomName());
-        if (isSubscribed)
-        {
-            Debug.LogError("Subscribed");
-        }
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -73,14 +43,14 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
             chatClient.Service();
         }
 
-        if (chatField.text != "") 
+        if (chatField.text != "")
         {
             if (Input.GetKey(KeyCode.Return))
             {
                 SubmitPublicChatOnClick();
                 SubmitPrivateChatOnClick();
             }
-        }   
+        }
     }
 
     public void SubmitPublicChatOnClick()
@@ -88,9 +58,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
         if (sendPrivatelyTo == "")
         {
             if (enterText == "") return;
-            Debug.LogError("DataManager.Instance.GetRoomName() = " + DataManager.Instance.GetRoomName());
-            //chatClient.PublishMessage("RegionChannel", enterText);
-            chatClient.PublishMessage(DataManager.Instance.GetRoomName(), enterText);
+            chatClient.PublishMessage("RegionChannel", enterText);
             chatField.text = "";
             enterText = "";
         }
@@ -151,7 +119,8 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
         string text = "";
         int length = 0;
 
-        while(length < senders.Length){
+        while (length < senders.Length)
+        {
             text = senders[length] + ": " + messages[length];
             chatDisplay.text += "\n" + text;
             length++;
@@ -161,8 +130,8 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
 
     public void OnPrivateMessage(string sender, object message, string channelName)
     {
-        string text = "(private)" + " " + sendPrivatelyTo +": "+ message;
-        chatDisplay.text +=  "\n " + text;
+        string text = "(private)" + " " + sendPrivatelyTo + ": " + message;
+        chatDisplay.text += "\n " + text;
 
     }
 
@@ -190,5 +159,4 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         throw new System.NotImplementedException();
     }
-
 }
