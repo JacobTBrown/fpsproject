@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /*
     Author: Peifan Tian
     Creation: 10/03/22
-    Last Edit: 10/08/22 -Peifan
+    Last Edit: 10/21/22 -Peifan
 
 */
 public class PhotonChatManager : MonoBehaviour, IChatClientListener
@@ -21,6 +21,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     public GameObject joinChatButton;
     private ChatClient chatClient;
     public static PhotonChatManager instance;
+    public Dropdown m_ddown;
 
     private void Awake()
     {
@@ -37,6 +38,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
         isConnected = true;
         chatClient = new ChatClient(this);
         chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion, new AuthenticationValues(playerName));
+        //chatClient.ConnectAndSetStatus(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion, new AuthenticationValues(playerName), ChatUserStatus.Playing);
     }
 
     public GameObject chatPanel;
@@ -49,7 +51,18 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     // Start is called before the first frame update
     void Start()
     {
+        Invoke("Delay",2f);
+    }
 
+    void Delay() 
+    {
+        chatClient.PublishMessage(DataManager.Instance.GetRoomName(), "joingame");
+        bool isSubscribed = chatClient.Subscribe(DataManager.Instance.GetRoomName());
+        if (isSubscribed)
+        {
+            Debug.LogError("Subscribed");
+        }
+        
     }
 
     // Update is called once per frame
@@ -75,7 +88,10 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
         if (sendPrivatelyTo == "")
         {
             if (enterText == "") return;
-            chatClient.PublishMessage("RegionChannel", enterText);
+            string InputTxt = m_ddown.value.ToString() + "--" + enterText;
+            Debug.LogError("DataManager.Instance.GetRoomName() = " + DataManager.Instance.GetRoomName());
+            //chatClient.PublishMessage("RegionChannel", enterText);
+            chatClient.PublishMessage(DataManager.Instance.GetRoomName(), InputTxt);
             chatField.text = "";
             enterText = "";
         }
@@ -96,7 +112,8 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
         if (sendPrivatelyTo != "")
         {
             if (enterText == "") return;
-            chatClient.SendPrivateMessage(sendPrivatelyTo, enterText);
+            string InputTxt = m_ddown.value.ToString() + "--" + enterText;
+            chatClient.SendPrivateMessage(sendPrivatelyTo, InputTxt);
             chatField.text = "";
             enterText = "";
         }
@@ -138,16 +155,49 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
 
         while(length < senders.Length){
             text = senders[length] + ": " + messages[length];
-            chatDisplay.text += "\n" + text;
+            string[] value = text.Split(new string[] { "--" }, System.StringSplitOptions.None);
+            string newtext = MakeText(value[0], value[1]);
+            chatDisplay.text += "\n" + newtext;
             length++;
         }
 
     }
 
+    public string MakeText(string style, string value)
+    {
+        string retvalue = "";
+        //Debug.LogError("style = " + style);
+        string[] tmp = style.Split(new string[] { ":" }, System.StringSplitOptions.None);
+        //Debug.LogError("tmp[1] = " + tmp[1]);
+        switch (tmp[1].Trim())
+        {
+            case "0":
+                retvalue = tmp[0] + ":" + value;
+                break;
+            case "1":
+                retvalue = "<Color=red><Size=20>" + tmp[0] + ":" + value + "</Size></Color>";
+                break;
+            case "2":
+                retvalue = "<Color=blue><Size=16>" + tmp[0] + ":" + value + "</Size></Color>";
+                break;
+            case "3":
+                retvalue = "<Color=green><Size=18>" + tmp[0] + ":" + value + "</Size></Color>";
+                break;
+            case "4":
+                retvalue = "<Color=yellow><Size=20>" + tmp[0] + ":" + value + "</Size></Color>";
+                break;
+            default:
+                break;
+        }
+        return retvalue;
+    }
+
     public void OnPrivateMessage(string sender, object message, string channelName)
     {
         string text = "(private)" + " " + sendPrivatelyTo +": "+ message;
-        chatDisplay.text +=  "\n " + text;
+        string[] value = text.Split(new string[] { "--" }, System.StringSplitOptions.None);
+        string newtext = MakeText(value[0], value[1]);
+        chatDisplay.text +=  "\n " + newtext;
 
     }
 

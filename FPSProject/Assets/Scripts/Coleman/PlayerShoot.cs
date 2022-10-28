@@ -6,29 +6,22 @@ using Photon.Pun;
 
 public class PlayerShoot : MonoBehaviour
 {
-    public static Action shootInput;
-    public static Action reloadInput;
-    public static Action pickupInput;
+    public Action shootInput;
+    public Action reloadInput;
+    public Action pickupInput;
 
     [SerializeField] private KeyCode reloadKey;
-    private Gun gun;
+    private PhotonView PV;
 
     private void Start()
     {
+        PV = GetComponent<PhotonView>();
+    }
 
-        
-            PhotonView PV = GetComponent<PhotonView>();
-        if (PV.IsMine && GetComponentInChildren<Gun>()) {
-            Debug.Log(GetComponentInChildren<Gun>().name + " was the name");
-
-            gun = GetComponentInChildren<Gun>();
-        }
-        
-        }
     private void Update()
     {
-        gun = GetComponentInChildren<Gun>();
-        if (!DataManager.Instance.IsCanShoot) return;
+        if (PV.IsMine) {
+            if (!DataManager.Instance.IsCanShoot) return;
        // if (!gun.gunData.fullAuto && gun.gameObject.activeSelf)
         //{
             if (Input.GetMouseButtonDown(0)) shootInput?.Invoke();
@@ -36,7 +29,8 @@ public class PlayerShoot : MonoBehaviour
         //{
             if (Input.GetMouseButton(0)) shootInput?.Invoke();
         //}
-        if (Input.GetKeyDown(reloadKey)) reloadInput?.Invoke();
-        if (Input.GetKeyDown(KeyCode.E)) pickupInput?.Invoke();
+            if (Input.GetKeyDown(reloadKey)) reloadInput?.Invoke();
+            if (Input.GetKeyDown(KeyCode.E)) pickupInput?.Invoke();
+        }
     }
 }

@@ -10,10 +10,6 @@ namespace Unity.Scripts.Jonathan
             Rules typically come from GameMode
        - Sends ObjectiveCompletedEvent to all Rules
     */
-    public interface Rule 
-    {
-         void handleEvent(ObjectiveCompletedEvent evt);
-    }
     public class RuleManager : MonoBehaviour
     {
         List<Rule> ruleList;
@@ -32,10 +28,7 @@ namespace Unity.Scripts.Jonathan
 
         public void onCompletedObjective(ObjectiveCompletedEvent evt)
         {
-            Debug.Log("RULES: Completed Objective Check: " + ruleList.Count);
-            for(int i = 0; i < ruleList.Count;i++){
-                ruleList[i].handleEvent(evt);
-            }
+
         }
         public void addRule(Rule r)
         {

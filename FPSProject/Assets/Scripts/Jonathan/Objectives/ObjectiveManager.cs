@@ -29,7 +29,7 @@ public class ObjectiveManager : MonoBehaviour
     public void onGameEvent(PlayerKillEvent evt){
         for(int i = 0; i < objectiveList.Count;i++)
         {
-            objectiveList[i].handleEvent(evt);
+        //    objectiveList[i].handleEvent(evt);
         }
     }
 
@@ -39,7 +39,7 @@ public class ObjectiveManager : MonoBehaviour
 
     public void addObjective(Objective obj){
         objectiveList.Add(obj);
-        //Debug.Log("New Game Objective Added" + obj);
+        Debug.Log("New Game Objective Added" + obj);
     }
 
     public void removeObjective(Objective obj){

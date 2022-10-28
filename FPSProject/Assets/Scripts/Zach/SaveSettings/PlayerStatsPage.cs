@@ -42,6 +42,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     public int gotKill;
     public int gotKilled;
     public bool onDie;
+    public int team;
     PhotonView PPV;
     PhotonView EPV;
 
@@ -53,6 +54,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         //     Debug.Log("destroy");
         //   Destroy(this);
         //    }
+
         onDie = false; //unused with PhotonEvent.cs 
         EventManager.AddListener<PlayerKillEvent>(SetKills);
         EventManager.AddListener<PlayerDeathEvent>(SetDeaths);
@@ -72,7 +74,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     }
     public void loadNew()
     {
-        
+
         //Debug.Log("grabbing the new data loaded from PlayerStatsPage: " + data.totalKills);
         timeInGame = newData.timeInGame;
         totalTime = newData.totalTime;
@@ -107,7 +109,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         ++frames;
         float timeNow = Time.realtimeSinceStartup;          //https://docs.unity3d.com/ScriptReference/Time-realtimeSinceStartup.html
         if (timeNow > lastInterval + updateInterval)
-        { 
+        {
             fps = (float)(frames / (timeNow - lastInterval));
             frames = 0;
             lastInterval = timeNow;
@@ -115,6 +117,55 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
             if (inGame) timeInGame += (float)updateInterval;
             newExp = (int)(timeInGame - initialTimeInGame);  //only full integers are counted, no sense in tracking decimals here
         }
+    }
+    /// <summary>
+    /// Returns true when we're on the same team, false otherwise. Call this before accepting damage from another player or anything else team related.
+    /// </summary>
+    public bool CheckTeam(PhotonView EPV)
+    {
+        PhotonView myPV = GameObject.Find("Player(Clone)").GetComponent<PhotonView>();
+        int myTeamNumber = (int)PhotonNetwork.LocalPlayer.CustomProperties["team"];
+        if (myTeamNumber == 0)
+        {
+            return false;
+        }
+        Player enemyPlayer = null;
+        if (myTeamNumber == 1 || myTeamNumber == 2) {
+            foreach (Player p in PhotonNetwork.PlayerList)
+            {
+                if (debug) Debug.Log("player was " + p.ActorNumber + " vs enemy player# " + EPV.OwnerActorNr);
+                if (p.ActorNumber == EPV.OwnerActorNr)
+                {
+                    if (debug) Debug.Log("player was found: " + p.ActorNumber);
+
+                    enemyPlayer = p;
+                    if (debug) Debug.Log("PLayer teams: " + p.ActorNumber + " vs " + EPV.OwnerActorNr );
+                }
+            }
+        } else { Debug.Log("team# =/0, 1, or 2"); }
+        if (enemyPlayer == null)
+        {
+            if (debug) Debug.Log("player was not found in your room");
+            return false;
+        }
+        int enemyTeamNumber = (int)enemyPlayer.CustomProperties["team"];
+        if (enemyTeamNumber ==0)
+        {
+            if (debug) Debug.Log("!! Enemy player was in FFA!!");
+        }
+        else if (enemyTeamNumber == 1 && myTeamNumber == 1)
+        {
+                if (debug) Debug.Log("Both on team 1");
+               return true;    
+        }
+        else if (enemyTeamNumber == 2 && myTeamNumber == 2)
+        { 
+                if (debug) Debug.Log("Both on team 2");
+                return true;
+        }
+        if (debug) Debug.Log("CheckTeams() exited, no condition met.");
+        
+        return false;
     }
     public void SavePlayer()
     {
@@ -308,9 +359,8 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
             return;
         }
         byte eventCode = photonEvent.Code;
-        if (eventCode == PhotonEvents.PLAYERDEATH)
+        if (eventCode == 0) //PhotonEvents.PLAYERDEATH
         {
-            
             Debug.Log("Sender: " + photonEvent.Sender.ToString());
             object[] data = (object[])photonEvent.CustomData;
             int EnemyPlayer = (int)data[1]; //the photon view of the person who dealt damage
@@ -328,6 +378,17 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
                 Debug.Log("Set kills manually for: " + PhotonNetwork.LocalPlayer.ActorNumber);
                 SetKills();
             }
+        }
+        else if (eventCode == PhotonEvents.JOINEDTEAM1)
+        { //player player, int team
+            Debug.Log("Sender: " + photonEvent.Sender.ToString());
+            object[] data = (object[])photonEvent.CustomData;
+            team = (int)data[1];//the team of the player
+        }   else if (eventCode == PhotonEvents.JOINEDTEAM2)
+        {
+            Debug.Log("Sender: " + photonEvent.Sender.ToString());
+            object[] data = (object[])photonEvent.CustomData;
+            int EnemyPlayer = (int)data[1]; //the photon view of the person who dealt damage
         }
     }
 }

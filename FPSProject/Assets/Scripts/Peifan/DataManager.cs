@@ -6,16 +6,19 @@ public class DataManager : MonoBehaviour
 {
     public static DataManager Instance;
     public string UserId = "";
+    public string RoomName = "";
     public bool IsCanShoot = true;
     // Start is called before the first frame update
     void Awake()
     {
-        if (Instance)
+        if (Instance != null && Instance != this)
         {
-            Debug.Log("exists");
+            Destroy(gameObject);
             return;
+        } else {
+            Instance = this;
         }
-        Instance = this;
+        
         DontDestroyOnLoad(gameObject);
     }
 
@@ -24,8 +27,18 @@ public class DataManager : MonoBehaviour
         UserId = name;
     }
 
+    public void SetRoomName(string roomName) 
+    {
+        RoomName = roomName;
+    }
+
     public string GetUserID()
     {
         return UserId;
+    }
+
+    public string GetRoomName() 
+    {
+        return RoomName;
     }
 }

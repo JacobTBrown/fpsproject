@@ -20,4 +20,5 @@ public class GunData : ScriptableObject
     public float reloadTime;
     public bool fullAuto;
     public bool isReloading;
+    public bool isShotgun;
 }

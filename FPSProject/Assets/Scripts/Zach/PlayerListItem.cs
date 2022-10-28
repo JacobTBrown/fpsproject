@@ -21,7 +21,7 @@ public class PlayerListItem : MonoBehaviourPunCallbacks
     // Update is called once per frame
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        if(player == otherPlayer)
+        if (player == otherPlayer)
         {
             Destroy(gameObject);
         }

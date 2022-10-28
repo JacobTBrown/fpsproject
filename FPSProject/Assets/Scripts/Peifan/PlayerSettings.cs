@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -62,6 +63,8 @@ public class PlayerSettings : MonoBehaviour
         };
 
     void Start() {
+        
+        Invoke("SetTeams", 0.5f);
         //Debug.Log("GameObject.Name," + gameObject.name);
         PV = GetComponent<PhotonView>();
         //Debug.Log("PV instantiate: " + PV.ViewID);
@@ -236,12 +239,79 @@ public class PlayerSettings : MonoBehaviour
             return false;
         }
     }
+    public void SetTeams()
+    {
+       if (!PV.IsMine)
+        {
+            Debug.Log("return early");
+            return;
+        }
+        //var player1 = PhotonNetwork.CurrentRoom.Players.ElementAt(0);
+        GameObject[] ga = (GameObject.FindGameObjectsWithTag("Player"));
+       
+        List<PlayerDamageable> pd = new List<PlayerDamageable>();
+         pd = new List<PlayerDamageable>();
+        foreach (GameObject g in ga)
+            if (g.GetComponent<PlayerDamageable>() != null)
+            {
+                Debug.Log("adding" + g.GetComponent<PlayerDamageable>().gameObject.transform.parent.name);
+                pd.Add(g.GetComponent<PlayerDamageable>());
+                
+            }
+        GameObject[] newobj = new GameObject[pd.Count];
+        PhotonView[] newPVArr = new PhotonView[newobj.Length];
+        int k = 0;
+        foreach (PlayerDamageable pdmg in pd)
+        {
+            newPVArr[k] = pdmg.gameObject.GetComponentInParent<PhotonView>();
+            newobj[k] = pdmg.gameObject;
+            k++;
+           // Debug.Log("added player damagable for actor # " + newPVArr[k].OwnerActorNr);
+        }
+        Debug.Log("list :");
+        foreach (Player pp in PhotonNetwork.PlayerList)
+        {
+          //  pp.NickName
+            Debug.Log(pp.NickName + " is in playerList");
+            if (pp == null)
+            {
+                Debug.Log("null player?");
+            }
+            if ((int)pp.CustomProperties["team"] == 2)
+            {
+                Debug.Log(pp.NickName + " was on team 2");
+                //setMaterialTeam2(pp);
+                setMaterial(pp, newobj, newPVArr);
+            }
+        }
+    }
+    public void setMaterial(Player p, GameObject[] newobj, PhotonView[] newPVArr)
+    {
+        int actorNumberToChange = p.ActorNumber;
+        Debug.Log("matching player found");
+        for ( int i =0; i < newobj.Length; i++)
+        {
+            Debug.Log(" p actor # " + p.ActorNumber + " vs " + newPVArr[i].OwnerActorNr);
+            if (p.ActorNumber == newPVArr[i].OwnerActorNr)
+            {
+                MeshRenderer bodyMesh = newobj[i].gameObject.GetComponent<MeshRenderer>();
+                Debug.Log("body mesh: " + bodyMesh.name);
+            
+                MeshRenderer[] m = gameObject.GetComponentsInChildren<MeshRenderer>();
 
-    //Testing lines below for multiplayer - zach - 9-30
-    // void Die()
-    // {
-    //     playermanager.KillPlayer();
-    // }
+                Debug.Log("got mesh = " + m[1].gameObject.name);
+                Material[] materials = new Material[1];
+                materials = bodyMesh.materials;
+                materials[0] = (Material)Resources.Load("materials/Player_Mat1");
+                Debug.Log("size of materials arr = " + materials.Length);
+                Debug.Log(materials[0]);
+
+                Material[] playerMaterials = materials;
+                Debug.Log("new player materials being set on mesh render = " + playerMaterials[0]);
+                bodyMesh.gameObject.GetComponent<MeshRenderer>().materials = playerMaterials;
+            }
+        }
+    }
 }
 public enum KeycodeFunction
 {
