@@ -31,14 +31,16 @@ public class RoomManager : MonoBehaviourPunCallbacks
     private void Awake()
     {
         //list all players with their name
-        if (Instance)
+        if (Instance != null && Instance != this)
         { //if another Instance of the RoomManager exists, delete and return
           //Photon is actually throwing an error here. It doesn't keep the previous room manager. It instantly detects a duplicate PV and deletes the old one
             Destroy(gameObject);
             return;
+        } else {
+            Instance = this;
         }
+
         DontDestroyOnLoad(gameObject); //RoomManager comes with us into the next scene so that we can instantiate the player.
-        Instance = this;
     }
     public override void OnEnable()
     {

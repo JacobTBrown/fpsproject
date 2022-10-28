@@ -11,7 +11,14 @@ public class DataManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        Instance = this;
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        } else {
+            Instance = this;
+        }
+        
         DontDestroyOnLoad(gameObject);
     }
 
