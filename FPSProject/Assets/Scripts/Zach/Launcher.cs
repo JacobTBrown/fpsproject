@@ -319,6 +319,9 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
 
         //myRoomBtn.transform.Find("mapText").GetComponent<Text>().text = mapValue.text;
         //Debug.Log("created room with values" + myText);
+
+        DataManager.Instance.SetRoomName(roomNameInputField.text);
+
     }
     private void ClearRoomList()
     {
@@ -416,6 +419,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     public void RenderPlayers(RoomInfo r)
     {
         Debug.Log("render with room info?");
+        DataManager.Instance.SetRoomName(roomNameText.text);
         foreach (Transform child in playerListTeam1)
         {
             Destroy(child.gameObject);
@@ -715,6 +719,8 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         //gameDMButton.SetActive(PhotonNetwork.IsMasterClient);
         //mapSelectButton.SetActive(PhotonNetwork.IsMasterClient);
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+        //PhotonNoGameChatManager.instance.StartChat();
+
     }
     public void RoomRoutine()
     {

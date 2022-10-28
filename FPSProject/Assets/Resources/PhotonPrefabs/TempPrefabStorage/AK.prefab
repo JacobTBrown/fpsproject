@@ -94,6 +94,7 @@ GameObject:
   - component: {fileID: 2927783889314724128}
   - component: {fileID: 5313702265138016513}
   - component: {fileID: -7049095319436947669}
+  - component: {fileID: 7838938298685770795}
   m_Layer: 12
   m_Name: AK
   m_TagString: Weapon
@@ -133,12 +134,18 @@ MonoBehaviour:
   muzzle: {fileID: 2537517487781564149}
   flash: {fileID: 6771445386938339882}
   player: {fileID: 0}
+  playerOrientation: {fileID: 0}
   WeaponHolder: {fileID: 0}
   hitMarker: {fileID: 0}
+  thisCollider: {fileID: 0}
   PV: {fileID: 0}
   ammoCounter: {fileID: 0}
   settingsOpen: 0
   equipped: 0
+  owns: 0
+  gunshot: {fileID: 0}
+  reload: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!95 &6635785113577399492
 Animator:
   serializedVersion: 3
@@ -363,9 +370,9 @@ Rigidbody:
   m_AngularDrag: 0.05
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 0
+  m_Interpolate: 1
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 3
 --- !u!65 &-7049095319436947669
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -379,6 +386,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 1, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7838938298685770795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4088841133673991700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 685d641240f038e4cadd34b6b7314c22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4708102731602972331
 GameObject:
   m_ObjectHideFlags: 0

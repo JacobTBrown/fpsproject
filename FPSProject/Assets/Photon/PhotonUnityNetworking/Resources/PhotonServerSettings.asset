@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 04b05f9c-db6c-4e0b-9b62-cc31c280a6bf
+    AppIdRealtime: 67ce5b47-dd29-4a7b-b93c-30033154ac4a
     AppIdFusion: 
     AppIdChat: 132cfdf5-dd8d-49d6-83e4-bb4d107b9377
     AppIdVoice: 
@@ -49,10 +49,11 @@ MonoBehaviour:
   - Pickup
   - UpdatePlayerName
   - triggerAnim
+  - SetCurrentWeapon
+  - TriggerAnimAK
+  - TriggerAnimPistol
+  - TriggerAnimShotgun
   - ClearRPCs
-  - changeTeams
-  - changeTeamsRPC
-  - SyncTeamsRPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 0

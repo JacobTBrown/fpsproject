@@ -139,7 +139,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
                     if (debug) Debug.Log("player was found: " + p.ActorNumber);
 
                     enemyPlayer = p;
-                    
+                    if (debug) Debug.Log("PLayer teams: " + p.ActorNumber + " vs " + EPV.OwnerActorNr );
                 }
             }
         } else { Debug.Log("team# =/0, 1, or 2"); }
@@ -164,6 +164,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
                 return true;
         }
         if (debug) Debug.Log("CheckTeams() exited, no condition met.");
+        
         return false;
     }
     public void SavePlayer()

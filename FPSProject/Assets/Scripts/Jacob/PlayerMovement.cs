@@ -64,9 +64,8 @@ public class PlayerMovement : MonoBehaviour
     {
         PV = GetComponent<PhotonView>();
     }
-
-    public enum MovementState
-    {
+    
+    public enum MovementState {
         slowwalking,
         walking,
         sprinting,
@@ -114,7 +113,7 @@ public class PlayerMovement : MonoBehaviour
         // limit velocity if needed
         if (velXZ.magnitude > moveSpeed)
         {
-            //print("velXZ mag: " + velXZ.magnitude);
+            print("velXZ mag: " + velXZ.magnitude);
             // Movement speed and jump speed are different values
             Vector3 newVelXZ = velXZ.normalized * moveSpeed;
             //Vector3 newVelY = velY.normalized * jumpForce;
@@ -126,8 +125,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            if (playerState != MovementState.climbing)
-            {
+            if (playerState != MovementState.climbing) {
                 if (isWallrunning && !isCrouching)
                     WallrunMove();
                 else if (isSliding)
@@ -152,8 +150,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void WallrunMove()
-    {
+    private void WallrunMove() {
         playerRigidbody.useGravity = false;
         playerRigidbody.velocity = new Vector3(playerRigidbody.velocity.x, 0f, playerRigidbody.velocity.z);
 
@@ -162,19 +159,16 @@ public class PlayerMovement : MonoBehaviour
         Vector3 wallForward = Vector3.Cross(wallUp, wallNormal);
 
         playerRigidbody.AddForce(wallForward * moveSpeed, ForceMode.Force);
-
+        
         if (!(wallToLeft && horizontalXInput > 0) && !(wallToRight && horizontalXInput < 0))
             playerRigidbody.AddForce(-wallNormal * 50, ForceMode.Force);
     }
 
-    private void SlideMove()
-    {
-        if (!isOnSlope || playerRigidbody.velocity.y > -0.1f)
-        {
+    private void SlideMove() {
+        if (!isOnSlope || playerRigidbody.velocity.y > -0.1f) {
             playerRigidbody.AddForce(movement.normalized * moveSpeed, ForceMode.Force);
-        }
-        else
-            playerRigidbody.AddForce(GetSlopeDirection(movement) * moveSpeed, ForceMode.Force);
+        } else
+            playerRigidbody.AddForce(GetSlopeDirection(movement) * moveSpeed, ForceMode.Force);    
     }
 
     private IEnumerator displayRoutine;
@@ -200,10 +194,8 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // When you look at another player this will make it so the name of the player rotates towards you
-        if (Physics.Raycast(transform.position, cameraTransform.forward, out RaycastHit hitInfo, 100))
-        {
-            if (hitInfo.collider.tag == "Player" && hitInfo.collider != this.playerBodyTransform.GetComponent<Collider>())
-            {
+        if (Physics.Raycast(transform.position, cameraTransform.forward, out RaycastHit hitInfo, 100)) {
+            if (hitInfo.collider.tag == "Player" && hitInfo.collider != this.playerBodyTransform.GetComponent<Collider>()) {
                 TextMesh nameMesh = hitInfo.collider.gameObject.GetComponentInParent<PlayerSettings>().playerName;
                 nameMesh.gameObject.SetActive(true);
                 var lookPos = hitInfo.collider.gameObject.transform.position - transform.position;
@@ -289,17 +281,13 @@ public class PlayerMovement : MonoBehaviour
         {       // State - climbing
             playerState = MovementState.climbing;
             isClimbing = true;
-        }
-        else if (isWallrunning)
-        { // State - Wallrunning
+        } else if (isWallrunning) { // State - Wallrunning
             playerState = MovementState.wallrunning;
             if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.sprint]))
                 moveSpeed = sprintSpeed;
-            else
+            else 
                 moveSpeed = wallrunSpeed;
-        }
-        else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.crouch]) && isOnGround)
-        {
+        } else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.crouch]) && isOnGround) {
             playerState = MovementState.crouching;
             moveSpeed = crouchSpeed;
         }
@@ -317,9 +305,7 @@ public class PlayerMovement : MonoBehaviour
             moveSpeed = sprintSpeed;
             canDoubleJump = true;
             canStartSlide = true;
-        }
-        else if (isOnGround)
-        {
+        } else if (isOnGround) {
             //IEnumerator coroutine = playerCam.AdjustFov(80);
             //StartCoroutine(coroutine);
             playerState = MovementState.walking;
@@ -376,12 +362,35 @@ public class PlayerMovement : MonoBehaviour
         {
             if (isWallrunning) isWallrunning = false;
         }
+
+        if (Input.GetKeyDown(keybinds.inputSystemDic[KeycodeFunction.crouch])) {
+            playerBodyTransform.localScale = new Vector3(playerBodyTransform.localScale.x, crouchYScale, playerBodyTransform.localScale.z);
+            //transform.position = new Vector3(transform.position.x, transform.position.y - crouchYScale, transform.position.z);
+            if (!isCrouching) isCrouching = true;
+        } else if (Input.GetKeyUp(keybinds.inputSystemDic[KeycodeFunction.crouch])) {
+            playerBodyTransform.localScale = new Vector3(playerBodyTransform.localScale.x, initYScale, playerBodyTransform.localScale.z);
+            if (isCrouching) isCrouching = false;
+        }
+
+        if (Input.GetKeyDown(keybinds.inputSystemDic[KeycodeFunction.slide]) && canStartSlide) {
+            playerBodyTransform.localScale = new Vector3(playerBodyTransform.localScale.x, crouchYScale, playerBodyTransform.localScale.z);
+            //transform.position = new Vector3(transform.position.x, transform.position.y - crouchYScale, transform.position.z);
+            if (!isSliding) isSliding = true;
+        } else if (Input.GetKeyUp(keybinds.inputSystemDic[KeycodeFunction.slide])) {
+            playerBodyTransform.localScale = new Vector3(playerBodyTransform.localScale.x, initYScale, playerBodyTransform.localScale.z);
+            if (isSliding) isSliding = false;
+            if (canStartSlide) canStartSlide = false;
+        }
+
+        if ((wallToLeft || wallToRight) && horizontalZInput > 0 && !isOnGround) {
+            if (!isWallrunning && !isCrouching) isWallrunning = true;
+        } else {
+            if (isWallrunning) isWallrunning = false;
+        }
     }
 
-    public float getTargetSpeed(MovementState state)
-    {
-        switch (state)
-        {
+    public float getTargetSpeed(MovementState state) {
+        switch(state) {
             case MovementState.slowwalking:
                 return slowWalkSpeed;
             case MovementState.walking:
@@ -421,27 +430,22 @@ public class PlayerMovement : MonoBehaviour
         if (keybinds.chatIsOpen) return; //Added by zach to disable movement when chat is open
         // Set up our movement vector
         movement = playerTransform.right * horizontalXInput + playerTransform.forward * horizontalZInput;
-
-        if (isOnSlope)
-        {
+            
+        if (isOnSlope) {
             playerRigidbody.AddForce(GetSlopeDirection(movement) * moveSpeed, ForceMode.Force);
-        }
-        else
-        {
+        } else {
             // Moves our player based on the x-y-z of the normalized movement vector multiplied by targetSpeed
-            playerRigidbody.AddForce(movement.normalized * moveSpeed, ForceMode.Force);
+            playerRigidbody.AddForce(movement.normalized * moveSpeed, ForceMode.Force); 
         }
 
         playerRigidbody.useGravity = !isOnSlope;
     }
 
-    public Vector3 GetSlopeDirection(Vector3 direction)
-    {
+    public Vector3 GetSlopeDirection(Vector3 direction) {
         return Vector3.ProjectOnPlane(direction, hitSlope.normal).normalized;
     }
-
-    private void ApplyDrag()
-    {
+    
+    private void ApplyDrag() {
         /* If the player is on the ground, then we want to prevent the player from moving forever
         // without any input.
         // So, we set drag to our groundDrag (Value set in inspector).

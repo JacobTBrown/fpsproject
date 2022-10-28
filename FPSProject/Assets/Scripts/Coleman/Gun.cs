@@ -14,17 +14,19 @@ public class Gun : MonoBehaviour
     public GameObject playerOrientation;
     public GameObject WeaponHolder;
     public GameObject hitMarker;
+    public Collider thisCollider;
     public PhotonView PV;
     public Text ammoCounter;
     public bool settingsOpen = false;
     public bool equipped;
+    public bool owns;
     Animator animator;
-    AudioSource[] sounds;
-    AudioSource gunshot;
-    AudioSource reload;
+    public AudioClip gunshot;
+    public AudioClip reload;
+    public AudioSource audioSource;
     public PlayerStatsPage pstats;
 
-    private RPC_Functions rpcFunc;
+    //private RPC_Functions rpcFunc;
 
     float timeSinceLastShot;
 
@@ -33,9 +35,6 @@ public class Gun : MonoBehaviour
         pstats = GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>();
         //Debug.Log(pstats.gameObject.name);
         //Debug.Log(PhotonNetwork.LocalPlayer.NickName);
-        rpcFunc = GetComponentInParent<RPC_Functions>();
-        rpcFunc.gunShot = GetComponents<AudioSource>()[0];
-        rpcFunc.reload = GetComponents<AudioSource>()[1];
         if (!this)
         {
             Debug.Log("gun.cs is null ");
@@ -54,9 +53,7 @@ public class Gun : MonoBehaviour
             PlayerShoot.shootInput += Shoot;
             PlayerShoot.reloadInput += ReloadInit;
             animator = GetComponent<Animator>();
-            sounds = GetComponents<AudioSource>();
-            gunshot = sounds[0];
-            reload = sounds[1];
+;
             Debug.Log("Gun.cs exited start with reload: " + reload.name);
         } else
         {
@@ -74,8 +71,7 @@ public class Gun : MonoBehaviour
             Debug.Log("player was already set: " + player.GetComponent<PhotonView>().ViewID.ToString());
         }
         if (transform.parent != null)
-        {
-            
+        {  
             player = transform.parent.gameObject.transform.parent.gameObject.transform.parent.gameObject;
             PV = player.GetComponent<PhotonView>();
             Debug.Log("player was set: " + player.GetComponent<PhotonView>().ViewID.ToString());
@@ -83,15 +79,28 @@ public class Gun : MonoBehaviour
 
             //moving RPCs to start() - Kassad November 2018
             //https://forum.photonengine.com/discussion/2300/solved-received-rpc-photonview-does-not-exist
-
         }
 
+        if (equipped && PV.IsMine)
+        {          
+            ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
+            gunData.currentAmmo = gunData.magSize;
+            if(gunData.reserveAmmo != -1) gunData.reserveAmmo = gunData.magSize * 2;
+            PlayerShoot.shootInput += Shoot;
+            PlayerShoot.reloadInput += ReloadInit;
+            animator = GetComponent<Animator>();
+            if (gunData.name == "M1911") owns = true;
+            else owns = false;
+        }
+        hitMarker = GameObject.Find("HitMarker");
+        if(hitMarker) hitMarker.SetActive(false);
     }
 
     private IEnumerator Reload()
     {
         gunData.isReloading = true;
-        reload.Play();
+        audioSource.clip = reload;
+        audioSource.Play();
         yield return new WaitForSeconds(gunData.reloadTime);
         if (gunData.reserveAmmo != -1) gunData.reserveAmmo -= gunData.magSize - gunData.currentAmmo;
         gunData.currentAmmo = gunData.magSize;
@@ -112,7 +121,19 @@ public class Gun : MonoBehaviour
         {
             StartCoroutine(Reload());
             animator.SetTrigger("Reload");
-            PV.RPC("triggerAnim", RpcTarget.Others, "Reload");
+            switch(gunData.name) {
+                case "M1911":
+                    PV.RPC("TriggerAnimPistol", RpcTarget.Others, "Reload");
+                    break;
+                case "SPAS-12":
+                    PV.RPC("TriggerAnimShotgun", RpcTarget.Others, "Reload");
+                    break;
+                case "AK-47":
+                    PV.RPC("TriggerAnimAK", RpcTarget.Others, "Reload");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -134,30 +155,67 @@ public class Gun : MonoBehaviour
         {
             if (gunData.currentAmmo > 0)
             {
+
                 if (canShoot())
                 {
-                    if (Physics.Raycast(playerOrientation.transform.position, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
+                    if (!gunData.isShotgun)
                     {
-                        if (hitInfo.collider.tag == "Player")
-                        {   //some lines added by zach: don't call the RPC if we're on the same team 
-                            Debug.Log("name of hitInfo.transform.GetComponent<PhotonView>()" + hitInfo.transform.GetComponent<PhotonView>());
+                    
+                        if (Physics.Raycast(playerOrientation.transform.position, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
+                        {
                             PhotonView EPV = hitInfo.transform.GetComponent<PhotonView>();
-                            Debug.Log(" hit player with viewID: " + EPV.ViewID);
-                            
-                            if (pstats.CheckTeam(EPV))
+                            if (hitInfo.collider.tag == "Player" && hitInfo.collider != thisCollider)
                             {
-                                Debug.Log("Player was on your team: " + EPV.ViewID + " vs " + PV.ViewID);
-                            }
-                            else
-                            {
+
+                                if (pstats.CheckTeam(EPV))
+                                {
+                                    Debug.Log("Player was on your team: " + EPV.ViewID + " vs " + PV.ViewID);
+                                }   
+                                else {
+                                Debug.Log("Hit");
                                 StartCoroutine(playerHit());
-                                hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, PV.ViewID);
+                                hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, EPV.ViewID);
+                                }
                             }
-                         }
-                        //IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-                        //Debug.Log(hitInfo);
-                        //damageable?.Damage(gunData.damage);
+                            IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
+                            Debug.Log(hitInfo);
+                            damageable?.Damage(gunData.damage, EPV.ViewID);
+                        }
                     }
+                    else
+                    {
+                        bool tempHit = false;
+                        for (var i = 0; i < 12; i++)
+                        {
+                            Vector2 localOffset = playerOrientation.transform.position;
+                            float randomX = Random.Range(-.1f, .1f);
+                            float randomY = Random.Range(-.1f, .1f);
+                            localOffset.y += randomY;
+                            localOffset.x += randomX;
+                            if (Physics.Raycast(localOffset, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
+                            {
+                                PhotonView EPV = hitInfo.transform.GetComponent<PhotonView>();
+
+                                if (hitInfo.collider.tag == "Player" && hitInfo.collider != thisCollider)
+                                {
+                                    if (pstats.CheckTeam(EPV))
+                                    {
+                                        Debug.Log("Player was on your team: " + EPV.ViewID + " vs " + PV.ViewID);
+                                    }   
+                                    else {
+                                        tempHit = true;
+                                        Debug.Log("Hit");
+                                        hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, EPV.ViewID);
+                                    }
+                                }
+                                IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
+                                Debug.Log(hitInfo);
+                                damageable?.Damage(gunData.damage, EPV.ViewID);
+                            }
+                        }
+                        if(tempHit) StartCoroutine(playerHit());
+                    }
+                    
                     gunData.currentAmmo--;
                     timeSinceLastShot = 0;
                     OnGunShot();
@@ -168,28 +226,44 @@ public class Gun : MonoBehaviour
 
     private void Update()
     {
-        timeSinceLastShot += Time.deltaTime;
-        Debug.DrawRay(playerOrientation.transform.position, transform.forward);
-        if (PV.IsMine) { 
-        if (transform.parent != null)
-        {
-            //Debug.Log(transform.parent.parent.parent.GetComponent<PhotonView>().ViewID + "is updating in guncs");
-            //ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
-            if (gunData.reserveAmmo == -1) ammoCounter.text = gunData.currentAmmo.ToString() + "/\u221e";
-            else ammoCounter.text = gunData.currentAmmo.ToString() + "/" + gunData.reserveAmmo.ToString();
-            transform.localPosition = Vector3.zero;
-            transform.localRotation = Quaternion.identity;
+        if (PV) {
+            if (PV.IsMine) {
+                timeSinceLastShot += Time.deltaTime;
+                //Debug.DrawRay(playerOrientation.transform.position, transform.forward);
+                if (equipped == true) owns = true;
+                if (transform.parent != null && !settingsOpen && equipped)
+                {
+                    //ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
+                    if (gunData.reserveAmmo == -1) ammoCounter.text = gunData.currentAmmo.ToString() + "/\u221e";
+                    else ammoCounter.text = gunData.currentAmmo.ToString() + "/" + gunData.reserveAmmo.ToString();
+                    transform.localPosition = Vector3.zero;
+                    transform.localRotation = Quaternion.identity;
+                }
+            }
         }
-        }
+        
     }
 
     private void OnGunShot()
     {
         if (this.gameObject.activeSelf) {
             flash.Play();
-            gunshot.Play();
+            audioSource.clip = gunshot;
+            audioSource.Play();
             animator.SetTrigger("Shoot");
-            PV.RPC("triggerAnim", RpcTarget.OthersBuffered, "Shoot");
+            switch(gunData.name) {
+                case "M1911":
+                    PV.RPC("TriggerAnimPistol", RpcTarget.Others, "Shoot");
+                    break;
+                case "SPAS-12":
+                    PV.RPC("TriggerAnimShotgun", RpcTarget.Others, "Shoot");
+                    break;
+                case "AK-47":
+                    PV.RPC("TriggerAnimAK", RpcTarget.Others, "Shoot");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
