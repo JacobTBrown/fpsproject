@@ -31193,6 +31193,11 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1652404657667534239, guid: 70e386d9d1b5c724aafdfb42e000d302,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1652404657796036348, guid: 70e386d9d1b5c724aafdfb42e000d302,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -46887,6 +46892,7 @@ GameObject:
   - component: {fileID: 5035602244391745661}
   - component: {fileID: 5035602244391745665}
   - component: {fileID: 5035602244391745664}
+  - component: {fileID: 5035602244391745666}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -46988,6 +46994,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 725fde8621170404795019d39cb2949d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5035602244391745666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5035602244391745658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1eabdf91fe1686243ab5d3fc584f6450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &5150248404444157802
