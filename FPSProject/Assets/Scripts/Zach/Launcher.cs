@@ -163,6 +163,10 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
             exp--;
         }
         if (debug) Debug.Log("setting exp: " + exp + " for level: " + level);
+        if (level > 9999)
+        {
+            GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().SetLevel(1, remainderExp);
+        }else
         GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().SetLevel(level, remainderExp);
         StartCoroutine(FadeOutLevelText(levelText));
     }

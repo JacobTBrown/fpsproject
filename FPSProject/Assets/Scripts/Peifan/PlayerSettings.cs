@@ -297,19 +297,18 @@ public class PlayerSettings : MonoBehaviour
                 MeshRenderer bodyMesh = newobj[i].gameObject.GetComponent<MeshRenderer>();
                 Debug.Log("body mesh: " + bodyMesh.name);
             
-        MeshRenderer[] m = gameObject.GetComponentsInChildren<MeshRenderer>();
+                MeshRenderer[] m = gameObject.GetComponentsInChildren<MeshRenderer>();
 
-        Debug.Log("got mesh = " + m[1].gameObject.name);
-        Material[] materials = new Material[1];
-        materials = bodyMesh.materials;
-        materials[0] = (Material)Resources.Load("materials/Player_Mat1");
-        Debug.Log("size of materials arr = " + materials.Length);
-        Debug.Log(materials[0]);
+                Debug.Log("got mesh = " + m[1].gameObject.name);
+                Material[] materials = new Material[1];
+                materials = bodyMesh.materials;
+                materials[0] = (Material)Resources.Load("materials/Player_Mat1");
+                Debug.Log("size of materials arr = " + materials.Length);
+                Debug.Log(materials[0]);
 
-        Material[] playerMaterials = materials;
-        Debug.Log("new player materials being set on mesh render = " + playerMaterials[0]);
-        bodyMesh.gameObject.GetComponent<MeshRenderer>().materials = playerMaterials;
-                //Debug.Log("meshRenderer was " + m[1].gameObject.GetComponent<MeshRenderer>().name);
+                Material[] playerMaterials = materials;
+                Debug.Log("new player materials being set on mesh render = " + playerMaterials[0]);
+                bodyMesh.gameObject.GetComponent<MeshRenderer>().materials = playerMaterials;
             }
         }
     }
