@@ -281,31 +281,37 @@ public class PlayerSettings : MonoBehaviour
             {
                 Debug.Log(pp.NickName + " was on team 2");
                 //setMaterialTeam2(pp);
-                setMaterial(pp, newobj);
+                setMaterial(pp, newobj, newPVArr);
             }
         }
     }
-    public void setMaterial(Player p, GameObject[] newobj)
+    public void setMaterial(Player p, GameObject[] newobj, PhotonView[] newPVArr)
     {
         int actorNumberToChange = p.ActorNumber;
         Debug.Log("matching player found");
         for ( int i =0; i < newobj.Length; i++)
         {
-
-        }
+            Debug.Log(" p actor # " + p.ActorNumber + " vs " + newPVArr[i].OwnerActorNr);
+            if (p.ActorNumber == newPVArr[i].OwnerActorNr)
+            {
+                MeshRenderer bodyMesh = newobj[i].gameObject.GetComponent<MeshRenderer>();
+                Debug.Log("body mesh: " + bodyMesh.name);
+            
         MeshRenderer[] m = gameObject.GetComponentsInChildren<MeshRenderer>();
 
         Debug.Log("got mesh = " + m[1].gameObject.name);
         Material[] materials = new Material[1];
-        materials = m[1].materials;
-        materials[0] = materials[0] = (Material)Resources.Load("materials/Player_Mat1");
+        materials = bodyMesh.materials;
+        materials[0] = (Material)Resources.Load("materials/Player_Mat1");
         Debug.Log("size of materials arr = " + materials.Length);
         Debug.Log(materials[0]);
 
         Material[] playerMaterials = materials;
         Debug.Log("new player materials being set on mesh render = " + playerMaterials[0]);
-        m[1].gameObject.GetComponent<MeshRenderer>().materials = playerMaterials;
-        Debug.Log("meshRenderer was " + m[1].gameObject.GetComponent<MeshRenderer>().name);
+        bodyMesh.gameObject.GetComponent<MeshRenderer>().materials = playerMaterials;
+                //Debug.Log("meshRenderer was " + m[1].gameObject.GetComponent<MeshRenderer>().name);
+            }
+        }
     }
 }
 public enum KeycodeFunction
