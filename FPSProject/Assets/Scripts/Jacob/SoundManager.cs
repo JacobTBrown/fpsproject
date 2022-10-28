@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
+<<<<<<< HEAD
 public class SoundManager : MonoBehaviour, IPunObservable
 {
     public AudioClip[] footsteps;
@@ -15,10 +16,23 @@ public class SoundManager : MonoBehaviour, IPunObservable
     private IEnumerator routine, otherRoutine;
     private int current;
     public bool playParkourSound;
+=======
+public class SoundManager : MonoBehaviour//, IPunObservable
+{
+    public AudioClip[] footsteps;
+    private AudioSource audioSource;
+    private PhotonView PV;
+    private Rigidbody playerRigidbody;
+    private PlayerMovement playerMovement;
+    private int routineCount;
+    private IEnumerator routine;
+    private int current;
+>>>>>>> Jonathan
 
     // Start is called before the first frame update
     void Start()
     {
+<<<<<<< HEAD
         PV = GetComponent<PhotonView>();
         if (PV.IsMine) {
             var sources = GetComponents<AudioSource>();
@@ -29,10 +43,17 @@ public class SoundManager : MonoBehaviour, IPunObservable
             playerMovement = GetComponent<PlayerMovement>();
         }
         
+=======
+        audioSource = GetComponent<AudioSource>();
+        playerRigidbody = GetComponent<Rigidbody>();
+        playerMovement = GetComponent<PlayerMovement>();
+        PV = GetComponent<PhotonView>();
+>>>>>>> Jonathan
         routineCount = 0;
         current = 0;
     }
 
+<<<<<<< HEAD
     public void OnPhotonSerializeView(PhotonStream s, PhotonMessageInfo i) {
         if (s.IsWriting) {
             //Debug.Log("writing from soundmanager");
@@ -58,6 +79,34 @@ public class SoundManager : MonoBehaviour, IPunObservable
                 playerMovement.beforeWallJumpTimer = (float) s.ReceiveNext();
                 playerMovement.playerState = (PlayerMovement.MovementState) s.ReceiveNext();
             }
+=======
+    // public void OnPhotonSerializeView(PhotonStream s, PhotonMessageInfo i) {
+    //     if (s.IsWriting) {
+    //         Debug.Log("writing from soundmanager");
+    //         s.SendNext(footsteps[current]);
+    //     } else {
+    //         Debug.Log("reading in soundmanager");
+    //         //s.ReceiveNext
+    //     }
+    // }
+
+    void Update() {
+        if (PV.IsMine) {
+            if (playerMovement.playerState == PlayerMovement.MovementState.walking
+            || playerMovement.playerState == PlayerMovement.MovementState.sprinting) {
+                if (routineCount == 0)
+                {
+                    routine = ChooseAFootstep();
+                    StartCoroutine(routine);
+                    routineCount++;   
+                }
+            } else {
+                if (routineCount == 1 && routine != null) {
+                    StopCoroutine(routine);
+                    routineCount = 0;
+                } 
+            }
+>>>>>>> Jonathan
         }
     }
 
@@ -100,6 +149,7 @@ public class SoundManager : MonoBehaviour, IPunObservable
             float vel = playerRigidbody.velocity.magnitude;
             if ((playerMovement.playerState != PlayerMovement.MovementState.slowwalking && playerMovement.isOnGround && vel > 2f))
             {
+<<<<<<< HEAD
                 footstepSource.clip = footsteps[current];
                 if (playerMovement.playerState == PlayerMovement.MovementState.walking) {
                     footstepSource.volume = 0.10f;
@@ -113,6 +163,21 @@ public class SoundManager : MonoBehaviour, IPunObservable
                     footstepSource.PlayOneShot(footstepSource.clip);
 
                     float interval = footstepSource.clip.length;
+=======
+                audioSource.clip = footsteps[current];
+                if (playerMovement.playerState == PlayerMovement.MovementState.walking) {
+                    audioSource.volume = 0.10f;
+                    audioSource.PlayOneShot(audioSource.clip);
+
+                    float interval = audioSource.clip.length;
+                    current++;
+                    yield return new WaitForSeconds(interval + 0.20f);
+                } else if (playerMovement.playerState == PlayerMovement.MovementState.sprinting) {
+                    audioSource.volume = 0.28f;
+                    audioSource.PlayOneShot(audioSource.clip);
+
+                    float interval = audioSource.clip.length;
+>>>>>>> Jonathan
                     current++;
                     yield return new WaitForSeconds(interval);
                 }

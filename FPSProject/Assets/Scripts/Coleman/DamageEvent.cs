@@ -19,6 +19,10 @@ public class DamageEvent : MonoBehaviour
     [PunRPC]
     public void DamagePlayer(float damage, int EnemyPlayer)
     {
+<<<<<<< HEAD
         damageable.Damage(damage, EnemyPlayer);
+=======
+     damageable.Damage(damage,EnemyPlayer);
+>>>>>>> Jonathan
     }
 }
