@@ -4827,6 +4827,7 @@ GameObject:
   - component: {fileID: 2354981467213195459}
   - component: {fileID: -5395689289289051129}
   - component: {fileID: 3362465201403660698}
+  - component: {fileID: 2003452997777680371}
   m_Layer: 12
   m_Name: Shotgun
   m_TagString: Weapon
@@ -4874,6 +4875,10 @@ MonoBehaviour:
   ammoCounter: {fileID: 0}
   settingsOpen: 0
   equipped: 0
+  owns: 0
+  gunshot: {fileID: 0}
+  reload: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!54 &5845101493144948115
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5114,6 +5119,18 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &2003452997777680371
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3062327346509076353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 685d641240f038e4cadd34b6b7314c22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5225515938135902739
 GameObject:
   m_ObjectHideFlags: 0

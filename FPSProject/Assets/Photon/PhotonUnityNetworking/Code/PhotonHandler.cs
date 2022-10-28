@@ -121,7 +121,7 @@ namespace Photon.Pun
         {
             UnityEngine.SceneManagement.SceneManager.sceneLoaded += (scene, loadingMode) =>
             {
-                Debug.Log("Scene loaded: " + scene.name);
+                //Debug.Log("Scene loaded: " + scene.name);
                 PhotonNetwork.NewSceneLoaded();
             };
         }
@@ -247,7 +247,7 @@ namespace Photon.Pun
 
         public void OnCreatedRoom()
         {
-            Debug.Log("phandler onCreateRoom");
+            //Debug.Log("phandler onCreateRoom");
             PhotonNetwork.SetLevelInPropsIfSynced(SceneManagerHelper.ActiveSceneName);
         }
 
@@ -261,7 +261,7 @@ namespace Photon.Pun
 
         public void OnMasterClientSwitched(Player newMasterClient)
         {
-            Debug.Log("master client switch");
+            //Debug.Log("master client switch");
             var views = PhotonNetwork.PhotonViewCollection;
             foreach (var view in views)
             {
@@ -368,7 +368,7 @@ namespace Photon.Pun
 
         public void OnPlayerLeftRoom(Player otherPlayer)
         {
-            Debug.Log("from PhotonHandler.cs");
+            //Debug.Log("from PhotonHandler.cs");
             var views = PhotonNetwork.PhotonViewCollection;
 
             int leavingPlayerId = otherPlayer.ActorNumber;
@@ -378,7 +378,7 @@ namespace Photon.Pun
             // Master will take control of this objects until the player hard disconnects, or returns.
             if (isInactive)
             {
-                   Debug.Log("hit PhotonHandler's soft disconnect");
+                   //Debug.Log("hit PhotonHandler's soft disconnect");
                 foreach (var view in views)
                 {
                     // v2.27: changed from owner-check to controller-check
@@ -390,7 +390,7 @@ namespace Photon.Pun
             // HARD DISCONNECT: Player permanently removed. Remove that actor as owner for all items they created (Unless AutoCleanUp is false)
             else
             {
-                Debug.Log("hit PhotonHandler's disconnect");
+                //Debug.Log("hit PhotonHandler's disconnect");
                 bool autocleanup = PhotonNetwork.CurrentRoom.AutoCleanUp;
 
                 foreach (var view in views)

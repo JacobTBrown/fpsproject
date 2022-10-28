@@ -16,10 +16,15 @@ namespace Unity.Scripts.Jonathan
 
         */       
         public const byte PLAYERDEATH = 0;
+        public const byte JOINEDTEAM1 = 70;
+        public const byte JOINEDTEAM2 = 71;
+
         private void OnEnable()
         {
             PhotonNetwork.NetworkingClient.EventReceived += OnEvent1;
         }
+    
+    
 
         private void OnDisable()
         {

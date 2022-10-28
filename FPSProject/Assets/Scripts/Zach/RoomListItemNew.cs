@@ -14,6 +14,8 @@ public class RoomListItemNew : MonoBehaviourPunCallbacks
     public Text sizeText;
     public Text nameText;
     public Text mapText;
+    public Text modeText;
+    
     public static RoomListItemNew Instance;
     public static bool debug = false;
     //[SerializeField] public GameObject pref; // if i need a reference to the game object of the prefab
@@ -65,7 +67,7 @@ public class RoomListItemNew : MonoBehaviourPunCallbacks
         }
     */
     public void Setup(RoomInfo _info) //, Hashtable maps)
-    {
+    { //is unused
         if (debug) Debug.Log("info from setup: " + _info);
             info = _info;
             sizeText.text = info.PlayerCount.ToString();
@@ -73,26 +75,13 @@ public class RoomListItemNew : MonoBehaviourPunCallbacks
             //Debug.Log(info.Name + "was the name");
             nameText.text = info.Name;
             mapText.text = Launcher.Instance.mapsArr[(int)_info.CustomProperties["map"]].name;
-            
+         //modeText.text = Launcher.Instance.mapValue.text;
         //mapText.text = maps[info.CustomProperties["map"]].name;
 
     }
-    
-    /* launcher.cs style
-    REPLACED WITH RENDERROOMS() 10-12 1:20PM      GameObject newRoomBtn = Instantiate(roomListItemPrefab, roomListContent) as GameObject;
-        newRoomBtn.transform.Find("nameText").GetComponent<Text>().text = r.Name;
-        newRoomBtn.transform.Find("sizeText").GetComponent<Text>().text = r.PlayerCount + "/" + r.MaxPlayers;
-        if (r.CustomProperties.ContainsKey("map"))
-        {
-            //sets all both rooms
-            //     Debug.Log("set map text");
-
-            newRoomBtn.transform.Find("mapText").GetComponent<Text>().text = mapsArr[(int)r.CustomProperties["map"]].name; //for changing the map inside the room
-        }
-        newRoomBtn.GetComponent<Button>().onClick.AddListener(delegate { JoinOnClick(r); });*/
     public void OnClick(RoomInfo info)
     {
-        Debug.Log(info);
+        if (debug) Debug.Log(info);
         if (this.info.MaxPlayers != this.info.PlayerCount)
         {
             //sizeText.text = (1 + info.PlayerCount).ToString(); only changes it for the person clicking the button

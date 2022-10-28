@@ -14,6 +14,7 @@ public class PlayerStatsGui : MonoBehaviour
 {
     public int toolbarInt = 1; //defaults to 1=hidden, 0=visible
     public string[] toolbarStrings; // = new string[] { "Show Panel", "Hide"}; setting these all in the inspector
+    public string toolbarString; // = new string[] { "Show Panel", "Hide"}; setting these all in the inspector
     GameObject timeCounter;
     GameObject totalTimeCounter;
     GameObject levelCounter;
@@ -33,6 +34,7 @@ public class PlayerStatsGui : MonoBehaviour
     public TMP_Text pingCounterText;
     public PlayerStatsPage stats;
     public double kdr;
+    private bool toolbarBool;
     /*[HideInInspector] //doesn't dynamically scale with resolution - maybe because of the canvas scaling on its own
     public int resolutionHeight;
     public int resolutionWidth;
@@ -42,6 +44,7 @@ public class PlayerStatsGui : MonoBehaviour
 
     private void Awake()
     {
+        toolbarString = "toggle stats";
         //timeCounter = gameObject.GetComponentInChildren<Text>();
         timeCounter = GameObject.Find("InGameTimerOverlay");
         totalTimeCounter = GameObject.Find("TimerOverlay");
@@ -60,7 +63,7 @@ public class PlayerStatsGui : MonoBehaviour
         killsCounter.SetActive(false);
         deathsCounter.SetActive(false);
         KDRCounter.SetActive(false);
-
+        
         //Debug.Log("time counter: " + timeCounter.name);
         //Text timeCounterText = timeCounter.GetComponentInChildren<Text>();
         //Text totalTimeCounterText = totalTimeCounter.GetComponentInChildren<Text>();
@@ -77,8 +80,8 @@ public class PlayerStatsGui : MonoBehaviour
         }
         else {
             double kdr = ((double)stats.GetKills() / (double)stats.GetDeaths());
-            KDRCounterText.text = "kdr" + kdr.ToString("F");
-            Debug.Log(kdr.ToString("F"));
+            KDRCounterText.text = kdr.ToString("F") + " kdr";
+            //Debug.Log(kdr.ToString("F"));
         }
 
     }
@@ -106,10 +109,11 @@ public class PlayerStatsGui : MonoBehaviour
     }
     private void OnGUI()
     {
+        //toolbarBool = GUI.Toggle(new Rect(555, 555, 800, 500), toolbarBool, toolbarString);
         toolbarInt = GUI.Toolbar(new Rect(5, 5, 185, 50), toolbarInt, toolbarStrings);
         if (toolbarInt == 0)
         {
-            GUI.Box(new Rect(5, 58, 109, 450), "Player Stats");
+            GUI.Box(new Rect(5, 58, 109, 450), " Player Stats");
 
             if (GUI.Button(new Rect(10, 100, buttonWidth, buttonHeight), "In-Game Time"))
             {
