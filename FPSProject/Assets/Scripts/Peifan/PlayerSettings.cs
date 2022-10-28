@@ -42,11 +42,8 @@ public class PlayerSettings : MonoBehaviour
     // For the user to invert the Y mouse look
     public bool invertMouse = false;
     public bool chatIsOpen = false;
-<<<<<<< HEAD
     public List<int> team;
 
-=======
->>>>>>> Jonathan
     [Header("User Keybinds")]
     public Dictionary<KeycodeFunction, KeyCode> inputSystemDic = new Dictionary<KeycodeFunction, KeyCode>() {
         { KeycodeFunction.leftMove, KeyCode.A},
@@ -82,14 +79,9 @@ public class PlayerSettings : MonoBehaviour
         if (PV.IsMine)
         {
             // Added by Jacob Brown: 10/13/2022
-<<<<<<< HEAD
             playerName = GetComponentInChildren<TextMesh>();
             playerName.text = nickname;
             playerName.gameObject.SetActive(false);
-=======
-            //playerName = GetComponentInChildren<TextMesh>();
-            //playerName.text = nickname;
->>>>>>> Jonathan
             // end add by Jacob Brown
             //Debug.Log("GETTING SETTINGS PANEL");
             settingPanel = GameObject.Find("SettingPanel");
@@ -198,19 +190,9 @@ public class PlayerSettings : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     [PunRPC]
     public void UpdatePlayerName(string name) {
         playerName.text = nickname;
-=======
-        // Code added - Jacob Brown 10/13/2022
-        // Reassigns the nickname whenever it is updated
-        // Also transforms the playerName
-        //if (nickname != PV.Owner.NickName) {
-        //    nickname = PV.Owner.NickName;
-        //    playerName.text = nickname;
-        //}
->>>>>>> Jonathan
     }
    
     public bool SetKeycodeValue(KeycodeFunction keycodeFunction, KeyCode keyCode)

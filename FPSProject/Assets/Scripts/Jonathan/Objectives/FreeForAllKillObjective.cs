@@ -33,7 +33,7 @@ public class FreeForAllKillObjective : MonoBehaviourPunCallbacks, Objective
 
     private void EventCompleted()
     {
-        ObjectiveCompletedEvent evt = Events.ObjectiveCompletedEvent;
+        ObjectiveCompletedEvent evt = Events.objectiveCompletedEvent;
         evt.objective = this;
         EventManager.Broadcast(evt);
     }

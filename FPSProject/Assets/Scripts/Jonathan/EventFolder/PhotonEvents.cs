@@ -30,14 +30,9 @@ namespace Unity.Scripts.Jonathan
             /*
                 This assumes that Obj[0] is the players veiwID
             */
-<<<<<<< HEAD
             //Debug.Log("OnEvent called for " + photonEvent.CustomData);
               //Debug.Log("event code : " + photonEvent.Code.ToString());
             
-=======
-
-            Debug.Log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
->>>>>>> Jonathan
             byte eventCode = photonEvent.Code;
             //if ((bool)photonEvent.CustomData);
             

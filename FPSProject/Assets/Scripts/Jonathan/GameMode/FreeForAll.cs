@@ -19,20 +19,11 @@ public class FreeForAll : MonoBehaviour, GameMode
     GameManager g_Manager;
     void Awake(){
         o_Manager = GameObject.Find("GameManager").GetComponent<ObjectiveManager>();
-<<<<<<< HEAD
-        r_Manager = GameObject.Find("GameManager").GetComponent<RuleManager>();
-        r_Manager.Init();
-        //Debug.Log(r_Manager);
-        EventManager.AddListener<NewPlayerEvent>(onNewPlayer);
-        createGameRules();
-        
-=======
         r_Manager = GameObject.Find("GameManager").GetComponent<RuleManager>();  
         g_Manager = GameObject.Find("GameManager").GetComponent<GameManager>();  
     }
     public FreeForAll()
     {      
->>>>>>> Jonathan
     }
 
     public FreeForAll(int killCutOff)

@@ -9,11 +9,8 @@ public class PickupController : MonoBehaviour
     GameObject weapon;
     bool canGrab;
 
-<<<<<<< HEAD
     private GameObject droppedWeapons;
 
-=======
->>>>>>> Jonathan
     private PhotonView PV;
     private Animator anim;
     private BoxCollider _collider;
@@ -22,10 +19,7 @@ public class PickupController : MonoBehaviour
         PV = GetComponent<PhotonView>();
         anim = currentWeapon.GetComponent<Animator>();
         _collider = currentWeapon.GetComponent<BoxCollider>();
-<<<<<<< HEAD
         droppedWeapons = GameObject.Find("DroppedWeapons");
-=======
->>>>>>> Jonathan
     }
 
     void Update()
@@ -41,10 +35,7 @@ public class PickupController : MonoBehaviour
                     anim.enabled = true;
                     _collider.isTrigger = true;
                     Pickup();
-<<<<<<< HEAD
                     PV.RPC("Pickup", RpcTarget.OthersBuffered);
-=======
->>>>>>> Jonathan
                 }
             }
             if(currentWeapon != null)
@@ -56,10 +47,7 @@ public class PickupController : MonoBehaviour
                     anim.enabled = false;
                     _collider.isTrigger = false;
                     Drop();
-<<<<<<< HEAD
                     PV.RPC("Drop", RpcTarget.OthersBuffered);
-=======
->>>>>>> Jonathan
                 }
             }
         }
@@ -72,11 +60,7 @@ public class PickupController : MonoBehaviour
         {
             if(info.transform.tag == "Weapon")
             {
-<<<<<<< HEAD
                 //Debug.Log("weapon detected");
-=======
-                Debug.Log("weapon detected");
->>>>>>> Jonathan
                 canGrab = true;
                 weapon = info.transform.gameObject;
             }

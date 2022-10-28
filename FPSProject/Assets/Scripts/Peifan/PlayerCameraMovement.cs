@@ -12,7 +12,7 @@ using DG.Tweening;
     This class handles the camera attached to a player. It handles any and all
     functions related to manipulating the camera.
 */
-public class PlayerCameraMovement : MonoBehaviour
+public class PlayerCameraMovement : MonoBehaviour, IPunObservable
 {
     [Header("Unity Classes")]
     public Transform cameraTransform;
@@ -24,6 +24,16 @@ public class PlayerCameraMovement : MonoBehaviour
     private Vector3 mouseMovement = new Vector3(0, 0, 0);
     private PlayerMovement playerMove;
     private PlayerSettings playerSettings;
+
+    public void OnPhotonSerializeView(PhotonStream s, PhotonMessageInfo i) {
+        if (s.IsWriting) {
+            //Debug.Log("writing from soundmanager");
+            s.SendNext(ifTilting);
+        } else {
+            //Debug.Log("reading in soundmanager");
+            ifTilting = (bool) s.ReceiveNext();
+        }
+    }
 
     void Start()
     {

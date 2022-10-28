@@ -54,12 +54,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
             /*
                 This is for testing purposes only
             */
-<<<<<<< HEAD
-           // onDie(PV.ViewID);
-=======
             onDie(PV.ViewID);
->>>>>>> Jonathan
-
         }
     }
 
@@ -79,11 +74,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         if (currentHealth <= 0)
         {
             onDie(EnemyPlayer);
-<<<<<<< HEAD
             PlayerDeathEvent evt = Events.PlayerDeathEvent; // ?
-=======
-            PlayerDeathEvent evt = Events.PlayerDeathEvent;
->>>>>>> Jonathan
             if (PV.IsMine)
             {
                 evt.player = player;
@@ -100,7 +91,6 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
     }
 
     public void onDie(int EnemyPlayer){
-<<<<<<< HEAD
      
             Debug.Log(PV.ViewID + " was killed by " + EnemyPlayer);
             RaiseEventOptions o = new RaiseEventOptions { Receivers = ReceiverGroup.All };
@@ -114,14 +104,5 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         //Debug.Log(obj[0].ToString() + obj[1].ToString() + " was your obj");
             PhotonNetwork.RaiseEvent(0, obj, o, SendOptions.SendReliable); //PhotonEvent.PLAYERDEATH
             //PhotonNetwork.RaiseEvent(PhotonEvents.PLAYERKILL, obj, o, SendOptions.SendReliable);
-=======
-        if(PV.IsMine)
-        {
-            RaiseEventOptions o = new RaiseEventOptions { Receivers = ReceiverGroup.All };
-            int DeadviewID = PV.ViewID;
-    
-            object[] obj = new object[]{DeadviewID,EnemyPlayer};
-            PhotonNetwork.RaiseEvent(PhotonEvents.PLAYERDEATH,obj,o,SendOptions.SendReliable);
->>>>>>> Jonathan
         }
 }

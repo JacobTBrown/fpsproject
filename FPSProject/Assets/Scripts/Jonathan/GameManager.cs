@@ -109,7 +109,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void OnPlayerKill(PlayerKillEvent evt)
     {
     //    #Needs to grab player from Event
-       Player player = evt.killedPlayer.GetComponent<PhotonView>().Controller;
+       Player player = evt.player.GetComponent<PhotonView>().Controller;
         if(PhotonNetwork.IsMasterClient)
         {
             int Kills = (int)player.CustomProperties["Kills"];

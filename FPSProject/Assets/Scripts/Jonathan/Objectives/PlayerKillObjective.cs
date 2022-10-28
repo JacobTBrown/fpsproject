@@ -25,21 +25,9 @@ public class PlayerKillObjective : Objective
     }
     public void handleEvent(PlayerKillEvent evt){
      //   if(evt.GetType() == typeof(PlayerKillEvent)){
-<<<<<<< HEAD
-            Debug.Log("PlayerKill Objective Updated Kills =" + kills);
-            Debug.Log(evt.player.GetComponent<PhotonView>().ViewID + " VS " + player.GetComponent<PhotonView>().ViewID);
-        if (evt.player.GetComponent<PhotonView>().ViewID != player.GetComponent<PhotonView>().ViewID)
-        {
-            
-            Debug.Log("kills++" + " for " + player.GetComponent<PhotonView>().ViewID);
-        }
-        //          PlayerKillEvent e = (PlayerKillEvent)evt;
-        if (evt.player == player){
-=======
             Debug.Log("PlayerKill Objective Updated");
               //          PlayerKillEvent e = (PlayerKillEvent)evt;
-            if(evt.killedPlayer == player){
->>>>>>> Jonathan
+            if(evt.player == player){
                 kills++;
            // if (evt.player.GetComponent<PhotonView>().IsMine)
            // {
@@ -55,7 +43,7 @@ public class PlayerKillObjective : Objective
     }
     public void eventCompleted(){
             Debug.Log("Kill Event Completed for " + player );
-            ObjectiveCompletedEvent evt = Events.ObjectiveCompletedEvent;
+            ObjectiveCompletedEvent evt = Events.objectiveCompletedEvent;
             evt.objective = this;
             EventManager.Broadcast(evt);
     }
