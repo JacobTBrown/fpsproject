@@ -60,7 +60,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
         bool isSubscribed = chatClient.Subscribe(DataManager.Instance.GetRoomName());
         if (isSubscribed)
         {
-            Debug.LogError("Subscribed");
+            //Debug.LogError("Subscribed");
         }
         
     }
@@ -89,7 +89,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
         {
             if (enterText == "") return;
             string InputTxt = m_ddown.value.ToString() + "--" + enterText;
-            Debug.LogError("DataManager.Instance.GetRoomName() = " + DataManager.Instance.GetRoomName());
+            //Debug.LogError("DataManager.Instance.GetRoomName() = " + DataManager.Instance.GetRoomName());
             //chatClient.PublishMessage("RegionChannel", enterText);
             chatClient.PublishMessage(DataManager.Instance.GetRoomName(), InputTxt);
             chatField.text = "";
