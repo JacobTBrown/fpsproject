@@ -43,10 +43,11 @@ public class Timer : MonoBehaviour
          int mins = (int)timerIncrementValue/60;
          int seconds = (int)timerIncrementValue - (mins*60);
          TimerText.text = mins.ToString("D1") + ":" + seconds.ToString("D2");
-
-         if (timerIncrementValue >= timer)
+        int stop = 0;
+         if (timerIncrementValue >= timer && stop == 0)
          {
             TimesUP();
+            stop = 1;
          }
      }
 
