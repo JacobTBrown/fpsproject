@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
@@ -21,6 +21,8 @@ public class FreeForAllKillObjective : MonoBehaviourPunCallbacks, Objective
     
     public override void OnPlayerPropertiesUpdate(Player target, Hashtable propties)
     {
+        updateScore event1 = Events.Updating;
+        EventManager.Broadcast(event1);
         if(propties.ContainsKey("Kills"))
         {
             if((int)target.CustomProperties["Kills"] >= killCutOff)
@@ -37,7 +39,6 @@ public class FreeForAllKillObjective : MonoBehaviourPunCallbacks, Objective
         evt.objective = this;
         EventManager.Broadcast(evt);
     }
-
     void UpdateUI()
     {
 
