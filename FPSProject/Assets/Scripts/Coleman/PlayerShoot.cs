@@ -23,9 +23,7 @@ public class PlayerShoot : MonoBehaviour
         Gun gun = GetComponentInChildren<Gun>();
         if (PV.IsMine) {
             if (!DataManager.Instance.IsCanShoot) return;
-<<<<<<< HEAD
 
-            Gun gun = GetComponentInChildren<Gun>();
             if (!gun.gunData.fullAuto && gun.gameObject.activeSelf) 
             {
             //{
@@ -37,7 +35,7 @@ public class PlayerShoot : MonoBehaviour
                 if (Input.GetKeyDown(reloadKey)) reloadInput?.Invoke();
                 if (Input.GetKeyDown(KeyCode.E)) pickupInput?.Invoke();
             }
-=======
+
         if (!gun.gunData.fullAuto && gun.gameObject.activeSelf)
         {
             if (Input.GetMouseButtonDown(0)) shootInput?.Invoke();
@@ -47,7 +45,6 @@ public class PlayerShoot : MonoBehaviour
         }
             if (Input.GetKeyDown(reloadKey)) reloadInput?.Invoke();
             if (Input.GetKeyDown(KeyCode.E)) pickupInput?.Invoke();
->>>>>>> dcb61ce94349c7b24a84bc23b9501d9c56864f51
         }
     }
 }
