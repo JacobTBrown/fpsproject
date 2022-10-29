@@ -587,6 +587,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         }
         roomNameText.text = PhotonNetwork.CurrentRoom.Name;
         roomNameTeamText.text = PhotonNetwork.CurrentRoom.Name;
+        DataManager.Instance.SetRoomName(roomNameText.text);
 
         if (currentRoomInfo == null)
         { // currentRoomInfo is null when we create a room.
