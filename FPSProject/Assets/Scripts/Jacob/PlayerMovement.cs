@@ -244,6 +244,7 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator displayRoutine;
     private int displayCount = 0;
 
+    TextMesh nameMesh;
     private void RaycastChecks()
     {
         /* This raycast simply points downwards from the player's position. It extends to half
@@ -266,26 +267,28 @@ public class PlayerMovement : MonoBehaviour
         // When you look at another player this will make it so the name of the player rotates towards you
         if (Physics.Raycast(transform.position, cameraTransform.forward, out RaycastHit hitInfo, 100)) {
             if (hitInfo.collider.tag == "Player" && hitInfo.collider != this.playerBodyTransform.GetComponent<Collider>()) {
-                TextMesh nameMesh = hitInfo.collider.gameObject.GetComponentInParent<PlayerSettings>().playerName;
+                nameMesh = hitInfo.collider.gameObject.GetComponentInParent<PlayerSettings>().playerName;
                 nameMesh.gameObject.SetActive(true);
                 var lookPos = hitInfo.collider.gameObject.transform.position - transform.position;
                 lookPos.y = 0;
                 var rotation = Quaternion.LookRotation(lookPos);
                 nameMesh.gameObject.transform.rotation = Quaternion.Slerp(nameMesh.gameObject.transform.rotation, rotation, 0.75f);
 
-                if (displayCount == 0)
-                {
-                    displayRoutine = DisableName(nameMesh);
-                    displayCount++;
-                }
+                // if (displayCount == 0)
+                // {
+                //     displayRoutine = DisableName(nameMesh);
+                //     displayCount++;
+                // }
             }
             else
             {
-                if (displayCount == 1 && displayRoutine != null)
-                {
-                    displayCount = 0;
-                    StartCoroutine(displayRoutine);
-                }
+                if (nameMesh != null)
+                    nameMesh.gameObject.SetActive(false);
+                // if (displayCount == 1 && displayRoutine != null)
+                // {
+                //     displayCount = 0;
+                //     StartCoroutine(displayRoutine);
+                // }
             }
         }
     }
@@ -370,7 +373,7 @@ public class PlayerMovement : MonoBehaviour
             moveSpeed = slowWalkSpeed;
             canDoubleJump = true;
         }
-        else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.sprint]) && isOnGround)
+        else if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.sprint]) && playerRigidbody.velocity.magnitude > 2f && isOnGround)
         {
             playerState = MovementState.sprinting;
             moveSpeed = sprintSpeed;
@@ -407,7 +410,7 @@ public class PlayerMovement : MonoBehaviour
             if (isCrouching) isCrouching = false;
         }
 
-        if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.slide]) && canStartSlide) {
+        if (Input.GetKey(keybinds.inputSystemDic[KeycodeFunction.slide]) && playerRigidbody.velocity.magnitude > 2f && canStartSlide) {
             //playerBodyTransform.localScale = new Vector3(playerBodyTransform.localScale.x, crouchYScale, playerBodyTransform.localScale.z);
             //transform.position = new Vector3(transform.position.x, transform.position.y - crouchYScale, transform.position.z);
             if (!isSliding) {
