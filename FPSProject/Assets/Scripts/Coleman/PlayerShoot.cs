@@ -24,7 +24,7 @@ public class PlayerShoot : MonoBehaviour
             if (!DataManager.Instance.IsCanShoot) return;
 
             Gun gun = GetComponentInChildren<Gun>();
-            if (!gun.gunData.fullAuto && gun.gameObject.activeSelf) 
+            if (gun != null && gun.gameObject.activeSelf && !gun.gunData.fullAuto) 
             {
                 if (Input.GetMouseButtonDown(0)) shootInput?.Invoke();
             } else

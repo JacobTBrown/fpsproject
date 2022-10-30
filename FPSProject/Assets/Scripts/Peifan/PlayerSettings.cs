@@ -40,6 +40,8 @@ public class PlayerSettings : MonoBehaviour
 
     public Slider mouseYSlider;
     public Slider mouseXSlider;
+    private string ySliderText;
+    private string xSliderText;
     // For the user to invert the Y mouse look
     public bool invertMouse = false;
     public bool chatIsOpen = false;
@@ -94,6 +96,8 @@ public class PlayerSettings : MonoBehaviour
             chatRoom.SetActive(false);
             mouseYSlider = GameObject.FindGameObjectWithTag("SliderV").GetComponent<Slider>();
             mouseXSlider = GameObject.FindGameObjectWithTag("SliderH").GetComponent<Slider>();
+            ySliderText = mouseYSlider.transform.Find("Slider").Find("tips").GetComponent<Text>().text = (int) mouseYSlider.value + "";
+            xSliderText = mouseXSlider.transform.Find("Slider").Find("tips").GetComponent<Text>().text = (int) mouseXSlider.value + "";
             settingPanel.SetActive(false);
             errorTextPopup = GameObject.Find("ErrorTextPopup");
             //errorText = errorTextPopup.GetComponent<TMP_Text>();
@@ -129,8 +133,11 @@ public class PlayerSettings : MonoBehaviour
         }
         mouseXSensitivity = mouseXSlider.value * 5;
         mouseYSensitivity = mouseYSlider.value * 5;
-        mouseYSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseYSlider.value + "";
-        mouseXSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseXSlider.value + "";
+        
+        if (settingPanel.activeSelf) {
+            ySliderText = mouseYSlider.transform.Find("Slider").Find("tips").GetComponent<Text>().text =(int)mouseYSlider.value + "";
+            xSliderText = mouseXSlider.transform.Find("Slider").Find("tips").GetComponent<Text>().text =(int)mouseXSlider.value + "";
+        }
         
         if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.scoreboard]))
         {
@@ -182,7 +189,6 @@ public class PlayerSettings : MonoBehaviour
                 canvas.transform.GetChild(3).gameObject.SetActive(false);
                 canvas.transform.GetChild(4).gameObject.SetActive(false);
                 weaponHolder.SetActive(false);
-                settingPanel.SetActive(settingPanel.activeInHierarchy);
                 // Lock the cursor to the center of the screen 
                 Cursor.lockState = CursorLockMode.None;
                 //// Make the cursor invisible
