@@ -22,18 +22,26 @@ public class WeaponSwap : MonoBehaviour
     void Update()
     {
         if (player.PV.IsMine) {
-            int previous = selected;
+            previous = selected;
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
             {
-                if (selected >= transform.childCount - 1) selected = 0;
-                else selected++;
-                player.PV.RPC("SetCurrentWeapon", RpcTarget.OthersBuffered, selected);
+                Gun gun = gameObject.transform.GetChild(selected).GetComponent<Gun>();
+                if (!gun.gunData.isReloading)
+                {
+                    if (selected >= transform.childCount - 1) selected = 0;
+                    else selected++;
+                    player.PV.RPC("SetCurrentWeapon", RpcTarget.OthersBuffered, selected);
+                }
             }
             if (Input.GetAxis("Mouse ScrollWheel") < 0)
             {
-                if (selected <= 0) selected = transform.childCount-1;
-                else selected--;
-                player.PV.RPC("SetCurrentWeapon", RpcTarget.OthersBuffered, selected);
+                Gun gun = gameObject.transform.GetChild(selected).GetComponent<Gun>();
+                if (!gun.gunData.isReloading)
+                {
+                    if (selected <= 0) selected = transform.childCount - 1;
+                    else selected--;
+                    player.PV.RPC("SetCurrentWeapon", RpcTarget.OthersBuffered, selected);
+                }
             }
             if(previous != selected)
             {
@@ -58,6 +66,7 @@ public class WeaponSwap : MonoBehaviour
                 weapon.gameObject.SetActive(true);
                 weapon.gameObject.GetComponent<Gun>().equipped = true;
                 weapon.gameObject.GetComponent<Gun>().owns = true;
+                weapon.gameObject.transform.position = Vector3.zero;
             }
             else
             {
