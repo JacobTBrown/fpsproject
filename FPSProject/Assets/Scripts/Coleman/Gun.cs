@@ -55,7 +55,6 @@ public class Gun : MonoBehaviour
             Debug.Log("Gun.cs exited start with reload: " + reload.name);
         } else
         {
-            Debug.Log("gun.cs failed");
             equipped = false;
         }
 

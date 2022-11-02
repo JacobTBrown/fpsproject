@@ -25,6 +25,7 @@ public class ScoreboardScript : MonoBehaviour
         //Debug.Log("Player name is: " + _player.NickName);
         player = _player;
         usernameText.text = _player.NickName;
+        
     }
 
     private void Update()
@@ -45,6 +46,7 @@ public class ScoreboardScript : MonoBehaviour
         killsText.text = kills.ToString();
 
         Debug.Log("Score: "+(int)player.CustomProperties["Kills"]);
+        Debug.Log((int)player.CustomProperties["Kills"]);
     }
 
 

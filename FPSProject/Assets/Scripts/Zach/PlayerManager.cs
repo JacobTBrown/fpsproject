@@ -76,6 +76,7 @@ public class PlayerManager : MonoBehaviour
     public void onPlayerDeath(PlayerDeathEvent evt){
         Debug.Log("Broadcasting " + evt + " from PlayerManager.cs");
         //edited 4pm 10-22
+        //change the display here?
         PlayerSpawnEvent evt1 = Events.PlayerSpawnEvent;
         evt1.player = evt.player;
         EventManager.Broadcast(evt1);
@@ -89,8 +90,7 @@ public class PlayerManager : MonoBehaviour
         EventManager.Broadcast(evt1);
 
     }
-
+    
 }
 
-//TODO:
-//we should instantiate the player prefab with it's PhotonId, and use Find("Player" + Photon.Network.playerID).
+//find any player's PV script with their viewID PhotonNetwork.GetPhotonView(int viewID) then use PV.gameObject for the player prefab

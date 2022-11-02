@@ -86,10 +86,19 @@ public class PlayerSettings : MonoBehaviour
             playerName.text = nickname;
             playerName.gameObject.SetActive(false);
             // end add by Jacob Brown
-            //Debug.Log("GETTING SETTINGS PANEL");
             settingPanel = GameObject.Find("SettingPanel");
+            //Debug.Log("GETTING SETTINGS PANEL");
+            //adding logic for team vs ffa scoreboard - zach
             scoreBoard = GameObject.FindObjectOfType<Scoreboard>().gameObject;
             scoreBoard.SetActive(false);
+            GameObject scoreBoardTeams = GameObject.FindObjectOfType<ScoreboardTeams>().gameObject;
+            scoreBoardTeams.SetActive(false);
+            if ((int)PhotonNetwork.LocalPlayer.CustomProperties["team"] > 0)
+            {
+                Debug.Log("Set team scoreboard");
+                scoreBoard = scoreBoardTeams;
+            }
+            
             chatRoom = GameObject.Find("ChatPannel");
             chatRoom.SetActive(false);
             mouseYSlider = GameObject.FindGameObjectWithTag("SliderV").GetComponent<Slider>();
@@ -243,7 +252,7 @@ public class PlayerSettings : MonoBehaviour
     {
        if (!PV.IsMine)
         {
-            Debug.Log("return early");
+           // Debug.Log("return early");
             return;
         }
         //var player1 = PhotonNetwork.CurrentRoom.Players.ElementAt(0);
@@ -268,11 +277,10 @@ public class PlayerSettings : MonoBehaviour
             k++;
            // Debug.Log("added player damagable for actor # " + newPVArr[k].OwnerActorNr);
         }
-        Debug.Log("list :");
         foreach (Player pp in PhotonNetwork.PlayerList)
         {
           //  pp.NickName
-            Debug.Log(pp.NickName + " is in playerList");
+            //Debug.Log(pp.NickName + " is in playerList");
             if (pp == null)
             {
                 Debug.Log("null player?");
@@ -288,26 +296,26 @@ public class PlayerSettings : MonoBehaviour
     public void setMaterial(Player p, GameObject[] newobj, PhotonView[] newPVArr)
     {
         int actorNumberToChange = p.ActorNumber;
-        Debug.Log("matching player found");
+        //Debug.Log("matching player found");
         for ( int i =0; i < newobj.Length; i++)
         {
-            Debug.Log(" p actor # " + p.ActorNumber + " vs " + newPVArr[i].OwnerActorNr);
+            //Debug.Log(" p actor # " + p.ActorNumber + " vs " + newPVArr[i].OwnerActorNr);
             if (p.ActorNumber == newPVArr[i].OwnerActorNr)
             {
                 MeshRenderer bodyMesh = newobj[i].gameObject.GetComponent<MeshRenderer>();
-                Debug.Log("body mesh: " + bodyMesh.name);
+                //Debug.Log("body mesh: " + bodyMesh.name);
             
                 MeshRenderer[] m = gameObject.GetComponentsInChildren<MeshRenderer>();
 
-                Debug.Log("got mesh = " + m[1].gameObject.name);
+                //Debug.Log("got mesh = " + m[1].gameObject.name);
                 Material[] materials = new Material[1];
                 materials = bodyMesh.materials;
                 materials[0] = (Material)Resources.Load("materials/Player_Mat1");
-                Debug.Log("size of materials arr = " + materials.Length);
+                //Debug.Log("size of materials arr = " + materials.Length);
                 Debug.Log(materials[0]);
 
                 Material[] playerMaterials = materials;
-                Debug.Log("new player materials being set on mesh render = " + playerMaterials[0]);
+                //Debug.Log("new player materials being set on mesh render = " + playerMaterials[0]);
                 bodyMesh.gameObject.GetComponent<MeshRenderer>().materials = playerMaterials;
             }
         }
