@@ -38,14 +38,16 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public void OnPlayerDeath(PlayerDeathEvent evt)
     {
-        //HandlePlayerSpawn(evt.player);
-        Debug.Log("This player is: " + player.NickName + " Dead player is: " + evt.player.GetComponent<PlayerSettings>().nickname);
-        if (evt.player.GetComponent<PlayerSettings>().nickname.Equals(player.NickName))
+        kills = (int)player.CustomProperties["Kills"];
+        deaths = (int)player.CustomProperties["Deaths"];
+        deathsText.text = deaths.ToString();
+        killsText.text = kills.ToString();
+        if (player.IsLocal)
         {
-            //deaths += 1;
-            //deathsText.text = deaths.ToString();
-            //Debug.Log("Number of deaths are: " + deaths);
+            FindObjectOfType<KillHUD>().updateText("kills: " + kills.ToString());
         }
+
+        Debug.Log("Score: "+(int)player.CustomProperties["Kills"]);
     }
 
     public void OnPlayerKill(PlayerKillEvent evt)
