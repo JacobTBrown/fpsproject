@@ -106,7 +106,8 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         debug = true;
         playerAdded = false;
         //if (Time.realtimeSinceStartup < 5f)
-        Invoke("IntroFade", 2);
+        //Invoke("IntroFade", 2);
+        //StartCoroutine(IntroFade()); //Moved to OnJoinedLobby
         PhotonNetwork.OfflineMode = false;
         //int exp = (int)PlayerStatsPage.Instance.GetTotalTime();
         //StartCoroutine(LevelTracker(.03f, levelText, levelImage, exp));
@@ -131,19 +132,21 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         int exp = (int)GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().newData.exp;
         int levelNumber = (int)GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().level;
         if (debug) Debug.Log("init exp: " + exp + " init level: " + levelNumber);
-
         LevelTracker(.03f, levelText, levelImage, levelNumber, exp);
     }
     private IEnumerator IntroFade()
     { //fade-in color
-        while (GameObject.Find("LoadingMenu").activeInHierarchy)
+        Debug.Log("fade");
+        if (GameObject.Find("WelcomeScreen").GetComponent<Image>() == null)
         {
-            Debug.Log("loading");
-            yield return null;
+            Debug.Log("null");
+            yield return new WaitForSeconds(.1f);
         }
         Image backgroundImg = GameObject.Find("WelcomeScreen").GetComponent<Image>();
+        Debug.Log(backgroundImg.name);
         while (backgroundImg.color.a < 1.0f)
         {
+            Debug.Log("fade");
             backgroundImg.color = new Color(backgroundImg.color.r, backgroundImg.color.g, backgroundImg.color.b, backgroundImg.color.a + .005f);
             yield return new WaitForSeconds(.01f);
         }
@@ -176,46 +179,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().SetLevel(level, remainderExp);
         StartCoroutine(FadeOutLevelText(levelText));
     }
-    /*    private IEnumerator LevelTracker(float time, TMP_Text levelText, SpriteRenderer img, int level, int exp)
-        {
-            //leaving some garbage code for scaling a rectangle later...
-            int remainderExp = exp % 5;
-            if (debug) Debug.Log("Exp: " + exp + " remainder to be save: " + remainderExp);
-            //float width = exp % 5;
-            if (debug) Debug.Log(level);
-            //string levelNumberString = (levelText.GetComponentInChildren<Text>().text.ToString());
-            levelText.GetComponentInChildren<Text>().text = level.ToString();
-            if (debug) Debug.Log("level text: " + levelText.GetComponentInChildren<Text>().text);
-            //if (debug) Debug.Log(width);
-            //int levelNumber = Int32.Parse(levelNumberString);
-            //img.transform.localScale.Set(width, img.transform.localScale.y, img.transform.localScale.z);
-            img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
-            while (exp > 0)
-            {
-                //Debug.Log(exp);
-                //Debug.Log("size of rect: " + img.transform.localScale.x + "x" + img.transform.localScale.y);
-                //Vector3 imgV3 = img.transform.localScale;
-                //imgV3.x += 10f;
-                if (debug) Debug.Log(" exp % 5 is: " + exp % 5);
-                if ((exp % 5) == 0)
-                {
-                    //imgV3.x = 0f;
-                    levelText.GetComponentInChildren<Text>().text = (++level).ToString();
-                    if (debug) Debug.Log("new level! : " + level);
-                }
-                //img.transform.localScale = imgV3;
-                //img.transform.localPosition.Set(imgV3.x, img.transform.localPosition.y, img.transform.localPosition.z);
-                //img.rectTransform.sizeDelta.Set(++incrementSize, img.rectTransform.localScale.y);
-                //img.rectTransform.localPosition.Set(imgXValue + Time.timeSinceLevelLoad, imgV3.y, imgV3.z);
-                img.color = new Color(img.color.r, img.color.g, img.color.b, img.color.a - .001f);
-                exp--;
-                yield return new WaitForSeconds(.05f);
-                //yield return new WaitForSeconds(time);
-            }
-            if (debug) Debug.Log("setting exp: " + expTemp + " for level: " + level);
-            GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().SetLevel(level, remainderExp);
-            StartCoroutine(FadeOutLevelText(levelText));
-        }*/
     private IEnumerator FadeOutLevelText(TMP_Text levelText)
     {
         while (levelText.color.a > 0.0f)
@@ -249,6 +212,11 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         pingObj.SetActive(true);
         pingAsInt = PhotonNetwork.GetPing();
         ping.text = PhotonNetwork.GetPing().ToString();
+        if (!MenuManager.Instance.menus[1].open)
+        {
+            //Debug.Log("Opening Welcome Screen.");
+            MenuManager.Instance.OpenMenu("welcome");
+        }
         //Debug.Log("Connected");
         PhotonNetwork.JoinLobby(); //allows room list updates
         PhotonNetwork.AutomaticallySyncScene = true;
@@ -269,11 +237,8 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     {
         //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room 
         //Debug.Log("JoinedLobby.");
-        if (!MenuManager.Instance.menus[1].open)
-        {
-            //Debug.Log("Opening Welcome Screen.");
-            MenuManager.Instance.OpenMenu("welcome");
-        }
+
+        StartCoroutine(IntroFade());
         //MenuManager.Instance.OpenMenu("welcome");
         //Debug.Log("OnJoined Lobby Fucntion Call");
         // Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
@@ -298,6 +263,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         options.CustomRoomPropertiesForLobby = new string[] { "map", "mode", "team1", "team2" }; //add more room properties here
         Hashtable properties = new Hashtable();
         Hashtable playerProps = new Hashtable();
+
      /*   if (mapAsInt == 0)
         {
             if (debug) Debug.Log("set host map image to map: " + mapAsInt);

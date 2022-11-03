@@ -46,7 +46,7 @@ public class ScoreboardScript : MonoBehaviour
         killsText.text = kills.ToString();
 
         Debug.Log("Score: "+(int)player.CustomProperties["Kills"]);
-        Debug.Log((int)player.CustomProperties["Kills"]);
+        //Debug.Log((int)player.CustomProperties["Kills"]);
     }
 
 
