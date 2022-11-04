@@ -9,15 +9,18 @@ using TMPro;
 public class Timer : MonoBehaviour
 {
     bool startTimer = false;
+    int stop;
    [SerializeField] double timerIncrementValue;
     double startTime;
     [SerializeField] double timer;
     [SerializeField] public TextMeshProUGUI TimerText;
+    [SerializeField] public TMP_Text GameOverText;
     ExitGames.Client.Photon.Hashtable CustomeValue;
  
  void Start()
      {
-         timer = 60;
+        stop = 0;
+         timer = 666;
          TimerText = GetComponent<TextMeshProUGUI>();
          if (PhotonNetwork.LocalPlayer.IsMasterClient)
          {
@@ -29,10 +32,15 @@ public class Timer : MonoBehaviour
          }
          else
          {
-             startTime = double.Parse(PhotonNetwork.CurrentRoom.CustomProperties["StartTime"].ToString());
-             startTimer = true;
+            Invoke("StartTimeForOthers", 1);   
          }
      }
+    public void StartTimeForOthers()
+    {
+        Debug.Log("room props: " + PhotonNetwork.CurrentRoom.CustomProperties["StartTime"]);
+        startTime = double.Parse(PhotonNetwork.CurrentRoom.CustomProperties["StartTime"].ToString());
+        startTimer = true;
+    }
  
      void Update()
      {
@@ -44,16 +52,22 @@ public class Timer : MonoBehaviour
          int seconds = (int)timerIncrementValue - (mins*60);
          TimerText.text = mins.ToString("D1") + ":" + seconds.ToString("D2");
 
-         if (timerIncrementValue >= timer)
-         {
-            TimesUP();
-         }
-     }
+        if (timerIncrementValue >= timer && stop == 0)
+        {
+            TimesUP(); // is running on update??
+            stop = 1;
+            startTimer = false;
+        }
+        
+    }
 
      void TimesUP()
      {
-                Debug.Log("Timer: End Game Event Called");
-                EndGameEvent ev = Events.EndGameEvent;
-                EventManager.Broadcast(ev);
-     }
+          EndGameEvent ev = Events.EndGameEvent;
+          EventManager.Broadcast(ev);
+          gameObject.SetActive(false);
+        GameOverText.text += "\n Time expired! No winner!";
+        //start an exit game routine here if we have one: (exit game after a short delay)
+    }
+
 }

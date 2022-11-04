@@ -7,8 +7,8 @@ using Unity.Scripts.Jonathan;
 using Photon.Pun;
 using ExitGames.Client.Photon;
 using System;
-
-public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
+using Hashtable = ExitGames.Client.Photon.Hashtable;
+public class ScoreboardScript : MonoBehaviour
 {
     PlayerStatsPage statsPage;
     public TMP_Text usernameText;
@@ -25,6 +25,7 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
         //Debug.Log("Player name is: " + _player.NickName);
         player = _player;
         usernameText.text = _player.NickName;
+        
     }
 
     private void Update()
@@ -35,51 +36,19 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
     private void Awake()
     {
         EventManager.AddListener<updateScore>(onUpdate);
-        EventManager.AddListener<PlayerDeathEvent>(OnPlayerDeath);
-        EventManager.AddListener<PlayerKillEvent>(OnPlayerKill);
     }
 
-    private void onUpdate(updateScore obj)
+    public void onUpdate(updateScore obj)
     {
         kills = (int)player.CustomProperties["Kills"];
         deaths = (int)player.CustomProperties["Deaths"];
         deathsText.text = deaths.ToString();
         killsText.text = kills.ToString();
+
+        Debug.Log("Score: "+(int)player.CustomProperties["Kills"]);
+        //Debug.Log((int)player.CustomProperties["Kills"]);
     }
 
-    public void OnPlayerDeath(PlayerDeathEvent evt)
-    {
-        //HandlePlayerSpawn(evt.player);
-        Debug.Log("This player is: " + player.NickName + " Dead player is: " + evt.player.GetComponent<PlayerSettings>().nickname);
-        if (evt.player.GetComponent<PlayerSettings>().nickname.Equals(player.NickName))
-        {
-            //deaths += 1;
-            //deathsText.text = deaths.ToString();
-            //Debug.Log("Number of deaths are: " + deaths);
-        }
-
-        //kills = (int)player.CustomProperties["Kills"];
-        //deaths = (int)player.CustomProperties["Deaths"];
-        //deathsText.text = deaths.ToString();
-        //killsText.text = kills.ToString();
-    }
-
-    public void OnPlayerKill(PlayerKillEvent evt)
-    {
-        Debug.Log("Entered ScoreboardScript.cs OnPlayerKill");
-        Debug.Log("This player is: " + player.NickName + "Killed player is: " + evt.player.GetComponent<PlayerSettings>().nickname);
-        if (evt.player.GetComponent<PlayerSettings>().nickname.Equals(player.NickName))
-        {
-            //kills += 1;
-            //killsText.text = kills.ToString();
-            Debug.Log("Number of kills are: " + kills);
-        }
-
-        //kills = (int)player.CustomProperties["Kills"];
-        //deaths = (int)player.CustomProperties["Deaths"];
-        //deathsText.text = deaths.ToString();
-        //killsText.text = kills.ToString();
-    }
 
     private void OnEnable()
     {
@@ -117,13 +86,5 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
         }
     }
 
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
-    {
-        Debug.Log("In here for changing properties.");
-        kills = (int)player.CustomProperties["Kills"];
-        deaths = (int)player.CustomProperties["Deaths"];
-        deathsText.text = deaths.ToString();
-        killsText.text = kills.ToString();
-        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
-    }
+
 }

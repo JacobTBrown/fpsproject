@@ -40,6 +40,8 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     float initialTimeInGame;
     public bool saved = false;
     public int gotKill;
+    public int team1Kills;
+    public int team2Kills;
     public int gotKilled;
     public bool onDie;
     public int team;
@@ -54,11 +56,11 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         //     Debug.Log("destroy");
         //   Destroy(this);
         //    }
-
         onDie = false; //unused with PhotonEvent.cs 
         EventManager.AddListener<PlayerKillEvent>(SetKills);
         EventManager.AddListener<PlayerDeathEvent>(SetDeaths);
-
+        team1Kills = 0;
+        team2Kills = 0;
         DontDestroyOnLoad(this.gameObject);
         //going to try making the JSON in DataSaver.cs
         Instance = this;
@@ -74,7 +76,6 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     }
     public void loadNew()
     {
-
         //Debug.Log("grabbing the new data loaded from PlayerStatsPage: " + data.totalKills);
         timeInGame = newData.timeInGame;
         totalTime = newData.totalTime;
@@ -119,7 +120,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         }
     }
     /// <summary>
-    /// Returns true when we're on the same team, false otherwise. Call this before accepting damage from another player or anything else team related.
+    /// Returns true when we're on the same team, false otherwise. Call this before accepting damage from another player or anything else team related ? its also stored in custom properties
     /// </summary>
     public bool CheckTeam(PhotonView EPV)
     {
@@ -286,11 +287,10 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     }
     public void SetKills()
     {
- 
         Debug.Log("PlayerStatsPage.cs did setKills manually");
             totalKills++;
+        
             return;
-
     }
     public void setDeaths()
     {
@@ -300,44 +300,9 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     }
     public void SetKills(PlayerKillEvent evt)
     { //unused with the PhotonEvents
-        
-      /*  PhotonView killeePV = PhotonView.Find(gotKilled);
-        PhotonView killerPV = PhotonView.Find(gotKill);
-        Debug.Log(killeePV + " was killee, " + killerPV + " was killer");
-        // BUGLOG: gives me 2 kills when a different player gets a kill
-        Debug.Log(evt.player.GetComponent<PhotonView>().OwnerActorNr + "is actor number calling setKills");
-      //  if (PhotonNetwork.LocalPlayer.ActorNumber == evt.player.GetComponent<PhotonView>().OwnerActorNr)
-           if (!onDie && PhotonNetwork.LocalPlayer.ActorNumber == evt.player.GetComponent<PhotonView>().OwnerActorNr)
-        {
-            Debug.Log("PlayerStatsPage.cs Event: " + evt + " Set kills for local player " + PhotonNetwork.LocalPlayer.ActorNumber); 
-            //totalKills++;
-            onDie = false;
-            return;
-        }
-        else
-        {
-            Debug.Log(" you were killed ");
-        }
-        *//*      Debug.Log("PlayerStatsPage.cs Event: " + evt);
-              totalKills++;*//*
-        onDie = false;
-        return;*/
     }
     public void SetDeaths(PlayerDeathEvent evt)
     {
-     /*   PhotonView killeePV = PhotonView.Find(gotKilled);
-        PhotonView killerPV = PhotonView.Find(gotKill);
-        //Debug.Log("This player's actor # is: " + PhotonNetwork.LocalPlayer.ActorNumber);
-
-        Debug.Log(evt.player.GetComponent<PhotonView>().OwnerActorNr + "is actor number calling setDeaths");
-        Debug.Log(PhotonNetwork.LocalPlayer.ActorNumber + "is local actor number");
-        if (evt.player.GetComponent<PhotonView>().OwnerActorNr == PhotonNetwork.LocalPlayer.ActorNumber)
-       //if (killeePV.IsMine)
-        {
-            Debug.Log("PlayerStatsPage.cs Event: " + evt);
-            //totalDeaths++;
-        }*/
-
     }
     public int GetDeaths()
     {
@@ -355,7 +320,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     {
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0)) 
         {
-            Debug.Log("dont do this on scene 0");
+            //Debug.Log("dont do this on scene 0");
             return;
         }
         byte eventCode = photonEvent.Code;

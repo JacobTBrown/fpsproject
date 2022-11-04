@@ -55,7 +55,6 @@ public class Gun : MonoBehaviour
             Debug.Log("Gun.cs exited start with reload: " + reload.name);
         } else
         {
-            Debug.Log("gun.cs failed");
             equipped = false;
         }
 
@@ -153,7 +152,7 @@ public class Gun : MonoBehaviour
                                 {
                                     Debug.Log("Hit");
                                     StartCoroutine(playerHit());
-                                    hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, EPV.ViewID);
+                                    hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, PV.ViewID);
                                 }
                                 IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
                                 Debug.Log(hitInfo);
