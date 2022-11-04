@@ -6,14 +6,10 @@ using Photon.Realtime;
 using Unity.Scripts.Jonathan;
 using Photon.Pun;
 using ExitGames.Client.Photon;
-<<<<<<< HEAD
 using System;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
-public class ScoreboardScript : MonoBehaviour
-=======
 
 public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
->>>>>>> Blake_Brooks(New)
 {
     PlayerStatsPage statsPage;
     public TMP_Text usernameText;
@@ -48,19 +44,14 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
         deaths = (int)player.CustomProperties["Deaths"];
         deathsText.text = deaths.ToString();
         killsText.text = kills.ToString();
-<<<<<<< HEAD
-=======
         if (player.IsLocal)
         {
             FindObjectOfType<KillHUD>().updateText("kills: " + kills.ToString());
         }
->>>>>>> Blake_Brooks(New)
 
         Debug.Log("Score: "+(int)player.CustomProperties["Kills"]);
     }
 
-<<<<<<< HEAD
-=======
     public void OnPlayerKill(PlayerKillEvent evt)
     {
         Debug.Log("Entered ScoreboardScript.cs OnPlayerKill");
@@ -82,7 +73,6 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
             //killsText.text = kills.ToString();
         //}
     }
->>>>>>> Blake_Brooks(New)
 
     private void OnEnable()
     {
@@ -119,10 +109,6 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
             }
         }
     }
-
-<<<<<<< HEAD
-
-=======
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         Debug.Log("In here for changing properties.");
@@ -132,5 +118,4 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
         killsText.text = kills.ToString();
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
     }
->>>>>>> Blake_Brooks(New)
 }
