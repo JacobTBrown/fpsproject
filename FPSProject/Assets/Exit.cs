@@ -12,7 +12,6 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
     [ContextMenu("Exit")]
     private void Awake()
     {
-
     }
     private void Start()
     {
@@ -38,7 +37,7 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
         {
             Debug.Log("exit cant find ur PV");
         }
-        DisconnectPlayer();
+        //DisconnectPlayer();
         //Destroy(GameObject.Find("GameManager"));
      
         //PhotonHandler.
@@ -50,6 +49,11 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
         //Debug.Log("destroyed " + PhotonNetwork.LocalPlayer);
         //PhotonNetwork.LeaveRoom();
 
+    }
+    public void HardRestart()
+    {
+        System.Diagnostics.Process.Start(Application.dataPath.Replace("_Data", ".exe")); //new program
+        Application.Quit();
     }
     public void afterRPC()
     {
