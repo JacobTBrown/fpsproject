@@ -1,6 +1,7 @@
 ﻿using ExitGames.Client.Photon;
 using Photon.Chat;
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 /*
     Author: Peifan Tian
     Creation: 10/03/22
-    Last Edit: 10/21/22 -Peifan
+    Last Edit: 11/03/22 -Peifan
 
 */
 public class PhotonChatManager : MonoBehaviour, IChatClientListener
@@ -51,10 +52,10 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     // Start is called before the first frame update
     void Start()
     {
-        Invoke("Delay",2f);
+        Invoke("Delay", 2f);
     }
 
-    void Delay() 
+    void Delay()
     {
         chatClient.PublishMessage(DataManager.Instance.GetRoomName(), "joingame");
         bool isSubscribed = chatClient.Subscribe(DataManager.Instance.GetRoomName());
@@ -62,7 +63,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
         {
             //Debug.LogError("Subscribed");
         }
-        
+
     }
 
     // Update is called once per frame
@@ -73,14 +74,14 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
             chatClient.Service();
         }
 
-        if (chatField.text != "") 
+        if (chatField.text != "")
         {
             if (Input.GetKey(KeyCode.Return))
             {
                 SubmitPublicChatOnClick();
                 SubmitPrivateChatOnClick();
             }
-        }   
+        }
     }
 
     public void SubmitPublicChatOnClick()
@@ -150,17 +151,64 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
 
     public void OnGetMessages(string channelName, string[] senders, object[] messages)
     {
+        if (channelName == "World") return;
         string text = "";
         int length = 0;
 
-        while(length < senders.Length){
+        while (length < senders.Length) {
             text = senders[length] + ": " + messages[length];
             string[] value = text.Split(new string[] { "--" }, System.StringSplitOptions.None);
             string newtext = MakeText(value[0], value[1]);
-            chatDisplay.text += "\n" + newtext;
-            length++;
+            if (newtext != "") 
+            {
+                chatDisplay.text += "\n" + newtext;
+                length++;
+            }
         }
 
+    }
+
+    public Action AddMoveSpeedEvent;
+    public string AddMoveSpeed() 
+    {
+        //Debug.LogError("SpeedUp");
+        AddMoveSpeedEvent?.Invoke();
+        return "SpeedUp";
+    }
+    public Action ReduceMoveSpeedEvent;
+    public string ReduceMoveSpeed()
+    {
+        //Debug.LogError("SpeedDown");
+        ReduceMoveSpeedEvent?.Invoke();
+        return "SpeedDown";
+    }
+    public Action AddJumpEvent;
+    public string AddJump()
+    {
+        //Debug.LogError("JumpUp");
+        AddJumpEvent?.Invoke();
+        return "JumpUp";
+    }
+    public Action ReduceJumpEvent;
+    public string ReduceJump()
+    {
+        //Debug.LogError("JumpDown");
+        ReduceJumpEvent?.Invoke();
+        return "JumpDown";
+    }
+    public Action AddAirSpeedEvent;
+    public string AddAirSpeed()
+    {
+        //Debug.LogError("AirSpeedUp");
+        AddAirSpeedEvent?.Invoke();
+        return "AirSpeedUp";
+    }
+    public Action ReduceAirSpeedEvent;
+    public string ReduceAirSpeed()
+    {
+        //Debug.LogError("AirSpeedDown");
+        ReduceAirSpeedEvent?.Invoke();
+        return "AirSpeedDown";
     }
 
     public string MakeText(string style, string value)
@@ -169,6 +217,15 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
         //Debug.LogError("style = " + style);
         string[] tmp = style.Split(new string[] { ":" }, System.StringSplitOptions.None);
         //Debug.LogError("tmp[1] = " + tmp[1]);
+        if (tmp[0] != playerName && value == "AddMoveSpeed" || value == "ReduceMoveSpeed" || value == "AddJump" ||
+            value == "ReduceJump" || value == "AddAirSpeed" || value == "ReduceAirSpeed") return "";
+        if (value == "AddMoveSpeed") value = AddMoveSpeed();
+        else if (value == "ReduceMoveSpeed") value = ReduceMoveSpeed();
+        else if (value == "AddJump") value = AddJump();
+        else if (value == "ReduceJump") value = ReduceJump();
+        else if (value == "AddAirSpeed") value = AddAirSpeed();
+        else if (value == "ReduceAirSpeed") value = ReduceAirSpeed();
+
         switch (tmp[1].Trim())
         {
             case "0":

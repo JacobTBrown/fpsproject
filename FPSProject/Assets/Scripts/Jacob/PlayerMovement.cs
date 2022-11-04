@@ -136,6 +136,15 @@ public class PlayerMovement : MonoBehaviour
             // Destroy the camera component so our guns don't disappear
             GetComponentInChildren<Camera>().enabled = false;
         }
+        else
+        {
+            PhotonChatManager.instance.AddMoveSpeedEvent = () => { walkSpeed += 10f; };
+            PhotonChatManager.instance.ReduceMoveSpeedEvent = () => { walkSpeed -= 2f; };
+            PhotonChatManager.instance.AddJumpEvent = () => { jumpForce += 5f; };
+            PhotonChatManager.instance.ReduceJumpEvent = () => { jumpForce -= 2f; };
+            PhotonChatManager.instance.AddAirSpeedEvent = () => { airSpeed += 5f; };
+            PhotonChatManager.instance.ReduceAirSpeedEvent = () => { airSpeed -= 2f; };
+        }
 
         keybinds = GetComponent<PlayerSettings>();
         playerCam = GetComponentInChildren<PlayerCameraMovement>();
