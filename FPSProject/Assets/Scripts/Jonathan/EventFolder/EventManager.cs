@@ -49,7 +49,6 @@ namespace Unity.Scripts.Jonathan
                     else
                         s_Events[typeof(T)] = tempAction;
                 }
-
                 s_EventLookups.Remove(evt);
             }
         }

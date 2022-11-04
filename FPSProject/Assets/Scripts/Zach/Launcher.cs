@@ -83,7 +83,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     Hashtable otherPlayerProperties;
     public MapData[] mapsArr;
     //public string[] maps = { "test", "test2" };
-    public int mapAsInt = 0;
+    private int mapAsInt = 1;
     public int MaxPlayersPerLobby = 8;
     public int pingAsInt;
     public Text maxPlayersString;
@@ -105,22 +105,19 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         MapImage.SetActive(false);
         debug = true;
         playerAdded = false;
-        //if (Time.realtimeSinceStartup < 5f)
+        //if (Time.realtimeSinceStartup < 5f) return? 
         //Invoke("IntroFade", 2);
         //StartCoroutine(IntroFade()); //Moved to OnJoinedLobby
         PhotonNetwork.OfflineMode = false;
-        //int exp = (int)PlayerStatsPage.Instance.GetTotalTime();
-        //StartCoroutine(LevelTracker(.03f, levelText, levelImage, exp));
         pingObj = GameObject.Find("PingVariable");
         pingObj.SetActive(false);
-        //Debug.Log("Script activated");
         Instance = this;
         Invoke("CheckConnection", 30);
         Invoke("LevelRoutine", 2);
-        mapsArr = new MapData[3];          //to add maps, increment this array, and add the map name below with its index in the build settings.
-        mapsArr[0] = new MapData("Ice World 1", 1);
-        mapsArr[1] = new MapData("Ice World 2", 2);
-        mapsArr[2] = new MapData("Ice World 3", 3);
+        mapsArr = new MapData[3]; //to add a map, increment the array by one, and add the map name below where #=index in the build settings(mapsArr[*.
+        mapsArr[0] = new MapData("Ice World", 1); //give the map a name here, and insert the build index. The file name of the image must match the naming scheme (just change jpg file names if u change the order)  
+        mapsArr[1] = new MapData("Town Town", 2);
+        mapsArr[2] = new MapData("Grass Land", 3);
         modeAsInt = 0;
         playerProperties = new Hashtable();
         otherPlayerProperties = new Hashtable();
@@ -136,29 +133,25 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     }
     private IEnumerator IntroFade()
     { //fade-in color
-        Debug.Log("fade");
+       // Debug.Log("fade");
         if (GameObject.Find("WelcomeScreen").GetComponent<Image>() == null)
         {
-            Debug.Log("null");
+            //Debug.Log("null");
             yield return new WaitForSeconds(.1f);
         }
         Image backgroundImg = GameObject.Find("WelcomeScreen").GetComponent<Image>();
         Debug.Log(backgroundImg.name);
         while (backgroundImg.color.a < 1.0f)
         {
-            Debug.Log("fade");
+            //Debug.Log("fade");
             backgroundImg.color = new Color(backgroundImg.color.r, backgroundImg.color.g, backgroundImg.color.b, backgroundImg.color.a + .005f);
             yield return new WaitForSeconds(.01f);
         }
     }
     private void LevelTracker(float time, TMP_Text levelText, SpriteRenderer img, int level, int exp)
     {
-        //leaving some garbage code for scaling a rectangle later...
         int remainderExp = exp % 120;
-        //if (debug) Debug.Log("Exp: " + exp + " remainder to be save: " + remainderExp);
-        //if (debug) Debug.Log(level);
         levelText.GetComponentInChildren<Text>().text = level.ToString();
-        //if (debug) Debug.Log("level text: " + levelText.GetComponentInChildren<Text>().text);
         img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
         while (exp > 0)
         {
@@ -172,10 +165,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
             exp--;
         }
         //if (debug) Debug.Log("setting exp: " + exp + " for level: " + level);
-        if (level > 9999)
-        {
-            GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().SetLevel(1, remainderExp);
-        }else
         GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().SetLevel(level, remainderExp);
         StartCoroutine(FadeOutLevelText(levelText));
     }
@@ -201,8 +190,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         //PhotonNetwork.GameVersion = MasterManager.GameSettings.GameVersion;
         if (!PhotonNetwork.IsConnected)
         {
-           
-            // Debug.Log(PhotonNetwork.IsConnectedAndReady + " - launcher did call connectUsingSettings");
             PhotonNetwork.ConnectUsingSettings();
         }
     }
@@ -245,9 +232,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     }
     public void OnClickCreateRoom()
     {
-        //https://answers.unity.com/questions/1718924/photon-network-wont-join-random-room-with-a-custom.html
-        //ExitGames.Client.Photon.Hashtable customProperties = new ExitGames.Client.Photon.Hashtable();
-        //customProperties["Scene"] = selectedMap.map.name // this for the in-game properties i think?
         if (string.IsNullOrEmpty(roomNameInputField.text))
         {
             Debug.Log("Room name was null");
@@ -333,7 +317,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
             if (r.CustomProperties.ContainsKey("map"))
             {
                 //if (debug) Debug.Log("had map key");
-                newRoomItemPrefab.transform.Find("mapText").GetComponent<Text>().text = mapsArr[(int)r.CustomProperties["map"]].name; //for changing the map inside the room
+                newRoomItemPrefab.transform.Find("mapText").GetComponent<Text>().text = mapsArr[(int)r.CustomProperties["map"]-1].name; //for changing the map inside the room
             }
             if (r.CustomProperties.ContainsKey("mode"))
             {
@@ -359,7 +343,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
           }*/
     }
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
-    { //this function creates the AllRoomsList. The AllRoomsList populates the newRoomList with RenderRooms() 
+    { //this function creates the AllRoomsList. When AllRoomsList contains all the rooms, RenderRooms() displays AllRoomsList
         //foreach (RoomInfo r in AllRoomsList) { Debug.Log("all names in AllRoomsList: " + r.Name); }
         foreach (RoomInfo r in roomList)
         {
@@ -373,7 +357,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
                 continue;
             }
             else if (r.RemovedFromList)
-            {
+            { //catch all oth
                 //if (debug) Debug.Log("room was hidden or full");
                 AllRoomsList.Remove(r);
                 RenderRooms();
@@ -381,8 +365,8 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
             }
             RoomInfo existingRoom = AllRoomsList.Find(x => x.Name.Equals(r.Name)); //foreach room, check to see it it already exists & store it in existingRoom
             if (existingRoom == null)
-            {
-                AllRoomsList.Add(r); //! check for proper removal of empty rooms, should have happened already: check RoomListingsMenu.cs
+            { //
+                AllRoomsList.Add(r);
                 //if (debug) Debug.Log("added to all roomlist: " + AllRoomsList.Count);
             }
             else
@@ -398,8 +382,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
             }
         }
         base.OnRoomListUpdate(roomList);
-        //Debug.Log("new list of allRooms: " + roomList);
-        //foreach (RoomInfo r in AllRoomsList) { if (debug) Debug.Log("new names in AllRoomsList: " + r.Name); }
     }
     public void RenderPlayers(RoomInfo r)
     {
@@ -430,7 +412,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
             }
         }
         //if (debug) Debug.Log("rendered from RenderPlayers()");
-
     }
     public void RenderPlayers(Player[] p)
     {
@@ -450,10 +431,8 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         for (int i = 0, j = 0; i < players.Count(); j++, i++)
         {
             if (debug) Debug.Log("rendering player: " + i + " on team: " + (int)players[i].CustomProperties["team"]);
-            //players[i].CustomProperties["team"] = 1;
             if ((int)players[i].CustomProperties["team"] == 2)
             {
-                // players[i].CustomProperties["team"] = 2;
                 Instantiate(PlayerListItemTeamsPrefab, playerListTeam2).GetComponent<PlayerListItemTeam>().SetUp(players[i]);
             }
             else if ((int)players[i].CustomProperties["team"] == 1)
@@ -535,28 +514,23 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         RoomInfo info = PhotonNetwork.CurrentRoom;
         if (debug) Debug.Log("room mode: " + info.CustomProperties["mode"].ToString());
         if (debug) Debug.Log("room map: " + info.CustomProperties["map"].ToString());
-        if ((int)info.CustomProperties["map"] == 0)
-        {
-            if (debug) Debug.Log("set host map image to map: " + (int)info.CustomProperties["map"]);
-            MapImageRawImage.texture = (Texture)Resources.Load("materials/map0image");
+        if (info.CustomProperties.ContainsKey("map"))
+        { //trbleshooting 11-3 1am
+            if (debug) Debug.Log("set image to map" + (int)info.CustomProperties["map"] + "image");
+            MapImageRawImage.texture = (Texture)Resources.Load("materials/map" + (int)info.CustomProperties["map"] + "image");
             MapImage.SetActive(true);
-        } else if ((int)info.CustomProperties["map"] == 1)
-        {
-            if (debug) Debug.Log("set host map image to map: " + (int)info.CustomProperties["map"]);
-            MapImageRawImage.texture = (Texture)Resources.Load("materials/map1image");
-            MapImage.SetActive(true);
-        }
+        } 
         MapImage.SetActive(true);
         
         base.OnJoinedRoom();
         if ((int)info.CustomProperties["mode"] > 0)
         {
-            if (debug) Debug.Log("room teams: " + info.CustomProperties["team1"].ToString() + " was team 1, team 2: " + info.CustomProperties["team1"].ToString());
+            //if (debug) Debug.Log("room teams: " + info.CustomProperties["team1"].ToString() + " was team 1, team 2: " + info.CustomProperties["team1"].ToString());
             if (debug) Debug.Log("mode > 0");
             MenuManager.Instance.OpenMenu("teamroom");
             if ((int)info.CustomProperties["team2"] >= (int)info.CustomProperties["team1"])
             {
-                if (debug) Debug.Log("team 1 size: " + (int)info.CustomProperties["team1"] + "++");
+                //if (debug) Debug.Log("team 1 size: " + (int)info.CustomProperties["team1"] + "++");
                 Hashtable h = new Hashtable();
                 Hashtable j = new Hashtable();
                 h.Add("team", 1);
@@ -575,9 +549,9 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
                 PhotonNetwork.CurrentRoom.SetCustomProperties(j);
                 PhotonNetwork.LocalPlayer.SetCustomProperties(h);
                 //changeTeam(PhotonNetwork.LocalPlayer, 2);
-                if (debug) Debug.Log("new team 2 size: " + (int)info.CustomProperties["team2"]);
+                //if (debug) Debug.Log("new team 2 size: " + (int)info.CustomProperties["team2"]);
             }
-            Debug.Log("custom props rendering team: " + (int)PhotonNetwork.LocalPlayer.CustomProperties["team"] + " for player: " + PhotonNetwork.LocalPlayer.NickName);
+            //Debug.Log("custom props rendering team: " + (int)PhotonNetwork.LocalPlayer.CustomProperties["team"] + " for player: " + PhotonNetwork.LocalPlayer.NickName);
             Invoke("RenderPlayers", 0.5f);
             //RenderPlayers();
         }
@@ -608,7 +582,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
             }
             else if (modeAsInt == 1)
             {
-                if (debug) Debug.Log("onJoinedRoom my team # : " + PhotonNetwork.LocalPlayer.CustomProperties["team"].ToString());
+                //if (debug) Debug.Log("onJoinedRoom my team # : " + PhotonNetwork.LocalPlayer.CustomProperties["team"].ToString());
 
                 MenuManager.Instance.OpenMenu("teamroom");
                 foreach (Transform child in playerListTeam1)
@@ -718,13 +692,13 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     public void ChangeMap()
     {   //attatched to the select map button
         mapAsInt++;
-        if (mapAsInt >= mapsArr.Length) mapAsInt = 0; //button click loops through the array
+        if (mapAsInt >= mapsArr.Length+1) mapAsInt = 1; //button click loops through the array
         //if (mapAsInt >= mapsArr.Length) mapsArr[mapAsInt].scene = 0;
         //Debug.Log("map int value: " + mapAsInt);
         //Debug.Log("map string value: " + mapsArr[mapAsInt].name);
-
-        MapImageCreateRoomRawImage.texture = (Texture)Resources.Load("materials/map" + mapAsInt.ToString() + "image");
-        mapValue.text = mapsArr[mapAsInt].name;
+       // Debug.Log("map as int: " + mapAsInt);
+        MapImageCreateRoomRawImage.texture = (Texture)Resources.Load("materials/map" + (mapAsInt).ToString() + "image");
+        mapValue.text = mapsArr[mapAsInt-1].name;
         
     }
 
@@ -860,7 +834,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     {
         GameObject.Find("Back").SetActive(false);
         //Debug.Log("loading map number: " + mapsArr[mapAsInt].scene);
-        PhotonNetwork.LoadLevel(mapsArr[mapAsInt].scene); 
+        PhotonNetwork.LoadLevel(mapsArr[mapAsInt-1].scene); 
     }    
     public void startGameAndRemove()
     { // kicks you to title screen if you can click fast enough before it disappears
@@ -869,7 +843,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         PhotonNetwork.CurrentRoom.IsVisible = false;
         PhotonNetwork.CurrentRoom.IsOpen = false;
         
-        PhotonNetwork.LoadLevel(mapsArr[mapAsInt].scene);
+        PhotonNetwork.LoadLevel(mapsArr[mapAsInt-1].scene);
     }
     public void RenderFFA()
     {
@@ -970,7 +944,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
             newRoomBtn.transform.Find("nameText").GetComponent<Text>().text = r.Name;
             if (existingRoom.CustomProperties.ContainsKey("map"))
             {
-                newRoomBtn.transform.Find("mapText").GetComponent<Text>().text = mapsArr[(int)existingRoom.CustomProperties["map"]].name; //for changing the map inside the room
+                newRoomBtn.transform.Find("mapText").GetComponent<Text>().text = mapsArr[(int)existingRoom.CustomProperties["map"]-1].name; //for changing the map inside the room
             }
             //newRoomBtn.GetComponent<Button>().onClick.AddListener(delegate { JoinOnClick(existingRoom); });
         }

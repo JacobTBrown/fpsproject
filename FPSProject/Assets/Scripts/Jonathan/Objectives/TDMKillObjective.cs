@@ -12,7 +12,7 @@ using TMPro;
     Goal of Script
         - Monitor All Player Kills
         - Order Players into a List Order by Highest Kills
-        - If Player Hits a Max Kill Amount then BroadCast Completed Event
+        - If a team Hits a Max Kill Amount then BroadCast Completed Event
         - copied by zach for teams
  */
 public class TDMKillObjective : MonoBehaviourPunCallbacks, Objective
@@ -21,9 +21,10 @@ public class TDMKillObjective : MonoBehaviourPunCallbacks, Objective
     [SerializeField] GameObject GameOverText;
     public int team1Kills = 0;
     public int team2Kills = 0;
-
+    public bool gameOver;
     public void Awake()
     {
+        gameOver = false;
         team1Kills = 0;
         team2Kills = 0;
         foreach (Player p in PhotonNetwork.PlayerList)
@@ -40,10 +41,13 @@ public class TDMKillObjective : MonoBehaviourPunCallbacks, Objective
     }
     public override void OnPlayerPropertiesUpdate(Player target, Hashtable propties)
     {
+        if (gameOver)
+        {
+            return;
+        }
         Debug.Log("Update");
         if (propties.ContainsKey("Kills"))
         {
-            
             if ((int)target.CustomProperties["team"] == 1)
             {
                // Debug.Log("player on team 1 got kill: " + target.ActorNumber);
@@ -71,6 +75,8 @@ public class TDMKillObjective : MonoBehaviourPunCallbacks, Objective
 
     private void EventCompleted()
     {
+        gameOver = true;
+
         ObjectiveCompletedEvent evt = Events.objectiveCompletedEvent;
         evt.objective = this;
         EventManager.Broadcast(evt);

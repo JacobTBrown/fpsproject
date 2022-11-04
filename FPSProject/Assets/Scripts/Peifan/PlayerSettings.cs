@@ -95,7 +95,7 @@ public class PlayerSettings : MonoBehaviour
             scoreBoardTeams.SetActive(false);
             if ((int)PhotonNetwork.LocalPlayer.CustomProperties["team"] > 0)
             {
-                Debug.Log("Set team scoreboard");
+                //Debug.Log("Set team scoreboard");
                 scoreBoard = scoreBoardTeams;
             }
             
@@ -259,11 +259,10 @@ public class PlayerSettings : MonoBehaviour
         GameObject[] ga = (GameObject.FindGameObjectsWithTag("Player"));
        
         List<PlayerDamageable> pd = new List<PlayerDamageable>();
-         pd = new List<PlayerDamageable>();
         foreach (GameObject g in ga)
             if (g.GetComponent<PlayerDamageable>() != null)
             {
-                Debug.Log("adding" + g.GetComponent<PlayerDamageable>().gameObject.transform.parent.name);
+                //Debug.Log("adding" + g.GetComponent<PlayerDamageable>().gameObject.transform.parent.name);
                 pd.Add(g.GetComponent<PlayerDamageable>());
                 
             }
@@ -287,7 +286,7 @@ public class PlayerSettings : MonoBehaviour
             }
             if ((int)pp.CustomProperties["team"] == 2)
             {
-                Debug.Log(pp.NickName + " was on team 2");
+                //Debug.Log(pp.NickName + " was on team 2");
                 //setMaterialTeam2(pp);
                 setMaterial(pp, newobj, newPVArr);
             }
@@ -312,7 +311,7 @@ public class PlayerSettings : MonoBehaviour
                 materials = bodyMesh.materials;
                 materials[0] = (Material)Resources.Load("materials/Player_Mat1");
                 //Debug.Log("size of materials arr = " + materials.Length);
-                Debug.Log(materials[0]);
+                //Debug.Log(materials[0]);
 
                 Material[] playerMaterials = materials;
                 //Debug.Log("new player materials being set on mesh render = " + playerMaterials[0]);
