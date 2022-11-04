@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5387683512004314395}
   - component: {fileID: 1105216267872244601}
-  - component: {fileID: 5906172506270970460}
   - component: {fileID: 1951868690775734185}
   - component: {fileID: 1518026814528493296}
   m_Layer: 12
@@ -65,19 +64,6 @@ MonoBehaviour:
   audioSource: {fileID: 1951868690775734185}
   pstats: {fileID: 0}
   shoot: {fileID: 2177449969952911222}
---- !u!65 &5906172506270970460
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1281115139371256043}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &1951868690775734185
 AudioSource:
   m_ObjectHideFlags: 0
@@ -205,7 +191,6 @@ GameObject:
   - component: {fileID: 2002808868783662936}
   - component: {fileID: 2002808868783662937}
   - component: {fileID: 2002808868783662934}
-  - component: {fileID: 4369060684196386015}
   m_Layer: 12
   m_Name: Pistol
   m_TagString: Weapon
@@ -373,19 +358,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!65 &4369060684196386015
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2002808868783662938}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.1175127, y: 0.41599035, z: 0.6279659}
-  m_Center: {x: 0.00018262863, y: -0.01806283, z: 0.15612316}
 --- !u!1 &2002808868805825869
 GameObject:
   m_ObjectHideFlags: 0
@@ -10256,7 +10228,6 @@ GameObject:
   - component: {fileID: 4460171690846231415}
   - component: {fileID: 4685268293628448926}
   - component: {fileID: 8781171675687005240}
-  - component: {fileID: 233893545563618161}
   m_Layer: 12
   m_Name: AK
   m_TagString: Weapon
@@ -10424,19 +10395,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!65 &233893545563618161
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2714573879700896334}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.5, y: 1, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &3173107398918425439
 GameObject:
   m_ObjectHideFlags: 0

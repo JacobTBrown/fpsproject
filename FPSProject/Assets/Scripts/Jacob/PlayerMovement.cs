@@ -267,18 +267,15 @@ public class PlayerMovement : MonoBehaviour
         // When you look at another player this will make it so the name of the player rotates towards you
         if (Physics.Raycast(transform.position, cameraTransform.forward, out RaycastHit hitInfo, 100)) {
             if (hitInfo.collider.tag == "Player" && hitInfo.collider != this.playerBodyTransform.GetComponent<Collider>()) {
+                if (nameMesh != null && nameMesh != hitInfo.collider.gameObject.GetComponentInParent<PlayerSettings>().playerName)
+                    nameMesh.gameObject.SetActive(false);
+
                 nameMesh = hitInfo.collider.gameObject.GetComponentInParent<PlayerSettings>().playerName;
                 nameMesh.gameObject.SetActive(true);
                 var lookPos = hitInfo.collider.gameObject.transform.position - transform.position;
                 lookPos.y = 0;
                 var rotation = Quaternion.LookRotation(lookPos);
-                nameMesh.gameObject.transform.rotation = Quaternion.Slerp(nameMesh.gameObject.transform.rotation, rotation, 0.75f);
-
-                // if (displayCount == 0)
-                // {
-                //     displayRoutine = DisableName(nameMesh);
-                //     displayCount++;
-                // }
+                nameMesh.gameObject.transform.rotation = rotation;
             }
             else
             {
