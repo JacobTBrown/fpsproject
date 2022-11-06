@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &5466331991552581142
 RectTransform:
   m_ObjectHideFlags: 0
@@ -117,8 +117,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 552.4, y: -464.8}
-  m_SizeDelta: {x: 292.05103, y: 0}
+  m_AnchoredPosition: {x: 540.29, y: -456.14}
+  m_SizeDelta: {x: 149.97131, y: -152.89691}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5466331992544690199
 CanvasRenderer:
@@ -205,7 +205,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -10, y: -381}
+  m_AnchoredPosition: {x: -10, y: -7}
   m_SizeDelta: {x: 167.3971, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5466331993459730360
@@ -239,13 +239,13 @@ MonoBehaviour:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 20
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 2
     m_MaxSize: 40
     m_Alignment: 0
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
+    m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Enemy Score
+  m_Text: Highest Score

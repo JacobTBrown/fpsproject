@@ -18,7 +18,7 @@ public class FFAPlayerScoreText : MonoBehaviour
     //     EnemyText = txt[0];
     //     PlayerText = txt[1];
         EventManager.AddListener<updateScore>(UpdateScore);
-        //UpdateKillScore();
+        UpdateKillScore();
     }
     public void UpdateScore(updateScore evt)
     {
@@ -41,6 +41,7 @@ public class FFAPlayerScoreText : MonoBehaviour
         int PlayerScore = (int)PhotonNetwork.LocalPlayer.CustomProperties["Kills"] * 100;
         int EnemyScore = (int)Enemy.CustomProperties["Kills"] * 100;
         PlayerText.text = " Player Score: " + PlayerScore; 
-        EnemyText.text = "Enemy Score: " + EnemyScore;
+        EnemyText.text = "Highest Score: " + EnemyScore;
+        print(EnemyScore);
     }
 }
