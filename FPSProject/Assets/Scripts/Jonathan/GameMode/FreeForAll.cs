@@ -11,16 +11,21 @@ using UnityEngine;
 public class FreeForAll : MonoBehaviour, GameMode
 {
     int killCutOff = 10;
-
+    SpawnStrategy ss;
    // ObjectiveManager o_Manager = ObjectiveManager.Instance;
   //  RuleManager r_Manager = RuleManager.Instance;
     ObjectiveManager o_Manager;
     RuleManager r_Manager;
+    SpawnManager s_Manager;
     GameManager g_Manager;
     void Awake(){
         o_Manager = GameObject.Find("GameManager").GetComponent<ObjectiveManager>();
         r_Manager = GameObject.Find("GameManager").GetComponent<RuleManager>();  
+        s_Manager = GameObject.Find("GameManager").GetComponent<SpawnManager>();
         g_Manager = GameObject.Find("GameManager").GetComponent<GameManager>();  
+
+        ss = new FFARandomSpawnStrategy();
+        s_Manager.strategy = ss;
     }
     public FreeForAll()
     {      

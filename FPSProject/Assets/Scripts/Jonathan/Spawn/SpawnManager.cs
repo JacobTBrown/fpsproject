@@ -44,5 +44,10 @@ namespace Unity.Scripts.Jonathan
 	    public void HandlePlayerSpawn(GameObject player){
 	        strategy.HandlePlayerSpawn(player, SpawnPoints);
 	    } 
+
+		public void setSpawnStrategy(SpawnStrategy strategy)
+		{
+			this.strategy = strategy;
+		}
 	}
 }

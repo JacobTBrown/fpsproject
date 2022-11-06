@@ -17,18 +17,19 @@ public class FreeForAllKillObjective : MonoBehaviourPunCallbacks, Objective
 {
     [SerializeField] public int killCutOff = 20;
     
- 
-    
-    public override void OnPlayerPropertiesUpdate(Player target, Hashtable propties)
+    void Start()
     {
-        updateScore event1 = Events.Updating;
-        EventManager.Broadcast(event1);
-        if(propties.ContainsKey("Kills"))
+    
+        EventManager.AddListener<updateScore>(OnPlayerScoreChange);
+    }
+    
+    public void OnPlayerScoreChange(updateScore evt)
+    {
+        if(evt.propties.ContainsKey("Kills"))
         {
-            if((int)target.CustomProperties["Kills"] >= killCutOff)
+            if((int)evt.target.CustomProperties["Kills"] >= killCutOff)
             {
                 EventCompleted();
-                UpdateUI();
             }
         }
     }
@@ -38,10 +39,6 @@ public class FreeForAllKillObjective : MonoBehaviourPunCallbacks, Objective
         ObjectiveCompletedEvent evt = Events.objectiveCompletedEvent;
         evt.objective = this;
         EventManager.Broadcast(evt);
-    }
-    void UpdateUI()
-    {
-
     }
 
 }

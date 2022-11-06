@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 
 
@@ -103,8 +103,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             Hashtable PlayerCustomProps = new Hashtable();
             PlayerCustomProps["Deaths"] = Deaths;
             player.SetCustomProperties(PlayerCustomProps);
-            updateScore event1 = Events.Updating;
-            EventManager.Broadcast(event1);
         }
 
     }
@@ -121,8 +119,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             Hashtable PlayerCustomProps = new Hashtable();
             PlayerCustomProps["Kills"] = Kills;
             player.SetCustomProperties(PlayerCustomProps);
-            updateScore event1 = Events.Updating;
-            EventManager.Broadcast(event1);
         }
 
     }
@@ -139,7 +135,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         gameMode.CreateGameObjectives();
         gameMode.LoadGameModeUI();
     }
-
+    public override void OnPlayerPropertiesUpdate(Player target, Hashtable propties)
+    {
+        updateScore event1 = Events.Updating;
+        event1.target = target;
+        event1.propties = propties;
+        EventManager.Broadcast(event1);
+    }
 
 
 }

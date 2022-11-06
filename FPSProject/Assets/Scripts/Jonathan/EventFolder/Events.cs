@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Photon.Pun;
+using Photon.Realtime;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 namespace Unity.Scripts.Jonathan{
  /*
@@ -34,7 +36,11 @@ namespace Unity.Scripts.Jonathan{
     }
 
     public class updateScore : GameEvent
-    { }
+    {
+        public Player target;
+        public Hashtable propties;
+
+    }
 
     public class PickupEvent : GameEvent
     {
