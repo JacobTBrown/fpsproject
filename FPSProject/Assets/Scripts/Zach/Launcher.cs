@@ -26,10 +26,15 @@ using ExitGames.Client.Photon;
     -startGame() for the host of a Room
 */
 [System.Serializable]
+
 public class MapData //!
 {
     public string name;
     public int scene;
+    /// <summary>
+    /// has fields for a name(string) and a scene(int).  
+    /// MapData("name", *numberInBuildSettings*);
+    /// </summary>
     public MapData(string n, int s)
     {
         this.name = n;
@@ -82,7 +87,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     Hashtable playerProperties;
     
     public MapData[] mapsArr;
-    //public string[] maps = { "test", "test2" };
     private int mapAsInt = 1;
     public int MaxPlayersPerLobby = 8;
     public int pingAsInt;
@@ -105,18 +109,16 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         MapImage.SetActive(false);
         debug = true;
         playerAdded = false;
-        //if (Time.realtimeSinceStartup < 5f) return? 
-        //Invoke("IntroFade", 2);
-        //StartCoroutine(IntroFade()); //Moved to OnJoinedLobby
+
         PhotonNetwork.OfflineMode = false;
-        pingObj = GameObject.Find("PingVariable");
+        pingObj = GameObject.Find("Ping");
         pingObj.SetActive(false);
         Instance = this;
         Invoke("CheckConnection", 30);
         Invoke("LevelRoutine", 2);
-        mapsArr = new MapData[3]; //to add a map, increment the array by one, and add the map name below where #=index in the build settings(mapsArr[*.
+        mapsArr = new MapData[3]; //to add a map, increment this array by one, and add the map name below where #=index in the build settings ex: (mapsArr[0] == 1)
         mapsArr[0] = new MapData("Ice World", 1); //give the map a name here, and insert the build index. The file name of the image must match the naming scheme (just change jpg file names if u change the order)  
-        mapsArr[1] = new MapData("Town Town", 2);
+        mapsArr[1] = new MapData("Map 2", 2);
         mapsArr[2] = new MapData("Grass Land", 3);
         modeAsInt = 0;
         playerProperties = new Hashtable();
@@ -134,7 +136,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     }
     private IEnumerator IntroFade()
     { //fade-in color
-       // Debug.Log("fade");
+      
         if (GameObject.Find("WelcomeScreen").GetComponent<Image>() == null)
         {
             //Debug.Log("null");
@@ -224,11 +226,8 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     public override void OnJoinedLobby()
     {
         //Photon's defenition of 'Lobby': From the lobby, you can create a room or join a room 
-        //Debug.Log("JoinedLobby.");
-
         StartCoroutine(IntroFade());
         //MenuManager.Instance.OpenMenu("welcome");
-        //Debug.Log("OnJoined Lobby Fucntion Call");
         // Debug.Log("Nickname: " + PhotonNetwork.LocalPlayer.NickName, this);
     }
     public void OnClickCreateRoom()
@@ -630,7 +629,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
             {
                 if (debug) Debug.Log("mode zero");
                 MenuManager.Instance.OpenMenu("room");
-                //MenuManager.Instance.OpenMenu("room");
                 foreach (Transform child in playerListContent)
                 {
                     Destroy(child.gameObject);
@@ -659,18 +657,9 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
             }
 
         }
-        //gameTDMButton.SetActive(PhotonNetwork.IsMasterClient);
-        //gameDMButton.SetActive(PhotonNetwork.IsMasterClient);
-        //mapSelectButton.SetActive(PhotonNetwork.IsMasterClient);
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
-        //PhotonNoGameChatManager.instance.StartChat();
 
     }
-    public void RoomRoutine()
-    {
-
-    }
-    //if the host leaves, another player is automatically given host privilages.
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
         if ((int)PhotonNetwork.CurrentRoom.CustomProperties["mode"] > 0)
@@ -683,7 +672,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         errorText.text = "Room Creation Failed: " + message;
-        //base.OnCreateRoomFailed(returnCode, message);
         MenuManager.Instance.OpenMenu("error");
     }
     public override void OnCreatedRoom()
@@ -761,6 +749,8 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
 
         if (info.PlayerCount == info.MaxPlayers)
         {
+            errorText.text = "That room is full!";
+            MenuManager.Instance.OpenMenu("error");
             if (debug) Debug.Log("you tried to join a full room");
             return;
         }

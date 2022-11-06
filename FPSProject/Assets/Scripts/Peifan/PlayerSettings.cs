@@ -92,7 +92,8 @@ public class PlayerSettings : MonoBehaviour
             //Debug.Log("GETTING SETTINGS PANEL");
             //adding logic for team vs ffa scoreboard - zach
             scoreBoard = GameObject.FindObjectOfType<Scoreboard>().gameObject;
-            scoreBoard.SetActive(false);
+            //scoreBoard.SetActive(false);
+            scoreBoard.transform.localPosition = new Vector3(9999, 9999, 9999);
             GameObject scoreBoardTeams = GameObject.FindObjectOfType<ScoreboardTeams>().gameObject;
             scoreBoardTeams.SetActive(false);
             if ((int)PhotonNetwork.LocalPlayer.CustomProperties["team"] > 0)
@@ -150,12 +151,16 @@ public class PlayerSettings : MonoBehaviour
         
         if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.scoreboard]))
         {
-            if (scoreBoard.activeInHierarchy)
+            //if (scoreBoard.activeInHierarchy)
+            Vector3 badVector = new Vector3(9999, 9999, 9999);
+           if (scoreBoard.transform.localPosition != badVector)
             {
-                scoreBoard.SetActive(false);
+                scoreBoard.transform.localPosition = new Vector3(9999, 9999, 9999);
+                //scoreBoard.SetActive(false);
             } else
             {
-                scoreBoard.SetActive(true);
+                //scoreBoard.SetActive(true);
+                scoreBoard.transform.localPosition = new Vector3(0, 0,0);
             }
         }
 
