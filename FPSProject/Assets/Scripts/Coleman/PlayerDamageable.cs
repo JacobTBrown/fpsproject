@@ -79,7 +79,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         if (currentHealth <= 0)
         {
             onDie(EnemyPlayer);
-            PlayerDeathEvent evt = Events.PlayerDeathEvent; // ?
+            PlayerDeathEvent evt = Events.PlayerDeathEvent;  
             if (PV.IsMine)
             {
                 evt.player = player;
@@ -87,8 +87,6 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
                 healthBar.SetHealth(currentHealth, PV);
             }         
             Debug.Log("A player has died!");
-            //Destroy(transform.gameObject);
-            //chaging to jonathan's script
         }
     }
 
@@ -98,8 +96,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
             RaiseEventOptions o = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             int DeadviewID = PV.ViewID;
             object[] obj = {DeadviewID, EnemyPlayer};
-        //Debug.Log(obj[0].ToString() + obj[1].ToString() + " was your obj");
             PhotonNetwork.RaiseEvent(0, obj, o, SendOptions.SendReliable); //PhotonEvent.PLAYERDEATH
-            //PhotonNetwork.RaiseEvent(PhotonEvents.PLAYERKILL, obj, o, SendOptions.SendReliable);
+
         }
 }

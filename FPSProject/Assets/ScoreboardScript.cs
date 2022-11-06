@@ -8,7 +8,8 @@ using Photon.Pun;
 using ExitGames.Client.Photon;
 using System;
 using Hashtable = ExitGames.Client.Photon.Hashtable;
-public class ScoreboardScript : MonoBehaviour
+
+public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
 {
     PlayerStatsPage statsPage;
     public TMP_Text usernameText;
@@ -25,6 +26,7 @@ public class ScoreboardScript : MonoBehaviour
         //Debug.Log("Player name is: " + _player.NickName);
         player = _player;
         usernameText.text = _player.NickName;
+        
     }
 
     private void Update()
@@ -43,10 +45,36 @@ public class ScoreboardScript : MonoBehaviour
         deaths = (int)player.CustomProperties["Deaths"];
         deathsText.text = deaths.ToString();
         killsText.text = kills.ToString();
+        if (player.IsLocal)
+        {
+            FindObjectOfType<KillHUD>().updateText("kills: " + kills.ToString());
+        }
 
         Debug.Log("Score: "+(int)player.CustomProperties["Kills"]);
+        //Debug.Log((int)player.CustomProperties["Kills"]);
     }
 
+    public void OnPlayerKill(PlayerKillEvent evt)
+    {
+        Debug.Log("Entered ScoreboardScript.cs OnPlayerKill");
+        Debug.Log("This player is: " + player.NickName + "Killed player is: " + evt.player.GetComponent<PlayerSettings>().nickname);
+        if (evt.player.GetComponent<PlayerSettings>().nickname.Equals(player.NickName))
+        {
+            //kills += 1;
+            //killsText.text = kills.ToString();
+            Debug.Log("Number of kills are: " + kills);
+        }
+
+       // if (evt.player.GetComponent<PlayerSettings>().viewID.Equals(PPV.ViewID))
+        //{
+          //  kills++;
+           // killsText.text = kills.ToString();
+        //} else if(evt.player.GetComponent<PlayerSettings>().viewID.Equals(EPV.ViewID))
+        //{
+           // kills++;
+            //killsText.text = kills.ToString();
+        //}
+    }
 
     private void OnEnable()
     {
@@ -71,18 +99,15 @@ public class ScoreboardScript : MonoBehaviour
             EPV = PhotonNetwork.GetPhotonView(EnemyPlayer);
             //Debug.Log("Enemy player was: " + EnemyPlayer.ToString() + " vs my actor #: " + PhotonNetwork.LocalPlayer.ActorNumber);
             PPV = PhotonNetwork.GetPhotonView((int)data[0]);
-            if (PPV.IsMine)
-            {
-                Debug.Log("Set deaths manually for: " + PhotonNetwork.LocalPlayer.ActorNumber);
-                statsPage.setDeaths();
-            }
-            else if (EPV.IsMine)
-            {
-                Debug.Log("Set kills manually for: " + PhotonNetwork.LocalPlayer.ActorNumber);
-                statsPage.SetKills();
-            }
         }
     }
-
-
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+        Debug.Log("In here for changing properties.");
+        kills = (int)player.CustomProperties["Kills"];
+        deaths = (int)player.CustomProperties["Deaths"];
+        deathsText.text = deaths.ToString();
+        killsText.text = kills.ToString();
+        base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
+    }
 }

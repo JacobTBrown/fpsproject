@@ -85,7 +85,6 @@ namespace Unity.Scripts.Jonathan{
 
     public class EndGameEvent: GameEvent
     {
-
     }
 
     public class DamageEvent : GameEvent

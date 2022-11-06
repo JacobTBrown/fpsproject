@@ -44,17 +44,16 @@ namespace Unity.Scripts.Jonathan
  
             if (eventCode == PLAYERDEATH){
                 object[] player = (object[])photonEvent.CustomData;
-                Debug.Log(PhotonView.Find((int)player[0]).gameObject + " was photonEvent.cs's player game obj");
-                PhotonView enemyPV = PhotonView.Find((int)player[1]);
-                Debug.Log("Custom event data " + photonEvent.CustomData.ToString()); 
+                Debug.Log(PhotonView.Find((int)player[0]).gameObject.GetComponent<PhotonView>().ViewID + " broadcasted a death in PhotonEvent.cs");
+                PhotonView enemyPV = PhotonView.Find((int)player[1]); 
                 OnPlayerDeath(PhotonView.Find((int)player[0]).gameObject, enemyPV.gameObject);
             }
         }
 
         private void OnPlayerDeath(GameObject player, GameObject enemyPlayer){
 
-            Debug.Log("OnPlayerDeath was called");
-            Debug.Log("TEST: NEW PLAYER KILL EVENT FOR " + player.GetPhotonView().ViewID);
+            //Debug.Log("OnPlayerDeath was called");
+            //Debug.Log("TEST: NEW PLAYER DEATH EVENT FOR " + player.GetPhotonView().ViewID);
             /*
                 I have player kill and death be default event. IT's unkown what other program needs 
                 so beware of some programms requiring PlayerDeathEvents and 

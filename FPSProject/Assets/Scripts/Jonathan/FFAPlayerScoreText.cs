@@ -14,9 +14,9 @@ public class FFAPlayerScoreText : MonoBehaviour
     [SerializeField]Text EnemyText;
     void Start()
     {
-       Text[] txt= GetComponentsInChildren<Text>();
-        EnemyText = txt[0];
-        PlayerText = txt[1];
+    //    Text[] txt= GetComponentsInChildren<Text>();
+    //     EnemyText = txt[0];
+    //     PlayerText = txt[1];
         EventManager.AddListener<updateScore>(UpdateScore);
         UpdateKillScore();
     }
@@ -41,6 +41,7 @@ public class FFAPlayerScoreText : MonoBehaviour
         int PlayerScore = (int)PhotonNetwork.LocalPlayer.CustomProperties["Kills"] * 100;
         int EnemyScore = (int)Enemy.CustomProperties["Kills"] * 100;
         PlayerText.text = " Player Score: " + PlayerScore; 
-        EnemyText.text = "Enemy Score: " + EnemyScore;
+        EnemyText.text = "Highest Score: " + EnemyScore;
+        print(EnemyScore);
     }
 }
