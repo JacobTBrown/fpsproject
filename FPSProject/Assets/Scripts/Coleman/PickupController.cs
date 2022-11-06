@@ -43,7 +43,6 @@ public class PickupController : MonoBehaviour
             gun.owns = true;
             weaponHolder.GetComponent<WeaponSwap>().selectWeapon();
             playerMove.PV.RPC("SetPickupWeapon", RpcTarget.OthersBuffered, weaponHolder.GetComponent<WeaponSwap>().selected, gun.owns, gun.gunData.name);
-            print("PickupController: " + gun.name);
             foreach (Transform child in self.transform)
             {
                 if(child.GetComponent<MeshRenderer>() != null) child.GetComponent<MeshRenderer>().enabled = false;
