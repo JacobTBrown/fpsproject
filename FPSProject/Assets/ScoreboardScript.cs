@@ -50,14 +50,14 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
             FindObjectOfType<KillHUD>().updateText("kills: " + kills.ToString());
         }
 
-        Debug.Log("Score: "+(int)player.CustomProperties["Kills"]);
+        //Debug.Log("Score: "+(int)player.CustomProperties["Kills"]);
         //Debug.Log((int)player.CustomProperties["Kills"]);
     }
 
     public void OnPlayerKill(PlayerKillEvent evt)
     {
-        Debug.Log("Entered ScoreboardScript.cs OnPlayerKill");
-        Debug.Log("This player is: " + player.NickName + "Killed player is: " + evt.player.GetComponent<PlayerSettings>().nickname);
+        // Debug.Log("Entered ScoreboardScript.cs OnPlayerKill");
+        // Debug.Log("This player is: " + player.NickName + "Killed player is: " + evt.player.GetComponent<PlayerSettings>().nickname);
         if (evt.player.GetComponent<PlayerSettings>().nickname.Equals(player.NickName))
         {
             //kills += 1;
@@ -88,7 +88,7 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public void OnEvent(EventData photonEvent)
     {
-        Debug.Log("In the OnEvent function in Scoreboard Script.");
+        // Debug.Log("In the OnEvent function in Scoreboard Script.");
         byte eventCode = photonEvent.Code;
         if (eventCode == PhotonEvents.PLAYERDEATH)
         {
@@ -103,7 +103,7 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
     }
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
-        Debug.Log("In here for changing properties.");
+        //Debug.Log("In here for changing properties.");
         kills = (int)player.CustomProperties["Kills"];
         deaths = (int)player.CustomProperties["Deaths"];
         deathsText.text = deaths.ToString();

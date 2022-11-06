@@ -51,7 +51,7 @@ public class WeaponSwap : MonoBehaviour
                     //player.PV.RPC("SetCurrentWeapon", RpcTarget.OthersBuffered, selected);
                 }
             }
-            player.PV.RPC("SetCurrentWeapon", RpcTarget.OthersBuffered, selected);
+            
             if (previous != selected)
             {
                 selectWeapon();
@@ -67,6 +67,7 @@ public class WeaponSwap : MonoBehaviour
 
     public void selectWeapon()
     {
+        player.PV.RPC("SetCurrentWeapon", RpcTarget.OthersBuffered, selected);
         int i = 0;
         foreach(Transform weapon in transform)
         {

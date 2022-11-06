@@ -55,6 +55,19 @@ public class RPC_Functions : MonoBehaviourPunCallbacks
     [PunRPC]
     public void SetCurrentWeapon(int i) {
         weaponSwap.selected = i;
+        //print("weapon swapped: " + weaponSwap.selected + " i: " + i);
+    }
+
+    [PunRPC]
+    public void SetPickupWeapon(int i, bool b, string name) {
+        weaponSwap.selected = i;
+        if (name == "AK-47") {
+            gunAk.owns = b;
+        }
+        if (name == "SPAS-12") {
+            gunShotgun.owns = b;
+        }
+        //print("weapon swapped: " + weaponSwap.selected + " i: " + i);
     }
     [PunRPC]
     public void ClearRPCs(Player o)

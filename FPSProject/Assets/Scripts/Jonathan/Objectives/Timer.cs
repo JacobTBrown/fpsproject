@@ -9,59 +9,61 @@ using TMPro;
 public class Timer : MonoBehaviour
 {
     bool startTimer = false;
-   [SerializeField] double timerIncrementValue;
+    [SerializeField] double timerIncrementValue;
     double startTime;
     [SerializeField] double timer;
     [SerializeField] public TextMeshProUGUI TimerText;
     ExitGames.Client.Photon.Hashtable CustomeValue;
- 
- void Start()
-     {
-         timer = 60;
-         TimerText = GetComponent<TextMeshProUGUI>();
-         if (PhotonNetwork.LocalPlayer.IsMasterClient)
-         {
-             CustomeValue = new ExitGames.Client.Photon.Hashtable();
-             startTime = PhotonNetwork.ServerTimestamp;
-             startTimer = true;
-             CustomeValue.Add("StartTime", startTime);
-             PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
-         }
-         else
-         {
+
+    void Start()
+    {
+        timer = 60;
+        TimerText = GetComponent<TextMeshProUGUI>();
+        if (PhotonNetwork.LocalPlayer.IsMasterClient)
+        {
+            CustomeValue = new ExitGames.Client.Photon.Hashtable();
+            startTime = PhotonNetwork.ServerTimestamp;
+            startTimer = true;
+            CustomeValue.Add("StartTime", startTime);
+            PhotonNetwork.CurrentRoom.SetCustomProperties(CustomeValue);
+        }
+        else
+        {
             StartCoroutine(SetTimer());
-         }
+        }
 
 
-     }
+    }
 
-     IEnumerator SetTimer(){
-            yield return new WaitForSeconds(1);
-             startTime = double.Parse(PhotonNetwork.CurrentRoom.CustomProperties["StartTime"].ToString());
-             startTimer = true;
-     }
+    IEnumerator SetTimer()
+    {
+        yield return new WaitForSeconds(1);
+        startTime = double.Parse(PhotonNetwork.CurrentRoom.CustomProperties["StartTime"].ToString());
+        startTimer = true;
+    }
 
-     void Update()
-     {
- 
-         if (!startTimer) return;
+    void Update()
+    {
 
-         timerIncrementValue = (int)((PhotonNetwork.ServerTimestamp - startTime)/1000);
-         int mins = (int)timerIncrementValue/60;
-         int seconds = (int)timerIncrementValue - (mins*60);
-         TimerText.text = mins.ToString("D1") + ":" + seconds.ToString("D2");
+        if (!startTimer) return;
+
+        timerIncrementValue = (int)((PhotonNetwork.ServerTimestamp - startTime) / 1000);
+        int mins = (int)timerIncrementValue / 60;
+        int seconds = (int)timerIncrementValue - (mins * 60);
+        TimerText.text = mins.ToString("D1") + ":" + seconds.ToString("D2");
         int stop = 0;
-         if (timerIncrementValue >= timer && stop == 0)
-         {
+        if (timerIncrementValue >= timer && stop == 0)
+        {
             TimesUP();
             stop = 1;
-         }
-     }
+            startTimer = false;
+        }
+    }
 
-     void TimesUP()
-     {
-                Debug.Log("Timer: End Game Event Called");
-                EndGameEvent ev = Events.EndGameEvent;
-                EventManager.Broadcast(ev);
-     }
+    void TimesUP()
+    {
+        //Debug.Log("Timer: End Game Event Called");
+        EndGameEvent ev = Events.EndGameEvent;
+        EventManager.Broadcast(ev);
+    }
 }
