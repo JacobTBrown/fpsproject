@@ -25,6 +25,7 @@ public class FreeForAllKillObjective : MonoBehaviourPunCallbacks, Objective
         EventManager.Broadcast(event1);
         if(propties.ContainsKey("Kills"))
         {
+
             if((int)target.CustomProperties["Kills"] >= killCutOff)
             {
                 EventCompleted();

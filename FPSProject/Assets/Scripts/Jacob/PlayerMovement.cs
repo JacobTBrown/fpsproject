@@ -150,6 +150,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (PV.IsMine)
         {
+            if (keybinds.chatIsOpen || keybinds.settingPanel.activeInHierarchy) return; //Added by Jacob to disable the player while chat is open
             RaycastChecks();
             GetInputs();
             LimitSpeed();

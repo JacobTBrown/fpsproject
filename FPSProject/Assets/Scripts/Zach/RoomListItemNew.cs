@@ -74,7 +74,7 @@ public class RoomListItemNew : MonoBehaviourPunCallbacks
             sizeText.text += "/" + info.MaxPlayers; 
             //Debug.Log(info.Name + "was the name");
             nameText.text = info.Name;
-            mapText.text = Launcher.Instance.mapsArr[(int)_info.CustomProperties["map"]].name;
+            mapText.text = Launcher.Instance.mapsArr[(int)_info.CustomProperties["map"]-1].name;
          //modeText.text = Launcher.Instance.mapValue.text;
         //mapText.text = maps[info.CustomProperties["map"]].name;
 
@@ -89,7 +89,7 @@ public class RoomListItemNew : MonoBehaviourPunCallbacks
         } 
         else
         {
-            //play error sound
+            //they are kicked to the title screen, but there is only a small (1 sec) window where a user can click the room before it is removed, so i'll just leave it like this.
         }
     }
 }

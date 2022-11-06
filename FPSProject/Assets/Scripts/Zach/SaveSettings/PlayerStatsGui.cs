@@ -35,6 +35,7 @@ public class PlayerStatsGui : MonoBehaviour
     public PlayerStatsPage stats;
     public double kdr;
     private bool toolbarBool;
+    public int inc = 4; //gets set in the inspector tho
     /*[HideInInspector] //doesn't dynamically scale with resolution - maybe because of the canvas scaling on its own
     public int resolutionHeight;
     public int resolutionWidth;
@@ -44,6 +45,7 @@ public class PlayerStatsGui : MonoBehaviour
 
     private void Awake()
     {
+
         toolbarString = "toggle stats";
         //timeCounter = gameObject.GetComponentInChildren<Text>();
         timeCounter = GameObject.Find("InGameTimerOverlay");
@@ -74,6 +76,7 @@ public class PlayerStatsGui : MonoBehaviour
     }
     void Start()
     {
+    
         if (stats.GetDeaths() == 0)
         {
             KDRCounterText.text = "KDR: " + stats.GetKills().ToString();
@@ -89,14 +92,18 @@ public class PlayerStatsGui : MonoBehaviour
     {
         //Debug.Log(timeCounterText.text);
         //Debug.Log(PlayerStatsPage.Instance.getTime().ToString());
-
+       
         timeCounterText.text = "In-Game: " + SecondsToMinutes(stats.GetTime());
         totalTimeCounterText.text = "Total: " + SecondsToMinutes(stats.GetTotalTime());
         levelCounterText.text = "Level: " + stats.GetLevel().ToString();
         fpsCounterText.text = "FPS: " + stats.GetFPS().ToString();
         killsCounterText.text = "Kills: " + stats.GetKills().ToString();
         deathsCounterText.text = "Deaths: " +stats.GetDeaths().ToString();
-
+        
+    }
+    public void OnClickToggleStats()
+    {
+        if (toolbarInt == 0) toolbarInt = 1; else if (toolbarInt == 1) toolbarInt = 0;
     }
     public string SecondsToMinutes(int sec)
     {
@@ -110,36 +117,36 @@ public class PlayerStatsGui : MonoBehaviour
     private void OnGUI()
     {
         //toolbarBool = GUI.Toggle(new Rect(555, 555, 800, 500), toolbarBool, toolbarString);
-        toolbarInt = GUI.Toolbar(new Rect(5, 5, 185, 50), toolbarInt, toolbarStrings);
+        //toolbarInt = GUI.Toolbar(new Rect(5, 5, 185, 50), toolbarInt, toolbarStrings);
         if (toolbarInt == 0)
         {
-            GUI.Box(new Rect(5, 58, 109, 450), " Player Stats");
+            //GUI.Box(new Rect(5+ inc, 58, 109, 450), " Player Stats");
 
-            if (GUI.Button(new Rect(10, 100, buttonWidth, buttonHeight), "In-Game Time"))
+            if (GUI.Button(new Rect(10 + inc, 45, buttonWidth, buttonHeight), "In-Game Time"))
             {
                 if (timeCounter.activeInHierarchy)
                     timeCounter.SetActive(false);
                 else timeCounter.SetActive(true);
             }
-            if (GUI.Button(new Rect(10, 150, buttonWidth, buttonHeight), "Total Time"))
+            if (GUI.Button(new Rect(10 + inc, 95, buttonWidth, buttonHeight), "Total Time"))
             {
                 if (totalTimeCounter.activeInHierarchy)
                     totalTimeCounter.SetActive(false);
                 else totalTimeCounter.SetActive(true);
             }
-            else if (GUI.Button(new Rect(10, 150 + buttonHeight, buttonWidth, buttonHeight), "Level"))
+            else if (GUI.Button(new Rect(10 + inc, 95 + buttonHeight, buttonWidth, buttonHeight), "Level"))
             {
                 if (levelCounter.activeInHierarchy)
                     levelCounter.SetActive(false);
                 else levelCounter.SetActive(true);
             }
-            else if (GUI.Button(new Rect(10, 150 + buttonHeight * 2, buttonWidth, buttonHeight), "FPS"))
+            else if (GUI.Button(new Rect(10 + inc, 95 + buttonHeight * 2, buttonWidth, buttonHeight), "FPS"))
             {
                 if (fpsCounter.activeInHierarchy)
                     fpsCounter.SetActive(false);
                 else fpsCounter.SetActive(true);
             }
-            else if (GUI.Button(new Rect(10, 150 + buttonHeight * 3, buttonWidth, buttonHeight), "Ping"))
+            else if (GUI.Button(new Rect(10 + inc, 95 + buttonHeight * 3, buttonWidth, buttonHeight), "Ping"))
             {
                 if (pingCounterText.IsActive()) //was set in the inspector
                 {
@@ -153,19 +160,19 @@ public class PlayerStatsGui : MonoBehaviour
                 }
             }
             
-            else if (GUI.Button(new Rect(8, 150 + buttonHeight * 4, buttonWidth, buttonHeight), "kills"))
+            else if (GUI.Button(new Rect(10 + inc, 95 + buttonHeight * 4, buttonWidth, buttonHeight), "Kills"))
             {
                 if (killsCounter.activeInHierarchy)
                     killsCounter.SetActive(false);
                 else killsCounter.SetActive(true);
             }
-            else if (GUI.Button(new Rect(8, 150 + buttonHeight * 5, buttonWidth, buttonHeight), "deaths"))
+            else if (GUI.Button(new Rect(10 + inc, 95 + buttonHeight * 5, buttonWidth, buttonHeight), "Deaths"))
             {
                 if (deathsCounter.activeInHierarchy)
                     deathsCounter.SetActive(false);
                 else deathsCounter.SetActive(true);
             }
-            else if (GUI.Button(new Rect(8, 150 + buttonHeight * 6, buttonWidth, buttonHeight), "KDR"))
+            else if (GUI.Button(new Rect(10 + inc, 95 + buttonHeight * 6, buttonWidth, buttonHeight), "KDR"))
             {
                 if (KDRCounter.activeInHierarchy)
                     KDRCounter.SetActive(false);

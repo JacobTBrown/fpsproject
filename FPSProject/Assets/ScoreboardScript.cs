@@ -26,6 +26,7 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
         //Debug.Log("Player name is: " + _player.NickName);
         player = _player;
         usernameText.text = _player.NickName;
+        
     }
 
     private void Update()
@@ -50,6 +51,7 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
         }
 
         Debug.Log("Score: "+(int)player.CustomProperties["Kills"]);
+        //Debug.Log((int)player.CustomProperties["Kills"]);
     }
 
     public void OnPlayerKill(PlayerKillEvent evt)
