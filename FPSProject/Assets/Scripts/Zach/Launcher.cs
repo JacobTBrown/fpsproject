@@ -762,6 +762,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         }
         //if (lowerTeam == 1) { PhotonNetwork.LocalPlayer.CustomProperties["team"] = 1; } else if (lowerTeam == 2) { PhotonNetwork.LocalPlayer.CustomProperties["team"] = 2; } else PhotonNetwork.LocalPlayer.CustomProperties["team"] = 0;
         PhotonNetwork.JoinRoom(info.Name);
+        DataManager.Instance.SetRoomName(info.Name);
         MenuManager.Instance.OpenMenu("loading");
     }
     public void JoinOnClick(RoomInfo info)
