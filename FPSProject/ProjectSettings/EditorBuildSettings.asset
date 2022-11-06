@@ -12,7 +12,7 @@ EditorBuildSettings:
     path: Assets/Scenes/Map1.unity
     guid: 745e40d07e4784b4891bf5e874f1572a
   - enabled: 1
-    path: Assets/Scenes/Map2.unity
+    path: Assets/Scenes/Map2Old.unity
     guid: 0599ff487792371499284717043548d5
   - enabled: 1
     path: Assets/Scenes/Map3.unity
