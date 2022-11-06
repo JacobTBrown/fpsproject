@@ -31,7 +31,7 @@ public class TDM : MonoBehaviour, GameMode
 
     public void onNewPlayer(NewPlayerEvent evt)
     {
-        o_Manager.addObjective(new PlayerKillObjective(evt.player, killCutOff));
+    //    o_Manager.addObjective(new PlayerKillObjective(evt.player, killCutOff));
     }
 
     void GameMode.CreateGameObjectives()

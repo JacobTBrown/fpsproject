@@ -15,7 +15,7 @@ using Unity.Scripts.Jonathan;
 */
 public class FreeForAllKillObjective : MonoBehaviourPunCallbacks, Objective
 {
-    [SerializeField] public int killCutOff = 10;
+    [SerializeField] public int killCutOff = 20;
     
  
     

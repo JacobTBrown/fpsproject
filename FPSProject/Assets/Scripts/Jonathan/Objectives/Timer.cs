@@ -29,11 +29,18 @@ public class Timer : MonoBehaviour
          }
          else
          {
+            StartCoroutine(SetTimer());
+         }
+
+
+     }
+
+     IEnumerator SetTimer(){
+            yield return new WaitForSeconds(1);
              startTime = double.Parse(PhotonNetwork.CurrentRoom.CustomProperties["StartTime"].ToString());
              startTimer = true;
-         }
      }
- 
+
      void Update()
      {
  
