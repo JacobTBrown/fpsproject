@@ -1645,6 +1645,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4885226184583618398}
   - component: {fileID: 1652404657717003245}
+  - component: {fileID: 4899708092619272920}
+  - component: {fileID: 3190820964731285745}
   m_Layer: 0
   m_Name: ChatManager
   m_TagString: Untagged
@@ -1688,9 +1690,56 @@ MonoBehaviour:
   playerName: 
   joinChatButton: {fileID: 1652404658100659167}
   m_ddown: {fileID: 240623867229469014}
+  PV: {fileID: 0}
   chatPanel: {fileID: 1652404658978650983}
   chatField: {fileID: 1652404658676146176}
   chatDisplay: {fileID: 1652404659565805527}
+--- !u!114 &4899708092619272920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652404657717003247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77ab86f0bbd8e61479691fafbb3353d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMove: {fileID: 3173107398918425437, guid: e7eb17970275c7c47bc5692de04f6ac2,
+    type: 3}
+  weaponSwap: {fileID: 0}
+  pistolAnim: {fileID: 0}
+  shotgunAnim: {fileID: 0}
+  akAnim: {fileID: 0}
+  gunPistol: {fileID: 0}
+  gunShotgun: {fileID: 0}
+  gunAk: {fileID: 0}
+  pistol: {fileID: 0}
+  shotgun: {fileID: 0}
+  ak: {fileID: 0}
+--- !u!114 &3190820964731285745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1652404657717003247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!1 &1652404657749199981
 GameObject:
   m_ObjectHideFlags: 0
@@ -7759,8 +7808,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1652404657796036349}
   m_HandleRect: {fileID: 1652404657796036348}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.4914869
+  m_Value: 0.9999998
+  m_Size: 0.44312838
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -10714,7 +10763,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1652404657667534236}
   m_HandleRect: {fileID: 1652404657667534239}
   m_Direction: 2
-  m_Value: -0.049368672
+  m_Value: -0.049368616
   m_Size: 0.4053803
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12551,7 +12600,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.0000076293945}
+  m_AnchoredPosition: {x: 0, y: -0.00002861023}
   m_SizeDelta: {x: 0, y: 28}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &2556697763724270166

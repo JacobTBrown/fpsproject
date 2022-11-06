@@ -10852,6 +10852,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77ab86f0bbd8e61479691fafbb3353d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerMove: {fileID: 3173107398918425437}
   weaponSwap: {fileID: 1077116037575629698}
   pistolAnim: {fileID: 2002808868783662937}
   shotgunAnim: {fileID: 1518026814528493296}

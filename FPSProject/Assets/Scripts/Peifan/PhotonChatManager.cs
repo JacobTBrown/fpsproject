@@ -23,10 +23,12 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     private ChatClient chatClient;
     public static PhotonChatManager instance;
     public Dropdown m_ddown;
+    public PhotonView PV;
 
     private void Awake()
     {
         instance = this;
+        PV = gameObject.GetComponent<PhotonView>();
         //DontDestroyOnLoad(this);
     }
     public void UsernameOnValueChange(string valueInput)
@@ -173,6 +175,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         //Debug.LogError("SpeedUp");
         AddMoveSpeedEvent?.Invoke();
+        PV.RPC("AddSpeed", RpcTarget.AllBuffered, "MoveSpeed", 10);
         return "SpeedUp";
     }
     public Action ReduceMoveSpeedEvent;
@@ -180,6 +183,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         //Debug.LogError("SpeedDown");
         ReduceMoveSpeedEvent?.Invoke();
+        PV.RPC("SubtractSpeed", RpcTarget.AllBuffered, "MoveSpeed", 2);
         return "SpeedDown";
     }
     public Action AddJumpEvent;
@@ -187,6 +191,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         //Debug.LogError("JumpUp");
         AddJumpEvent?.Invoke();
+        PV.RPC("AddSpeed", RpcTarget.AllBuffered, "JumpSpeed", 10);
         return "JumpUp";
     }
     public Action ReduceJumpEvent;
@@ -194,6 +199,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         //Debug.LogError("JumpDown");
         ReduceJumpEvent?.Invoke();
+        PV.RPC("SubtractSpeed", RpcTarget.AllBuffered, "JumpSpeed", 5);
         return "JumpDown";
     }
     public Action AddAirSpeedEvent;
@@ -201,6 +207,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         //Debug.LogError("AirSpeedUp");
         AddAirSpeedEvent?.Invoke();
+        PV.RPC("AddSpeed", RpcTarget.AllBuffered, "AirSpeed", 10);
         return "AirSpeedUp";
     }
     public Action ReduceAirSpeedEvent;
@@ -208,6 +215,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         //Debug.LogError("AirSpeedDown");
         ReduceAirSpeedEvent?.Invoke();
+        PV.RPC("SubtractSpeed", RpcTarget.AllBuffered, "AirSpeed", 5);
         return "AirSpeedDown";
     }
 

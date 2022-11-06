@@ -84,6 +84,9 @@ public class PlayerMovement : MonoBehaviour
     public void OnPhotonSerializeView(PhotonStream s, PhotonMessageInfo i) {
         if (s.IsWriting) {
             s.SendNext(moveSpeed);
+            s.SendNext(walkSpeed);
+            s.SendNext(airSpeed);
+            s.SendNext(jumpForce);
             
             s.SendNext(isOnGround);
             s.SendNext(isOnSlope);
@@ -103,6 +106,9 @@ public class PlayerMovement : MonoBehaviour
             s.SendNext(playerRigidbody.velocity);
         } else {
             moveSpeed = (float) s.ReceiveNext();
+            walkSpeed = (float) s.ReceiveNext();
+            airSpeed = (float) s.ReceiveNext();
+            jumpForce = (float) s.ReceiveNext();
 
             isOnGround = (bool) s.ReceiveNext();
             isOnSlope = (bool) s.ReceiveNext();
@@ -135,9 +141,7 @@ public class PlayerMovement : MonoBehaviour
             GetComponentInChildren<AudioListener>().enabled = false;
             // Destroy the camera component so our guns don't disappear
             GetComponentInChildren<Camera>().enabled = false;
-        }
-        else
-        {
+        } else {
             PhotonChatManager.instance.AddMoveSpeedEvent = () => { walkSpeed += 10f; };
             PhotonChatManager.instance.ReduceMoveSpeedEvent = () => { walkSpeed -= 2f; };
             PhotonChatManager.instance.AddJumpEvent = () => { jumpForce += 5f; };
@@ -145,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
             PhotonChatManager.instance.AddAirSpeedEvent = () => { airSpeed += 5f; };
             PhotonChatManager.instance.ReduceAirSpeedEvent = () => { airSpeed -= 2f; };
         }
-
+        
         keybinds = GetComponent<PlayerSettings>();
         playerCam = GetComponentInChildren<PlayerCameraMovement>();
         playerSounds = GetComponent<SoundManager>();

@@ -6,6 +6,7 @@ using Photon.Realtime;
 
 public class RPC_Functions : MonoBehaviourPunCallbacks
 {
+    public PlayerMovement playerMove;
     public WeaponSwap weaponSwap;
     [SerializeField]
     private Animator pistolAnim;
@@ -69,6 +70,27 @@ public class RPC_Functions : MonoBehaviourPunCallbacks
         }
         //print("weapon swapped: " + weaponSwap.selected + " i: " + i);
     }
+
+    [PunRPC]
+    public void AddSpeed(string name, int speed) {
+        if (name == "MoveSpeed")
+            playerMove.walkSpeed += speed;
+        else if (name == "JumpSpeed")
+            playerMove.jumpForce += speed;
+        else
+            playerMove.airSpeed += speed;
+    }
+
+    [PunRPC]
+    public void SubtractSpeed(string name, int speed) {
+        if (name == "MoveSpeed")
+            playerMove.walkSpeed -= speed;
+        else if (name == "JumpSpeed")
+            playerMove.jumpForce -= speed;
+        else
+            playerMove.airSpeed -= speed;
+    }
+
     [PunRPC]
     public void ClearRPCs(Player o)
     {
