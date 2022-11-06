@@ -44365,7 +44365,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1652404658972428995}
   m_Direction: 2
   m_Value: 1
-  m_Size: 0.5509434
+  m_Size: 0.55094343
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -48297,8 +48297,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1652404659104240035}
   m_HandleRect: {fileID: 1652404659104240032}
   m_Direction: 2
-  m_Value: -0.000000103577804
-  m_Size: 0.39137813
+  m_Value: -0.0000001035778
+  m_Size: 0.3913781
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -60069,7 +60069,6 @@ GameObject:
   - component: {fileID: 5035602244391745665}
   - component: {fileID: 5035602244391745664}
   - component: {fileID: 5035602244391745666}
-  - component: {fileID: 5035602244391745667}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -60185,23 +60184,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1eabdf91fe1686243ab5d3fc584f6450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5035602244391745667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5035602244391745658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ff132c18dfdc2f4ca2913323d2621f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  killCutOff: 10
-  GameOverText: {fileID: 1652404658235139715}
-  team1Kills: 0
-  team2Kills: 0
-  gameOver: 0
 --- !u!4 &5150248404444157802
 Transform:
   m_ObjectHideFlags: 0
