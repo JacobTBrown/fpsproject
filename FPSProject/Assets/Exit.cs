@@ -55,6 +55,11 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
         System.Diagnostics.Process.Start(Application.dataPath.Replace("_Data", ".exe")); //new program
         Application.Quit();
     }
+
+    public void DesktopQuit()
+    {
+        Application.Quit();
+    }
     public void afterRPC()
     {
         PhotonNetwork.LeaveRoom(); 
