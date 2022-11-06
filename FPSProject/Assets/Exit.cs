@@ -58,6 +58,9 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
 
     public void DesktopQuit()
     {
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #endif
         Application.Quit();
     }
     public void afterRPC()
