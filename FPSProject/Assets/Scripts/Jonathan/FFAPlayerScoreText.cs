@@ -14,11 +14,11 @@ public class FFAPlayerScoreText : MonoBehaviour
     [SerializeField]Text EnemyText;
     void Start()
     {
-       Text[] txt= GetComponentsInChildren<Text>();
-        EnemyText = txt[0];
-        PlayerText = txt[1];
+    //    Text[] txt= GetComponentsInChildren<Text>();
+    //     EnemyText = txt[0];
+    //     PlayerText = txt[1];
         EventManager.AddListener<updateScore>(UpdateScore);
-        UpdateKillScore();
+        //UpdateKillScore();
     }
     public void UpdateScore(updateScore evt)
     {

@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 5466331992544690196}
   - component: {fileID: 1819968635263398257}
   m_Layer: 5
-  m_Name: Free For All Panel 1
+  m_Name: Free For All Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -169,8 +169,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c719173b04af6948ba42d1ed3e5e509, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerText: {fileID: 0}
-  EnemyText: {fileID: 0}
+  PlayerText: {fileID: 5466331991552581136}
+  EnemyText: {fileID: 5466331993459730361}
 --- !u!1 &5466331993459730367
 GameObject:
   m_ObjectHideFlags: 0

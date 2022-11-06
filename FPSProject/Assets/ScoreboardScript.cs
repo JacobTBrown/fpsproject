@@ -97,16 +97,6 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
             EPV = PhotonNetwork.GetPhotonView(EnemyPlayer);
             //Debug.Log("Enemy player was: " + EnemyPlayer.ToString() + " vs my actor #: " + PhotonNetwork.LocalPlayer.ActorNumber);
             PPV = PhotonNetwork.GetPhotonView((int)data[0]);
-            if (PPV.IsMine)
-            {
-                Debug.Log("Set deaths manually for: " + PhotonNetwork.LocalPlayer.ActorNumber);
-                statsPage.setDeaths();
-            }
-            else if (EPV.IsMine)
-            {
-                Debug.Log("Set kills manually for: " + PhotonNetwork.LocalPlayer.ActorNumber);
-                statsPage.SetKills();
-            }
         }
     }
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)

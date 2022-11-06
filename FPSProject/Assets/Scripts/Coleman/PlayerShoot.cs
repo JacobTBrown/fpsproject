@@ -20,31 +20,23 @@ public class PlayerShoot : MonoBehaviour
 
     private void Update()
     {
-        Gun gun = GetComponentInChildren<Gun>();
-        if (PV.IsMine) {
+        if (PV.IsMine)
+        {
             if (!DataManager.Instance.IsCanShoot) return;
 
-            if (!gun.gunData.fullAuto && gun.gameObject.activeSelf) 
-            {
-            //{
-                if (Input.GetMouseButtonDown(0)) shootInput?.Invoke();
-            //} else
-            //{
-                if (Input.GetMouseButton(0)) shootInput?.Invoke();
-            //}
+            Gun gun = GetComponentInChildren<Gun>();
+            if (gun != null) {
+                if (!gun.gunData.fullAuto && gun.gameObject.activeSelf)
+                {
+                    if (Input.GetMouseButtonDown(0)) shootInput?.Invoke();
+                }
+                else
+                {
+                    if (Input.GetMouseButton(0)) shootInput?.Invoke();
+                }
                 if (Input.GetKeyDown(reloadKey)) reloadInput?.Invoke();
                 if (Input.GetKeyDown(KeyCode.E)) pickupInput?.Invoke();
             }
-
-        if (!gun.gunData.fullAuto && gun.gameObject.activeSelf)
-        {
-            if (Input.GetMouseButtonDown(0)) shootInput?.Invoke();
-        } else
-        {
-            if (Input.GetMouseButton(0)) shootInput?.Invoke();
-        }
-            if (Input.GetKeyDown(reloadKey)) reloadInput?.Invoke();
-            if (Input.GetKeyDown(KeyCode.E)) pickupInput?.Invoke();
         }
     }
 }

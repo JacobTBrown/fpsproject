@@ -76,7 +76,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     public int currentMap = 0;
 
     Hashtable playerProperties;
-    Hashtable otherPlayerProperties;
+    
     public MapData[] mapsArr;
     //public string[] maps = { "test", "test2" };
     public int mapAsInt = 0;
@@ -116,7 +116,8 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         mapsArr[1] = new MapData("Map 2", 2);
         modeAsInt = 0;
         playerProperties = new Hashtable();
-        otherPlayerProperties = new Hashtable();
+        playerProperties.Add("Kills", 0);
+        playerProperties.Add("Deaths", 0);
         playerProperties.Add("team", 0);
         PhotonNetwork.LocalPlayer.SetCustomProperties(playerProperties);
     }
