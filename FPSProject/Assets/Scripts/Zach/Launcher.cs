@@ -26,10 +26,15 @@ using ExitGames.Client.Photon;
     -startGame() for the host of a Room
 */
 [System.Serializable]
+
 public class MapData //!
 {
     public string name;
     public int scene;
+    /// <summary>
+    /// has fields for a name(string) and a scene(int).  
+    /// MapData("name", *numberInBuildSettings*);
+    /// </summary>
     public MapData(string n, int s)
     {
         this.name = n;
@@ -82,7 +87,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     Hashtable playerProperties;
     Hashtable otherPlayerProperties;
     public MapData[] mapsArr;
-    //public string[] maps = { "test", "test2" };
     private int mapAsInt = 1;
     public int MaxPlayersPerLobby = 8;
     public int pingAsInt;
@@ -105,16 +109,14 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         MapImage.SetActive(false);
         debug = true;
         playerAdded = false;
-        //if (Time.realtimeSinceStartup < 5f) return? 
-        //Invoke("IntroFade", 2);
-        //StartCoroutine(IntroFade()); //Moved to OnJoinedLobby
+
         PhotonNetwork.OfflineMode = false;
         pingObj = GameObject.Find("PingVariable");
         pingObj.SetActive(false);
         Instance = this;
         Invoke("CheckConnection", 30);
         Invoke("LevelRoutine", 2);
-        mapsArr = new MapData[3]; //to add a map, increment the array by one, and add the map name below where #=index in the build settings(mapsArr[*.
+        mapsArr = new MapData[3]; //to add a map, increment this array by one, and add the map name below where #=index in the build settings ex: (mapsArr[0] == 1)
         mapsArr[0] = new MapData("Ice World", 1); //give the map a name here, and insert the build index. The file name of the image must match the naming scheme (just change jpg file names if u change the order)  
         mapsArr[1] = new MapData("Town Town", 2);
         mapsArr[2] = new MapData("Grass Land", 3);
