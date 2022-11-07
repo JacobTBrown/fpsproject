@@ -107,7 +107,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     private void Awake()
     {
         MapImage.SetActive(false);
-        debug = true;
+        debug = false;
         playerAdded = false;
 
         PhotonNetwork.OfflineMode = false;
@@ -143,7 +143,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
             yield return new WaitForSeconds(.1f);
         }
         Image backgroundImg = GameObject.Find("WelcomeScreen").GetComponent<Image>();
-        Debug.Log(backgroundImg.name);
         while (backgroundImg.color.a < 1.0f)
         {
             //Debug.Log("fade");
@@ -234,7 +233,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     {
         if (string.IsNullOrEmpty(roomNameInputField.text))
         {
-            Debug.Log("Room name was null");
             return;
         }
         if (modeAsInt > 0)
@@ -242,7 +240,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
             startGameTeamButton.SetActive(true);
         }
         else startGameButton.SetActive(true);
-        Debug.Log(mapAsInt + " is mapAsInt");
         RoomOptions options = new RoomOptions();
         options.CustomRoomPropertiesForLobby = new string[] { "map", "mode", "team1", "team2" }; //add more room properties here
         Hashtable properties = new Hashtable();
@@ -562,10 +559,8 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
 
         if (currentRoomInfo == null)
         { // currentRoomInfo is null when we create a room, only the first person runs this part.
-            Debug.Log("currentRoomINfoNull");
             if (modeAsInt == 0) //is set when the host chooses the game mode
             {
-
                 MenuManager.Instance.OpenMenu("room");
                 foreach (Transform child in playerListContent)
                 {
@@ -676,16 +671,13 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     }
     public override void OnCreatedRoom()
     {
-        Debug.Log("created room" + roomNameText.text);
+      // most stuff can be done in OnJoinedRoom() and simply check if we are the master client
     }
     public void ChangeMap()
     {   //attatched to the select map button
         mapAsInt++;
         if (mapAsInt >= mapsArr.Length+1) mapAsInt = 1; //button click loops through the array
-        //if (mapAsInt >= mapsArr.Length) mapsArr[mapAsInt].scene = 0;
-        //Debug.Log("map int value: " + mapAsInt);
-        //Debug.Log("map string value: " + mapsArr[mapAsInt].name);
-       // Debug.Log("map as int: " + mapAsInt);
+
         MapImageCreateRoomRawImage.texture = (Texture)Resources.Load("materials/map" + (mapAsInt).ToString() + "image");
         mapValue.text = mapsArr[mapAsInt-1].name;
         

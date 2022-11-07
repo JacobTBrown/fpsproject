@@ -42,6 +42,6 @@ public class FFAPlayerScoreText : MonoBehaviour
         int EnemyScore = (int)Enemy.CustomProperties["Kills"] * 100;
         PlayerText.text = " Player Score: " + PlayerScore; 
         EnemyText.text = "Highest Score: " + EnemyScore;
-        print(EnemyScore);
+        //print(EnemyScore);
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class ScoreboardTeams : MonoBehaviourPunCallbacks
 {
@@ -26,12 +27,21 @@ public class ScoreboardTeams : MonoBehaviourPunCallbacks
         ScoreboardScript item = Instantiate(scoreboardItemPrefab, team1Container).GetComponent<ScoreboardScript>();
             item.Initialize(player);
             scoreboardItems[player] = item;
+            if (player.IsLocal)
+            {
+                item.gameObject.GetComponent<Image>().color = new Color(255, 255, 255, 45);
+            }
         } else if ((int)player.CustomProperties["team"] == 2)
         {
             ScoreboardScript item = Instantiate(scoreboardItemPrefab, team2Container).GetComponent<ScoreboardScript>();
             item.Initialize(player);
             scoreboardItems[player] = item;
+            if (player.IsLocal)
+            {
+                item.gameObject.GetComponent<Image>().color = new Color(255, 255, 255, 45);
+            }
         }
+        
        
     }
 

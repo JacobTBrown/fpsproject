@@ -41,18 +41,17 @@ public class Gun : MonoBehaviour
         {
             if (ammoCounter)
             {
-                Debug.Log("ammo counter was already set, don't run this again");
                 return;
             }
             equipped = true;            
             ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
             hitMarker = GameObject.Find("HitMarker");
             if (hitMarker) { 
-            hitMarker.SetActive(false); Debug.Log("set ur hitmarker"); };
+            hitMarker.SetActive(false);
+            }
             shoot.shootInput += Shoot;
             shoot.reloadInput += ReloadInit;
             animator = GetComponent<Animator>();
-            Debug.Log("Gun.cs exited start with reload: " + reload.name);
         } else
         {
             equipped = false;

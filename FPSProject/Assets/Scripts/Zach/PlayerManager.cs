@@ -34,7 +34,6 @@ public class PlayerManager : MonoBehaviour
         GameObject gamemgr = GameObject.Find("GameManager");
         EventManager.AddListener<PlayerDeathEvent>(onPlayerDeath);
         //EventManager.AddListener<PlayerSpawnEvent>(onPlayerSpawn);
-        Debug.Log("Found Game Manager: " + gamemgr.name);
     }
     public void CreateNewPlayer()
     {
@@ -66,15 +65,14 @@ public class PlayerManager : MonoBehaviour
            ((MonoBehaviour)player.GetComponent<PlayerSettings>()).enabled = true;
            player.transform.Find("Player Camera").gameObject.GetComponent<Camera>().enabled = true;
            player.transform.Find("Player Camera").gameObject.GetComponent<PlayerCameraMovement>().enabled = true;
-            Debug.Log("Player finished camera setup: " + player.GetComponent<PhotonView>().ViewID);
-            Debug.Log("Player's camera name is: " + player.transform.Find("Player Camera").gameObject.name);
+        
 
            
         }
     }
 
     public void onPlayerDeath(PlayerDeathEvent evt){
-        Debug.Log("Broadcasting " + evt + " from PlayerManager.cs");
+        //Debug.Log("Broadcasting " + evt + " from PlayerManager.cs");
         //edited 4pm 10-22
         //change the display here?
         PlayerSpawnEvent evt1 = Events.PlayerSpawnEvent;
@@ -83,7 +81,7 @@ public class PlayerManager : MonoBehaviour
 
     }   
     public void onPlayerSpawn(PlayerSpawnEvent evt){
-        Debug.Log("Broadcasting " + evt + " from PlayerManager.cs");
+        //Debug.Log("Broadcasting " + evt + " from PlayerManager.cs");
         //edited 4pm 10-22
         PlayerSpawnEvent evt1 = Events.PlayerSpawnEvent;
         evt1.player = evt.player;

@@ -25,14 +25,12 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
     }
     void Start()
     {
-        Debug.Log("Starting player damage");
         impact = GetComponent<AudioSource>();
         DamageFlash = GameObject.Find("DamageFlash").GetComponent<Animator>();
         healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
-        Debug.Log("Healthbar is: " + healthBar.name);
         healthBar.SetMaxHealth(maxHealth);
         currentHealth = maxHealth;
-        Debug.Log(currentHealth);
+        //Debug.Log(currentHealth);
     }
 
     void Update()
@@ -73,7 +71,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
                 impact.Play();
                 DamageFlash.SetTrigger("Damage");
                 healthBar.SetHealth(currentHealth, PV);
-                Debug.Log("Hit Player for " + damage + " damage. Player is now at " + currentHealth + " HP.");
+                //Debug.Log("Hit Player for " + damage + " damage. Player is now at " + currentHealth + " HP.");
             }
         }
         if (currentHealth <= 0)
@@ -86,13 +84,13 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
                 currentHealth = 100;
                 healthBar.SetHealth(currentHealth, PV);
             }         
-            Debug.Log("A player has died!");
+        
         }
     }
 
     public void onDie(int EnemyPlayer){
      
-            Debug.Log(PV.ViewID + " was killed by " + EnemyPlayer);
+            //Debug.Log(PV.ViewID + " was killed by " + EnemyPlayer);
             RaiseEventOptions o = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             int DeadviewID = PV.ViewID;
             object[] obj = {DeadviewID, EnemyPlayer};

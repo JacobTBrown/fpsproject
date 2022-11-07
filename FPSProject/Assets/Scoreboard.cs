@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Realtime;
 using Photon.Pun;
+using UnityEngine.UI;
 
 public class Scoreboard : MonoBehaviourPunCallbacks
 {
@@ -24,6 +25,10 @@ public class Scoreboard : MonoBehaviourPunCallbacks
         ScoreboardScript item = Instantiate(scoreboardItemPrefab, container).GetComponent<ScoreboardScript>();
         item.Initialize(player);
         scoreboardItems[player] = item;
+        if (player.IsLocal)
+        {
+            item.gameObject.GetComponentInChildren<Image>().color = new Color(255, 255, 255f, .10f);
+        }
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)

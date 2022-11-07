@@ -80,7 +80,7 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
         //Debug.Log(PV);
             //PhotonNetwork.OpCleanActorRpcBuffer(otherPlayer.ActorNumber);
 
-            Debug.Log("OnPlayerLeftRoom: " + otherPlayer.ActorNumber);
+            //Debug.Log("OnPlayerLeftRoom: " + otherPlayer.ActorNumber);
         //PhotonNetwork.CleanRpcBufferIfMine(PV);
         //PhotonNetwork.Destroy(PV);
 

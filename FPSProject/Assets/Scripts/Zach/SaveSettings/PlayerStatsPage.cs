@@ -35,7 +35,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     public DataToStore newData;
     public static PlayerStatsPage Instance;
     [HideInInspector] public string json;
-    bool debug = true;
+    bool debug = false;
     public bool inGame = false;
     float initialTimeInGame;
     public bool saved = false;
@@ -287,14 +287,12 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     }
     public void SetKills()
     {
-        Debug.Log("PlayerStatsPage.cs did setKills manually");
             totalKills++;
         
             return;
     }
     public void setDeaths()
     {
-        Debug.Log("PlayerStatsPage.cs did setDeaths manually");
         totalDeaths++;
         return;
     }
@@ -326,32 +324,27 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         byte eventCode = photonEvent.Code;
         if (eventCode == 0) //PhotonEvents.PLAYERDEATH
         {
-            Debug.Log("Sender: " + photonEvent.Sender.ToString());
             object[] data = (object[])photonEvent.CustomData;
             int EnemyPlayer = (int)data[1]; //the photon view of the person who dealt damage
-            Debug.Log(data[1].ToString() + " was enemy player data");
+
             EPV = PhotonNetwork.GetPhotonView(EnemyPlayer);
-            Debug.Log("Enemy player was: " + EnemyPlayer.ToString() + " vs my actor #: " + PhotonNetwork.LocalPlayer.ActorNumber);
             PPV = PhotonNetwork.GetPhotonView((int)data[0]);
             if (PPV.IsMine)
             {
-                Debug.Log("Set deaths manually for: " + PhotonNetwork.LocalPlayer.ActorNumber);
                 setDeaths();
             }
             else if (EPV.IsMine)
             {
-                Debug.Log("Set kills manually for: " + PhotonNetwork.LocalPlayer.ActorNumber);
+
                 SetKills();
             }
         }
         else if (eventCode == PhotonEvents.JOINEDTEAM1)
         { //player player, int team
-            Debug.Log("Sender: " + photonEvent.Sender.ToString());
             object[] data = (object[])photonEvent.CustomData;
             team = (int)data[1];//the team of the player
         }   else if (eventCode == PhotonEvents.JOINEDTEAM2)
         {
-            Debug.Log("Sender: " + photonEvent.Sender.ToString());
             object[] data = (object[])photonEvent.CustomData;
             int EnemyPlayer = (int)data[1]; //the photon view of the person who dealt damage
         }

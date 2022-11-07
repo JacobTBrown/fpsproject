@@ -50,8 +50,7 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
             FindObjectOfType<KillHUD>().updateText("kills: " + kills.ToString());
         }
 
-        //Debug.Log("Score: "+(int)player.CustomProperties["Kills"]);
-        //Debug.Log((int)player.CustomProperties["Kills"]);
+        
     }
 
     public void OnPlayerKill(PlayerKillEvent evt)
@@ -88,7 +87,7 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
 
     public void OnEvent(EventData photonEvent)
     {
-        // Debug.Log("In the OnEvent function in Scoreboard Script.");
+        //Debug.Log("In the OnEvent function in Scoreboard Script.");
         byte eventCode = photonEvent.Code;
         if (eventCode == PhotonEvents.PLAYERDEATH)
         {

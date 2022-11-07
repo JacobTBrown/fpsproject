@@ -20,6 +20,8 @@ public class PlayerSettings : MonoBehaviour
     PhotonView PV; //needed for the reference to the player prefab 
     PlayerManager playermanager; //to send data to the playerManager, which will instantate our playerPrefab.
 
+
+
     MenuManager menuManager;
     GameObject errorTextPopup;
     [SerializeField] TMP_Text errorText;
@@ -37,7 +39,8 @@ public class PlayerSettings : MonoBehaviour
     public float mouseXSensitivity = 500f;
     // Vertical mouse sensitivity
     public float mouseYSensitivity = 500f;
-
+    Vector3 timerPosition;
+    Vector3 FFAPanelPosition;
     public Slider mouseYSlider;
     public Slider mouseXSlider;
     private string ySliderText;
@@ -46,7 +49,7 @@ public class PlayerSettings : MonoBehaviour
     public bool invertMouse = false;
     public bool chatIsOpen = false;
     public List<int> team;
-
+    Vector3 hideUIOffScreenVector = new Vector3(9999, 9999, 1);
     [Header("User Keybinds")]
     public Dictionary<KeycodeFunction, KeyCode> inputSystemDic = new Dictionary<KeycodeFunction, KeyCode>() {
         { KeycodeFunction.leftMove, KeyCode.A},
@@ -65,7 +68,10 @@ public class PlayerSettings : MonoBehaviour
         };
 
     void Start() {
-        
+        //timerPosition = GameObject.FindObjectOfType<Timer>().transform.localPosition;
+        timerPosition = new Vector3(804, 465, 0);
+        FFAPanelPosition = new Vector3(-724, 412, 0);
+        // FFAPanelPosition = GameObject.FindObjectOfType<FFAPlayerScoreText>().transform.localPosition;
         Invoke("SetTeams", 0.5f);
         //Debug.Log("GameObject.Name," + gameObject.name);
         PV = GetComponent<PhotonView>();
@@ -93,9 +99,9 @@ public class PlayerSettings : MonoBehaviour
             //adding logic for team vs ffa scoreboard - zach
             scoreBoard = GameObject.FindObjectOfType<Scoreboard>().gameObject;
             //scoreBoard.SetActive(false);
-            scoreBoard.transform.localPosition = new Vector3(9999, 9999, 9999);
+            scoreBoard.transform.localPosition = hideUIOffScreenVector;
             GameObject scoreBoardTeams = GameObject.FindObjectOfType<ScoreboardTeams>().gameObject;
-            scoreBoardTeams.SetActive(false);
+            scoreBoardTeams.transform.localPosition = hideUIOffScreenVector;
             if ((int)PhotonNetwork.LocalPlayer.CustomProperties["team"] > 0)
             {
                 //Debug.Log("Set team scoreboard");
@@ -152,14 +158,18 @@ public class PlayerSettings : MonoBehaviour
         if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.scoreboard]))
         {
             //if (scoreBoard.activeInHierarchy)
-            Vector3 badVector = new Vector3(9999, 9999, 9999);
-           if (scoreBoard.transform.localPosition != badVector)
+            
+           if (scoreBoard.transform.localPosition != hideUIOffScreenVector)
             {
-                scoreBoard.transform.localPosition = new Vector3(9999, 9999, 9999);
-                //scoreBoard.SetActive(false);
+                GameObject.FindObjectOfType<Timer>().transform.localPosition = timerPosition;
+                GameObject.FindObjectOfType<FFAPlayerScoreText>().transform.localPosition = FFAPanelPosition;
+                Debug.Log(FFAPanelPosition + " + " + timerPosition);
+                scoreBoard.transform.localPosition = hideUIOffScreenVector;
             } else
             {
-                //scoreBoard.SetActive(true);
+                GameObject.FindObjectOfType<Timer>().transform.localPosition = hideUIOffScreenVector;
+                GameObject.FindObjectOfType<FFAPlayerScoreText>().transform.localPosition = hideUIOffScreenVector;
+                Debug.Log(FFAPanelPosition + " + " + timerPosition);
                 scoreBoard.transform.localPosition = new Vector3(0, 0,0);
             }
         }

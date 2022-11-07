@@ -45,7 +45,7 @@ public class TDMKillObjective : MonoBehaviourPunCallbacks, Objective
         {
             return;
         }
-        Debug.Log("Update");
+        //Debug.Log("Update");
         if (propties.ContainsKey("Kills"))
         {
             if ((int)target.CustomProperties["team"] == 1)
