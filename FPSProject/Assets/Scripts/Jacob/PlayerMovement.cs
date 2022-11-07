@@ -7,7 +7,7 @@ using System.Collections;
     Last Edit: 9/21/22
     This class handles movement in 3d space for a player character.
 */
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IPunObservable
 {
     [Header("Unity Classes")]
     public Rigidbody playerRigidbody;

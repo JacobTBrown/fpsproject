@@ -19,6 +19,7 @@ public class Gun : MonoBehaviour
     public bool settingsOpen = false;
     public bool equipped;
     public bool owns;
+    public bool isInstakill;
     Animator animator;
     public AudioClip gunshot;
     public AudioClip reload;
@@ -56,6 +57,7 @@ public class Gun : MonoBehaviour
         {
             equipped = false;
         }
+        isInstakill = false;
 
         gunData.currentAmmo = gunData.magSize;
         if (gunData.maxReserveAmmo != -1) gunData.reserveAmmo = gunData.magSize * 2;
@@ -151,11 +153,18 @@ public class Gun : MonoBehaviour
                                 {
                                     Debug.Log("Hit");
                                     StartCoroutine(playerHit());
-                                    hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, PV.ViewID);
+                                    if (isInstakill)
+                                        hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, 120f, PV.ViewID);
+                                    else
+                                        hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, PV.ViewID);
                                 }
                                 IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
                                 Debug.Log(hitInfo);
-                                damageable?.Damage(gunData.damage, EPV.ViewID);
+                                if (isInstakill) {
+                                    damageable?.Damage(120f, EPV.ViewID);
+                                }    
+                                else
+                                    damageable?.Damage(gunData.damage, EPV.ViewID);
                             }
                         }
                     //}
