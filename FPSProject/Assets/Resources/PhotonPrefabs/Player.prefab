@@ -59,6 +59,7 @@ MonoBehaviour:
   settingsOpen: 0
   equipped: 0
   owns: 0
+  isInstakill: 0
   gunshot: {fileID: 8300000, guid: c30af09ecc2326d48989af81a1e6112b, type: 3}
   reload: {fileID: 8300000, guid: 082e98c77e72694439e3f026578e5b99, type: 3}
   audioSource: {fileID: 1951868690775734185}
@@ -331,6 +332,7 @@ MonoBehaviour:
   settingsOpen: 0
   equipped: 1
   owns: 1
+  isInstakill: 0
   gunshot: {fileID: 8300000, guid: 6739c01659ad96d47987f4ddee226b36, type: 3}
   reload: {fileID: 8300000, guid: 60f7d2a9dc8b55348a2c35b8020a7adb, type: 3}
   audioSource: {fileID: 2002808868783662934}
@@ -10368,6 +10370,7 @@ MonoBehaviour:
   settingsOpen: 0
   equipped: 0
   owns: 0
+  isInstakill: 0
   gunshot: {fileID: 8300000, guid: 34b439bf70b80a6409eadecc6be92d68, type: 3}
   reload: {fileID: 8300000, guid: 2d347eb4b1e35e24ca54b63d4c2fedca, type: 3}
   audioSource: {fileID: 8781171675687005240}
@@ -10791,8 +10794,8 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
+  - {fileID: 3173107398918425437}
   - {fileID: -8896846525926025363}
-  - {fileID: -5931245863507772595}
   - {fileID: 4017857724056262084}
   - {fileID: 625458334813862768}
   - {fileID: 4715249802361258056}
@@ -10838,8 +10841,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b4d1fa0b1362e034db2488e82cfdebc7, type: 3}
   - {fileID: 8300000, guid: 4b20e47e97a49b24595efb5c3f653a6e, type: 3}
   - {fileID: 8300000, guid: ae9dd47a2692cb5499fbdb51f9b8943a, type: 3}
-  parkour: {fileID: 0}
-  playParkourSound: 0
+  footstepSource: {fileID: 9082979214505576125}
 --- !u!114 &7328578966516939411
 MonoBehaviour:
   m_ObjectHideFlags: 0
