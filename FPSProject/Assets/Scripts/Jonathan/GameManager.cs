@@ -105,7 +105,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             player.SetCustomProperties(PlayerCustomProps);
             updateScore event1 = Events.Updating;
             EventManager.Broadcast(event1);
-            PhotonNetwork.GetPhotonView(PhotonNetwork);
         }
 
     }
