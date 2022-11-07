@@ -16042,6 +16042,8 @@ MonoBehaviour:
   totalDeaths: 0
   updateInterval: 0.5
   lastInterval: 0
+  KillPopUpPrefab: {fileID: 5565200554029010537, guid: eadfbdabc3baa9044af0e9fa312338e4,
+    type: 3}
   frames: 0
   level: 1
   exp: 0

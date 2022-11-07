@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using UnityEngine.UI;
 // Zach 10-10: **MODEL** / VIEW / Controller
 // Processes persistant stats for the player.
 // This file dictates when to save - must exist in DoNotDestroyOnLoad to carry over into scenes.
@@ -26,6 +27,8 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     [SerializeField] public int totalDeaths = 0;
     [SerializeField] public float updateInterval = 0.5f;
     [SerializeField] public double lastInterval;
+    [SerializeField] GameObject KillPopUpPrefab;
+ 
     public int frames;
     public int level = 1;
     public int exp;
@@ -47,15 +50,10 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     public int team;
     PhotonView PPV;
     PhotonView EPV;
+    private Transform content;
 
     private void Awake()
     {
-        // for if we need to persist it between scenes, we only keep the first one?
-        //  if (Instance) 
-        //   {
-        //     Debug.Log("destroy");
-        //   Destroy(this);
-        //    }
         onDie = false; //unused with PhotonEvent.cs 
         EventManager.AddListener<PlayerKillEvent>(SetKills);
         EventManager.AddListener<PlayerDeathEvent>(SetDeaths);
@@ -120,7 +118,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         }
     }
     /// <summary>
-    /// Returns true when we're on the same team, false otherwise. Call this before accepting damage from another player or anything else team related ? its also stored in custom properties
+    /// Returns true when we're on the same team, false otherwise. Call this before accepting damage from another player or anything else team related ?
     /// </summary>
     public bool CheckTeam(PhotonView EPV)
     {
@@ -172,7 +170,6 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     {
         if (exp > 0)
         {
-            //Debug.Log("saving with extra exp 0 exp: " + exp + "+= " +newExp);
             exp += (int)newExp;
             newExp = 0;
         }
@@ -194,16 +191,13 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     }
     private void OnLevelWasLoaded(int level)
     {
-        //if (debug) Debug.Log("scene transition to #" + level);
         if (level > 0)
         {
-            // set pv of player for events if needed
-            //PV = PhotonNetwork;
             inGame = true;
+            content = GameObject.Find("KillPopUp").transform;
         }
         else
         {
-            
             inGame = false;
         }
     }
@@ -234,22 +228,6 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         
         //GameObject.Destroy(gameObject);
     }
-    
-    /*
-    private void OnApplicationQuit()
-    {
-        this.totalTime = Time.realtimeSinceStartup;
-        Debug.Log("Saving on exit" + this.totalTime);
-        if (SceneManager.GetActiveScene().buildIndex > 0)
-        {
-            Debug.Log("logging");
-            timeInGame += Time.timeSinceLevelLoad;
-
-        }
-        SavePlayer();
-
-    }
-    */
     public void StartInGameTimer()
     {
         
@@ -329,6 +307,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
 
             EPV = PhotonNetwork.GetPhotonView(EnemyPlayer);
             PPV = PhotonNetwork.GetPhotonView((int)data[0]);
+            KillPopUp(EPV, PPV);
             if (PPV.IsMine)
             {
                 setDeaths();
@@ -348,5 +327,21 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
             object[] data = (object[])photonEvent.CustomData;
             int EnemyPlayer = (int)data[1]; //the photon view of the person who dealt damage
         }
+    }
+    public void KillPopUp(PhotonView EPV, PhotonView PPV)
+    {
+        
+        GameObject killPopUp = Instantiate(KillPopUpPrefab, content).gameObject;
+        killPopUp.GetComponent<Text>().text = EPV.gameObject.GetComponent<PlayerSettings>().nickname + " killed " + PPV.gameObject.GetComponent<PlayerSettings>().nickname;
+        StartCoroutine(fadeOut(killPopUp));
+    }
+    private IEnumerator fadeOut(GameObject bye)
+    {
+            yield return new WaitForSeconds(5f);
+        Destroy(bye);
+    }
+    public void KillTextInit()
+    {
+
     }
 }

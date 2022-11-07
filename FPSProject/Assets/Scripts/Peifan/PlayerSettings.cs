@@ -68,15 +68,10 @@ public class PlayerSettings : MonoBehaviour
         };
 
     void Start() {
-        //timerPosition = GameObject.FindObjectOfType<Timer>().transform.localPosition;
-        timerPosition = new Vector3(804, 465, 0);
+        timerPosition = new Vector3(804, 465, 0); // magic numbers: correspond to the initial position of the game objects on the canvas
         FFAPanelPosition = new Vector3(-724, 412, 0);
-        // FFAPanelPosition = GameObject.FindObjectOfType<FFAPlayerScoreText>().transform.localPosition;
         Invoke("SetTeams", 0.5f);
-        //Debug.Log("GameObject.Name," + gameObject.name);
         PV = GetComponent<PhotonView>();
-        //Debug.Log("PV instantiate: " + PV.ViewID);
-        //playermanager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
         canvas = GameObject.FindGameObjectWithTag("Settings");
         weaponHolder = GameObject.FindGameObjectWithTag("MainCamera").transform.GetChild(0).gameObject;
 
@@ -98,7 +93,6 @@ public class PlayerSettings : MonoBehaviour
             //Debug.Log("GETTING SETTINGS PANEL");
             //adding logic for team vs ffa scoreboard - zach
             scoreBoard = GameObject.FindObjectOfType<Scoreboard>().gameObject;
-            //scoreBoard.SetActive(false);
             scoreBoard.transform.localPosition = hideUIOffScreenVector;
             GameObject scoreBoardTeams = GameObject.FindObjectOfType<ScoreboardTeams>().gameObject;
             scoreBoardTeams.transform.localPosition = hideUIOffScreenVector;
@@ -163,13 +157,11 @@ public class PlayerSettings : MonoBehaviour
             {
                 GameObject.FindObjectOfType<Timer>().transform.localPosition = timerPosition;
                 GameObject.FindObjectOfType<FFAPlayerScoreText>().transform.localPosition = FFAPanelPosition;
-                Debug.Log(FFAPanelPosition + " + " + timerPosition);
                 scoreBoard.transform.localPosition = hideUIOffScreenVector;
             } else
             {
                 GameObject.FindObjectOfType<Timer>().transform.localPosition = hideUIOffScreenVector;
                 GameObject.FindObjectOfType<FFAPlayerScoreText>().transform.localPosition = hideUIOffScreenVector;
-                Debug.Log(FFAPanelPosition + " + " + timerPosition);
                 scoreBoard.transform.localPosition = new Vector3(0, 0,0);
             }
         }
