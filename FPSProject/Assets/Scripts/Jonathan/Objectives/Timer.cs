@@ -62,7 +62,7 @@ public class Timer : MonoBehaviour
 
     void TimesUP()
     {
-        //Debug.Log("Timer: End Game Event Called");
+        TimerText.text = "Time over!!";
         EndGameEvent ev = Events.EndGameEvent;
         EventManager.Broadcast(ev);
     }

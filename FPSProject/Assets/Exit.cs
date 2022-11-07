@@ -29,13 +29,11 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
             //PV.RPC("ClearRPCs", RpcTarget.OthersBuffered, PhotonNetwork.LocalPlayer);
            // PhotonNetwork.RemoveRPCs(PhotonNetwork.LocalPlayer);
             //PhotonNetwork.CleanRpcBufferIfMine(PV);
-            Debug.Log("exit destroyed u");
             //  PhotonNetwork.Destroy(PV);
            // Destroy(PV.gameObject);
         }
         else
         {
-            Debug.Log("exit cant find ur PV");
         }
         //DisconnectPlayer();
         //Destroy(GameObject.Find("GameManager"));
@@ -76,14 +74,13 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
+        PhotonNetwork.DestroyPlayerObjects(otherPlayer);
         //PhotonView PV = GameObject.Find("Player(Clone)").GetComponent<PhotonView>();
         //Debug.Log(PV);
             //PhotonNetwork.OpCleanActorRpcBuffer(otherPlayer.ActorNumber);
 
             //Debug.Log("OnPlayerLeftRoom: " + otherPlayer.ActorNumber);
         //PhotonNetwork.CleanRpcBufferIfMine(PV);
-        //PhotonNetwork.Destroy(PV);
-
         //PhotonNetwork.Disconnect();
         //PhotonHandler is doing cleanup
         // Destroy()
@@ -123,8 +120,8 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
     }
     public override void OnDisconnected(DisconnectCause cause)
     {
+       
         PhotonNetwork.LoadLevel(0);
-        //SceneManager.LoadScene(0);
         Debug.Log("onDisconnected callbac for " + cause);
         //base.OnDisconnected(cause);
 
@@ -140,7 +137,6 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
         pstats.SavePlayer();
         Destroy(roomManager);
         Destroy(PV);
-        Debug.Log("room manager destroyed");
        
 
         

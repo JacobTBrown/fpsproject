@@ -610,7 +610,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
                 }
                 if (PhotonNetwork.IsMasterClient)
                 {
-                    Debug.Log("we are the master client");
                     startGameTeamButton.SetActive(PhotonNetwork.IsMasterClient);
                 }
                     return;
@@ -638,7 +637,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         }
         else
         {//no cases found, fallback code
-            Debug.Log("No mode found, instantiated player with default mode");
             MenuManager.Instance.OpenMenu("room");
             foreach (Transform child in playerListContent)
             {
@@ -737,7 +735,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     public void JoinRoom(RoomInfo info)
     {
         if (debug) Debug.Log("This room has: " + info.MaxPlayers + "Max players");
-
 
         if (info.PlayerCount == info.MaxPlayers)
         {

@@ -63,31 +63,20 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
             //killsText.text = kills.ToString();
             Debug.Log("Number of kills are: " + kills);
         }
-
-       // if (evt.player.GetComponent<PlayerSettings>().viewID.Equals(PPV.ViewID))
-        //{
-          //  kills++;
-           // killsText.text = kills.ToString();
-        //} else if(evt.player.GetComponent<PlayerSettings>().viewID.Equals(EPV.ViewID))
-        //{
-           // kills++;
-            //killsText.text = kills.ToString();
-        //}
     }
 
-    private void OnEnable()
+    public override void OnEnable()
     {
         PhotonNetwork.AddCallbackTarget(this);
     }
 
-    private void OnDisable()
+    public override void OnDisable()
     {
         PhotonNetwork.RemoveCallbackTarget(this);
     }
 
     public void OnEvent(EventData photonEvent)
     {
-        //Debug.Log("In the OnEvent function in Scoreboard Script.");
         byte eventCode = photonEvent.Code;
         if (eventCode == PhotonEvents.PLAYERDEATH)
         {
@@ -96,7 +85,6 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
             int EnemyPlayer = (int)data[1]; //the photon view of the person who dealt damage
             //Debug.Log(data[1].ToString() + " was enemy player data");
             EPV = PhotonNetwork.GetPhotonView(EnemyPlayer);
-            //Debug.Log("Enemy player was: " + EnemyPlayer.ToString() + " vs my actor #: " + PhotonNetwork.LocalPlayer.ActorNumber);
             PPV = PhotonNetwork.GetPhotonView((int)data[0]);
         }
     }
@@ -109,4 +97,5 @@ public class ScoreboardScript : MonoBehaviourPunCallbacks, IOnEventCallback
         killsText.text = kills.ToString();
         base.OnPlayerPropertiesUpdate(targetPlayer, changedProps);
     }
+
 }
