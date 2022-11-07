@@ -156,12 +156,25 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
         if (channelName == "World") return;
         string text = "";
         int length = 0;
+        for (int i = 0; i < senders.Length; i++)
+        {
+            if (senders[i] != playerName) 
+            {
+                string[] value = messages[i].ToString().Split(new string[] { "--" }, System.StringSplitOptions.None);
+                if (value[1] == "AddMoveSpeed") return;
+                if (value[1] == "ReduceMoveSpeed") return;
+                if (value[1] == "AddJump") return;
+                if (value[1] == "ReduceJump") return;
+                if (value[1] == "AddAirSpeed") return;
+                if (value[1] == "ReduceAirSpeed") return;
+            }
+        }
 
         while (length < senders.Length) {
             text = senders[length] + ": " + messages[length];
             string[] value = text.Split(new string[] { "--" }, System.StringSplitOptions.None);
             string newtext = MakeText(value[0], value[1]);
-            if (newtext != "") 
+            if (newtext != null) 
             {
                 chatDisplay.text += "\n" + newtext;
                 length++;
@@ -175,7 +188,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         //Debug.LogError("SpeedUp");
         AddMoveSpeedEvent?.Invoke();
-        PV.RPC("AddSpeed", RpcTarget.AllBuffered, "MoveSpeed", 10);
+        //PV.RPC("AddSpeed", RpcTarget.AllBuffered, "MoveSpeed", 10);
         return "SpeedUp";
     }
     public Action ReduceMoveSpeedEvent;
@@ -183,7 +196,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         //Debug.LogError("SpeedDown");
         ReduceMoveSpeedEvent?.Invoke();
-        PV.RPC("SubtractSpeed", RpcTarget.AllBuffered, "MoveSpeed", 2);
+        //PV.RPC("SubtractSpeed", RpcTarget.AllBuffered, "MoveSpeed", 2);
         return "SpeedDown";
     }
     public Action AddJumpEvent;
@@ -191,7 +204,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         //Debug.LogError("JumpUp");
         AddJumpEvent?.Invoke();
-        PV.RPC("AddSpeed", RpcTarget.AllBuffered, "JumpSpeed", 10);
+        //PV.RPC("AddSpeed", RpcTarget.AllBuffered, "JumpSpeed", 10);
         return "JumpUp";
     }
     public Action ReduceJumpEvent;
@@ -199,7 +212,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         //Debug.LogError("JumpDown");
         ReduceJumpEvent?.Invoke();
-        PV.RPC("SubtractSpeed", RpcTarget.AllBuffered, "JumpSpeed", 5);
+        //PV.RPC("SubtractSpeed", RpcTarget.AllBuffered, "JumpSpeed", 5);
         return "JumpDown";
     }
     public Action AddAirSpeedEvent;
@@ -207,7 +220,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         //Debug.LogError("AirSpeedUp");
         AddAirSpeedEvent?.Invoke();
-        PV.RPC("AddSpeed", RpcTarget.AllBuffered, "AirSpeed", 10);
+        //PV.RPC("AddSpeed", RpcTarget.AllBuffered, "AirSpeed", 10);
         return "AirSpeedUp";
     }
     public Action ReduceAirSpeedEvent;
@@ -215,7 +228,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
     {
         //Debug.LogError("AirSpeedDown");
         ReduceAirSpeedEvent?.Invoke();
-        PV.RPC("SubtractSpeed", RpcTarget.AllBuffered, "AirSpeed", 5);
+        //PV.RPC("SubtractSpeed", RpcTarget.AllBuffered, "AirSpeed", 5);
         return "AirSpeedDown";
     }
 
@@ -224,9 +237,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
         string retvalue = "";
         //Debug.LogError("style = " + style);
         string[] tmp = style.Split(new string[] { ":" }, System.StringSplitOptions.None);
-        //Debug.LogError("tmp[1] = " + tmp[1]);
-        if (tmp[0] != playerName && value == "AddMoveSpeed" || value == "ReduceMoveSpeed" || value == "AddJump" ||
-            value == "ReduceJump" || value == "AddAirSpeed" || value == "ReduceAirSpeed") return "";
+
         if (value == "AddMoveSpeed") value = AddMoveSpeed();
         else if (value == "ReduceMoveSpeed") value = ReduceMoveSpeed();
         else if (value == "AddJump") value = AddJump();
@@ -240,16 +251,16 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
                 retvalue = tmp[0] + ":" + value;
                 break;
             case "1":
-                retvalue = "<Color=red><Size=20>" + tmp[0] + ":" + value + "</Size></Color>";
+                retvalue = "<Color=red><Size=160>" + tmp[0] + ":" + value + "</Size></Color>";
                 break;
             case "2":
-                retvalue = "<Color=blue><Size=16>" + tmp[0] + ":" + value + "</Size></Color>";
+                retvalue = "<Color=blue><Size=140>" + tmp[0] + ":" + value + "</Size></Color>";
                 break;
             case "3":
-                retvalue = "<Color=green><Size=18>" + tmp[0] + ":" + value + "</Size></Color>";
+                retvalue = "<Color=green><Size=130>" + tmp[0] + ":" + value + "</Size></Color>";
                 break;
             case "4":
-                retvalue = "<Color=yellow><Size=20>" + tmp[0] + ":" + value + "</Size></Color>";
+                retvalue = "<Color=yellow><Size=150>" + tmp[0] + ":" + value + "</Size></Color>";
                 break;
             default:
                 break;
