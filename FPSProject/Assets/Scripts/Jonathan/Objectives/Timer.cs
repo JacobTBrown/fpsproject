@@ -17,7 +17,7 @@ public class Timer : MonoBehaviour
 
     void Start()
     {
-        timer = 60;
+        timer = 300;
         TimerText = GetComponent<TextMeshProUGUI>();
         if (PhotonNetwork.LocalPlayer.IsMasterClient)
         {
