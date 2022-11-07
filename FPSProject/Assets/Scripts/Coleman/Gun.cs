@@ -145,16 +145,16 @@ public class Gun : MonoBehaviour
 
                                 if (pstats.CheckTeam(EPV))
                                 {
-                                    Debug.Log("Player was on your team: " + EPV.ViewID + " vs " + PV.ViewID);
+                                    //Debug.Log("Player was on your team: " + EPV.ViewID + " vs " + PV.ViewID);
                                 }
                                 else
                                 {
-                                    Debug.Log("Hit");
+                                    //Debug.Log("Hit");
                                     StartCoroutine(playerHit());
                                     hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, PV.ViewID);
                                 }
                                 IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-                                Debug.Log(hitInfo);
+                                //Debug.Log(hitInfo);
                                 damageable?.Damage(gunData.damage, EPV.ViewID);
                             }
                         }

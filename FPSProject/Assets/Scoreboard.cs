@@ -27,7 +27,7 @@ public class Scoreboard : MonoBehaviourPunCallbacks
         scoreboardItems[player] = item;
         if (player.IsLocal)
         {
-            item.gameObject.GetComponentInChildren<Image>().color = new Color(255, 255, 255f, .10f);
+            item.gameObject.GetComponentInChildren<Image>().color = new Color(0, 0, 0, .90f);
         }
     }
 
