@@ -41,6 +41,7 @@ public class PlayerSettings : MonoBehaviour
     public float mouseYSensitivity = 500f;
     Vector3 timerPosition;
     Vector3 FFAPanelPosition;
+    Vector3 TDMPanelPosition;
     public Slider mouseYSlider;
     public Slider mouseXSlider;
     private string ySliderText;
@@ -49,7 +50,7 @@ public class PlayerSettings : MonoBehaviour
     public bool invertMouse = false;
     public bool chatIsOpen = false;
     public List<int> team;
-    Vector3 hideUIOffScreenVector = new Vector3(9999, 9999, 1);
+    Vector3 hideUIOffScreenVector = new Vector3(0, -2500, 0);
     [Header("User Keybinds")]
     public Dictionary<KeycodeFunction, KeyCode> inputSystemDic = new Dictionary<KeycodeFunction, KeyCode>() {
         { KeycodeFunction.leftMove, KeyCode.A},
@@ -68,8 +69,9 @@ public class PlayerSettings : MonoBehaviour
         };
 
     void Start() {
-        timerPosition = new Vector3(804, 465, 0); // magic numbers: correspond to the initial position of the game objects on the canvas
+        timerPosition = new Vector3(-558, -26, 0); // magic numbers: correspond to the initial position of the game objects on the canvas
         FFAPanelPosition = new Vector3(-724, 412, 0);
+        TDMPanelPosition = new Vector3(51, -515, 0);
         Invoke("SetTeams", 0.5f);
         PV = GetComponent<PhotonView>();
         canvas = GameObject.FindGameObjectWithTag("Settings");
@@ -98,9 +100,11 @@ public class PlayerSettings : MonoBehaviour
             scoreBoardTeams.transform.localPosition = hideUIOffScreenVector;
             if ((int)PhotonNetwork.LocalPlayer.CustomProperties["team"] > 0)
             {
+                scoreBoard.SetActive(false);
                 //Debug.Log("Set team scoreboard");
                 scoreBoard = scoreBoardTeams;
             }
+            else scoreBoardTeams.SetActive(false);
             
             chatRoom = GameObject.Find("ChatPannel");
             chatRoom.SetActive(false);
