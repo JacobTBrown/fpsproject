@@ -10734,7 +10734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03e0b2f6bfaa5784f8954c5bc97e7fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reloadKey: 114
+  keybinds: {fileID: 0}
 --- !u!114 &9209984020067275009
 MonoBehaviour:
   m_ObjectHideFlags: 0

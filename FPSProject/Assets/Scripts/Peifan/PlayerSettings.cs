@@ -228,9 +228,12 @@ public class PlayerSettings : MonoBehaviour
    
     public bool SetKeycodeValue(KeycodeFunction keycodeFunction, KeyCode keyCode)
     {
+        Debug.Log(keyCode + "：Setting Button logic for: " + inputSystemDic[keycodeFunction]);
         if (inputSystemDic.Values.Contains(keyCode))
         {
+
             Debug.Log(keyCode + "：Button logic already exists");
+            
             //MenuManager.Instance.OpenMenu("error");
             //errorText.text = "That key is already in use";
 

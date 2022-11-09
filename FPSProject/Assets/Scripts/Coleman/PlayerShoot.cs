@@ -9,13 +9,14 @@ public class PlayerShoot : MonoBehaviour
     public Action shootInput;
     public Action reloadInput;
     public Action pickupInput;
-
-    [SerializeField] private KeyCode reloadKey;
+    public PlayerSettings keybinds;
+    //[SerializeField] private KeyCode reloadKey;
     private PhotonView PV;
 
     private void Start()
     {
         PV = GetComponent<PhotonView>();
+        keybinds = GetComponent<PlayerSettings>();
     }
 
     private void Update()
@@ -25,7 +26,8 @@ public class PlayerShoot : MonoBehaviour
             if (!DataManager.Instance.IsCanShoot) return;
 
             Gun gun = GetComponentInChildren<Gun>();
-            if (gun != null) {
+            if (gun != null)
+            {
                 if (!gun.gunData.fullAuto && gun.gameObject.activeSelf)
                 {
                     if (Input.GetMouseButtonDown(0)) shootInput?.Invoke();
@@ -34,7 +36,10 @@ public class PlayerShoot : MonoBehaviour
                 {
                     if (Input.GetMouseButton(0)) shootInput?.Invoke();
                 }
-                if (Input.GetKeyDown(reloadKey)) reloadInput?.Invoke();
+                if (Input.GetKeyDown(keybinds.inputSystemDic[KeycodeFunction.reload])) 
+                {
+                    Debug.Log("dictionary says " + keybinds.inputSystemDic[KeycodeFunction.reload]); reloadInput?.Invoke();
+                }
                 if (Input.GetKeyDown(KeyCode.E)) pickupInput?.Invoke();
             }
         }
