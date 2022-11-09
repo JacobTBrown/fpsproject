@@ -122,9 +122,8 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
     {
        
         PhotonNetwork.LoadLevel(0);
-        Debug.Log("onDisconnected callbac for " + cause);
+        //Debug.Log("onDisconnected callbac for " + cause);
         //base.OnDisconnected(cause);
-
     }
 
     public void SaveAndDestroy()

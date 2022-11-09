@@ -81,6 +81,8 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     [SerializeField] TMP_Text levelText;
     [SerializeField] TMP_Text errorText;
     [SerializeField] Button[] multiplayerButtons;
+    [SerializeField] GameObject reconnectButton;
+    [SerializeField] GameObject connectionFeedBackText;
 
     public int currentMap = 0;
 
@@ -114,7 +116,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         pingObj = GameObject.Find("Ping");
         pingObj.SetActive(false);
         Instance = this;
-        Invoke("CheckConnection", 30);
+        Invoke("CheckConnection", 28);
         Invoke("LevelRoutine", 2);
         mapsArr = new MapData[3]; //to add a map, increment this array by one, and add the map name below where #=index in the build settings ex: (mapsArr[0] == 1)
         mapsArr[0] = new MapData("Ice World", 1); //give the map a name here, and insert the build index. The file name of the image must match the naming scheme (just change jpg file names if u change the order)  
@@ -212,6 +214,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     }
     public override void OnDisconnected(DisconnectCause cause)
     {
+        Invoke("CheckConnection", 5);
         // Debug.Log("OnDisconnected() executed in launcher.cs");
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -675,10 +678,8 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     {   //attatched to the select map button
         mapAsInt++;
         if (mapAsInt >= mapsArr.Length+1) mapAsInt = 1; //button click loops through the array
-
         MapImageCreateRoomRawImage.texture = (Texture)Resources.Load("materials/map" + (mapAsInt).ToString() + "image");
         mapValue.text = mapsArr[mapAsInt-1].name;
-        
     }
 
     public void MaxPlayersSlider(float sliderInput)
@@ -701,8 +702,6 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     }
     public void CheckConnection()
     {
-
-        // if (pingAsInt < 21 || pingAsInt > 300) 
         if (!PhotonNetwork.IsConnected)
         {
             //pingText.text = "Connecting..";
@@ -729,8 +728,23 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     }
     public void ConnectManually()
     {
+        connectionFeedBackText.SetActive(true);
+        connectionFeedBackText.GetComponent<Text>().text = "Attempting to reconnect...";
+        reconnectButton.SetActive(false);
+        Debug.Log("reconn " + reconnectButton.name);
         if (debug) Debug.Log("attempting to reconnect...");
         PhotonNetwork.ConnectUsingSettings();
+        StartCoroutine(connectionCheck(reconnectButton));
+    }
+    private IEnumerator connectionCheck(GameObject reconnectButton)
+    {
+
+        if (!PhotonNetwork.IsConnectedAndReady)
+        {
+            yield return new WaitForSeconds(10f);
+        }
+       reconnectButton.SetActive(true);
+       // connectionFeedBackText.SetActive(false);
     }
     public void JoinRoom(RoomInfo info)
     {
@@ -765,17 +779,9 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
 
     public void LeaveRoom()
     {
-        //PhotonNetwork.CurrentRoom.IsOpen = false;
-
-        //needs better logic
-        //Debug.Log("called my LeaveRoom() handler");
         MapImage.SetActive(false);
         PhotonNetwork.LeaveRoom(); //sends player to WelcomeScreen as a callback (The default state of Scene 0).
                                    //Finishes execution AFTER opening the title menu
-
-
-        //MenuManager.Instance.OpenMenu("title");
-
     }
     public void ChangeTeamButtonClick()
     {

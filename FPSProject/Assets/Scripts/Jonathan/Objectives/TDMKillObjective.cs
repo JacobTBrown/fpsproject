@@ -17,7 +17,7 @@ using TMPro;
  */
 public class TDMKillObjective : MonoBehaviourPunCallbacks, Objective
 {
-    [SerializeField] int killCutOff = 10;
+    [SerializeField] int killCutOff = 2;
     [SerializeField] GameObject GameOverText;
     public int team1Kills = 0;
     public int team2Kills = 0;
@@ -76,16 +76,17 @@ public class TDMKillObjective : MonoBehaviourPunCallbacks, Objective
     private void EventCompleted()
     {
         gameOver = true;
-
-        ObjectiveCompletedEvent evt = Events.objectiveCompletedEvent;
-        evt.objective = this;
+        EndGameEvent evt = Events.EndGameEvent;
+        ObjectiveCompletedEvent evt2 = Events.objectiveCompletedEvent;
+        evt2.objective = this;
         EventManager.Broadcast(evt);
+        EventManager.Broadcast(evt2);
     }
     void UpdateUI(int team)
     {
-        GameOverText.SetActive(true);
-        GameOverText.gameObject.GetComponent<TMP_Text>().text = "team " + team.ToString() + " wins with " + killCutOff + " kills!"; 
-        //start end of game event ? 
+        GameOverText.transform.parent.gameObject.SetActive(true);
+        GameOverText.GetComponent<TMP_Text>().text = "team " + team.ToString() + " wins with " + killCutOff + " kills!";
+        // force-restart the game ? 
     } 
 
 }

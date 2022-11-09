@@ -37001,6 +37001,26 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5093411156960892890, guid: ab9a1e94aa6988b4e8f8dc6e05a42f7f,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5093411156960892890, guid: ab9a1e94aa6988b4e8f8dc6e05a42f7f,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5093411156960892890, guid: ab9a1e94aa6988b4e8f8dc6e05a42f7f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5093411156960892890, guid: ab9a1e94aa6988b4e8f8dc6e05a42f7f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5358674988517313311, guid: ab9a1e94aa6988b4e8f8dc6e05a42f7f,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -37040,6 +37060,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5728699737507275070, guid: ab9a1e94aa6988b4e8f8dc6e05a42f7f,
+        type: 3}
+      propertyPath: m_FontData.m_Alignment
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5737713418302853595, guid: ab9a1e94aa6988b4e8f8dc6e05a42f7f,
         type: 3}
@@ -37109,7 +37134,7 @@ PrefabInstance:
     - target: {fileID: 6976987921488141263, guid: ab9a1e94aa6988b4e8f8dc6e05a42f7f,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.000017166138
+      value: 0.000009536743
       objectReference: {fileID: 0}
     - target: {fileID: 6976987922363867481, guid: ab9a1e94aa6988b4e8f8dc6e05a42f7f,
         type: 3}
@@ -37220,6 +37245,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d0b652f32a2cc243917e4028fa0f046, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1722499677 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3507164066153981470, guid: ab9a1e94aa6988b4e8f8dc6e05a42f7f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1722499675}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1812968575
 GameObject:
   m_ObjectHideFlags: 0
@@ -48056,8 +48087,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ff132c18dfdc2f4ca2913323d2621f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  killCutOff: 10
-  GameOverText: {fileID: 0}
+  killCutOff: 2
+  GameOverText: {fileID: 1722499677}
   team1Kills: 0
   team2Kills: 0
   gameOver: 0

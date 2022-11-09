@@ -36,6 +36,7 @@ public class PlayerStatsGui : MonoBehaviour
     public double kdr;
     private bool toolbarBool;
     public int inc = 4; //gets set in the inspector tho
+    public int init; 
     /*[HideInInspector] //doesn't dynamically scale with resolution - maybe because of the canvas scaling on its own
     public int resolutionHeight;
     public int resolutionWidth;
@@ -86,7 +87,7 @@ public class PlayerStatsGui : MonoBehaviour
             KDRCounterText.text = kdr.ToString("F") + " kdr";
             //Debug.Log(kdr.ToString("F"));
         }
-
+        init = 95;
     }
     void Update()
     {
@@ -122,31 +123,31 @@ public class PlayerStatsGui : MonoBehaviour
         {
             //GUI.Box(new Rect(5+ inc, 58, 109, 450), " Player Stats");
 
-            if (GUI.Button(new Rect(10 + inc, 45, buttonWidth, buttonHeight), "In-Game Time"))
+            if (GUI.Button(new Rect(10 + inc, init, buttonWidth, buttonHeight), "In-Game Time"))
             {
                 if (timeCounter.activeInHierarchy)
                     timeCounter.SetActive(false);
                 else timeCounter.SetActive(true);
             }
-            if (GUI.Button(new Rect(10 + inc, 95, buttonWidth, buttonHeight), "Total Time"))
+            if (GUI.Button(new Rect(10 + inc, init + buttonHeight, buttonWidth, buttonHeight), "Total Time"))
             {
                 if (totalTimeCounter.activeInHierarchy)
                     totalTimeCounter.SetActive(false);
                 else totalTimeCounter.SetActive(true);
             }
-            else if (GUI.Button(new Rect(10 + inc, 95 + buttonHeight, buttonWidth, buttonHeight), "Level"))
+            else if (GUI.Button(new Rect(10 + inc, init + buttonHeight*2, buttonWidth, buttonHeight), "Level"))
             {
                 if (levelCounter.activeInHierarchy)
                     levelCounter.SetActive(false);
                 else levelCounter.SetActive(true);
             }
-            else if (GUI.Button(new Rect(10 + inc, 95 + buttonHeight * 2, buttonWidth, buttonHeight), "FPS"))
+            else if (GUI.Button(new Rect(10 + inc, init + buttonHeight * 3, buttonWidth, buttonHeight), "FPS"))
             {
                 if (fpsCounter.activeInHierarchy)
                     fpsCounter.SetActive(false);
                 else fpsCounter.SetActive(true);
             }
-            else if (GUI.Button(new Rect(10 + inc, 95 + buttonHeight * 3, buttonWidth, buttonHeight), "Ping"))
+            else if (GUI.Button(new Rect(10 + inc, init + buttonHeight * 4, buttonWidth, buttonHeight), "Ping"))
             {
                 if (pingCounterText.IsActive()) //was set in the inspector
                 {
@@ -160,19 +161,19 @@ public class PlayerStatsGui : MonoBehaviour
                 }
             }
             
-            else if (GUI.Button(new Rect(10 + inc, 95 + buttonHeight * 4, buttonWidth, buttonHeight), "Kills"))
+            else if (GUI.Button(new Rect(10 + inc, init + buttonHeight * 5, buttonWidth, buttonHeight), "Kills"))
             {
                 if (killsCounter.activeInHierarchy)
                     killsCounter.SetActive(false);
                 else killsCounter.SetActive(true);
             }
-            else if (GUI.Button(new Rect(10 + inc, 95 + buttonHeight * 5, buttonWidth, buttonHeight), "Deaths"))
+            else if (GUI.Button(new Rect(10 + inc, init + buttonHeight * 6, buttonWidth, buttonHeight), "Deaths"))
             {
                 if (deathsCounter.activeInHierarchy)
                     deathsCounter.SetActive(false);
                 else deathsCounter.SetActive(true);
             }
-            else if (GUI.Button(new Rect(10 + inc, 95 + buttonHeight * 6, buttonWidth, buttonHeight), "KDR"))
+            else if (GUI.Button(new Rect(10 + inc, init + buttonHeight * 7, buttonWidth, buttonHeight), "KDR"))
             {
                 if (KDRCounter.activeInHierarchy)
                     KDRCounter.SetActive(false);

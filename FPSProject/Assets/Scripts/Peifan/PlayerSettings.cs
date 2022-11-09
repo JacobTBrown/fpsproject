@@ -239,7 +239,7 @@ public class PlayerSettings : MonoBehaviour
             pairs = inputSystemDic.ToArray();
             KeycodeFunction tempFunction;
             KeyCode temp;
-
+            
             for (int i = 0; i < pairs.Length; i++) {
                 if (pairs[i].Value == keyCode) {
                     tempFunction = pairs[i].Key;
@@ -256,7 +256,6 @@ public class PlayerSettings : MonoBehaviour
                 }
             }
             // end Jacob Brown edits
-
             return false;
         }
         else
@@ -269,7 +268,6 @@ public class PlayerSettings : MonoBehaviour
     {
        if (!PV.IsMine)
         {
-           // Debug.Log("return early");
             return;
         }
         //var player1 = PhotonNetwork.CurrentRoom.Players.ElementAt(0);
