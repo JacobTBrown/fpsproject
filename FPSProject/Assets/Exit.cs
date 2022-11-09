@@ -74,7 +74,7 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
     }
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
-        PhotonNetwork.DestroyPlayerObjects(otherPlayer);
+        // PhotonNetwork.DestroyPlayerObjects(otherPlayer);
         //PhotonView PV = GameObject.Find("Player(Clone)").GetComponent<PhotonView>();
         //Debug.Log(PV);
             //PhotonNetwork.OpCleanActorRpcBuffer(otherPlayer.ActorNumber);
