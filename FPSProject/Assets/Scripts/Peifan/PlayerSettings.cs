@@ -188,7 +188,9 @@ public class PlayerSettings : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]))
+        int selected = weaponHolder.GetComponent<WeaponSwap>().selected;
+        Gun gun = weaponHolder.transform.GetChild(selected).GetComponent<Gun>();
+        if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]) && !gun.gunData.isReloading)
         {
             if (settingPanel.activeInHierarchy)
             {
