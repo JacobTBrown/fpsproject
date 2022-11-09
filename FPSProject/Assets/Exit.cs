@@ -120,7 +120,6 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
     }
     public override void OnDisconnected(DisconnectCause cause)
     {
-       
         PhotonNetwork.LoadLevel(0);
         //Debug.Log("onDisconnected callbac for " + cause);
         //base.OnDisconnected(cause);
@@ -135,9 +134,6 @@ public class Exit : MonoBehaviourPunCallbacks, IOnPhotonViewPreNetDestroy
         PhotonView PV = roomManager.GetComponent<PhotonView>();
         pstats.SavePlayer();
         Destroy(roomManager);
-        Destroy(PV);
-       
-
-        
+        Destroy(PV);   
     }
 }

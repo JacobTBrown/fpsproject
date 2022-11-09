@@ -340,8 +340,4 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
             yield return new WaitForSeconds(5f);
         Destroy(bye);
     }
-    public void KillTextInit()
-    {
-
-    }
 }

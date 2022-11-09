@@ -23,15 +23,15 @@ public class GameOverLogic : MonoBehaviour
     public void onGameOver(EndGameEvent evt){
         gameObject.SetActive(true);
         gameObject.transform.parent.gameObject.SetActive(true);
-        FadeInFadeOut(1.0f, 1.0f);
+        FadeInFadeOut(10.0f, 10.0f);
         Invoke("ClearEndOfGame", 10f);
         EventManager.RemoveListener<EndGameEvent>(onGameOver);
     }
     
     private void FadeInFadeOut(float endValue, float duration)
     {
-        endScreen.DOFade(255, duration).OnComplete(() => {
-            endScreen.DOFade(0, duration);
+        endScreen.DOFade(255, duration).OnComplete(() => { 
+            endScreen.DOFade(0, endValue);
         });
     }
 
