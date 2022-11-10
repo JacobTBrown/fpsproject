@@ -17,10 +17,14 @@ public class FreeForAll : MonoBehaviour, GameMode
     ObjectiveManager o_Manager;
     RuleManager r_Manager;
     GameManager g_Manager;
+     public GameObject canvas;
+    SpawnManager s_Manager;
     void Awake(){
         o_Manager = GameObject.Find("GameManager").GetComponent<ObjectiveManager>();
         r_Manager = GameObject.Find("GameManager").GetComponent<RuleManager>();  
         g_Manager = GameObject.Find("GameManager").GetComponent<GameManager>();  
+        s_Manager = GameObject.Find("GameManager").GetComponent<SpawnManager>();  
+        canvas = GameObject.FindGameObjectWithTag("Settings");
     }
     public FreeForAll()
     {      
@@ -34,6 +38,7 @@ public class FreeForAll : MonoBehaviour, GameMode
     public void CreateGameRules()
     {
           g_Manager.gameObject.AddComponent<FreeForAllRule>();
+          s_Manager.strategy = new FFASpawnStrategy();
     }
     
     public void CreateGameObjectives()
@@ -43,9 +48,8 @@ public class FreeForAll : MonoBehaviour, GameMode
 
     public void LoadGameModeUI()
     {
-        //#Find Canvas
-        //#Find FFA UI in Resources
-        //#instantiate FFA into Cavas
+        var FFAUIPanel = canvas.transform.Find("Free For All Panel").gameObject;
+        FFAUIPanel.SetActive(false);
     }
 
 
