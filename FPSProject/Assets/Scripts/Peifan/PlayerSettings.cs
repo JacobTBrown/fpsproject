@@ -228,40 +228,12 @@ public class PlayerSettings : MonoBehaviour
    
     public bool SetKeycodeValue(KeycodeFunction keycodeFunction, KeyCode keyCode)
     {
-        Debug.Log(keyCode + "：Setting Button logic for: " + inputSystemDic[keycodeFunction]);
         if (inputSystemDic.Values.Contains(keyCode))
         {
-
             Debug.Log(keyCode + "：Button logic already exists");
-            
-            //MenuManager.Instance.OpenMenu("error");
-            //errorText.text = "That key is already in use";
-
-            // The following code was written by Jacob Brown : 10/3/2022
-            // this code swaps the keyCodes if a key has already been mapped to an action
-            // You can remove the debugs whenever you like
-            KeyValuePair<KeycodeFunction, KeyCode>[] pairs;
-            pairs = inputSystemDic.ToArray();
-            KeycodeFunction tempFunction;
-            KeyCode temp;
-            
-            for (int i = 0; i < pairs.Length; i++) {
-                if (pairs[i].Value == keyCode) {
-                    tempFunction = pairs[i].Key;
-                    Debug.Log(tempFunction);
-                    temp = inputSystemDic[keycodeFunction];
-                    Debug.Log(temp);
-                    Debug.Log("BEFORE: " + inputSystemDic[keycodeFunction]);
-                    inputSystemDic[keycodeFunction] = keyCode;
-                    Debug.Log("AFTER: " + inputSystemDic[keycodeFunction]);
-                    Debug.Log("BEFORE: " + inputSystemDic[tempFunction]);
-                    inputSystemDic[tempFunction] = temp;
-                    Debug.Log("AFTER: " + inputSystemDic[tempFunction]);
-                    break;
-                }
-            }
-            // end Jacob Brown edits
-            return false;
+            MenuManager.Instance.OpenMenu("error");
+            errorText.text = "That key is already in use";
+            return true;
         }
         else
         {
