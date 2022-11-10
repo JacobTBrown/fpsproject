@@ -197,7 +197,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3052785691451849467
 Transform:
   m_ObjectHideFlags: 0
@@ -206,7 +206,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1777929232926103902}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0.3}
+  m_LocalPosition: {x: -0, y: 0.4, z: 0.3}
   m_LocalScale: {x: 0.5, y: 0.2, z: 0.5}
   m_Children: []
   m_Father: {fileID: 3173107400187305611}
@@ -5369,7 +5369,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2002808870315144946}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.614, y: -0.556, z: 0.629}
+  m_LocalPosition: {x: 0.614, y: -0.556, z: 0.62}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2002808868783662939}
@@ -10683,6 +10683,7 @@ MonoBehaviour:
   playerTransform: {fileID: 3173107399746349717}
   playerBodyTransform: {fileID: 3173107400187305611}
   cameraTransform: {fileID: 4017857724056262081}
+  visorTransform: {fileID: 3052785691451849467}
   groundLayer:
     serializedVersion: 2
     m_Bits: 1024

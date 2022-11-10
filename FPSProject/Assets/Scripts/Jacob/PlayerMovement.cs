@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour, IPunObservable
     public Transform playerTransform;
     public Transform playerBodyTransform;
     public Transform cameraTransform;
+    public Transform visorTransform;
     public LayerMask groundLayer;
 
     [Header("Movement Variables")]
@@ -141,6 +142,7 @@ public class PlayerMovement : MonoBehaviour, IPunObservable
             GetComponentInChildren<AudioListener>().enabled = false;
             // Destroy the camera component so our guns don't disappear
             GetComponentInChildren<Camera>().enabled = false;
+            visorTransform.gameObject.SetActive(true);
         } else {
             PhotonChatManager.instance.AddMoveSpeedEvent = () => { walkSpeed += 10f; };
             PhotonChatManager.instance.ReduceMoveSpeedEvent = () => { walkSpeed -= 2f; };
@@ -272,6 +274,8 @@ public class PlayerMovement : MonoBehaviour, IPunObservable
         {
             float angle = Vector3.Angle(Vector3.up, hitSlope.normal);
             isOnSlope = angle < maxSlopeAngle && angle != 0;
+            if (isOnSlope)
+                isOnGround = true;
         }
         else
         {
