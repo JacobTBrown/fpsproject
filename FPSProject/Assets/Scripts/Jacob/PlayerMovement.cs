@@ -193,6 +193,7 @@ public class PlayerMovement : MonoBehaviour, IPunObservable
     {
         if (PV.IsMine)
         {
+            if (keybinds.chatIsOpen || keybinds.settingPanel.activeInHierarchy) return;
             if (playerState != MovementState.climbing) {
                 if (isWallrunning && !isCrouching) {
                     WallrunMove();

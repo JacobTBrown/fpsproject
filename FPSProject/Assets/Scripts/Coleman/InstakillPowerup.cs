@@ -24,12 +24,15 @@ public class InstakillPowerup : MonoBehaviour
 
     IEnumerator KillPowerup(Collider player)
     {
+        PlayerDamageable stats = player.GetComponent<PlayerDamageable>();
         Gun[] gun = player.transform.parent.GetComponentsInChildren<Gun>();
         powerupSound.Play();
         foreach (Transform child in parent.gameObject.transform)
         {
             child.GetComponent<MeshRenderer>().enabled = false;
         }
+        stats.isInstakill = true;
+
         transform.parent.position = new Vector3(0, -100, 0);
         for (int i = 0; i < gun.Length; i++) {
             gun[i].isInstakill = true;
@@ -46,6 +49,7 @@ public class InstakillPowerup : MonoBehaviour
         }
 
         yield return new WaitForSeconds(1);
+        stats.isInstakill = false;
         Destroy(transform.parent.gameObject);
         
         yield return null;

@@ -5405,6 +5405,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 3173107398918425437}
+  settings: {fileID: 2303929107426015913}
   selected: 0
 --- !u!1 &2003671698943187155
 GameObject:
@@ -11089,6 +11090,7 @@ MonoBehaviour:
   currentHealth: 0
   maxHealth: 100
   isInvincible: 0
+  isInstakill: 0
   isSpeed: 0
   healthBar: {fileID: 0}
   DamageFlash: {fileID: 0}

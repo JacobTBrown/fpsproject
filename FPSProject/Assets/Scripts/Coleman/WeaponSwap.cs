@@ -7,6 +7,7 @@ public class WeaponSwap : MonoBehaviour
 {
     [SerializeField]
     private PlayerMovement player;
+    public PlayerSettings settings;
     public int selected;
     private int previous;
     // Start is called before the first frame update
@@ -67,6 +68,8 @@ public class WeaponSwap : MonoBehaviour
 
     public void selectWeapon()
     {
+        if (settings.chatIsOpen || settings.settingPanel.activeInHierarchy) return; //Added by Jacob to disable the player while chat is open
+
         player.PV.RPC("SetCurrentWeapon", RpcTarget.OthersBuffered, selected);
         int i = 0;
         foreach(Transform weapon in transform)
