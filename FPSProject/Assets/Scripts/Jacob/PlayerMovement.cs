@@ -52,9 +52,9 @@ public class PlayerMovement : MonoBehaviour, IPunObservable
 
     //timers
     public float maxSlideTime;
-    public float slideTimer;
+    private float slideTimer;
     public float maxBeforeWallJumpTime;
-    public float beforeWallJumpTimer;
+    private float beforeWallJumpTimer;
     //wip
     //public bool isWallrunning;
     public float wallCheckDistance;

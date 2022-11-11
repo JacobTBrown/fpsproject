@@ -10716,9 +10716,7 @@ MonoBehaviour:
   useGravity: 1
   antiGravForce: 0.32
   maxSlideTime: 1.5
-  slideTimer: 0
   maxBeforeWallJumpTime: 0.5
-  beforeWallJumpTimer: 0
   wallCheckDistance: 0.8
   playerState: 1
   PV: {fileID: 0}
