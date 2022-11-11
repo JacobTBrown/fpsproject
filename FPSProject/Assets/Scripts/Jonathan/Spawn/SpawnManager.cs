@@ -11,7 +11,7 @@ namespace Unity.Scripts.Jonathan
 	    public List<SpawnController> SpawnPoints;
 	    
 	    public int NumberofSpawnPoints = 0;
-	    public SpawnStrategy strategy;
+		public SpawnStrategy strategy{get;set;}
 		public static SpawnManager Instance;
 
 	    void Awake()
@@ -25,7 +25,7 @@ namespace Unity.Scripts.Jonathan
 
 	        EventManager.AddListener<PlayerSpawnEvent>(OnPlayerSpawn);
 
-	        strategy = new RandomSpawnStrategy();
+	        strategy = new FFASpawnStrategy();
 
 	    }
 	
