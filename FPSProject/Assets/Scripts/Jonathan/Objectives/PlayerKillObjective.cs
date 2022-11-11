@@ -50,7 +50,6 @@ public class PlayerKillObjective : Objective
 
     public void OnPlayerDeath(PlayerKillEvent evy)
     {
-
         Debug.Log("HEEEEEEEEEEEEEEEEEEEEEEEEEELLLLLLLLLO");
     }
 }

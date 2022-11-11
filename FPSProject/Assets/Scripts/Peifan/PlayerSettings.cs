@@ -23,8 +23,7 @@ public class PlayerSettings : MonoBehaviour
 
 
     MenuManager menuManager;
-    GameObject errorTextPopup;
-    [SerializeField] TMP_Text errorText;
+    ErrorTextFade errorText; //setting errorText in start with GameObject.Find("errorTextPopup"); -zach
     public int instanceID;
     public int viewID;
     public string nickname;
@@ -69,14 +68,12 @@ public class PlayerSettings : MonoBehaviour
         };
 
     void Start() {
-        timerPosition = new Vector3(-558, -26, 0); // magic numbers: correspond to the initial position of the game objects on the canvas
-        FFAPanelPosition = new Vector3(-724, 412, 0);
-        TDMPanelPosition = new Vector3(51, -515, 0);
+      
         Invoke("SetTeams", 0.5f);
         PV = GetComponent<PhotonView>();
         canvas = GameObject.FindGameObjectWithTag("Settings");
         weaponHolder = GameObject.FindGameObjectWithTag("MainCamera").transform.GetChild(0).gameObject;
-
+        
         // Added by Jacob Brown: 10/03/2022
         // created some variables for correctly identifying players 
         instanceID = this.gameObject.GetInstanceID();
@@ -86,6 +83,7 @@ public class PlayerSettings : MonoBehaviour
     
         if (PV.IsMine)
         {
+            
             // Added by Jacob Brown: 10/13/2022
             playerName = GetComponentInChildren<TextMesh>();
             playerName.text = nickname;
@@ -93,19 +91,22 @@ public class PlayerSettings : MonoBehaviour
             // end add by Jacob Brown
             settingPanel = GameObject.Find("SettingPanel");
             //Debug.Log("GETTING SETTINGS PANEL");
-            //adding logic for team vs ffa scoreboard - zach
-            scoreBoard = GameObject.FindObjectOfType<Scoreboard>().gameObject;
+            scoreBoard = GameObject.FindObjectOfType<Scoreboard>().gameObject; //adding logic for team vs ffa scoreboard - zach
             scoreBoard.transform.localPosition = hideUIOffScreenVector;
             GameObject scoreBoardTeams = GameObject.FindObjectOfType<ScoreboardTeams>().gameObject;
             scoreBoardTeams.transform.localPosition = hideUIOffScreenVector;
+            timerPosition = new Vector3(-558, -26, 0); // magic numbers: correspond to the initial position of the game objects on the canvas
+            FFAPanelPosition = new Vector3(-724, 412, 0); //is the default number as shown in the inspector.
+            TDMPanelPosition = new Vector3(51, -515, 0); //if you move it in the editor, you need to change these!
+            errorText = GameObject.Find("ErrorTextPopup").GetComponent<ErrorTextFade>();
             if ((int)PhotonNetwork.LocalPlayer.CustomProperties["team"] > 0)
             {
                 scoreBoard.SetActive(false);
                 //Debug.Log("Set team scoreboard");
                 scoreBoard = scoreBoardTeams;
             }
-            else scoreBoardTeams.SetActive(false);
-            
+            else scoreBoardTeams.SetActive(false); //end - zach
+
             chatRoom = GameObject.Find("ChatPannel");
             chatRoom.SetActive(false);
             mouseYSlider = GameObject.FindGameObjectWithTag("SliderV").GetComponent<Slider>();
@@ -113,9 +114,7 @@ public class PlayerSettings : MonoBehaviour
             ySliderText = mouseYSlider.transform.Find("Slider").Find("tips").GetComponent<Text>().text = (int) mouseYSlider.value + "";
             xSliderText = mouseXSlider.transform.Find("Slider").Find("tips").GetComponent<Text>().text = (int) mouseXSlider.value + "";
             settingPanel.SetActive(false);
-            errorTextPopup = GameObject.Find("ErrorTextPopup");
-            //errorText = errorTextPopup.GetComponent<TMP_Text>();
-            //errorTextPopup.SetActive(false);
+            
         } else {
             playerName = GetComponentInChildren<TextMesh>();
             playerName.text = nickname;
@@ -192,6 +191,8 @@ public class PlayerSettings : MonoBehaviour
         Gun gun = weaponHolder.transform.GetChild(selected).GetComponent<Gun>();
         if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]) && !gun.gunData.isReloading)
         {
+            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+
             if (settingPanel.activeInHierarchy)
             {
                 canvas.transform.GetChild(1).gameObject.SetActive(true);
@@ -218,6 +219,10 @@ public class PlayerSettings : MonoBehaviour
             }
 
             settingPanel.SetActive(!settingPanel.activeInHierarchy);
+        } else if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]) && gun.gunData.isReloading) {
+            Cursor.lockState = CursorLockMode.Locked; // if we're reloading, show error. ( also locks cursor for the editor )
+            Cursor.visible = false;
+            errorText.FourSecFade("Can't Open Menu While Reloading"); 
         }
     }
 
@@ -232,8 +237,12 @@ public class PlayerSettings : MonoBehaviour
         if (inputSystemDic.Values.Contains(keyCode))
         {
 
-            Debug.Log(keyCode + "：Button logic already exists");
-            
+            //Debug.Log(keyCode + "：Button logic already exists");
+
+            errorText.FourSecFade("That key is already in use.");
+
+
+
             //MenuManager.Instance.OpenMenu("error");
             //errorText.text = "That key is already in use";
 

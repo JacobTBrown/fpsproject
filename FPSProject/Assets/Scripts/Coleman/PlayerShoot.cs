@@ -38,7 +38,7 @@ public class PlayerShoot : MonoBehaviour
                 }
                 if (Input.GetKeyDown(keybinds.inputSystemDic[KeycodeFunction.reload])) 
                 {
-                    Debug.Log("dictionary says " + keybinds.inputSystemDic[KeycodeFunction.reload]); reloadInput?.Invoke();
+                    reloadInput?.Invoke();
                 }
                 if (Input.GetKeyDown(KeyCode.E)) pickupInput?.Invoke();
             }

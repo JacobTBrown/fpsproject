@@ -37,7 +37,6 @@ public class FFAPlayerScoreText : MonoBehaviour
                 Enemy = player;
             }
         }
-
         int PlayerScore = (int)PhotonNetwork.LocalPlayer.CustomProperties["Kills"] * 100;
         int EnemyScore = (int)Enemy.CustomProperties["Kills"] * 100;
         PlayerText.text = " Player Score: " + PlayerScore; 
