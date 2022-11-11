@@ -137,6 +137,10 @@ public class PhotonNoGameChatManager : MonoBehaviour, IChatClientListener
         {
             text = senders[length] + ": " + messages[length];
             string[] value = text.Split(new string[] { "--"},System.StringSplitOptions.None);
+            if (value.Length < 2)
+            {
+                return;
+            }
             string newtext = MakeText(value[0], value[1]);
             chatDisplay.text += "\n" + newtext;
             length++;

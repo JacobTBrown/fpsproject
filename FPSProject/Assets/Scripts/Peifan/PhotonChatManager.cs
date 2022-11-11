@@ -173,6 +173,10 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
         while (length < senders.Length) {
             text = senders[length] + ": " + messages[length];
             string[] value = text.Split(new string[] { "--" }, System.StringSplitOptions.None);
+               if (value.Length < 2)
+            {
+                return;
+            }
             string newtext = MakeText(value[0], value[1]);
             if (newtext != null) 
             {
