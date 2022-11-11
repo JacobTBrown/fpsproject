@@ -14,10 +14,11 @@ using TMPro;
         - Order Players into a List Order by Highest Kills
         - If a team Hits a Max Kill Amount then BroadCast Completed Event
         - copied by zach for teams
+        - i prefer to use fewer files, sorry!
  */
 public class TDMKillObjective : MonoBehaviourPunCallbacks, Objective
 {
-    [SerializeField] int killCutOff = 2;
+    [SerializeField] int killCutOff = 10;
     [SerializeField] GameObject GameOverText;
     public int team1Kills = 0;
     public int team2Kills = 0;
