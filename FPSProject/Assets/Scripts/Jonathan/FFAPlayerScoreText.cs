@@ -32,13 +32,13 @@ public class FFAPlayerScoreText : MonoBehaviour
         Player Enemy = playerList[0];
         foreach (Player player in playerList)
         {
-            if(player != PhotonNetwork.LocalPlayer && (int)Enemy.CustomProperties["Kills"] < (int)player.CustomProperties["Kills"])
+            if((int)Enemy.CustomProperties["Kills"] < (int)player.CustomProperties["Kills"])
             {
                 Enemy = player;
             }
         }
-        int PlayerScore = (int)PhotonNetwork.LocalPlayer.CustomProperties["Kills"] * 100;
-        int EnemyScore = (int)Enemy.CustomProperties["Kills"] * 100;
+        int PlayerScore = (int)PhotonNetwork.LocalPlayer.CustomProperties["Kills"];
+        int EnemyScore = (int)Enemy.CustomProperties["Kills"];
         PlayerText.text = " Player Score: " + PlayerScore; 
         EnemyText.text = "Highest Score: " + EnemyScore;
         //print(EnemyScore);

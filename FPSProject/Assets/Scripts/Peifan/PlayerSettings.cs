@@ -95,9 +95,11 @@ public class PlayerSettings : MonoBehaviour
             scoreBoard.transform.localPosition = hideUIOffScreenVector;
             GameObject scoreBoardTeams = GameObject.FindObjectOfType<ScoreboardTeams>().gameObject;
             scoreBoardTeams.transform.localPosition = hideUIOffScreenVector;
-            timerPosition = new Vector3(-558, -26, 0); // magic numbers: correspond to the initial position of the game objects on the canvas
-            FFAPanelPosition = new Vector3(-724, 412, 0); //is the default number as shown in the inspector.
-            TDMPanelPosition = new Vector3(51, -515, 0); //if you move it in the editor, you need to change these!
+           // timerPosition = new Vector3(-558, -26, 0); // magic numbers: correspond to the initial position of the game objects on the canvas
+            timerPosition = GameObject.Find("Timer").transform.localPosition; // magic numbers: correspond to the initial position of the game objects on the canvas
+            
+            FFAPanelPosition = GameObject.Find("Free For All Panel").transform.localPosition;  //is the default number as shown in the inspector.
+            TDMPanelPosition = GameObject.Find("ScoreboardTeams").transform.localPosition;  //if you move it in the editor, you need to change these!
             errorText = GameObject.Find("ErrorTextPopup").GetComponent<ErrorTextFade>();
             if ((int)PhotonNetwork.LocalPlayer.CustomProperties["team"] > 0)
             {
