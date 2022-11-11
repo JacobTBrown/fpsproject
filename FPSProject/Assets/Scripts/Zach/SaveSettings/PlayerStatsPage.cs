@@ -60,13 +60,9 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         team1Kills = 0;
         team2Kills = 0;
         DontDestroyOnLoad(this.gameObject);
-        //going to try making the JSON in DataSaver.cs
         Instance = this;
-        //DataToStore data = new DataToStore(this);
         data = new DataToStore(this);
         newData = DataSaver.LoadData(data);
-
-        //invoke is not needed for json implementation
         loadNew();
         json = JsonUtility.ToJson(newData);
         if (debug) Debug.Log("Json was" + json);
@@ -74,11 +70,10 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     }
     public void loadNew()
     {
-        //Debug.Log("grabbing the new data loaded from PlayerStatsPage: " + data.totalKills);
         timeInGame = newData.timeInGame;
         totalTime = newData.totalTime;
         level = newData.level;
-        exp = newData.exp; // exp is decresed, level in increased: level = exp % 500 probably?
+        exp = newData.exp; // exp is decresed, level in increased: level = exp % 120
         totalKills = newData.totalKills;
         totalDeaths = newData.totalDeaths;
         if (debug) Debug.Log("New data in playerstatspage: " + JsonUtility.ToJson(newData));

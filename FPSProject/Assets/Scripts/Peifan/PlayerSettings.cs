@@ -287,8 +287,9 @@ public class PlayerSettings : MonoBehaviour
             return;
         }
         //var player1 = PhotonNetwork.CurrentRoom.Players.ElementAt(0);
+     
         GameObject[] ga = (GameObject.FindGameObjectsWithTag("Player"));
-       
+        //here's where I set the color of the players - zach
         List<PlayerDamageable> pd = new List<PlayerDamageable>();
         foreach (GameObject g in ga)
             if (g.GetComponent<PlayerDamageable>() != null)
