@@ -59,7 +59,8 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
 
     void Delay()
     {
-        chatClient.PublishMessage(DataManager.Instance.GetRoomName(), "joingame");
+        chatClient.PublishMessage(DataManager.Instance.GetRoomName(), m_ddown.value.ToString() + "--joingame");
+        //chatClient.PublishMessage(DataManager.Instance.GetRoomName(),"joingame");
         bool isSubscribed = chatClient.Subscribe(DataManager.Instance.GetRoomName());
         if (isSubscribed)
         {
@@ -161,6 +162,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
             if (senders[i] != playerName) 
             {
                 string[] value = messages[i].ToString().Split(new string[] { "--" }, System.StringSplitOptions.None);
+                if (value.Length < 2) return;
                 if (value[1] == "AddMoveSpeed") return;
                 if (value[1] == "ReduceMoveSpeed") return;
                 if (value[1] == "AddJump") return;
@@ -173,10 +175,14 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
         while (length < senders.Length) {
             text = senders[length] + ": " + messages[length];
             string[] value = text.Split(new string[] { "--" }, System.StringSplitOptions.None);
+<<<<<<< HEAD
                if (value.Length < 2)
             {
                 return;
             }
+=======
+            if (value.Length < 2) return;
+>>>>>>> ee9bee86270923df8adea57c21b49baf7afaf2da
             string newtext = MakeText(value[0], value[1]);
             if (newtext != null) 
             {
