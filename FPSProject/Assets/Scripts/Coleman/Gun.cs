@@ -147,11 +147,11 @@ public class Gun : MonoBehaviour
 
                                 if (pstats.CheckTeam(EPV))
                                 {
-                                    Debug.Log("Player was on your team: " + EPV.ViewID + " vs " + PV.ViewID);
+                                    //Debug.Log("Player was on your team: " + EPV.ViewID + " vs " + PV.ViewID);
                                 }
                                 else
                                 {
-                                    Debug.Log("Hit");
+                                    //Debug.Log("Hit");
                                     StartCoroutine(playerHit());
                                     if (isInstakill)
                                         hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, 120f, PV.ViewID);

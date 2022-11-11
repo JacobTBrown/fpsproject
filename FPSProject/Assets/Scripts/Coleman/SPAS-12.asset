@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: SPAS-12
   damage: 75
-  maxDistance: 8
+  maxDistance: 12
   currentAmmo: 6
   magSize: 6
   reserveAmmo: 12

@@ -85,7 +85,7 @@ public class TDMKillObjective : MonoBehaviourPunCallbacks, Objective
     void UpdateUI(int team)
     {
         //GameOverText.transform.parent.gameObject.SetActive(true);
-        GameOverText.GetComponent<TMP_Text>().text = "team " + team.ToString() + " wins with " + killCutOff + " kills!";
+     //   GameOverText.GetComponent<TMP_Text>().text = "team " + team.ToString() + " wins with " + killCutOff + " kills!";
         // force-restart the game ? 
     } 
 

@@ -59,7 +59,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
 
     void Delay()
     {
-        chatClient.PublishMessage(DataManager.Instance.GetRoomName(), m_ddown.value.ToString() + "--joingame");
+        //chatClient.PublishMessage(DataManager.Instance.GetRoomName(), m_ddown.value.ToString() + "--joingame");
         //chatClient.PublishMessage(DataManager.Instance.GetRoomName(),"joingame");
         bool isSubscribed = chatClient.Subscribe(DataManager.Instance.GetRoomName());
         if (isSubscribed)
@@ -175,14 +175,12 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
         while (length < senders.Length) {
             text = senders[length] + ": " + messages[length];
             string[] value = text.Split(new string[] { "--" }, System.StringSplitOptions.None);
-<<<<<<< HEAD
                if (value.Length < 2)
             {
                 return;
             }
-=======
+
             if (value.Length < 2) return;
->>>>>>> ee9bee86270923df8adea57c21b49baf7afaf2da
             string newtext = MakeText(value[0], value[1]);
             if (newtext != null) 
             {

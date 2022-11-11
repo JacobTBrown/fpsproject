@@ -327,7 +327,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
                     newRoomItemPrefab.transform.Find("modeText").GetComponent<Text>().text = "FFA   ";
                 }else if ((int)r.CustomProperties["mode"] == 1)
                 {
-                    newRoomItemPrefab.transform.Find("modeText").GetComponent<Text>().text = "TEAMS ";
+                    newRoomItemPrefab.transform.Find("modeText").GetComponent<Text>().text = "TDM ";
                 }
                 //if (debug) Debug.Log(r.CustomProperties["mode"].ToString());//for changing the map inside the room
             }
@@ -697,7 +697,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         else if (modeAsInt == 0)
         {
             modeAsInt = 1;
-            modeValue.text = "Team Game";
+            modeValue.text = "Team Deathmatch";
         }
     }
     public void CheckConnection()
@@ -715,6 +715,8 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         //Debug.Log("Connection Dropped, please try again or continue without connecting");
         errorText.text = "Connection Dropped, please try again or continue without connecting";
         MenuManager.Instance.OpenMenu("reconnect");
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         for (int i = 0; i < multiplayerButtons.Length; i++)
         {
             multiplayerButtons[i].gameObject.SetActive(false);
@@ -826,10 +828,8 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     public void startGameAndRemove()
     { // kicks you to title screen if you can click fast enough before it disappears
         GameObject.Find("Back").SetActive(false);
-
         PhotonNetwork.CurrentRoom.IsVisible = false;
-        PhotonNetwork.CurrentRoom.IsOpen = false;
-        
+        PhotonNetwork.CurrentRoom.IsOpen = false;      
         PhotonNetwork.LoadLevel(mapsArr[mapAsInt-1].scene);
     }
     public void RenderFFA()
