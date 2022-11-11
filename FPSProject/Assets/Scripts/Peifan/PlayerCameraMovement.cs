@@ -56,6 +56,7 @@ public class PlayerCameraMovement : MonoBehaviour, IPunObservable
         if (playerMove.PV.IsMine)
         {
             //if (EventSystem.current.IsPointerOverGameObject()) return;
+            if (playerSettings.chatIsOpen || playerSettings.settingPanel.activeInHierarchy) return; //Added by Jacob to disable the player while chat is open
 
             GetInputs();
             InvertMouse();
