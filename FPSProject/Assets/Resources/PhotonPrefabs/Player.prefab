@@ -10513,7 +10513,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3173107398918425439}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4017857724056262081}
@@ -10720,7 +10720,7 @@ MonoBehaviour:
   slideTimer: 0
   maxBeforeWallJumpTime: 0.5
   beforeWallJumpTimer: 0
-  wallCheckDistance: 0.7
+  wallCheckDistance: 0.8
   playerState: 1
   PV: {fileID: 0}
 --- !u!114 &2177449969952911222

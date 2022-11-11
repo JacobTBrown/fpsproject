@@ -228,7 +228,9 @@ public class PlayerMovement : MonoBehaviour, IPunObservable
 
         playerRigidbody.AddForce(wallForward * moveSpeed, ForceMode.Force);
         
-        if (!(wallToLeft && horizontalZInput > 0) && !(wallToRight && horizontalZInput > 0))
+        playerRigidbody.drag = 3.5f;
+
+        if (!(wallToLeft && horizontalZInput < 0) && !(wallToRight && horizontalZInput < 0))
             playerRigidbody.AddForce(-wallNormal * 50, ForceMode.Force);
         
         if (useGravity)
