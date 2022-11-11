@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: AK-47
   damage: 20
-  maxDistance: 100
-  currentAmmo: 13
+  maxDistance: 300
+  currentAmmo: 31
   magSize: 31
-  reserveAmmo: 0
+  reserveAmmo: 62
   maxReserveAmmo: 124
   fireRate: 600
   reloadTime: 3

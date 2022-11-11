@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: M1911
   damage: 15
-  maxDistance: 50
+  maxDistance: 300
   currentAmmo: 8
   magSize: 8
   reserveAmmo: -1
@@ -23,3 +23,4 @@ MonoBehaviour:
   reloadTime: 2
   fullAuto: 0
   isReloading: 0
+  isShotgun: 0

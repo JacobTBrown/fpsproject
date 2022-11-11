@@ -515,7 +515,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
         if (debug) Debug.Log("room mode: " + info.CustomProperties["mode"].ToString());
         if (debug) Debug.Log("room map: " + info.CustomProperties["map"].ToString());
         if (info.CustomProperties.ContainsKey("map"))
-        { //trbleshooting 11-3 1am
+        {
             if (debug) Debug.Log("set image to map" + (int)info.CustomProperties["map"] + "image");
             MapImageRawImage.texture = (Texture)Resources.Load("materials/map" + (int)info.CustomProperties["map"] + "image");
             MapImage.SetActive(true);
@@ -618,10 +618,8 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
                     return;
             }
         }
-
         if (currentRoomInfo.CustomProperties.ContainsKey("mode"))
         {
-
             if ((int)currentRoomInfo.CustomProperties["mode"] == 0)
             {
                 if (debug) Debug.Log("mode zero");
@@ -651,10 +649,16 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
             {
                 Instantiate(PlayerListItemPrefab, playerListContent).GetComponent<PlayerListItem>().SetUp(players[i]);
             }
-
         }
         startGameButton.SetActive(PhotonNetwork.IsMasterClient);
-
+    }
+    public IEnumerator disableButtonBriefly()
+    {
+        startGameButton.SetActive(false);
+        startGameTeamButton.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        startGameButton.SetActive(PhotonNetwork.IsMasterClient);
+        startGameTeamButton.SetActive(PhotonNetwork.IsMasterClient);
     }
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
@@ -856,6 +860,7 @@ public class Launcher : MonoBehaviourPunCallbacks//, IOnEventCallback
     public override void OnPlayerEnteredRoom(Player newPlayer)
     {
         if (debug) Debug.Log("player entered room ()");
+        StartCoroutine(disableButtonBriefly());
         if ((int)PhotonNetwork.CurrentRoom.CustomProperties["mode"] > 0){
             Invoke("RenderPlayers", 0.5f);
         }
