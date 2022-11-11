@@ -20,7 +20,7 @@ namespace Unity.Scripts.Jonathan
             SpawnController selectedSpawnPoint;
             foreach(SpawnController spawnPoint in SpawnPoints)
             {
-                if(!spawnPoint.PlayerNearBy) ValidSpawnPoints.Add(spawnPoint);
+                //if(!spawnPoint.PlayerNearBy) ValidSpawnPoints.Add(spawnPoint);
             }
 
             if(ValidSpawnPoints.Count > 0) selectedSpawnPoint = ValidSpawnPoints[Random.Range(0, ValidSpawnPoints.Count)];
