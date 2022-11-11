@@ -3209,7 +3209,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 715372d60660aee4f9ca88a68966ded4, type: 3}
+  m_Texture: {fileID: 2800000, guid: 7375890cd011853419f9a7618975d9d4, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -10079,7 +10079,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 6.001
+  m_Text: 6
 --- !u!222 &1265953771
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10733,6 +10733,7 @@ GameObject:
   - component: {fileID: 1371653610}
   - component: {fileID: 1371653612}
   - component: {fileID: 1371653611}
+  - component: {fileID: 1371653613}
   m_Layer: 5
   m_Name: ConnectionFeedbackText
   m_TagString: Untagged
@@ -10800,6 +10801,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1371653609}
   m_CullTransparentMesh: 0
+--- !u!114 &1371653613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1371653609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c9f2bd3389ab974cb7b5e514959e1fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1430089175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15615,7 +15628,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 205, y: 326}
-  m_SizeDelta: {x: 550, y: 100}
+  m_SizeDelta: {x: 600, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2082560651
 MonoBehaviour:

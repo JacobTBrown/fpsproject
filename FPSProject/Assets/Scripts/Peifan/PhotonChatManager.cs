@@ -59,7 +59,7 @@ public class PhotonChatManager : MonoBehaviour, IChatClientListener
 
     void Delay()
     {
-        chatClient.PublishMessage(DataManager.Instance.GetRoomName(), m_ddown.value.ToString() + "--joingame");
+        //chatClient.PublishMessage(DataManager.Instance.GetRoomName(), m_ddown.value.ToString() + "--joingame");
         //chatClient.PublishMessage(DataManager.Instance.GetRoomName(),"joingame");
         bool isSubscribed = chatClient.Subscribe(DataManager.Instance.GetRoomName());
         if (isSubscribed)

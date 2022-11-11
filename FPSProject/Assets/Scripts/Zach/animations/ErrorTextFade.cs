@@ -18,6 +18,10 @@ public class ErrorTextFade : MonoBehaviour
             textActive = true;
         StartCoroutine(fadeOut());
         }
+        else
+        {
+            //play error sound?
+        }
     }
 
     private IEnumerator fadeOut()
