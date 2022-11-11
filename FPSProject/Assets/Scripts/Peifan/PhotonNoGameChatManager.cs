@@ -32,7 +32,7 @@ public class PhotonNoGameChatManager : MonoBehaviour, IChatClientListener
     }
     void Delay()
     {
-        chatClient.PublishMessage("World", "joindating");
+        chatClient.PublishMessage("World", m_ddown.value.ToString()+"--joindating");
         bool isSubscribed = chatClient.Subscribe("World");
         if (isSubscribed)
         {
