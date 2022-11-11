@@ -192,7 +192,7 @@ public class PlayerSettings : MonoBehaviour
         if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]) && !gun.gunData.isReloading)
         {
             gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
-
+            gameObject.GetComponent<PlayerMovement>().moveSpeed = 0;        
             if (settingPanel.activeInHierarchy)
             {
                 canvas.transform.GetChild(1).gameObject.SetActive(true);
