@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 9113509219545198124}
   - component: {fileID: 9113509219545198127}
   - component: {fileID: 4076220980133043332}
-  m_Layer: 8
+  m_Layer: 2
   m_Name: Spawn Point
-  m_TagString: Untagged
+  m_TagString: Respawn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a83dc22a4f61948bb7ba50a6fb3802, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerNearBy: 0
 --- !u!135 &4076220980133043332
 SphereCollider:
   m_ObjectHideFlags: 0
