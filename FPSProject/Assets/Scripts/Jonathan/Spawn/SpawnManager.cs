@@ -25,7 +25,7 @@ namespace Unity.Scripts.Jonathan
 
 	        EventManager.AddListener<PlayerSpawnEvent>(OnPlayerSpawn);
 
-	        strategy = new RandomSpawnStrategy();
+	        strategy = new FFASpawnStrategy();
 
 	    }
 	

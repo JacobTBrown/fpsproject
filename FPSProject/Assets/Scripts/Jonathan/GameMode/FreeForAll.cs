@@ -48,8 +48,8 @@ public class FreeForAll : MonoBehaviour, GameMode
 
     public void LoadGameModeUI()
     {
-        var FFAUIPanel = canvas.transform.Find("Free For All Panel").gameObject;
-        FFAUIPanel.SetActive(true);
+   //     var FFAUIPanel = canvas.transform.Find("Free For All Panel").gameObject;
+   //     FFAUIPanel.SetActive(true);
     }
 
 

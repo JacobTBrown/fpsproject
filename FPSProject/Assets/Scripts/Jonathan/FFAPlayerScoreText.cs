@@ -32,7 +32,7 @@ public class FFAPlayerScoreText : MonoBehaviour
         Player Enemy = playerList[0];
         foreach (Player player in playerList)
         {
-            if(player != PhotonNetwork.LocalPlayer && (int)Enemy.CustomProperties["Kills"] < (int)player.CustomProperties["Kills"])
+            if((int)Enemy.CustomProperties["Kills"] < (int)player.CustomProperties["Kills"])
             {
                 Enemy = player;
             }
