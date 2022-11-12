@@ -217,7 +217,6 @@ public class PlayerSettings : MonoBehaviour
                 //// Make the cursor invisible
                 Cursor.visible = true;
             }
-
             settingPanel.SetActive(!settingPanel.activeInHierarchy);
         } else if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]) && gun.gunData.isReloading) {
             Cursor.lockState = CursorLockMode.Locked; // if we're reloading, show error. ( also locks cursor for the editor )
