@@ -14,7 +14,7 @@ public class MenuManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        Debug.Log("MenuStart");
+        //Debug.Log("MenuStart");
         //OpenMenu("welcome");
     }
 

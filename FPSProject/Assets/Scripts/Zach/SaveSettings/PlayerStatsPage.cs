@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Photon.Realtime;
 using ExitGames.Client.Photon;
+using UnityEngine.UI;
 // Zach 10-10: **MODEL** / VIEW / Controller
 // Processes persistant stats for the player.
 // This file dictates when to save - must exist in DoNotDestroyOnLoad to carry over into scenes.
@@ -26,6 +27,8 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     [SerializeField] public int totalDeaths = 0;
     [SerializeField] public float updateInterval = 0.5f;
     [SerializeField] public double lastInterval;
+    [SerializeField] GameObject KillPopUpPrefab;
+ 
     public int frames;
     public int level = 1;
     public int exp;
@@ -35,7 +38,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     public DataToStore newData;
     public static PlayerStatsPage Instance;
     [HideInInspector] public string json;
-    bool debug = true;
+    bool debug = false;
     public bool inGame = false;
     float initialTimeInGame;
     public bool saved = false;
@@ -47,28 +50,19 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     public int team;
     PhotonView PPV;
     PhotonView EPV;
+    private Transform content;
 
     private void Awake()
     {
-        // for if we need to persist it between scenes, we only keep the first one?
-        //  if (Instance) 
-        //   {
-        //     Debug.Log("destroy");
-        //   Destroy(this);
-        //    }
         onDie = false; //unused with PhotonEvent.cs 
         EventManager.AddListener<PlayerKillEvent>(SetKills);
         EventManager.AddListener<PlayerDeathEvent>(SetDeaths);
         team1Kills = 0;
         team2Kills = 0;
         DontDestroyOnLoad(this.gameObject);
-        //going to try making the JSON in DataSaver.cs
         Instance = this;
-        //DataToStore data = new DataToStore(this);
         data = new DataToStore(this);
         newData = DataSaver.LoadData(data);
-
-        //invoke is not needed for json implementation
         loadNew();
         json = JsonUtility.ToJson(newData);
         if (debug) Debug.Log("Json was" + json);
@@ -76,11 +70,10 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     }
     public void loadNew()
     {
-        //Debug.Log("grabbing the new data loaded from PlayerStatsPage: " + data.totalKills);
         timeInGame = newData.timeInGame;
         totalTime = newData.totalTime;
         level = newData.level;
-        exp = newData.exp; // exp is decresed, level in increased: level = exp % 500 probably?
+        exp = newData.exp; // exp is decresed, level in increased: level = exp % 120
         totalKills = newData.totalKills;
         totalDeaths = newData.totalDeaths;
         if (debug) Debug.Log("New data in playerstatspage: " + JsonUtility.ToJson(newData));
@@ -120,7 +113,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         }
     }
     /// <summary>
-    /// Returns true when we're on the same team, false otherwise. Call this before accepting damage from another player or anything else team related ? its also stored in custom properties
+    /// Returns true when we're on the same team, false otherwise. Call this before accepting damage from another player or anything else team related ?
     /// </summary>
     public bool CheckTeam(PhotonView EPV)
     {
@@ -172,7 +165,6 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     {
         if (exp > 0)
         {
-            //Debug.Log("saving with extra exp 0 exp: " + exp + "+= " +newExp);
             exp += (int)newExp;
             newExp = 0;
         }
@@ -194,16 +186,13 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     }
     private void OnLevelWasLoaded(int level)
     {
-        //if (debug) Debug.Log("scene transition to #" + level);
         if (level > 0)
         {
-            // set pv of player for events if needed
-            //PV = PhotonNetwork;
             inGame = true;
+            content = GameObject.Find("KillPopUp").transform;
         }
         else
         {
-            
             inGame = false;
         }
     }
@@ -234,22 +223,6 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         
         //GameObject.Destroy(gameObject);
     }
-    
-    /*
-    private void OnApplicationQuit()
-    {
-        this.totalTime = Time.realtimeSinceStartup;
-        Debug.Log("Saving on exit" + this.totalTime);
-        if (SceneManager.GetActiveScene().buildIndex > 0)
-        {
-            Debug.Log("logging");
-            timeInGame += Time.timeSinceLevelLoad;
-
-        }
-        SavePlayer();
-
-    }
-    */
     public void StartInGameTimer()
     {
         
@@ -287,14 +260,12 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     }
     public void SetKills()
     {
-        Debug.Log("PlayerStatsPage.cs did setKills manually");
             totalKills++;
         
             return;
     }
     public void setDeaths()
     {
-        Debug.Log("PlayerStatsPage.cs did setDeaths manually");
         totalDeaths++;
         return;
     }
@@ -326,34 +297,42 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         byte eventCode = photonEvent.Code;
         if (eventCode == 0) //PhotonEvents.PLAYERDEATH
         {
-            Debug.Log("Sender: " + photonEvent.Sender.ToString());
             object[] data = (object[])photonEvent.CustomData;
             int EnemyPlayer = (int)data[1]; //the photon view of the person who dealt damage
-            Debug.Log(data[1].ToString() + " was enemy player data");
+
             EPV = PhotonNetwork.GetPhotonView(EnemyPlayer);
-            Debug.Log("Enemy player was: " + EnemyPlayer.ToString() + " vs my actor #: " + PhotonNetwork.LocalPlayer.ActorNumber);
             PPV = PhotonNetwork.GetPhotonView((int)data[0]);
+            KillPopUp(EPV, PPV);
             if (PPV.IsMine)
             {
-                Debug.Log("Set deaths manually for: " + PhotonNetwork.LocalPlayer.ActorNumber);
                 setDeaths();
             }
             else if (EPV.IsMine)
             {
-                Debug.Log("Set kills manually for: " + PhotonNetwork.LocalPlayer.ActorNumber);
+
                 SetKills();
             }
         }
         else if (eventCode == PhotonEvents.JOINEDTEAM1)
         { //player player, int team
-            Debug.Log("Sender: " + photonEvent.Sender.ToString());
             object[] data = (object[])photonEvent.CustomData;
             team = (int)data[1];//the team of the player
         }   else if (eventCode == PhotonEvents.JOINEDTEAM2)
         {
-            Debug.Log("Sender: " + photonEvent.Sender.ToString());
             object[] data = (object[])photonEvent.CustomData;
             int EnemyPlayer = (int)data[1]; //the photon view of the person who dealt damage
         }
+    }
+    public void KillPopUp(PhotonView EPV, PhotonView PPV)
+    {
+        
+        GameObject killPopUp = Instantiate(KillPopUpPrefab, content).gameObject;
+        killPopUp.GetComponent<Text>().text = EPV.gameObject.GetComponent<PlayerSettings>().nickname + " killed " + PPV.gameObject.GetComponent<PlayerSettings>().nickname;
+        StartCoroutine(fadeOut(killPopUp));
+    }
+    private IEnumerator fadeOut(GameObject bye)
+    {
+            yield return new WaitForSeconds(5f);
+        Destroy(bye);
     }
 }

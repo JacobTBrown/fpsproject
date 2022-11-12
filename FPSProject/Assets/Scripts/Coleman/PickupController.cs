@@ -29,18 +29,20 @@ public class PickupController : MonoBehaviour
         if (self.gunData.name == "AK-47") {
             gunObject = weaponHolder.transform.GetChild(2).gameObject;
             weaponHolder.GetComponent<WeaponSwap>().selected = 2;
-            playerMove.PV.RPC("SetCurrentWeapon", RpcTarget.OthersBuffered, weaponHolder.GetComponent<WeaponSwap>().selected);
+            //playerMove.PV.RPC("SetCurrentWeapon", RpcTarget.OthersBuffered, weaponHolder.GetComponent<WeaponSwap>().selected);
         }
         if (self.gunData.name == "SPAS-12") {
             gunObject = weaponHolder.transform.GetChild(1).gameObject;
             weaponHolder.GetComponent<WeaponSwap>().selected = 1;
-            playerMove.PV.RPC("SetCurrentWeapon", RpcTarget.OthersBuffered, weaponHolder.GetComponent<WeaponSwap>().selected);
+            //playerMove.PV.RPC("SetCurrentWeapon", RpcTarget.OthersBuffered, weaponHolder.GetComponent<WeaponSwap>().selected);
         }
         Gun gun = gunObject.GetComponent<Gun>();
+        
         if (gun.owns == false)
         {
             gun.owns = true;
             weaponHolder.GetComponent<WeaponSwap>().selectWeapon();
+            playerMove.PV.RPC("SetPickupWeapon", RpcTarget.OthersBuffered, weaponHolder.GetComponent<WeaponSwap>().selected, gun.owns, gun.gunData.name);
             foreach (Transform child in self.transform)
             {
                 if(child.GetComponent<MeshRenderer>() != null) child.GetComponent<MeshRenderer>().enabled = false;

@@ -45,8 +45,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         SetPlayerProperties();
         SetListeners();
         SetGameMode();
-
-        Debug.Log("Creating GameManager");
     }
     public override void OnLeftRoom()
     {
@@ -76,7 +74,6 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     private void SetPlayerProperties()
     {
-        Debug.Log("Gamemanager created.");
         Hashtable PlayerCustomProps = new Hashtable();
         PlayerCustomProps["Kills"] = 0;
         PlayerCustomProps["Deaths"] = 0;
@@ -97,16 +94,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             int Deaths = (int)player.CustomProperties["Deaths"];
             Deaths++;
-
-            Debug.Log(player.NickName + "A Player Has Died. Deaths: " + Deaths);
-            
+            //Debug.Log(player.NickName + "A Player Has Died. Deaths: " + Deaths);      
             Hashtable PlayerCustomProps = new Hashtable();
             PlayerCustomProps["Deaths"] = Deaths;
             player.SetCustomProperties(PlayerCustomProps);
             updateScore event1 = Events.Updating;
             EventManager.Broadcast(event1);
         }
-
     }
 
     public void OnPlayerKill(PlayerKillEvent evt)

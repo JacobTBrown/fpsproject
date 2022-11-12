@@ -19,6 +19,7 @@ public class Gun : MonoBehaviour
     public bool settingsOpen = false;
     public bool equipped;
     public bool owns;
+    public bool isInstakill;
     Animator animator;
     public AudioClip gunshot;
     public AudioClip reload;
@@ -41,22 +42,22 @@ public class Gun : MonoBehaviour
         {
             if (ammoCounter)
             {
-                Debug.Log("ammo counter was already set, don't run this again");
                 return;
             }
             equipped = true;            
             ammoCounter = GameObject.Find("AmmoCounter").GetComponent<Text>();
             hitMarker = GameObject.Find("HitMarker");
             if (hitMarker) { 
-            hitMarker.SetActive(false); Debug.Log("set ur hitmarker"); };
+            hitMarker.SetActive(false);
+            }
             shoot.shootInput += Shoot;
             shoot.reloadInput += ReloadInit;
             animator = GetComponent<Animator>();
-            Debug.Log("Gun.cs exited start with reload: " + reload.name);
         } else
         {
             equipped = false;
         }
+        isInstakill = false;
 
         gunData.currentAmmo = gunData.magSize;
         if (gunData.maxReserveAmmo != -1) gunData.reserveAmmo = gunData.magSize * 2;
@@ -136,9 +137,8 @@ public class Gun : MonoBehaviour
             {
                 if (canShoot())
                 {
-                    if (!gunData.isShotgun)
-                    {
-                    
+                    //if (!gunData.isShotgun)
+                    //{
                         if (Physics.Raycast(playerOrientation.transform.position, transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
                         {
                             PhotonView EPV = hitInfo.transform.GetComponent<PhotonView>();
@@ -147,55 +147,60 @@ public class Gun : MonoBehaviour
 
                                 if (pstats.CheckTeam(EPV))
                                 {
-                                    Debug.Log("Player was on your team: " + EPV.ViewID + " vs " + PV.ViewID);
-                                }   
-                                else {
-                                    Debug.Log("Hit");
+                                    //Debug.Log("Player was on your team: " + EPV.ViewID + " vs " + PV.ViewID);
+                                }
+                                else
+                                {
+                                    //Debug.Log("Hit");
                                     StartCoroutine(playerHit());
-                                    hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, PV.ViewID);
+                                    if (isInstakill)
+                                        hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, 120f, PV.ViewID);
+                                    else
+                                        hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, PV.ViewID);
                                 }
                                 IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
                                 Debug.Log(hitInfo);
-                                damageable?.Damage(gunData.damage, EPV.ViewID);
-                            }
-                        }
-                        else
-                        {
-                            bool tempHit = false;
-                            for (var i = 0; i < 12; i++)
-                            {
-                                Vector2 localOffset = playerOrientation.transform.position;
-                                float randomX = Random.Range(-.1f, .1f);
-                                float randomY = Random.Range(-.1f, .1f);
-                                localOffset.y += randomY;
-                                localOffset.x += randomX;
-                                if (Physics.Raycast(localOffset, transform.forward, out RaycastHit hitInfo2, gunData.maxDistance))
-                                {
-                                    PhotonView EPV = hitInfo2.transform.GetComponent<PhotonView>();
-                                    if (hitInfo2.collider.tag == "Player" && hitInfo2.collider != thisCollider)
-                                    {
-                                        if (pstats.CheckTeam(EPV))
-                                        {
-                                            Debug.Log("Player was on your team: " + EPV.ViewID + " vs " + PV.ViewID);
-                                        }   
-                                        else {
-                                            tempHit = true;
-                                            Debug.Log("Hit");
-                                            hitInfo2.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, EPV.ViewID);
-                                        }
-                                    }
-                                    IDamageable damageable = hitInfo2.transform.GetComponent<IDamageable>();
-                                    Debug.Log(hitInfo2);
+                                if (isInstakill) {
+                                    damageable?.Damage(120f, EPV.ViewID);
+                                }    
+                                else
                                     damageable?.Damage(gunData.damage, EPV.ViewID);
-                                }
                             }
-                            if(tempHit) StartCoroutine(playerHit());
                         }
-                    
-                        gunData.currentAmmo--;
-                        timeSinceLastShot = 0;
-                        OnGunShot();
-                    }
+                    //}
+                    //else
+                    //{
+                    //    float maxspread = .1f;
+                    //    bool temphit = false;
+                    //    for (var i = 0; i < 12; i++)
+                    //    {
+                    //        vector3 dir = transform.forward + new vector3(random.range(-maxspread, maxspread), random.range(-maxspread, maxspread), random.range(-maxspread, maxspread) + 1);
+                    //        if (physics.raycast(dir, transform.forward, out raycasthit hitinfo2, gundata.maxdistance))
+                    //        {
+                    //            photonview epv = hitinfo2.transform.getcomponent<photonview>();
+                    //            if (hitinfo2.collider.tag == "player" && hitinfo2.collider != thiscollider)
+                    //            {
+                    //                if (pstats.checkteam(epv))
+                    //                {
+                    //                    debug.log("player was on your team: " + epv.viewid + " vs " + pv.viewid);
+                    //                }
+                    //                else
+                    //                {
+                    //                    temphit = true;
+                    //                    debug.log("shotgun: " + epv.viewid);
+                    //                    hitinfo2.transform.getcomponent<photonview>().rpc("damageplayer", rpctarget.allbuffered, gundata.damage, epv.viewid);
+                    //                }
+                    //                idamageable damageable = hitinfo2.transform.getcomponent<idamageable>();
+                    //                debug.log(hitinfo2);
+                    //                damageable?.damage(gundata.damage, epv.viewid);
+                    //            }
+                    //        }
+                    //    }
+                    //    if (temphit) startcoroutine(playerhit());
+                    //}
+                    gunData.currentAmmo--;
+                    timeSinceLastShot = 0;
+                    OnGunShot();
                 }
             }
         }
@@ -217,6 +222,7 @@ public class Gun : MonoBehaviour
                     transform.localRotation = Quaternion.identity;
                 }
             }
+            //if (transform.position != Vector3.zero) transform.position.normalized;
         }
         
     }

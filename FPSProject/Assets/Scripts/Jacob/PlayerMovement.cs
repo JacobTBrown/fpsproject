@@ -7,13 +7,14 @@ using System.Collections;
     Last Edit: 9/21/22
     This class handles movement in 3d space for a player character.
 */
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IPunObservable
 {
     [Header("Unity Classes")]
     public Rigidbody playerRigidbody;
     public Transform playerTransform;
     public Transform playerBodyTransform;
     public Transform cameraTransform;
+    public Transform visorTransform;
     public LayerMask groundLayer;
 
     [Header("Movement Variables")]
@@ -51,9 +52,9 @@ public class PlayerMovement : MonoBehaviour
 
     //timers
     public float maxSlideTime;
-    public float slideTimer;
+    private float slideTimer;
     public float maxBeforeWallJumpTime;
-    public float beforeWallJumpTimer;
+    private float beforeWallJumpTimer;
     //wip
     //public bool isWallrunning;
     public float wallCheckDistance;
@@ -84,6 +85,9 @@ public class PlayerMovement : MonoBehaviour
     public void OnPhotonSerializeView(PhotonStream s, PhotonMessageInfo i) {
         if (s.IsWriting) {
             s.SendNext(moveSpeed);
+            s.SendNext(walkSpeed);
+            s.SendNext(airSpeed);
+            s.SendNext(jumpForce);
             
             s.SendNext(isOnGround);
             s.SendNext(isOnSlope);
@@ -103,6 +107,9 @@ public class PlayerMovement : MonoBehaviour
             s.SendNext(playerRigidbody.velocity);
         } else {
             moveSpeed = (float) s.ReceiveNext();
+            walkSpeed = (float) s.ReceiveNext();
+            airSpeed = (float) s.ReceiveNext();
+            jumpForce = (float) s.ReceiveNext();
 
             isOnGround = (bool) s.ReceiveNext();
             isOnSlope = (bool) s.ReceiveNext();
@@ -135,8 +142,16 @@ public class PlayerMovement : MonoBehaviour
             GetComponentInChildren<AudioListener>().enabled = false;
             // Destroy the camera component so our guns don't disappear
             GetComponentInChildren<Camera>().enabled = false;
+            visorTransform.gameObject.SetActive(true);
+        } else {
+            PhotonChatManager.instance.AddMoveSpeedEvent = () => { walkSpeed += 10f; };
+            PhotonChatManager.instance.ReduceMoveSpeedEvent = () => { walkSpeed -= 2f; };
+            PhotonChatManager.instance.AddJumpEvent = () => { jumpForce += 5f; };
+            PhotonChatManager.instance.ReduceJumpEvent = () => { jumpForce -= 2f; };
+            PhotonChatManager.instance.AddAirSpeedEvent = () => { airSpeed += 5f; };
+            PhotonChatManager.instance.ReduceAirSpeedEvent = () => { airSpeed -= 2f; };
         }
-
+        
         keybinds = GetComponent<PlayerSettings>();
         playerCam = GetComponentInChildren<PlayerCameraMovement>();
         playerSounds = GetComponent<SoundManager>();
@@ -150,6 +165,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (PV.IsMine)
         {
+            if (keybinds.chatIsOpen || keybinds.settingPanel.activeInHierarchy) return; //Added by Jacob to disable the player while chat is open
             RaycastChecks();
             GetInputs();
             LimitSpeed();
@@ -177,6 +193,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (PV.IsMine)
         {
+            if (keybinds.chatIsOpen || keybinds.settingPanel.activeInHierarchy) return;
             if (playerState != MovementState.climbing) {
                 if (isWallrunning && !isCrouching) {
                     WallrunMove();
@@ -212,7 +229,9 @@ public class PlayerMovement : MonoBehaviour
 
         playerRigidbody.AddForce(wallForward * moveSpeed, ForceMode.Force);
         
-        if (!(wallToLeft && horizontalZInput > 0) && !(wallToRight && horizontalZInput > 0))
+        playerRigidbody.drag = 3.5f;
+
+        if (!(wallToLeft && horizontalZInput < 0) && !(wallToRight && horizontalZInput < 0))
             playerRigidbody.AddForce(-wallNormal * 50, ForceMode.Force);
         
         if (useGravity)
@@ -258,6 +277,8 @@ public class PlayerMovement : MonoBehaviour
         {
             float angle = Vector3.Angle(Vector3.up, hitSlope.normal);
             isOnSlope = angle < maxSlopeAngle && angle != 0;
+            if (isOnSlope)
+                isOnGround = true;
         }
         else
         {
@@ -267,18 +288,15 @@ public class PlayerMovement : MonoBehaviour
         // When you look at another player this will make it so the name of the player rotates towards you
         if (Physics.Raycast(transform.position, cameraTransform.forward, out RaycastHit hitInfo, 100)) {
             if (hitInfo.collider.tag == "Player" && hitInfo.collider != this.playerBodyTransform.GetComponent<Collider>()) {
+                if (nameMesh != null && nameMesh != hitInfo.collider.gameObject.GetComponentInParent<PlayerSettings>().playerName)
+                    nameMesh.gameObject.SetActive(false);
+
                 nameMesh = hitInfo.collider.gameObject.GetComponentInParent<PlayerSettings>().playerName;
                 nameMesh.gameObject.SetActive(true);
                 var lookPos = hitInfo.collider.gameObject.transform.position - transform.position;
                 lookPos.y = 0;
                 var rotation = Quaternion.LookRotation(lookPos);
-                nameMesh.gameObject.transform.rotation = Quaternion.Slerp(nameMesh.gameObject.transform.rotation, rotation, 0.75f);
-
-                // if (displayCount == 0)
-                // {
-                //     displayRoutine = DisableName(nameMesh);
-                //     displayCount++;
-                // }
+                nameMesh.gameObject.transform.rotation = rotation;
             }
             else
             {

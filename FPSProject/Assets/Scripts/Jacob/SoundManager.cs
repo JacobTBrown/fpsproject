@@ -2,44 +2,27 @@
 using System.Collections;
 using UnityEngine;
 
-public class SoundManager : MonoBehaviour, IPunObservable
+public class SoundManager : MonoBehaviour
 {
     public AudioClip[] footsteps;
-    public AudioClip parkour;
-    private AudioSource footstepSource;
-    private AudioSource parkourSource;
+    public AudioSource footstepSource;
     private PhotonView PV;
     private Rigidbody playerRigidbody;
     private PlayerMovement playerMovement;
     private int routineCount = 0;
-    private IEnumerator routine, otherRoutine;
+    private IEnumerator routine;
     private int current;
-    public bool playParkourSound;
 
     // Start is called before the first frame update
     void Start()
     {
         PV = GetComponent<PhotonView>();
-            
-        var sources = GetComponents<AudioSource>();
-        footstepSource = sources[0];
+
         playerRigidbody = GetComponent<Rigidbody>();
         playerMovement = GetComponent<PlayerMovement>();
         
         routineCount = 0;
         current = 0;
-    }
-
-    public void OnPhotonSerializeView(PhotonStream s, PhotonMessageInfo i) {
-        if (s.IsWriting) {
-            //Debug.Log("writing from soundmanager");
-            s.SendNext(current);
-            s.SendNext(routineCount);
-        } else {
-            //Debug.Log("reading in soundmanager");
-            current = (int) s.ReceiveNext();
-            routineCount = (int) s.ReceiveNext();
-        }
     }
 
     void Update() {
@@ -69,17 +52,16 @@ public class SoundManager : MonoBehaviour, IPunObservable
         // }
     }
 
-    public IEnumerator Parkour() {
-        parkourSource.PlayOneShot(parkour);
-        playParkourSound = false;
-        yield return new WaitForSeconds(1);
-    }
-
-    public IEnumerator ChooseAFootstep() {
+    public IEnumerator ChooseAFootstep() { 
         while(true) {
             if (current > 9) current = 0;
             float vel = playerRigidbody.velocity.magnitude;
-            if ((playerMovement.playerState != PlayerMovement.MovementState.slowwalking && playerMovement.isOnGround && vel > 2f))
+
+            if (playerMovement.playerState == PlayerMovement.MovementState.slowwalking
+                && playerMovement.playerState == PlayerMovement.MovementState.inAir)
+                break;
+
+            if (playerMovement.isOnGround && vel > 2f)
             {
                 footstepSource.clip = footsteps[current];
                 if (playerMovement.playerState == PlayerMovement.MovementState.walking) {

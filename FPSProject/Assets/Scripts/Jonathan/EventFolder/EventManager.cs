@@ -58,7 +58,7 @@ namespace Unity.Scripts.Jonathan
             //Debug.Log("broadcasting: " + evt);
             if (s_Events.TryGetValue(evt.GetType(), out var action))
             {
-                Debug.Log("invoke: " + evt);
+                //Debug.Log("invoke: " + evt);
                action.Invoke(evt); 
             }
         }

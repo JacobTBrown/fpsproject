@@ -20,9 +20,10 @@ public class PlayerSettings : MonoBehaviour
     PhotonView PV; //needed for the reference to the player prefab 
     PlayerManager playermanager; //to send data to the playerManager, which will instantate our playerPrefab.
 
+
+
     MenuManager menuManager;
-    GameObject errorTextPopup;
-    [SerializeField] TMP_Text errorText;
+    ErrorTextFade errorText; //setting errorText in start with GameObject.Find("errorTextPopup"); -zach
     public int instanceID;
     public int viewID;
     public string nickname;
@@ -37,14 +38,18 @@ public class PlayerSettings : MonoBehaviour
     public float mouseXSensitivity = 500f;
     // Vertical mouse sensitivity
     public float mouseYSensitivity = 500f;
-
+    Vector3 timerPosition;
+    Vector3 FFAPanelPosition;
+    Vector3 TDMPanelPosition;
     public Slider mouseYSlider;
     public Slider mouseXSlider;
+    private string ySliderText;
+    private string xSliderText;
     // For the user to invert the Y mouse look
     public bool invertMouse = false;
     public bool chatIsOpen = false;
     public List<int> team;
-
+    Vector3 hideUIOffScreenVector = new Vector3(0, -2500, 0);
     [Header("User Keybinds")]
     public Dictionary<KeycodeFunction, KeyCode> inputSystemDic = new Dictionary<KeycodeFunction, KeyCode>() {
         { KeycodeFunction.leftMove, KeyCode.A},
@@ -63,15 +68,12 @@ public class PlayerSettings : MonoBehaviour
         };
 
     void Start() {
-        
+      
         Invoke("SetTeams", 0.5f);
-        //Debug.Log("GameObject.Name," + gameObject.name);
         PV = GetComponent<PhotonView>();
-        //Debug.Log("PV instantiate: " + PV.ViewID);
-        //playermanager = PhotonView.Find((int)PV.InstantiationData[0]).GetComponent<PlayerManager>();
         canvas = GameObject.FindGameObjectWithTag("Settings");
         weaponHolder = GameObject.FindGameObjectWithTag("MainCamera").transform.GetChild(0).gameObject;
-
+        
         // Added by Jacob Brown: 10/03/2022
         // created some variables for correctly identifying players 
         instanceID = this.gameObject.GetInstanceID();
@@ -81,6 +83,7 @@ public class PlayerSettings : MonoBehaviour
     
         if (PV.IsMine)
         {
+            
             // Added by Jacob Brown: 10/13/2022
             playerName = GetComponentInChildren<TextMesh>();
             playerName.text = nickname;
@@ -88,26 +91,32 @@ public class PlayerSettings : MonoBehaviour
             // end add by Jacob Brown
             settingPanel = GameObject.Find("SettingPanel");
             //Debug.Log("GETTING SETTINGS PANEL");
-            //adding logic for team vs ffa scoreboard - zach
-            scoreBoard = GameObject.FindObjectOfType<Scoreboard>().gameObject;
-            //scoreBoard.SetActive(false);
-            scoreBoard.transform.localPosition = new Vector3(9999, 9999, 9999);
+            scoreBoard = GameObject.FindObjectOfType<Scoreboard>().gameObject; //adding logic for team vs ffa scoreboard - zach
+            scoreBoard.transform.localPosition = hideUIOffScreenVector;
             GameObject scoreBoardTeams = GameObject.FindObjectOfType<ScoreboardTeams>().gameObject;
-            scoreBoardTeams.SetActive(false);
+            scoreBoardTeams.transform.localPosition = hideUIOffScreenVector;
+           // timerPosition = new Vector3(-558, -26, 0); // magic numbers: correspond to the initial position of the game objects on the canvas
+            timerPosition = GameObject.Find("Timer").transform.localPosition; // magic numbers: correspond to the initial position of the game objects on the canvas
+            
+            FFAPanelPosition = GameObject.Find("Free For All Panel").transform.localPosition;  //is the default number as shown in the inspector.
+            TDMPanelPosition = GameObject.Find("ScoreboardTeams").transform.localPosition;  //if you move it in the editor, you need to change these!
+            errorText = GameObject.Find("ErrorTextPopup").GetComponent<ErrorTextFade>();
             if ((int)PhotonNetwork.LocalPlayer.CustomProperties["team"] > 0)
             {
+                scoreBoard.SetActive(false);
                 //Debug.Log("Set team scoreboard");
                 scoreBoard = scoreBoardTeams;
             }
-            
+            else scoreBoardTeams.SetActive(false); //end - zach
+
             chatRoom = GameObject.Find("ChatPannel");
             chatRoom.SetActive(false);
             mouseYSlider = GameObject.FindGameObjectWithTag("SliderV").GetComponent<Slider>();
             mouseXSlider = GameObject.FindGameObjectWithTag("SliderH").GetComponent<Slider>();
+            ySliderText = mouseYSlider.transform.Find("Slider").Find("tips").GetComponent<Text>().text = (int) mouseYSlider.value + "";
+            xSliderText = mouseXSlider.transform.Find("Slider").Find("tips").GetComponent<Text>().text = (int) mouseXSlider.value + "";
             settingPanel.SetActive(false);
-            errorTextPopup = GameObject.Find("ErrorTextPopup");
-            //errorText = errorTextPopup.GetComponent<TMP_Text>();
-            //errorTextPopup.SetActive(false);
+            
         } else {
             playerName = GetComponentInChildren<TextMesh>();
             playerName.text = nickname;
@@ -139,20 +148,25 @@ public class PlayerSettings : MonoBehaviour
         }
         mouseXSensitivity = mouseXSlider.value * 5;
         mouseYSensitivity = mouseYSlider.value * 5;
-        mouseYSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseYSlider.value + "";
-        mouseXSlider.transform.Find("tips").GetComponent<Text>().text =(int)mouseXSlider.value + "";
+        
+        if (settingPanel.activeSelf) {
+            ySliderText = mouseYSlider.transform.Find("Slider").Find("tips").GetComponent<Text>().text =(int)mouseYSlider.value + "";
+            xSliderText = mouseXSlider.transform.Find("Slider").Find("tips").GetComponent<Text>().text =(int)mouseXSlider.value + "";
+        }
         
         if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.scoreboard]))
         {
             //if (scoreBoard.activeInHierarchy)
-            Vector3 badVector = new Vector3(9999, 9999, 9999);
-           if (scoreBoard.transform.localPosition != badVector)
+            
+           if (scoreBoard.transform.localPosition != hideUIOffScreenVector)
             {
-                scoreBoard.transform.localPosition = new Vector3(9999, 9999, 9999);
-                //scoreBoard.SetActive(false);
+                GameObject.FindObjectOfType<Timer>().transform.localPosition = timerPosition;
+                GameObject.FindObjectOfType<FFAPlayerScoreText>().transform.localPosition = FFAPanelPosition;
+                scoreBoard.transform.localPosition = hideUIOffScreenVector;
             } else
             {
-                //scoreBoard.SetActive(true);
+                GameObject.FindObjectOfType<Timer>().transform.localPosition = hideUIOffScreenVector;
+                GameObject.FindObjectOfType<FFAPlayerScoreText>().transform.localPosition = hideUIOffScreenVector;
                 scoreBoard.transform.localPosition = new Vector3(0, 0,0);
             }
         }
@@ -175,8 +189,12 @@ public class PlayerSettings : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]))
+        int selected = weaponHolder.GetComponent<WeaponSwap>().selected;
+        Gun gun = weaponHolder.transform.GetChild(selected).GetComponent<Gun>();
+        if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]) && !gun.gunData.isReloading)
         {
+            gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            gameObject.GetComponent<PlayerMovement>().moveSpeed = 0;        
             if (settingPanel.activeInHierarchy)
             {
                 canvas.transform.GetChild(1).gameObject.SetActive(true);
@@ -196,7 +214,6 @@ public class PlayerSettings : MonoBehaviour
                 canvas.transform.GetChild(3).gameObject.SetActive(false);
                 canvas.transform.GetChild(4).gameObject.SetActive(false);
                 weaponHolder.SetActive(false);
-                settingPanel.SetActive(settingPanel.activeInHierarchy);
                 // Lock the cursor to the center of the screen 
                 Cursor.lockState = CursorLockMode.None;
                 //// Make the cursor invisible
@@ -204,6 +221,10 @@ public class PlayerSettings : MonoBehaviour
             }
 
             settingPanel.SetActive(!settingPanel.activeInHierarchy);
+        } else if (Input.GetKeyUp(inputSystemDic[KeycodeFunction.menu]) && gun.gunData.isReloading) {
+            Cursor.lockState = CursorLockMode.Locked; // if we're reloading, show error. ( also locks cursor for the editor )
+            Cursor.visible = false;
+            errorText.FourSecFade("Can't Open Menu While Reloading"); 
         }
     }
 
@@ -214,21 +235,23 @@ public class PlayerSettings : MonoBehaviour
    
     public bool SetKeycodeValue(KeycodeFunction keycodeFunction, KeyCode keyCode)
     {
+        //Debug.Log(keyCode + "：Setting Button logic for: " + inputSystemDic[keycodeFunction]);
         if (inputSystemDic.Values.Contains(keyCode))
         {
-            Debug.Log(keyCode + "：Button logic already exists");
+            //Debug.Log(keyCode + "：Button logic already exists");
+            errorText.FourSecFade("That key is already in use.");
             //MenuManager.Instance.OpenMenu("error");
             //errorText.text = "That key is already in use";
 
             // The following code was written by Jacob Brown : 10/3/2022
             // this code swaps the keyCodes if a key has already been mapped to an action
             // You can remove the debugs whenever you like
-            KeyValuePair<KeycodeFunction, KeyCode>[] pairs;
+      /*      KeyValuePair<KeycodeFunction, KeyCode>[] pairs;
             pairs = inputSystemDic.ToArray();
             KeycodeFunction tempFunction;
-            KeyCode temp;
-
-            for (int i = 0; i < pairs.Length; i++) {
+            KeyCode temp;*/
+            
+           /* for (int i = 0; i < pairs.Length; i++) {
                 if (pairs[i].Value == keyCode) {
                     tempFunction = pairs[i].Key;
                     Debug.Log(tempFunction);
@@ -242,10 +265,9 @@ public class PlayerSettings : MonoBehaviour
                     Debug.Log("AFTER: " + inputSystemDic[tempFunction]);
                     break;
                 }
-            }
+            }*/
             // end Jacob Brown edits
-
-            return false;
+            return true;
         }
         else
         {
@@ -257,12 +279,12 @@ public class PlayerSettings : MonoBehaviour
     {
        if (!PV.IsMine)
         {
-           // Debug.Log("return early");
             return;
         }
         //var player1 = PhotonNetwork.CurrentRoom.Players.ElementAt(0);
+     
         GameObject[] ga = (GameObject.FindGameObjectsWithTag("Player"));
-       
+        //here's where I set the color of the players - zach
         List<PlayerDamageable> pd = new List<PlayerDamageable>();
         foreach (GameObject g in ga)
             if (g.GetComponent<PlayerDamageable>() != null)

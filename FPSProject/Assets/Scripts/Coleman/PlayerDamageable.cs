@@ -11,6 +11,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
     [SerializeField] public float currentHealth;
     public float maxHealth = 100f;
     public bool isInvincible = false;
+    public bool isInstakill = false;
     public bool isSpeed = false;
     public HealthBar healthBar;
     public Animator DamageFlash;
@@ -25,14 +26,12 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
     }
     void Start()
     {
-        Debug.Log("Starting player damage");
         impact = GetComponent<AudioSource>();
         DamageFlash = GameObject.Find("DamageFlash").GetComponent<Animator>();
         healthBar = GameObject.Find("HealthBar").GetComponent<HealthBar>();
-        Debug.Log("Healthbar is: " + healthBar.name);
         healthBar.SetMaxHealth(maxHealth);
         currentHealth = maxHealth;
-        Debug.Log(currentHealth);
+        //Debug.Log(currentHealth);
     }
 
     void Update()
@@ -44,7 +43,8 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         }
         healthBar.SetHealth(currentHealth, PV);
         if (isInvincible) healthBar.changeColor(PV, Color.blue);
-        else if (isSpeed) healthBar.changeColor(PV, Color.green);
+        else if (isInstakill) healthBar.changeColor(PV, Color.yellow);
+        else if (isSpeed) healthBar.changeColor(PV, Color.green); 
         else healthBar.changeColor(PV, Color.red);
 
         if (Input.GetKeyDown(KeyCode.K))
@@ -73,7 +73,7 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
                 impact.Play();
                 DamageFlash.SetTrigger("Damage");
                 healthBar.SetHealth(currentHealth, PV);
-                Debug.Log("Hit Player for " + damage + " damage. Player is now at " + currentHealth + " HP.");
+                //Debug.Log("Hit Player for " + damage + " damage. Player is now at " + currentHealth + " HP.");
             }
         }
         if (currentHealth <= 0)
@@ -86,13 +86,13 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
                 currentHealth = 100;
                 healthBar.SetHealth(currentHealth, PV);
             }         
-            Debug.Log("A player has died!");
+        
         }
     }
 
     public void onDie(int EnemyPlayer){
      
-            Debug.Log(PV.ViewID + " was killed by " + EnemyPlayer);
+            //Debug.Log(PV.ViewID + " was killed by " + EnemyPlayer);
             RaiseEventOptions o = new RaiseEventOptions { Receivers = ReceiverGroup.All };
             int DeadviewID = PV.ViewID;
             object[] obj = {DeadviewID, EnemyPlayer};

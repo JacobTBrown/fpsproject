@@ -28,8 +28,18 @@ public class PhotonNoGameChatManager : MonoBehaviour, IChatClientListener
         isConnected = true;
         chatClient = new ChatClient(this);
         chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, PhotonNetwork.AppVersion, new AuthenticationValues(playerName));
+        Invoke("Delay", 2f);
     }
+    void Delay()
+    {
+        //chatClient.PublishMessage("World", m_ddown.value.ToString()+"--joindating");
+        bool isSubscribed = chatClient.Subscribe("World");
+        if (isSubscribed)
+        {
+            //Debug.LogError("Subscribed");
+        }
 
+    }
     public GameObject chatPanel;
     public InputField chatField;
     public Text chatDisplay;
@@ -60,7 +70,8 @@ public class PhotonNoGameChatManager : MonoBehaviour, IChatClientListener
         {
             if (enterText == "") return;
             string InputTxt = m_ddown.value.ToString() + "--" + enterText;
-            chatClient.PublishMessage("RegionChannel", InputTxt);
+            //chatClient.PublishMessage("RegionChannel", InputTxt); 
+            chatClient.PublishMessage("World", InputTxt);
             chatField.text = "";
             enterText = "";
         }
@@ -126,6 +137,10 @@ public class PhotonNoGameChatManager : MonoBehaviour, IChatClientListener
         {
             text = senders[length] + ": " + messages[length];
             string[] value = text.Split(new string[] { "--"},System.StringSplitOptions.None);
+            if (value.Length < 2)
+            {
+                return;
+            }
             string newtext = MakeText(value[0], value[1]);
             chatDisplay.text += "\n" + newtext;
             length++;

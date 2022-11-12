@@ -44,7 +44,7 @@ namespace Unity.Scripts.Jonathan
  
             if (eventCode == PLAYERDEATH){
                 object[] player = (object[])photonEvent.CustomData;
-                Debug.Log(PhotonView.Find((int)player[0]).gameObject.GetComponent<PhotonView>().ViewID + " broadcasted a death in PhotonEvent.cs");
+                //Debug.Log(PhotonView.Find((int)player[0]).gameObject.GetComponent<PhotonView>().ViewID + " broadcasted a death in PhotonEvent.cs");
                 PhotonView enemyPV = PhotonView.Find((int)player[1]); 
                 OnPlayerDeath(PhotonView.Find((int)player[0]).gameObject, enemyPV.gameObject);
             }
