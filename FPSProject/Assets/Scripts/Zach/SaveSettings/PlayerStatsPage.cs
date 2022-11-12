@@ -157,8 +157,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
                 if (debug) Debug.Log("Both on team 2");
                 return true;
         }
-        if (debug) Debug.Log("CheckTeams() exited, no condition met.");
-        
+        if (debug) Debug.Log("CheckTeams() exited false, no condition met.");    
         return false;
     }
     public void SavePlayer()
@@ -173,16 +172,12 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
             exp = (int)newExp;
             newExp = 0;
         }
-       
-        //Save on destroy? zach 11:30 10-12
         data = new DataToStore(this);
-
         //Debug.Log("in-game time: " + this.timeInGame);
         if (debug) Debug.Log("saving new data -- time: " + data.totalTime + " timeInGame: " + data.timeInGame + " exp " + data.exp + " level: " + data.level + " Kills: " + data.totalKills + " deaths: " + data.totalDeaths);
         if (debug) Debug.Log("initial time in game: " + initialTimeInGame + " new exp: " + newExp);
         //Debug.Log("saving " + JsonUtility.ToJson(data) +  "from PlayerStatsPage.cs");
-        DataSaver.SaveStats(data);
-        
+        DataSaver.SaveStats(data);  
     }
     private void OnLevelWasLoaded(int level)
     {
@@ -207,20 +202,11 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     }
     private void OnDestroy()
     {
-        //this.totalTime = Time.realtimeSinceStartup;
-        //if (debug) Debug.Log("Saving on exit" + this.totalTime);
-        if (SceneManager.GetActiveScene().buildIndex > 0)
-        {
-            if (debug) Debug.Log("logging");
-            //timeInGame += Time.timeSinceLevelLoad;
-
-        }
         if (!saved)
         {
             saved = true;
             SavePlayer();
-        }
-        
+        } 
         //GameObject.Destroy(gameObject);
     }
     public void StartInGameTimer()
@@ -230,7 +216,6 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
             //if (debug) Debug.Log("logging");
             timeInGame += Time.timeSinceLevelLoad;
         }
-        timeInGame += Time.timeSinceLevelLoad;
     }
     public int GetTime()
     {
@@ -261,7 +246,6 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
     public void SetKills()
     {
             totalKills++;
-        
             return;
     }
     public void setDeaths()

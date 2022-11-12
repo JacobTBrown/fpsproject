@@ -124,7 +124,6 @@ public class PlayerMovement : MonoBehaviour, IPunObservable
             isWallrunning = (bool) s.ReceiveNext();
             hasSpeedPowerup = (bool) s.ReceiveNext();
             useGravity = (bool) s.ReceiveNext();
-
             playerState = (PlayerMovement.MovementState) s.ReceiveNext();
             playerRigidbody.velocity = (Vector3) s.ReceiveNext();
         }
