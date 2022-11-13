@@ -1,0 +1,1 @@
+Start ""  %CD%\FPSProject\Build\FPSProject.exe
