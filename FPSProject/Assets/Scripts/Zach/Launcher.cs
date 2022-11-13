@@ -216,7 +216,8 @@ public class Launcher : MonoBehaviourPunCallbacks
         Invoke("CheckConnection", 5);
     }
     public override void OnJoinRoomFailed(short returnCode, string message)
-    { 
+    {
+        gameObject.GetComponent<AudioSource>().Play();
         MenuManager.Instance.OpenMenu("title");
     }
     public override void OnJoinedLobby()
@@ -643,6 +644,7 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         if (!PhotonNetwork.IsConnected)
         {
+            gameObject.GetComponent<AudioSource>().Play();
             //pingText.text = "Connecting..";
             if (debug) Debug.Log("bad connection");
             ConnectionFailed();
@@ -665,7 +667,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.LocalPlayer.CustomProperties["team"] = 0;
         currentRoomInfo = null;
-        base.OnLeftRoom();
+        MenuManager.Instance.OpenMenu("title");
+        //base.OnLeftRoom();
     }
     public void ConnectManually()
     {
