@@ -228,10 +228,8 @@ public class PlayerMovement : MonoBehaviour, IPunObservable
         Vector3 wallForward = Vector3.Cross(wallUp, wallNormal);
 
         playerRigidbody.AddForce(wallForward * moveSpeed, ForceMode.Force);
-        
-        playerRigidbody.drag = 3.5f;
 
-        if (!(wallToLeft && horizontalZInput < 0) && !(wallToRight && horizontalZInput < 0))
+        if (!(wallToLeft && horizontalXInput > 0) && !(wallToRight && horizontalXInput < 0))
             playerRigidbody.AddForce(-wallNormal * 50, ForceMode.Force);
         
         if (useGravity)
@@ -286,7 +284,7 @@ public class PlayerMovement : MonoBehaviour, IPunObservable
         }
 
         // When you look at another player this will make it so the name of the player rotates towards you
-        if (Physics.Raycast(transform.position, cameraTransform.forward, out RaycastHit hitInfo, 100)) {
+        if (Physics.Raycast(transform.position, cameraTransform.forward, out RaycastHit hitInfo, 200)) {
             if (hitInfo.collider.tag == "Player" && hitInfo.collider != this.playerBodyTransform.GetComponent<Collider>()) {
                 if (nameMesh != null && nameMesh != hitInfo.collider.gameObject.GetComponentInParent<PlayerSettings>().playerName)
                     nameMesh.gameObject.SetActive(false);
@@ -416,7 +414,11 @@ public class PlayerMovement : MonoBehaviour, IPunObservable
         }
 
         if (hasSpeedPowerup && !isSliding) {
-            moveSpeed = powerUpSpeed;
+            if (isWallrunning)
+                moveSpeed = wallrunSpeed * 1.5f;
+            else {
+                moveSpeed = powerUpSpeed;
+            }
         }
 
         if (Input.GetKeyDown(keybinds.inputSystemDic[KeycodeFunction.crouch])) {
