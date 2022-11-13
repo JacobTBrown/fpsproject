@@ -62,13 +62,13 @@ public class TDMKillObjective : MonoBehaviourPunCallbacks, Objective
             {
                 //do things for team 1
                 EventCompleted();
-                UpdateUI(1);
+               //UpdateUI(1);
             }
             else if (team2Kills >= killCutOff)
             {
                 //do things for team 2
                 EventCompleted();
-                UpdateUI(2);
+                //UpdateUI(2);
             }
         }
     }
@@ -83,7 +83,7 @@ public class TDMKillObjective : MonoBehaviourPunCallbacks, Objective
         EventManager.Broadcast(evt2);
     }
     void UpdateUI(int team)
-    {
+    {   //is being handled by Jonathan now
         //GameOverText.transform.parent.gameObject.SetActive(true);
      //   GameOverText.GetComponent<TMP_Text>().text = "team " + team.ToString() + " wins with " + killCutOff + " kills!";
         // force-restart the game ? 

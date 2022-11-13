@@ -114,6 +114,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.Log(player.NickName + "Has Killed A Player. Kills: " + Kills);
             Hashtable PlayerCustomProps = new Hashtable();
             PlayerCustomProps["Kills"] = Kills;
+            //PlayerCustomProps["Deaths"] = (int)player.CustomProperties["Deaths"]; //!
             player.SetCustomProperties(PlayerCustomProps);
             updateScore event1 = Events.Updating;
             EventManager.Broadcast(event1);
@@ -122,12 +123,19 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     private void SetGameMode()
     {
-        string gameModeType = (string)PhotonNetwork.CurrentRoom.CustomProperties["GAMEMODE"]; 
-       // if(gameModeType=="FFA")
-      //  {
-            //int killCutOff = 20;
-           gameMode = gameObject.AddComponent<FreeForAll>();
-      //  }
+
+        int gameModeType = (int)PhotonNetwork.CurrentRoom.CustomProperties["mode"];
+        
+            if(gameModeType==0)
+             {
+                int killCutOff = 20;
+                gameMode = gameObject.AddComponent<FreeForAll>();
+             }
+        if (gameModeType == 1)
+        {
+            int killCutOff = 20;
+            gameObject.AddComponent<TDMKillObjective>();
+        }
 
         gameMode.CreateGameRules();
         gameMode.CreateGameObjectives();

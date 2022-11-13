@@ -12,15 +12,11 @@ public class ErrorTextFade : MonoBehaviour
     bool textActive;
     public void FourSecFade(string text)
     {
-
+        gameObject.GetComponent<AudioSource>().Play();
         if (!textActive) { // if the text is already active, do nothing
         gameObject.GetComponent<Text>().text = text;
             textActive = true;
         StartCoroutine(fadeOut());
-        }
-        else
-        {
-            //play error sound?
         }
     }
 
