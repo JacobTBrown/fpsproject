@@ -47,13 +47,13 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
         else if (isSpeed) healthBar.changeColor(PV, Color.green); 
         else healthBar.changeColor(PV, Color.red);
 
-        if (Input.GetKeyDown(KeyCode.K))
+        /*if (Input.GetKeyDown(KeyCode.K))
         {
-            /*
+            *//*
                 This is for testing purposes only
-            */
+            *//*
             onDie(PV.ViewID);
-        }
+        }*/
     }
 
     public void Damage(float damage, int EnemyPlayer)
