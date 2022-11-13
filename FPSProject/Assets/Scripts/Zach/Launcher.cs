@@ -119,7 +119,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         Invoke("LevelRoutine", 2);
         mapsArr = new MapData[3]; //to add a map, increment this array by one, and add the map name below where #=index in the build settings ex: (mapsArr[0] == 1)
         mapsArr[0] = new MapData("Ice World", 1); //give the map a name here, and insert the build index. The file name of the map and the map's image must match the naming scheme.
-        mapsArr[1] = new MapData("Map 2", 2);
+        mapsArr[1] = new MapData("Four Towers", 2);
         mapsArr[2] = new MapData("Grass Land", 3);
         modeAsInt = 0;
         playerProperties = new Hashtable();
