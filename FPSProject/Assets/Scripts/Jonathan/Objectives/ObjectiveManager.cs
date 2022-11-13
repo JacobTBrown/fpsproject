@@ -39,7 +39,7 @@ public class ObjectiveManager : MonoBehaviour
 
     public void addObjective(Objective obj){
         objectiveList.Add(obj);
-        Debug.Log("New Game Objective Added" + obj);
+        //Debug.Log("New Game Objective Added" + obj);
     }
 
     public void removeObjective(Objective obj){

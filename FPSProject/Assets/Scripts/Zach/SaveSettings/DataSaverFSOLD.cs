@@ -15,22 +15,22 @@ public static class DataSaverFSOLD
     public static void SaveStatsFS(PlayerStatsPage playerStats)
     {
 
-        if (debug) Debug.Log("saving");
+        //if (debug) Debug.Log("saving");
         BinaryFormatter formatter = new BinaryFormatter();
 
         string path = Path.Combine(Application.persistentDataPath + "player.stats");
         FileStream fs = new FileStream(path, FileMode.Create);
-        if (debug) Debug.Log("path was " + path);
+        //if (debug) Debug.Log("path was " + path);
         DataToStore data = new DataToStore(playerStats);
 
         formatter.Serialize(fs, data);
-        if (debug) Debug.Log("Save finished");
+        //if (debug) Debug.Log("Save finished");
         fs.Close();
     }
 
     public static DataToStore LoadDataFS()
     {
-        if (debug) Debug.Log("loading");
+        //if (debug) Debug.Log("loading");
         string path = Path.Combine(Application.persistentDataPath + "player.stats");
         try
         {
@@ -40,7 +40,7 @@ public static class DataSaverFSOLD
             formatter.Deserialize(fs);
             DataToStore data = formatter.Deserialize(fs) as DataToStore;
             fs.Close();
-            if (debug) Debug.Log("load finished");
+            //if (debug) Debug.Log("load finished");
             return data;
         } catch (Exception e)
         {

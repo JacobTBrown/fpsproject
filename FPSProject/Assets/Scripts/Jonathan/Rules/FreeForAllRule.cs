@@ -20,10 +20,10 @@ namespace Unity.Scripts.Jonathan{
 
         public void onCompletedObjective(ObjectiveCompletedEvent evt)
         {      
-           Debug.Log("Rule: Handle Event Called");
+           //Debug.Log("Rule: Handle Event Called");
             if(evt.objective.GetType() == typeof(FreeForAllKillObjective))
             {
-                Debug.Log("Rule: End Game Event Called");
+                //Debug.Log("Rule: End Game Event Called");
                 EndGameEvent ev = Events.EndGameEvent;
                 EventManager.Broadcast(ev);
             }

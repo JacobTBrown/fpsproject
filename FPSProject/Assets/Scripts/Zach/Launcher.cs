@@ -558,7 +558,7 @@ public class Launcher : MonoBehaviourPunCallbacks
         {
             if ((int)currentRoomInfo.CustomProperties["mode"] == 0)
             {
-                if (debug) Debug.Log("mode zero");
+                //if (debug) Debug.Log("mode zero");
                 MenuManager.Instance.OpenMenu("room");
                 foreach (Transform child in playerListContent)
                 {

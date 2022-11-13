@@ -65,7 +65,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         newData = DataSaver.LoadData(data);
         loadNew();
         json = JsonUtility.ToJson(newData);
-        if (debug) Debug.Log("Json was" + json);
+        //if (debug) Debug.Log("Json was" + json);
         initialTimeInGame = timeInGame;
     }
     public void loadNew()
@@ -76,7 +76,7 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         exp = newData.exp; // exp is decresed, level in increased: level = exp % 120
         totalKills = newData.totalKills;
         totalDeaths = newData.totalDeaths;
-        if (debug) Debug.Log("New data in playerstatspage: " + JsonUtility.ToJson(newData));
+        //if (debug) Debug.Log("New data in playerstatspage: " + JsonUtility.ToJson(newData));
     }
 
     private void Start()
@@ -127,37 +127,37 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         if (myTeamNumber == 1 || myTeamNumber == 2) {
             foreach (Player p in PhotonNetwork.PlayerList)
             {
-                if (debug) Debug.Log("player was " + p.ActorNumber + " vs enemy player# " + EPV.OwnerActorNr);
+                //if (debug) Debug.Log("player was " + p.ActorNumber + " vs enemy player# " + EPV.OwnerActorNr);
                 if (p.ActorNumber == EPV.OwnerActorNr)
                 {
-                    if (debug) Debug.Log("player was found: " + p.ActorNumber);
+                    //if (debug) Debug.Log("player was found: " + p.ActorNumber);
 
                     enemyPlayer = p;
-                    if (debug) Debug.Log("PLayer teams: " + p.ActorNumber + " vs " + EPV.OwnerActorNr );
+                    //if (debug) Debug.Log("PLayer teams: " + p.ActorNumber + " vs " + EPV.OwnerActorNr );
                 }
             }
         } else { Debug.Log("team# =/0, 1, or 2"); }
         if (enemyPlayer == null)
         {
-            if (debug) Debug.Log("player was not found in your room");
+            //if (debug) Debug.Log("player was not found in your room");
             return false;
         }
         int enemyTeamNumber = (int)enemyPlayer.CustomProperties["team"];
         if (enemyTeamNumber ==0)
         {
-            if (debug) Debug.Log("!! Enemy player was in FFA!!");
+            //if (debug) Debug.Log("!! Enemy player was in FFA!!");
         }
         else if (enemyTeamNumber == 1 && myTeamNumber == 1)
         {
-                if (debug) Debug.Log("Both on team 1");
+                //if (debug) Debug.Log("Both on team 1");
                return true;    
         }
         else if (enemyTeamNumber == 2 && myTeamNumber == 2)
         { 
-                if (debug) Debug.Log("Both on team 2");
+                //if (debug) Debug.Log("Both on team 2");
                 return true;
         }
-        if (debug) Debug.Log("CheckTeams() exited false, no condition met.");    
+        //if (debug) Debug.Log("CheckTeams() exited false, no condition met.");    
         return false;
     }
     public void SavePlayer()
@@ -174,8 +174,8 @@ public class PlayerStatsPage : MonoBehaviour, IOnEventCallback
         }
         data = new DataToStore(this);
         //Debug.Log("in-game time: " + this.timeInGame);
-        if (debug) Debug.Log("saving new data -- time: " + data.totalTime + " timeInGame: " + data.timeInGame + " exp " + data.exp + " level: " + data.level + " Kills: " + data.totalKills + " deaths: " + data.totalDeaths);
-        if (debug) Debug.Log("initial time in game: " + initialTimeInGame + " new exp: " + newExp);
+        //if (debug) Debug.Log("saving new data -- time: " + data.totalTime + " timeInGame: " + data.timeInGame + " exp " + data.exp + " level: " + data.level + " Kills: " + data.totalKills + " deaths: " + data.totalDeaths);
+        //if (debug) Debug.Log("initial time in game: " + initialTimeInGame + " new exp: " + newExp);
         //Debug.Log("saving " + JsonUtility.ToJson(data) +  "from PlayerStatsPage.cs");
         DataSaver.SaveStats(data);  
     }

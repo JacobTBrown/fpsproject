@@ -19,7 +19,7 @@ namespace Unity.Scripts.Jonathan
 			if (Instance)
             {
 
-				Debug.Log("already existed");
+				//Debug.Log("already existed");
 				return;
             }
 			Instance = this;

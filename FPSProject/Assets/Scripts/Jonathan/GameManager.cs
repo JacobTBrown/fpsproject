@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             int Kills = (int)player.CustomProperties["Kills"];
             Kills++;
-            Debug.Log(player.NickName + "Has Killed A Player. Kills: " + Kills);
+            //Debug.Log(player.NickName + "Has Killed A Player. Kills: " + Kills);
             Hashtable PlayerCustomProps = new Hashtable();
             PlayerCustomProps["Kills"] = Kills;
             //PlayerCustomProps["Deaths"] = (int)player.CustomProperties["Deaths"]; //!

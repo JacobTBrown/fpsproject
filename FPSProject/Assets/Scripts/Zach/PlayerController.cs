@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
         {      
             if ((int)p.CustomProperties["team"] == 2)
             {
-                Debug.Log(p.ActorNumber + " was on team 2");
+                //Debug.Log(p.ActorNumber + " was on team 2");
                 setMaterial();
             }
         }
@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
         Material[] materials = new Material[1];
         materials = m[1].materials;
         materials[0] = materials[0] = (Material)Resources.Load("materials/Player_Mat1");
-        Debug.Log(materials[0]);
+        //Debug.Log(materials[0]);
 
         Material[] playerMaterials = materials;
         m[1].gameObject.GetComponent<MeshRenderer>().materials = playerMaterials;
