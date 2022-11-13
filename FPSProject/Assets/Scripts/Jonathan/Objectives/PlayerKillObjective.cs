@@ -25,14 +25,14 @@ public class PlayerKillObjective : Objective
     }
     public void handleEvent(PlayerKillEvent evt){
      //   if(evt.GetType() == typeof(PlayerKillEvent)){
-            Debug.Log("PlayerKill Objective Updated");
+            //Debug.Log("PlayerKill Objective Updated");
               //          PlayerKillEvent e = (PlayerKillEvent)evt;
             if(evt.player == player){
                 kills++;
            // if (evt.player.GetComponent<PhotonView>().IsMine)
            // {
                 //GameObject.Find("RoomManager").GetComponent<PlayerStatsPage>().SetKills();
-                Debug.Log("kills++" + " for " + evt.player.GetComponent<PhotonView>().ViewID);
+                //Debug.Log("kills++" + " for " + evt.player.GetComponent<PhotonView>().ViewID);
                 //Debug.Log(" or kills++" + " for " + player.GetComponent<PhotonView>().ViewID);
           //  }
             }
@@ -42,7 +42,7 @@ public class PlayerKillObjective : Objective
        // }
     }
     public void eventCompleted(){
-            Debug.Log("Kill Event Completed for " + player );
+            //Debug.Log("Kill Event Completed for " + player );
             ObjectiveCompletedEvent evt = Events.objectiveCompletedEvent;
             evt.objective = this;
             EventManager.Broadcast(evt);
@@ -50,6 +50,6 @@ public class PlayerKillObjective : Objective
 
     public void OnPlayerDeath(PlayerKillEvent evy)
     {
-        Debug.Log("HEEEEEEEEEEEEEEEEEEEEEEEEEELLLLLLLLLO");
+        //Debug.Log("HEEEEEEEEEEEEEEEEEEEEEEEEEELLLLLLLLLO");
     }
 }

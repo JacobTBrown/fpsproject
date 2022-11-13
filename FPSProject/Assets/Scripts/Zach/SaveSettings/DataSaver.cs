@@ -42,8 +42,8 @@ public static class DataSaver
             //do the json overwriting
             //FileStream newFS = File.OpenWrite(path);
             File.WriteAllText(path, json);
-            if (debug) Debug.Log("Finished saving new data");
-            if (debug) Debug.Log("data was " + json);
+            //if (debug) Debug.Log("Finished saving new data");
+            //if (debug) Debug.Log("data was " + json);
             //fs.Dispose();
             //fs.Close();
             //Debug.Log("file closed");

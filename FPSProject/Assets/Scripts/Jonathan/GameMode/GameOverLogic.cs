@@ -86,7 +86,7 @@ public class GameOverLogic : MonoBehaviour
         if(obj.team1Kills > obj.team2Kills)
             str += "Team 1 Wins!" ;
         else
-            str += "Team 1 Wins!";
+            str += "Team 2 Wins!";
         GameOverText.text = str;
     }
 }

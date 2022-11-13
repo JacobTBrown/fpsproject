@@ -159,7 +159,7 @@ public class Gun : MonoBehaviour
                                         hitInfo.transform.GetComponent<PhotonView>().RPC("DamagePlayer", RpcTarget.AllBuffered, gunData.damage, PV.ViewID);
                                 }
                                 IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-                                Debug.Log(hitInfo);
+                                //Debug.Log(hitInfo);
                                 if (isInstakill) {
                                     damageable?.Damage(120f, EPV.ViewID);
                                 }    

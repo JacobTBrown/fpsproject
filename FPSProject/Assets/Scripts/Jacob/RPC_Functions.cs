@@ -94,7 +94,7 @@ public class RPC_Functions : MonoBehaviourPunCallbacks
     [PunRPC]
     public void ClearRPCs(Player o)
     {
-        Debug.Log(PhotonNetwork.MasterClient + " cleared rpcs for " + o.ActorNumber);
+        //Debug.Log(PhotonNetwork.MasterClient + " cleared rpcs for " + o.ActorNumber);
         if (PhotonNetwork.IsMasterClient)
             PhotonNetwork.RemoveRPCs(o);
     }

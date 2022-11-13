@@ -21,7 +21,7 @@ public class SaveUserName : MonoBehaviour
         if (inputField != null)
         if (PlayerPrefs.HasKey(playerNamePrefKey))
         {
-                if (debug) Debug.Log("name found");
+                //if (debug) Debug.Log("name found");
                 username = PlayerPrefs.GetString(playerNamePrefKey);
                 inputField.text = username;
         }
@@ -31,10 +31,10 @@ public class SaveUserName : MonoBehaviour
     {
         if (string.IsNullOrEmpty(name))
         {
-            if (debug) Debug.Log("name cannot be null");
+            //if (debug) Debug.Log("name cannot be null");
             return;
         }
-            if (debug) Debug.Log("input changed");
+            //if (debug) Debug.Log("input changed");
             PlayerPrefs.SetString(playerNamePrefKey, name);
             PhotonNetwork.NickName = name;
     

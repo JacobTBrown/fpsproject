@@ -36,11 +36,11 @@ public class PlayerDamageable : MonoBehaviour, IDamageable
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.BackQuote))
-        {
-            Debug.Log("TEST DAMAGE KEY PRESSED, PLAYER TAKES 20 DAMAGE!");
-            Damage(20f, PV.ViewID);
-        }
+        // if (Input.GetKeyDown(KeyCode.BackQuote))
+        // {
+        //     //Debug.Log("TEST DAMAGE KEY PRESSED, PLAYER TAKES 20 DAMAGE!");
+        //     Damage(20f, PV.ViewID);
+        // }
         healthBar.SetHealth(currentHealth, PV);
         if (isInvincible) healthBar.changeColor(PV, Color.blue);
         else if (isInstakill) healthBar.changeColor(PV, Color.yellow);
