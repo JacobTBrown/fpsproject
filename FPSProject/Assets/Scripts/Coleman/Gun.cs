@@ -252,8 +252,12 @@ public class Gun : MonoBehaviour
 
     private IEnumerator playerHit()
     {
-        hitMarker.SetActive(true);
-        yield return new WaitForSeconds(.25f);
-        hitMarker.SetActive(false);
+        if (gunData.name == "M1911")
+        {
+            hitMarker.SetActive(true);
+            yield return new WaitForSeconds(.25f);
+            hitMarker.SetActive(false);
+        }
+
     }
 }

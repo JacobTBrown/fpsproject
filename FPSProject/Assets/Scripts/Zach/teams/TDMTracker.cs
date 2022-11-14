@@ -32,7 +32,6 @@ public class TDMTracker : MonoBehaviourPunCallbacks
         players = PhotonNetwork.PlayerList;
         foreach (Player player in players)
         {
-            Debug.Log((int)player.CustomProperties["Kills"]);
             if ((int)player.CustomProperties["team"] == 1)
             {
                 team1Kills += (int)player.CustomProperties["Kills"];
@@ -41,7 +40,6 @@ public class TDMTracker : MonoBehaviourPunCallbacks
             {
                 team2Kills += (int)player.CustomProperties["Kills"];
             }
-            Debug.Log(team1Kills + " vs " + team2Kills + " kills");
             if (team1Kills > team2Kills)
             {
                 EnemyText.text = "Team1 with:  " + team1Kills;
