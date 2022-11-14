@@ -130,16 +130,17 @@ public class GameManager : MonoBehaviourPunCallbacks
              {
                 int killCutOff = 20;
                 gameMode = gameObject.AddComponent<FreeForAll>();
-             }
+            gameMode.CreateGameRules();
+            gameMode.CreateGameObjectives();
+            gameMode.LoadGameModeUI();
+        }
         if (gameModeType == 1)
         {
             int killCutOff = 20;
             gameObject.AddComponent<TDMKillObjective>();
         }
 
-        gameMode.CreateGameRules();
-        gameMode.CreateGameObjectives();
-        gameMode.LoadGameModeUI();
+
     }
 
 

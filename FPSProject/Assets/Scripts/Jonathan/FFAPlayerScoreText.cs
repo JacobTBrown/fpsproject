@@ -19,6 +19,11 @@ public class FFAPlayerScoreText : MonoBehaviour
     //     PlayerText = txt[1];
         EventManager.AddListener<updateScore>(UpdateScore);
         UpdateKillScore();
+        if ((int)PhotonNetwork.LocalPlayer.CustomProperties["team"] > 0)
+        {
+            gameObject.AddComponent<TDMTracker>();
+            EventManager.RemoveListener<updateScore>(UpdateScore);
+        }
     }
     public void UpdateScore(updateScore evt)
     {

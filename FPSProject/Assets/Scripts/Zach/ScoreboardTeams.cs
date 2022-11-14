@@ -10,7 +10,6 @@ public class ScoreboardTeams : MonoBehaviourPunCallbacks
     [SerializeField] Transform team1Container;
     [SerializeField] Transform team2Container;
     [SerializeField] GameObject scoreboardItemPrefab;
-
     Dictionary<Player, ScoreboardScript> scoreboardItems = new Dictionary<Player, ScoreboardScript>();
 
     private void Start()
@@ -20,7 +19,13 @@ public class ScoreboardTeams : MonoBehaviourPunCallbacks
             AddScoreboardItem(player);
         }
     }
-
+    public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
+    {
+       if (targetPlayer.IsLocal)
+        {
+            FindObjectOfType<KillHUD>().updateText("kills: " + targetPlayer.CustomProperties["Kills"].ToString());
+        }
+    }
     void AddScoreboardItem(Player player)
     {
         if ((int)player.CustomProperties["team"] == 1) {
