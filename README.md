@@ -1,5 +1,8 @@
 ## **Presentation**
-https://www.youtube.com/watch?v=5mELjZ6grZI
+#### Demo
+https://www.youtube.com/watch?v=2emaKYKtxGs
+#### Individual Contributions
+https://www.youtube.com/watch?v=a8JXPzR0hXI
 
 ## **Controls:**
 	Move up: W
